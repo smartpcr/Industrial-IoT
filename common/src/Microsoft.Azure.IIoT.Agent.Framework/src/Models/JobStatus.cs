@@ -4,6 +4,7 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.Agent.Framework.Models {
+
     /// <summary>
     /// Job status
     /// </summary>

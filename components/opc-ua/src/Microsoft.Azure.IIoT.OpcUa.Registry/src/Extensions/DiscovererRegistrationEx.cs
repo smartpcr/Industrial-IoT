@@ -74,7 +74,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
             if (update?.SecurityModeFilter != existing?.SecurityModeFilter) {
                 twin.Tags.Add(nameof(DiscovererRegistration.SecurityModeFilter),
                     update?.SecurityModeFilter == null ?
-                    null : JToken.FromObject(update?.SecurityModeFilter));
+                    null : JToken.FromObject(update.SecurityModeFilter.ToString()));
             }
 
             // Settings
@@ -97,7 +97,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
 
             if (update?.Discovery != existing?.Discovery) {
                 twin.Properties.Desired.Add(nameof(DiscovererRegistration.Discovery),
-                    JToken.FromObject(update?.Discovery));
+                    JToken.FromObject(update?.Discovery.ToString()));
             }
 
             if (update?.AddressRangesToScan != existing?.AddressRangesToScan) {
@@ -113,7 +113,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
             if (update?.LogLevel != existing?.LogLevel) {
                 twin.Properties.Desired.Add(nameof(DiscovererRegistration.LogLevel),
                     update?.LogLevel == null ?
-                    null : JToken.FromObject(update.LogLevel));
+                    null : JToken.FromObject(update.LogLevel.ToString()));
             }
 
             if (update?.MaxNetworkProbes != existing?.MaxNetworkProbes) {

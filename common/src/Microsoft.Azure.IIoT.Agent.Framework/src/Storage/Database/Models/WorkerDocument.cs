@@ -29,6 +29,7 @@ namespace Microsoft.Azure.IIoT.Agent.Framework.Storage.Database {
         /// <summary>
         /// Document type
         /// </summary>
+        [DataMember]
         public string ClassType { get; set; } = ClassTypeName;
         /// <summary/>
         public static readonly string ClassTypeName = "Worker";
@@ -36,16 +37,19 @@ namespace Microsoft.Azure.IIoT.Agent.Framework.Storage.Database {
         /// <summary>
         /// Agent id
         /// </summary>
+        [DataMember]
         public string AgentId { get; internal set; }
 
         /// <summary>
         /// Worker status
         /// </summary>
+        [DataMember]
         public WorkerStatus WorkerStatus { get; set; }
 
         /// <summary>
         /// Last seen
         /// </summary>
+        [DataMember]
         public DateTime LastSeen { get; set; }
     }
 }

@@ -150,20 +150,35 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Migration {
             internal Guid ApplicationId { get; set; }
             [DataMember(Name = "_etag")]
             internal string ETag { get; set; }
+            [DataMember]
             internal string ClassType { get; set; }
+            [DataMember]
             internal int ID { get; set; }
+            [DataMember]
             internal string ApplicationUri { get; set; }
+            [DataMember]
             internal string ApplicationName { get; set; }
+            [DataMember]
             internal ApplicationType ApplicationType { get; set; }
+            [DataMember]
             internal string ProductUri { get; set; }
+            [DataMember]
             internal string ServerCapabilities { get; set; }
+            [DataMember]
             internal ApplicationName[] ApplicationNames { get; set; }
+            [DataMember]
             internal string[] DiscoveryUrls { get; set; }
+            [DataMember]
             internal string GatewayServerUri { get; set; }
+            [DataMember]
             internal string DiscoveryProfileUri { get; set; }
+            [DataMember]
             internal string AuthorityId { get; set; }
+            [DataMember]
             internal DateTime? CreateTime { get; set; }
+            [DataMember]
             internal DateTime? UpdateTime { get; set; }
+            [DataMember]
             internal DateTime? DeleteTime { get; set; }
         }
 

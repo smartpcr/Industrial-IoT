@@ -18,6 +18,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Vault.Storage.Models {
         /// <summary>
         /// Certificate Group id
         /// </summary>
+        [DataMember]
         public string GroupId { get; set; }
 
         /// <summary>
@@ -35,71 +36,85 @@ namespace Microsoft.Azure.IIoT.OpcUa.Vault.Storage.Models {
         /// <summary>
         /// Document type
         /// </summary>
+        [DataMember]
         public string ClassType { get; set; } = ClassTypeName;
 
         /// <summary>
         /// Numeric index
         /// </summary>
+        [DataMember]
         public uint Index { get; set; }
 
         /// <summary>
         /// Request state
         /// </summary>
+        [DataMember]
         public CertificateRequestState State { get; set; }
 
         /// <summary>
         /// Request type
         /// </summary>
+        [DataMember]
         public CertificateRequestType Type { get; set; }
 
         /// <summary>
         /// Signing request
         /// </summary>
+        [DataMember]
         public byte[] SigningRequest { get; set; }
 
         /// <summary>
         /// Entity
         /// </summary>
+        [DataMember]
         public EntityInfoModel Entity { get; set; }
 
         /// <summary>
         /// Subject name
         /// </summary>
+        [DataMember]
         public string SubjectName { get; set; }
 
         /// <summary>
         /// Certificate
         /// </summary>
+        [DataMember]
         public X509CertificateModel Certificate { get; set; }
 
         /// <summary>
         /// Private key handle
         /// </summary>
+        [DataMember]
         public JToken KeyHandle { get; set; }
 
         /// <summary>
         /// Error information
         /// </summary>
+        [DataMember]
         public JToken ErrorInfo { get; set; }
 
         /// <summary>
         /// Request time
         /// </summary>
+        [DataMember]
         public VaultOperationContextModel Submitted { get; set; }
 
         /// <summary>
         /// Approve or reject time
         /// </summary>
+        [DataMember]
         public VaultOperationContextModel Approved { get; set; }
 
         /// <summary>
         /// Complete time
         /// </summary>
+        [DataMember]
         public VaultOperationContextModel Completed { get; set; }
 
         /// <summary>
         /// Delete time
         /// </summary>
+        [DataMember]
         public VaultOperationContextModel Deleted { get; set; }
 
         /// <inheritdoc/>

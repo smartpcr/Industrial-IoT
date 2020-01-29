@@ -23,21 +23,25 @@ namespace Microsoft.Azure.IIoT.Crypto.Storage.Models {
         /// <summary>
         /// Whether the key is disabled
         /// </summary>
+        [DataMember]
         public bool IsDisabled { get; set; }
 
         /// <summary>
         /// Whether the key is exportable
         /// </summary>
+        [DataMember]
         public bool IsExportable { get; set; }
 
         /// <summary>
         /// Key itself in json format
         /// </summary>
+        [DataMember]
         public JToken KeyJson { get; set; }
 
         /// <summary>
         /// Type
         /// </summary>
+        [DataMember]
         public string Type => nameof(Key);
     }
 }

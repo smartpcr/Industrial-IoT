@@ -28,6 +28,7 @@ namespace Microsoft.Azure.IIoT.Agent.Framework.Storage.Database {
         /// <summary>
         /// Document type
         /// </summary>
+        [DataMember]
         public string ClassType { get; set; } = ClassTypeName;
         /// <summary/>
         public static readonly string ClassTypeName = "Demand";
@@ -35,21 +36,25 @@ namespace Microsoft.Azure.IIoT.Agent.Framework.Storage.Database {
         /// <summary>
         /// Identifier of the job document
         /// </summary>
+        [DataMember]
         public string JobId { get; set; }
 
         /// <summary>
         /// Key
         /// </summary>
+        [DataMember]
         public string Key { get; set; }
 
         /// <summary>
         /// Match operator
         /// </summary>
+        [DataMember]
         public DemandOperators? Operator { get; set; }
 
         /// <summary>
         /// Value
         /// </summary>
+        [DataMember]
         public string Value { get; set; }
     }
 }

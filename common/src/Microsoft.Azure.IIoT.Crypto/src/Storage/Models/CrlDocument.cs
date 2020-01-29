@@ -23,31 +23,37 @@ namespace Microsoft.Azure.IIoT.Crypto.Storage.Models {
         /// <summary>
         /// Issuer serial number
         /// </summary>
+        [DataMember]
         public string IssuerSerialNumber { get; set; }
 
         /// <summary>
         /// Crl serial number
         /// </summary>
+        [DataMember]
         public string SerialNumber { get; set; }
 
         /// <summary>
         /// Next update
         /// </summary>
+        [DataMember]
         public DateTime? NextUpdate { get; set; }
 
         /// <summary>
         /// This update
         /// </summary>
+        [DataMember]
         public DateTime ThisUpdate { get; set; }
 
         /// <summary>
         /// Raw crl for the certificate
         /// </summary>
+        [DataMember]
         public byte[] RawData { get; set; }
 
         /// <summary>
         /// Type
         /// </summary>
+        [DataMember]
         public string Type => nameof(Crl);
 
         /// <summary>

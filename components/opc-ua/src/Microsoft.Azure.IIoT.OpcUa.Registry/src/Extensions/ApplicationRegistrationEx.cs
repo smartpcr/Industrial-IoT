@@ -80,7 +80,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
             if (update?.ApplicationType != null &&
                 update?.ApplicationType != existing?.ApplicationType) {
                 twin.Tags.Add(nameof(ApplicationRegistration.ApplicationType),
-                    JToken.FromObject(update.ApplicationType));
+                    JToken.FromObject(update.ApplicationType.ToString()));
                 twin.Tags.Add(nameof(ApplicationType.Server),
                     update.ApplicationType != ApplicationType.Client);
                 twin.Tags.Add(nameof(ApplicationType.Client),

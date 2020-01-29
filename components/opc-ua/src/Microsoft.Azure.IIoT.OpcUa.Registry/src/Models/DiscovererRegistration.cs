@@ -8,94 +8,112 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
     using Microsoft.Azure.IIoT.Hub;
     using System;
     using System.Collections.Generic;
+    using System.Runtime.Serialization;
 
     /// <summary>
     /// Discoverer module registration
     /// </summary>
-    [Serializable]
+    [DataContract]
     public sealed class DiscovererRegistration : EntityRegistration {
 
         /// <inheritdoc/>
+        [DataMember]
         public override string DeviceType => IdentityType.Discoverer;
 
         /// <summary>
         /// Device id for registration
         /// </summary>
+        [DataMember]
         public string ModuleId { get; set; }
 
         /// <summary>
         /// Activation filter security mode
         /// </summary>
+        [DataMember]
         public SecurityMode? SecurityModeFilter { get; set; }
 
         /// <summary>
         /// Activation filter security policies
         /// </summary>
+        [DataMember]
         public Dictionary<string, string> SecurityPoliciesFilter { get; set; }
 
         /// <summary>
         /// Activation filter trust lists
         /// </summary>
+        [DataMember]
         public Dictionary<string, string> TrustListsFilter { get; set; }
 
         /// <summary>
         /// Discovery state
         /// </summary>
+        [DataMember]
         public DiscoveryMode Discovery { get; set; }
 
         /// <summary>
         /// Current log level
         /// </summary>
+        [DataMember]
         public TraceLogLevel? LogLevel { get; set; }
 
         /// <summary>
         /// Address ranges to scan (null == all wired)
         /// </summary>
+        [DataMember]
         public string AddressRangesToScan { get; set; }
 
         /// <summary>
         /// Network probe timeout.
         /// </summary>
+        [DataMember]
         public TimeSpan? NetworkProbeTimeout { get; set; }
 
         /// <summary>
         /// Max network probes that should ever run.
         /// </summary>
+        [DataMember]
         public int? MaxNetworkProbes { get; set; }
 
         /// <summary>
         /// Port ranges to scan (null == all unassigned)
         /// </summary>
+        [DataMember]
         public string PortRangesToScan { get; set; }
 
         /// <summary>
         /// Port probe timeout
         /// </summary>
+        [DataMember]
         public TimeSpan? PortProbeTimeout { get; set; }
 
         /// <summary>
         /// Max port probes that should ever run.
         /// </summary>
+        [DataMember]
         public int? MaxPortProbes { get; set; }
 
         /// <summary>
         /// Probes that must always be there as percent of max.
         /// </summary>
+        [DataMember]
         public int? MinPortProbesPercent { get; set; }
 
         /// <summary>
         /// Delay time between discovery sweeps
         /// </summary>
+        [DataMember]
         public TimeSpan? IdleTimeBetweenScans { get; set; }
 
         /// <summary>
         /// predefined discovery urls for discoverer
         /// </summary>
+        [DataMember]
         public Dictionary<string, string> DiscoveryUrls { get; set; }
 
         /// <summary>
         /// Locales to filter discoveries against
         /// </summary>
+        [DataMember]
         public Dictionary<string, string> Locales { get; set; }
 
         /// <summary>

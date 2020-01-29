@@ -7,50 +7,59 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
     using Microsoft.Azure.IIoT.Hub;
     using System;
     using System.Collections.Generic;
+    using System.Runtime.Serialization;
     using System.Threading;
 
     /// <summary>
     /// Publisher agent module registration
     /// </summary>
-    [Serializable]
+    [DataContract]
     public sealed class PublisherRegistration : EntityRegistration {
 
         /// <inheritdoc/>
+        [DataMember]
         public override string DeviceType => IdentityType.Publisher;
 
         /// <summary>
         /// Device id for registration
         /// </summary>
+        [DataMember]
         public string ModuleId { get; set; }
 
         /// <summary>
         /// Current log level
         /// </summary>
+        [DataMember]
         public TraceLogLevel? LogLevel { get; set; }
 
         /// <summary>
         /// Job orchestrator url
         /// </summary>
+        [DataMember]
         public string JobOrchestratorUrl { get; set; }
 
         /// <summary>
         /// Heartbeat interval
         /// </summary>
+        [DataMember]
         public TimeSpan? HeartbeatInterval { get; set; }
 
         /// <summary>
         /// Workers to start
         /// </summary>
+        [DataMember]
         public int? MaxWorkers { get; set; }
 
         /// <summary>
         /// Interval to check for updates
         /// </summary>
+        [DataMember]
         public TimeSpan? JobCheckInterval { get; set; }
 
         /// <summary>
         /// Match capablities
         /// </summary>
+        [DataMember]
         public Dictionary<string, string> Capabilities { get; set; }
 
         /// <summary>

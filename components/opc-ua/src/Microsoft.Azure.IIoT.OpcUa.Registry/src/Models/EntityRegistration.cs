@@ -17,16 +17,19 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
         /// <summary>
         /// Device id for registration
         /// </summary>
+        [DataMember]
         public virtual string DeviceId { get; set; }
 
         /// <summary>
         /// Site of the registration
         /// </summary>
+        [DataMember]
         public virtual string SiteId { get; set; }
 
         /// <summary>
         /// Searchable grouping (either device or site id)
         /// </summary>
+        [DataMember]
         public virtual string SiteOrGatewayId =>
             !string.IsNullOrEmpty(SiteId) ? SiteId : DeviceId;
 
@@ -39,26 +42,31 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
         /// <summary>
         /// Registration type
         /// </summary>
+        [DataMember]
         public abstract string DeviceType { get; }
 
         /// <summary>
         /// Whether registration is enabled or not
         /// </summary>
+        [DataMember]
         public virtual bool? IsDisabled { get; set; }
 
         /// <summary>
         /// Last time application was seen
         /// </summary>
+        [DataMember]
         public virtual DateTime? NotSeenSince { get; set; }
 
         /// <summary>
         /// Reported Type
         /// </summary>
+        [DataMember]
         public virtual string Type { get; set; }
 
         /// <summary>
         /// Connected
         /// </summary>
+        [DataMember]
         public virtual bool Connected { get; set; }
 
         /// <inheritdoc/>

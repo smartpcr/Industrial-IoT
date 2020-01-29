@@ -28,6 +28,7 @@ namespace Microsoft.Azure.IIoT.Agent.Framework.Storage.Database {
         /// <summary>
         /// Document type
         /// </summary>
+        [DataMember]
         public string ClassType { get; set; } = ClassTypeName;
         /// <summary/>
         public static readonly string ClassTypeName = "JobConfig";
@@ -35,11 +36,13 @@ namespace Microsoft.Azure.IIoT.Agent.Framework.Storage.Database {
         /// <summary>
         /// Identifier of the job document
         /// </summary>
+        [DataMember]
         public string JobId { get; set; }
 
         /// <summary>
         /// Job description
         /// </summary>
+        [DataMember]
         public JObject Job { get; set; }
     }
 }

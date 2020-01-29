@@ -286,6 +286,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Publisher.Models {
         public class PublishedNodesEntryModel {
 
             /// <summary> The endpoint URL of the OPC UA server. </summary>
+            [DataMember(IsRequired = true)]
             public Uri EndpointUrl { get; set; }
 
             /// <summary> Secure transport should be used to </summary>
@@ -305,6 +306,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Publisher.Models {
             public string EncryptedAuthUsername { get; set; }
 
             /// <summary> encrypted password </summary>
+            [DataMember]
             public string EncryptedAuthPassword { get; set; }
 
             /// <summary> unencrypted username </summary>
@@ -312,6 +314,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Publisher.Models {
             public string Username { get; set; }
 
             /// <summary> unencrypted password </summary>
+            [DataMember]
             public string Password { get; set; }
 
             /// <summary> Nodes defined in the collection. </summary>
@@ -325,8 +328,10 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Publisher.Models {
         [DataContract]
         public enum OpcAuthenticationMode {
             /// <summary> Anonymous authentication </summary>
+            [EnumMember]
             Anonymous,
             /// <summary> Username/Password authentication </summary>
+            [EnumMember]
             UsernamePassword
         }
 

@@ -4,6 +4,7 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
+
     /// <summary>
     /// Discovery mode to use
     /// </summary>

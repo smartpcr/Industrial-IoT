@@ -30,6 +30,7 @@ namespace Microsoft.Azure.IIoT.Agent.Framework.Storage.Database {
         /// <summary>
         /// Document type
         /// </summary>
+        [DataMember]
         public string ClassType { get; set; } = ClassTypeName;
         /// <summary/>
         public static readonly string ClassTypeName = "ProcessingStatus";
@@ -37,21 +38,25 @@ namespace Microsoft.Azure.IIoT.Agent.Framework.Storage.Database {
         /// <summary>
         /// Identifier of the job document
         /// </summary>
+        [DataMember]
         public string JobId { get; set; }
 
         /// <summary>
         /// Last known heartbeat
         /// </summary>
+        [DataMember]
         public DateTime? LastKnownHeartbeat { get; set; }
 
         /// <summary>
         /// Last known state
         /// </summary>
+        [DataMember]
         public JToken LastKnownState { get; set; }
 
         /// <summary>
         /// Processing mode
         /// </summary>
+        [DataMember]
         public ProcessMode? ProcessMode { get; set; }
     }
 }

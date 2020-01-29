@@ -54,6 +54,12 @@ namespace Newtonsoft.Json.Linq {
             string key, T? defaultValue) where T : struct {
             if (dict != null && dict.TryGetValue(key, out var token)) {
                 try {
+                    // Handle enumerations serialized as string
+                    if (typeof(T).IsEnum &&
+                        token.Type == JTokenType.String &&
+                        Enum.TryParse<T>((string)token, out var result)) {
+                        return result;
+                    }
                     return token.ToObject<T>();
                 }
                 catch {
@@ -72,8 +78,7 @@ namespace Newtonsoft.Json.Linq {
         /// <param name="defaultValue"></param>
         /// <param name="compare"></param>
         /// <returns></returns>
-        public static T GetValueOrDefault<T>(this JToken t,
-            string key, T defaultValue,
+        public static T GetValueOrDefault<T>(this JToken t, string key, T defaultValue,
             StringComparison compare = StringComparison.Ordinal) {
             return GetValueOrDefault(t, key, () => defaultValue, compare);
         }
@@ -86,8 +91,8 @@ namespace Newtonsoft.Json.Linq {
         /// <param name="key"></param>
         /// <param name="compare"></param>
         /// <returns></returns>
-        public static T GetValueOrDefault<T>(this JToken t,
-            string key, StringComparison compare = StringComparison.Ordinal) {
+        public static T GetValueOrDefault<T>(this JToken t, string key,
+            StringComparison compare = StringComparison.Ordinal) {
             return GetValueOrDefault(t, key, () => default(T), compare);
         }
 
@@ -149,6 +154,12 @@ namespace Newtonsoft.Json.Linq {
                 try {
                     var value = o.Property(key, compare)?.Value;
                     if (value != null) {
+                        // Handle enumerations serialized as string
+                        if (typeof(T).IsEnum &&
+                            value.Type == JTokenType.String &&
+                            Enum.TryParse<T>((string)value, out var result)) {
+                            return result;
+                        }
                         return value.ToObject<T>();
                     }
                 }

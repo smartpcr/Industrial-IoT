@@ -59,7 +59,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
             if (update?.LogLevel != existing?.LogLevel) {
                 twin.Properties.Desired.Add(nameof(SupervisorRegistration.LogLevel),
                     update?.LogLevel == null ?
-                    null : JToken.FromObject(update.LogLevel));
+                    null : JToken.FromObject(update.LogLevel.ToString()));
             }
 
             if (update?.SiteId != existing?.SiteId) {

@@ -17,36 +17,43 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
     public sealed class EndpointRegistration : EntityRegistration {
 
         /// <inheritdoc/>
+        [DataMember]
         public override string DeviceType => IdentityType.Endpoint;
 
         /// <summary>
         /// Device id is twin id
         /// </summary>
+        [DataMember]
         public override string DeviceId => base.DeviceId ?? Id;
 
         /// <summary>
         /// Site or gateway id
         /// </summary>
+        [DataMember]
         public override string SiteOrGatewayId => this.GetSiteOrGatewayId();
 
         /// <summary>
         /// Identity that owns the twin.
         /// </summary>
+        [DataMember]
         public string DiscovererId { get; set; }
 
         /// <summary>
         /// Identity that manages the endpoint twin.
         /// </summary>
+        [DataMember]
         public string SupervisorId { get; set; }
 
         /// <summary>
         /// Application id of twin
         /// </summary>
+        [DataMember]
         public string ApplicationId { get; set; }
 
         /// <summary>
         /// Lower case endpoint url
         /// </summary>
+        [DataMember]
         public string EndpointUrlLC =>
             EndpointRegistrationUrl?.ToLowerInvariant();
 
@@ -54,51 +61,61 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
         /// Reported endpoint description url as opposed to the
         /// one that can be used to connect with.
         /// </summary>
+        [DataMember]
         public string EndpointRegistrationUrl { get; set; }
 
         /// <summary>
         /// Security level of endpoint
         /// </summary>
+        [DataMember]
         public int? SecurityLevel { get; set; }
 
         /// <summary>
         /// Whether endpoint is activated
         /// </summary>
+        [DataMember]
         public bool? Activated { get; set; }
 
         /// <summary>
         /// The credential policies supported by the registered endpoint
         /// </summary>
+        [DataMember]
         public Dictionary<string, JToken> AuthenticationMethods { get; set; }
 
         /// <summary>
         /// Endoint url for direct server access
         /// </summary>
+        [DataMember]
         public string EndpointUrl { get; set; }
 
         /// <summary>
         /// Alternative urls
         /// </summary>
+        [DataMember]
         public Dictionary<string, string> AlternativeUrls { get; set; }
 
         /// <summary>
         /// Endpoint security policy to use.
         /// </summary>
+        [DataMember]
         public string SecurityPolicy { get; set; }
 
         /// <summary>
         /// Security mode to use for communication
         /// </summary>
+        [DataMember]
         public SecurityMode? SecurityMode { get; set; }
 
         /// <summary>
         /// Endpoint connectivity status
         /// </summary>
+        [DataMember]
         public EndpointConnectivityState State { get; set; }
 
         /// <summary>
         /// Certificate Thumbprint
         /// </summary>
+        [DataMember]
         public string Thumbprint { get; set; }
 
         /// <summary>

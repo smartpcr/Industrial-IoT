@@ -29,26 +29,31 @@ namespace Microsoft.Azure.IIoT.OpcUa.Vault.Storage.Models {
         /// The trusted entity, e.g. group (= issuer),
         /// single application, endpoint.
         /// </summary>
+        [DataMember]
         public string TrustedId { get; set; }
 
         /// <summary>
         /// The type of the trusted entity
         /// </summary>
+        [DataMember]
         public EntityType TrustedType { get; set; }
 
         /// <summary>
         /// The trusting entity, e.g. client
         /// </summary>
+        [DataMember]
         public string TrustingId { get; set; }
 
         /// <summary>
         /// The type of the trusting entity
         /// </summary>
+        [DataMember]
         public EntityType TrustingType { get; set; }
 
         /// <summary>
         /// Document type
         /// </summary>
+        [DataMember]
         public string ClassType { get; set; } = ClassTypeName;
 
         /// <inheritdoc/>

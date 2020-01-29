@@ -17,121 +17,145 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
     public sealed class ApplicationRegistration : EntityRegistration {
 
         /// <inheritdoc/>
+        [DataMember]
         public override string DeviceType => IdentityType.Application;
 
         /// <summary>
         /// Identity that owns the twin.
         /// </summary>
+        [DataMember]
         public string DiscovererId { get; set; }
 
         /// <summary>
         /// Connected
         /// </summary>
+        [DataMember]
         public override bool Connected => false;
 
         /// <summary>
         /// Device id is application id
         /// </summary>
+        [DataMember]
         public override string DeviceId => base.DeviceId ?? Id;
 
         /// <summary>
         /// Site or gateway id
         /// </summary>
+        [DataMember]
         public override string SiteOrGatewayId => this.GetSiteOrGatewayId();
 
         /// <summary>
         /// Type
         /// </summary>
+        [DataMember]
         public override string Type => DeviceType;
 
         /// <summary>
         /// Device id is application id
         /// </summary>
+        [DataMember]
         public string ApplicationId => DeviceId;
 
         /// <summary>
         /// Application uri
         /// </summary>
+        [DataMember]
         public string ApplicationUri { get; set; }
 
         /// <summary>
         /// Lower case application url
         /// </summary>
+        [DataMember]
         public string ApplicationUriLC => ApplicationUri?.ToLowerInvariant();
 
         /// <summary>
         /// Application name
         /// </summary>
+        [DataMember]
         public string ApplicationName { get; set; }
 
         /// <summary>
         /// Application name locale
         /// </summary>
+        [DataMember]
         public string Locale { get; set; }
 
         /// <summary>
         /// Application name locale
         /// </summary>
+        [DataMember]
         public Dictionary<string, string> LocalizedNames { get; set; }
 
         /// <summary>
         /// Discovery profile uri
         /// </summary>
+        [DataMember]
         public string DiscoveryProfileUri { get; set; }
 
         /// <summary>
         /// Gateway server uri
         /// </summary>
+        [DataMember]
         public string GatewayServerUri { get; set; }
 
         /// <summary>
         /// Product uri
         /// </summary>
+        [DataMember]
         public string ProductUri { get; set; }
 
         /// <summary>
         /// Application type
         /// </summary>
+        [DataMember]
         public ApplicationType? ApplicationType { get; set; }
 
         /// <summary>
         /// Returns discovery urls of the application
         /// </summary>
+        [DataMember]
         public Dictionary<string, string> DiscoveryUrls { get; set; }
 
         /// <summary>
         /// Host address of server application
         /// </summary>
+        [DataMember]
         public Dictionary<string, string> HostAddresses { get; set; }
 
         /// <summary>
         /// Capabilities
         /// </summary>
+        [DataMember]
         public Dictionary<string, bool> Capabilities { get; set; }
 
         /// <summary>
         /// Create time
         /// </summary>
+        [DataMember]
         public DateTime? CreateTime { get; set; }
 
         /// <summary>
         /// Authority
         /// </summary>
+        [DataMember]
         public string CreateAuthorityId { get; set; }
 
         /// <summary>
         /// Update time
         /// </summary>
+        [DataMember]
         public DateTime? UpdateTime { get; set; }
 
         /// <summary>
         /// Authority
         /// </summary>
+        [DataMember]
         public string UpdateAuthorityId { get; set; }
 
         /// <summary>
         /// Numeric id
         /// </summary>
+        [DataMember]
         public uint? RecordId { get; set; }
 
         /// <summary>

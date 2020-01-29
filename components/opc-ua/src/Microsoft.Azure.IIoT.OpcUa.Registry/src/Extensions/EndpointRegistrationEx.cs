@@ -82,7 +82,6 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
 
             twin.Tags.Add(nameof(EntityRegistration.DeviceType), update?.DeviceType);
 
-
             if (update?.EndpointRegistrationUrl != null &&
                 update.EndpointRegistrationUrl != existing?.EndpointRegistrationUrl) {
                 twin.Tags.Add(nameof(EndpointRegistration.EndpointUrlLC),
@@ -93,7 +92,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
 
             if (update?.SecurityLevel != existing?.SecurityLevel) {
                 twin.Tags.Add(nameof(EndpointRegistration.SecurityLevel), update?.SecurityLevel == null ?
-                    null : JToken.FromObject(update?.SecurityLevel));
+                    null : JToken.FromObject(update.SecurityLevel.ToString()));
             }
 
             if (update?.Activated != null &&
@@ -129,7 +128,8 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
             if (update?.SecurityMode != null &&
                 update.SecurityMode != existing?.SecurityMode) {
                 twin.Properties.Desired.Add(nameof(EndpointRegistration.SecurityMode),
-                    JToken.FromObject(update.SecurityMode));
+                    update?.SecurityMode == null ?
+                        null : JToken.FromObject(update.SecurityMode.ToString()));
             }
 
             if (update?.SecurityPolicy != null &&
@@ -319,7 +319,9 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
                 ActivationState = registration.ActivationState,
                 NotSeenSince = registration.NotSeenSince,
                 EndpointState = registration.ActivationState == EndpointActivationState.ActivatedAndConnected ?
-                    registration.State : EndpointConnectivityState.Disconnected,
+                    (registration.State == EndpointConnectivityState.Disconnected ?
+                        EndpointConnectivityState.Connecting : registration.State) :
+                            EndpointConnectivityState.Disconnected,
                 OutOfSync = registration.Connected && !registration._isInSync ? true : (bool?)null
             };
         }
