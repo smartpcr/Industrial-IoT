@@ -18,7 +18,6 @@ namespace Microsoft.Azure.IIoT.OpcUa.Security.Services {
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using System.Security.Cryptography.X509Certificates;
 
     /// <summary>
     /// Sending security notifications for unsecure endpoints

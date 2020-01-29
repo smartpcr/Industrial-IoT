@@ -5,7 +5,7 @@
 
 namespace Microsoft.Azure.IIoT.OpcUa.Publisher.Clients.v2.Models {
     using Microsoft.Azure.IIoT.OpcUa.Core.Models;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -13,6 +13,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Publisher.Clients.v2.Models {
     /// <summary>
     /// Structure definition
     /// </summary>
+    [DataContract]
     public class StructureDefinitionApiModel {
 
         /// <summary>
@@ -51,20 +52,20 @@ namespace Microsoft.Azure.IIoT.OpcUa.Publisher.Clients.v2.Models {
         /// <summary>
         /// Base data type of the structure
         /// </summary>
-        [JsonProperty(PropertyName = "baseDataTypeId",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "baseDataTypeId",
+            EmitDefaultValue = false)]
         public string BaseDataTypeId { get; set; }
 
         /// <summary>
         /// Type of structure
         /// </summary>
-        [JsonProperty(PropertyName = "structureType")]
+        [DataMember(Name = "structureType")]
         public StructureType StructureType { get; set; }
 
         /// <summary>
         /// Fields in the structure or union
         /// </summary>
-        [JsonProperty(PropertyName = "fields")]
+        [DataMember(Name = "fields")]
         public List<StructureFieldApiModel> Fields { get; set; }
     }
 }

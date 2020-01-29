@@ -4,7 +4,7 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Models {
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System.Collections.Generic;
     using System.ComponentModel;
 
@@ -26,28 +26,29 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Models {
     /// path from it to a real method node.</li>
     /// </ul>
     /// </remarks>
+    [DataContract]
     public class MethodCallRequestApiModel {
 
         /// <summary>
         /// Method id of method to call. 
         /// </summary>
-        [JsonProperty(PropertyName = "methodId",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "methodId",
+            EmitDefaultValue = false)]
         public string MethodId { get; set; }
 
         /// <summary>
         /// Context of the method, i.e. an object or object type
         /// node.
         /// </summary>
-        [JsonProperty(PropertyName = "objectId",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "objectId",
+            EmitDefaultValue = false)]
         public string ObjectId { get; set; }
 
         /// <summary>
         /// Arguments for the method - null means no args
         /// </summary>
-        [JsonProperty(PropertyName = "arguments",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "arguments",
+            EmitDefaultValue = false)]
         public List<MethodCallArgumentApiModel> Arguments { get; set; }
 
         /// <summary>
@@ -55,8 +56,8 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Models {
         /// MethodId or from a resolved objectId to the actual
         /// method node.
         /// </summary>
-        [JsonProperty(PropertyName = "methodBrowsePath",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "methodBrowsePath",
+            EmitDefaultValue = false)]
         [DefaultValue(null)]
         public string[] MethodBrowsePath { get; set; }
 
@@ -65,16 +66,16 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Models {
         /// ObjectId to the actual object or objectType node.
         /// If ObjectId is null, the root node (i=84) is used.
         /// </summary>
-        [JsonProperty(PropertyName = "objectBrowsePath",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "objectBrowsePath",
+            EmitDefaultValue = false)]
         [DefaultValue(null)]
         public string[] ObjectBrowsePath { get; set; }
 
         /// <summary>
         /// Optional request header
         /// </summary>
-        [JsonProperty(PropertyName = "header",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "header",
+            EmitDefaultValue = false)]
         [DefaultValue(null)]
         public RequestHeaderApiModel Header { get; set; }
     }

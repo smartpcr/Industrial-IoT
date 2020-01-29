@@ -5,12 +5,13 @@
 
 namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Models {
     using Microsoft.Azure.IIoT.OpcUa.Twin.Models;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System;
 
     /// <summary>
     /// browse view model
     /// </summary>
+    [DataContract]
     public class BrowseViewApiModel {
 
         /// <summary>
@@ -46,21 +47,21 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Models {
         /// <summary>
         /// Node of the view to browse
         /// </summary>
-        [JsonProperty(PropertyName = "ViewId")]
+        [DataMember(Name = "ViewId")]
         public string ViewId { get; set; }
 
         /// <summary>
         /// Browses specific version of the view.
         /// </summary>
-        [JsonProperty(PropertyName = "Version",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "Version",
+            EmitDefaultValue = false)]
         public uint? Version { get; set; }
 
         /// <summary>
         /// Browses at or before this timestamp.
         /// </summary>
-        [JsonProperty(PropertyName = "Timestamp",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "Timestamp",
+            EmitDefaultValue = false)]
         public DateTime? Timestamp { get; set; }
     }
 }

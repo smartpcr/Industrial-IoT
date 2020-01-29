@@ -4,7 +4,7 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.Api.Jobs.Models {
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using Newtonsoft.Json.Linq;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -12,56 +12,57 @@ namespace Microsoft.Azure.IIoT.Api.Jobs.Models {
     /// <summary>
     /// Job info model
     /// </summary>
+    [DataContract]
     public class JobInfoApiModel {
 
         /// <summary>
         /// Job id
         /// </summary>
-        [JsonProperty(PropertyName = "id",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "id",
+            EmitDefaultValue = false)]
         [Required]
         public string Id { get; set; }
 
         /// <summary>
         /// Name
         /// </summary>
-        [JsonProperty(PropertyName = "name",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "name",
+            EmitDefaultValue = false)]
         public string Name { get; set; }
 
         /// <summary>
         /// Configuration type
         /// </summary>
-        [JsonProperty(PropertyName = "jobConfigurationType",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "jobConfigurationType",
+            EmitDefaultValue = false)]
         public string JobConfigurationType { get; set; }
 
         /// <summary>
         /// Job configuration
         /// </summary>
-        [JsonProperty(PropertyName = "jobConfiguration",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "jobConfiguration",
+            EmitDefaultValue = false)]
         public JToken JobConfiguration { get; set; }
 
         /// <summary>
         /// Demands
         /// </summary>
-        [JsonProperty(PropertyName = "demands",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "demands",
+            EmitDefaultValue = false)]
         public List<DemandApiModel> Demands { get; set; }
 
         /// <summary>
         /// Redundancy configuration
         /// </summary>
-        [JsonProperty(PropertyName = "redundancyConfig",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "redundancyConfig",
+            EmitDefaultValue = false)]
         public RedundancyConfigApiModel RedundancyConfig { get; set; }
 
         /// <summary>
         /// Job lifetime
         /// </summary>
-        [JsonProperty(PropertyName = "lifetimeData",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "lifetimeData",
+            EmitDefaultValue = false)]
         public JobLifetimeDataApiModel LifetimeData { get; set; }
     }
 }

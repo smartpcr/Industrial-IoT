@@ -5,7 +5,7 @@
 
 namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.v2.Models {
     using Microsoft.Azure.IIoT.OpcUa.Publisher.Models;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -13,6 +13,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.v2.Models {
     /// <summary>
     /// Published items
     /// </summary>
+    [DataContract]
     public class PublishedDataItemsApiModel {
 
         /// <summary>
@@ -47,7 +48,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.v2.Models {
         /// <summary>
         /// Published data variables
         /// </summary>
-        [JsonProperty(PropertyName = "publishedData")]
+        [DataMember(Name = "publishedData")]
         public List<PublishedDataSetVariableApiModel> PublishedData { get; set; }
     }
 }

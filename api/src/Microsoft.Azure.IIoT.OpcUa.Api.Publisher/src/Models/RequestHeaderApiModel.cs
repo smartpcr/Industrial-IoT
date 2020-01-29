@@ -4,36 +4,37 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Models {
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System.Collections.Generic;
     using System.ComponentModel;
 
     /// <summary>
     /// Request header model
     /// </summary>
+    [DataContract]
     public class RequestHeaderApiModel {
 
         /// <summary>
         /// Optional User elevation
         /// </summary>
-        [JsonProperty(PropertyName = "elevation",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "elevation",
+            EmitDefaultValue = false)]
         [DefaultValue(null)]
         public CredentialApiModel Elevation { get; set; }
 
         /// <summary>
         /// Optional list of locales in preference order.
         /// </summary>
-        [JsonProperty(PropertyName = "locales",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "locales",
+            EmitDefaultValue = false)]
         [DefaultValue(null)]
         public List<string> Locales { get; set; }
 
         /// <summary>
         /// Optional diagnostics configuration
         /// </summary>
-        [JsonProperty(PropertyName = "diagnostics",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "diagnostics",
+            EmitDefaultValue = false)]
         [DefaultValue(null)]
         public DiagnosticsApiModel Diagnostics { get; set; }
     }

@@ -5,12 +5,13 @@
 
 namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.v2.Models {
     using Microsoft.Azure.IIoT.OpcUa.Publisher.Models;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System;
 
     /// <summary>
     /// Data set writer message model
     /// </summary>
+    [DataContract]
     public class DataSetWriterMessageSettingsApiModel {
         /// <summary>
         /// Default constructor
@@ -47,29 +48,29 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.v2.Models {
         /// <summary>
         /// Dataset message content
         /// </summary>
-        [JsonProperty(PropertyName = "dataSetMessageContentMask",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "dataSetMessageContentMask",
+            EmitDefaultValue = false)]
         public DataSetContentMask? DataSetMessageContentMask { get; set; }
 
         /// <summary>
         /// Configured size of network message
         /// </summary>
-        [JsonProperty(PropertyName = "configuredSize",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "configuredSize",
+            EmitDefaultValue = false)]
         public ushort? ConfiguredSize { get; set; }
 
         /// <summary>
         /// Uadp metwork message number
         /// </summary>
-        [JsonProperty(PropertyName = "networkMessageNumber",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "networkMessageNumber",
+            EmitDefaultValue = false)]
         public ushort? NetworkMessageNumber { get; set; }
 
         /// <summary>
         /// Uadp dataset offset
         /// </summary>
-        [JsonProperty(PropertyName = "dataSetOffset",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "dataSetOffset",
+            EmitDefaultValue = false)]
         public ushort? DataSetOffset { get; set; }
     }
 }

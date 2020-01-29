@@ -4,19 +4,20 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Models {
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System.ComponentModel;
 
     /// <summary>
     /// Method metadata request model
     /// </summary>
+    [DataContract]
     public class MethodMetadataRequestApiModel {
 
         /// <summary>
         /// Method id of method to call.
         /// (Required)
         /// </summary>
-        [JsonProperty(PropertyName = "methodId")]
+        [DataMember(Name = "methodId")]
         [DefaultValue(null)]
         public string MethodId { get; set; }
 
@@ -24,16 +25,16 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Models {
         /// An optional component path from the node identified by
         /// MethodId to the actual method node.
         /// </summary>
-        [JsonProperty(PropertyName = "methodBrowsePath",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "methodBrowsePath",
+            EmitDefaultValue = false)]
         [DefaultValue(null)]
         public string[] MethodBrowsePath { get; set; }
 
         /// <summary>
         /// Optional request header
         /// </summary>
-        [JsonProperty(PropertyName = "header",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "header",
+            EmitDefaultValue = false)]
         [DefaultValue(null)]
         public RequestHeaderApiModel Header { get; set; }
     }

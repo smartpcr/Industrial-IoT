@@ -5,7 +5,7 @@
 
 namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.v2.Controller {
     using Microsoft.Azure.IIoT.Agent.Framework.Models;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -13,6 +13,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.v2.Controller {
     /// <summary>
     /// Default publisher configuration
     /// </summary>
+    [DataContract]
     public class PublisherConfigApiModel {
 
         /// <summary>
@@ -52,43 +53,43 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.v2.Controller {
         /// <summary>
         /// Agent identifier
         /// </summary>
-        [JsonProperty(PropertyName = "agentId",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "agentId",
+            EmitDefaultValue = false)]
         public string AgentId { get; set; }
 
         /// <summary>
         /// Capabilities
         /// </summary>
-        [JsonProperty(PropertyName = "capabilities",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "capabilities",
+            EmitDefaultValue = false)]
         public Dictionary<string, string> Capabilities { get; set; }
 
         /// <summary>
         /// Interval to check job
         /// </summary>
-        [JsonProperty(PropertyName = "jobCheckInterval",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "jobCheckInterval",
+            EmitDefaultValue = false)]
         public TimeSpan? JobCheckInterval { get; set; }
 
         /// <summary>
         /// Heartbeat interval
         /// </summary>
-        [JsonProperty(PropertyName = "heartBeatInterval",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "heartBeatInterval",
+            EmitDefaultValue = false)]
         public TimeSpan? HeartbeatInterval { get; set; }
 
         /// <summary>
         /// Parellel jobs
         /// </summary>
-        [JsonProperty(PropertyName = "parellelJobs",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "parellelJobs",
+            EmitDefaultValue = false)]
         public int? ParallelJobs { get; set; }
 
         /// <summary>
         /// Job service endpoint url
         /// </summary>
-        [JsonProperty(PropertyName = "jobServiceUrl",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "jobServiceUrl",
+            EmitDefaultValue = false)]
         public string JobOrchestratorUrl { get; set; }
     }
 }

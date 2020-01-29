@@ -5,12 +5,13 @@
 
 namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Models {
     using Microsoft.Azure.IIoT.OpcUa.Twin.Models;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System;
 
     /// <summary>
     /// Upload start request model
     /// </summary>
+    [DataContract]
     public class ModelUploadStartRequestApiModel {
 
         /// <summary>
@@ -44,15 +45,15 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Models {
         /// <summary>
         /// Desired content encoding
         /// </summary>
-        [JsonProperty(PropertyName = "ContentEncoding",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "ContentEncoding",
+            EmitDefaultValue = false)]
         public string ContentEncoding { get; set; }
 
         /// <summary>
         /// Optional diagnostics configuration
         /// </summary>
-        [JsonProperty(PropertyName = "Diagnostics",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "Diagnostics",
+            EmitDefaultValue = false)]
         public DiagnosticsApiModel Diagnostics { get; set; }
     }
 }

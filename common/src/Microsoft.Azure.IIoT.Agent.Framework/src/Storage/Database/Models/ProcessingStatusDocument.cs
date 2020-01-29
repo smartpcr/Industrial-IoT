@@ -5,25 +5,26 @@
 
 namespace Microsoft.Azure.IIoT.Agent.Framework.Storage.Database {
     using Microsoft.Azure.IIoT.Agent.Framework.Models;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using Newtonsoft.Json.Linq;
     using System;
 
     /// <summary>
     /// processing status
     /// </summary>
+    [DataContract]
     public class ProcessingStatusDocument {
 
         /// <summary>
         /// id
         /// </summary>
-        [JsonProperty(PropertyName = "id")]
+        [DataMember(Name = "id")]
         public string Id { get; set; }
 
         /// <summary>
         /// Etag
         /// </summary>
-        [JsonProperty(PropertyName = "_etag")]
+        [DataMember(Name = "_etag")]
         public string ETag { get; set; }
 
         /// <summary>

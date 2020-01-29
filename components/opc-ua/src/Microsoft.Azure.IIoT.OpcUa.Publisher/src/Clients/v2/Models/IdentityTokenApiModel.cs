@@ -5,12 +5,13 @@
 
 namespace Microsoft.Azure.IIoT.OpcUa.Publisher.Clients.v2.Models {
     using Microsoft.Azure.IIoT.Auth.Models;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System;
 
     /// <summary>
     /// Identity token
     /// </summary>
+    [DataContract]
     public class IdentityTokenApiModel {
 
         /// <summary>
@@ -43,19 +44,19 @@ namespace Microsoft.Azure.IIoT.OpcUa.Publisher.Clients.v2.Models {
         /// <summary>
         /// Identity
         /// </summary>
-        [JsonProperty(PropertyName = "identity")]
+        [DataMember(Name = "identity")]
         public string Identity { get; set; }
 
         /// <summary>
         /// Key
         /// </summary>
-        [JsonProperty(PropertyName = "key")]
+        [DataMember(Name = "key")]
         public string Key { get; set; }
 
         /// <summary>
         /// Expiration
         /// </summary>
-        [JsonProperty(PropertyName = "expires")]
+        [DataMember(Name = "expires")]
         public DateTime Expires { get; set; }
     }
 }

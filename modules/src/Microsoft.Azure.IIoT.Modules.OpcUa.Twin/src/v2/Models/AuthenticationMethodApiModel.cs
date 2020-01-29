@@ -5,13 +5,14 @@
 
 namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Models {
     using Microsoft.Azure.IIoT.OpcUa.Core.Models;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using Newtonsoft.Json.Linq;
     using System;
 
     /// <summary>
     /// Authentication Method model
     /// </summary>
+    [DataContract]
     public class AuthenticationMethodApiModel {
 
         /// <summary>
@@ -50,28 +51,28 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Models {
         /// <summary>
         /// Method id
         /// </summary>
-        [JsonProperty(PropertyName = "Id")]
+        [DataMember(Name = "Id")]
         public string Id { get; set; }
 
         /// <summary>
         /// Type of credential
         /// </summary>
-        [JsonProperty(PropertyName = "CredentialType",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "CredentialType",
+            EmitDefaultValue = false)]
         public CredentialType? CredentialType { get; set; }
 
         /// <summary>
         /// Security policy to use when passing credential.
         /// </summary>
-        [JsonProperty(PropertyName = "SecurityPolicy",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "SecurityPolicy",
+            EmitDefaultValue = false)]
         public string SecurityPolicy { get; set; }
 
         /// <summary>
         /// Method specific configuration
         /// </summary>
-        [JsonProperty(PropertyName = "Configuration",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "Configuration",
+            EmitDefaultValue = false)]
         public JToken Configuration { get; set; }
     }
 }

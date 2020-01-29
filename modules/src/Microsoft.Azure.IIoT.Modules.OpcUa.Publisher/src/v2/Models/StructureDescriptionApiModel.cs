@@ -5,12 +5,13 @@
 
 namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.v2.Models {
     using Microsoft.Azure.IIoT.OpcUa.Core.Models;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System;
 
     /// <summary>
     /// A Structure description
     /// </summary>
+    [DataContract]
     public class StructureDescriptionApiModel {
 
         /// <summary>
@@ -46,19 +47,19 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.v2.Models {
         /// <summary>
         /// Data type id
         /// </summary>
-        [JsonProperty(PropertyName = "dataTypeId")]
+        [DataMember(Name = "dataTypeId")]
         public string DataTypeId { get; set; }
 
         /// <summary>
         /// The qualified name of the data type.
         /// </summary>
-        [JsonProperty(PropertyName = "name")]
+        [DataMember(Name = "name")]
         public string Name { get; set; }
 
         /// <summary>
         /// Structure definition
         /// </summary>
-        [JsonProperty(PropertyName = "structureDefinition")]
+        [DataMember(Name = "structureDefinition")]
         public StructureDefinitionApiModel StructureDefinition { get; set; }
     }
 }

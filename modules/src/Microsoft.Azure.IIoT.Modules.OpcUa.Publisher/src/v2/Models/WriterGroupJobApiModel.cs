@@ -5,12 +5,13 @@
 
 namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.v2.Models {
     using Microsoft.Azure.IIoT.OpcUa.Publisher.Models;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System;
 
     /// <summary>
     /// Writer group job model
     /// </summary>
+    [DataContract]
     public class WriterGroupJobApiModel {
 
         /// <summary>
@@ -48,27 +49,27 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.v2.Models {
         /// <summary>
         /// Writer group
         /// </summary>
-        [JsonProperty(PropertyName = "writerGroup")]
+        [DataMember(Name = "writerGroup")]
         public WriterGroupApiModel WriterGroup { get; set; }
 
         /// <summary>
         /// Connection string
         /// </summary>
-        [JsonProperty(PropertyName = "connectionString")]
+        [DataMember(Name = "connectionString")]
         public string ConnectionString { get; set; }
 
         /// <summary>
         /// Messaging mode - defaults to monitoreditem
         /// </summary>
-        [JsonProperty(PropertyName = "messagingMode",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "messagingMode",
+            EmitDefaultValue = false)]
         public MessagingMode? MessagingMode { get; set; }
 
         /// <summary>
         /// Publisher engine configuration (publisher extension)
         /// </summary>
-        [JsonProperty(PropertyName = "engine",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "engine",
+            EmitDefaultValue = false)]
         public EngineConfigurationApiModel Engine { get; set; }
     }
 }

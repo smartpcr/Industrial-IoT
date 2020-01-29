@@ -4,68 +4,64 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Edge.Publisher.Models {
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System.Collections.Generic;
 
     /// <summary>
     /// Published nodes request
     /// </summary>
+    [DataContract]
     public class PublishNodesRequestModel {
 
         /// <summary>
         /// Endpoint identifier on the publisher (optional)
         /// </summary>
-        [JsonProperty(PropertyName = "EndpointId",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "EndpointId",
+            EmitDefaultValue = false)]
         public string EndpointId { get; set; }
 
         /// <summary>
         /// Endpoint url (mandatory)
         /// </summary>
-        [JsonProperty(PropertyName = "EndpointUrl",
-            NullValueHandling = NullValueHandling.Include)]
+        [DataMember(Name = "EndpointUrl")]
         public string EndpointUrl { get; set; }
 
         /// <summary>
         /// Whether to use secure connectivity (default: true)
         /// </summary>
-        [JsonProperty(PropertyName = "UseSecurity",
-           NullValueHandling = NullValueHandling.Include)]
+        [DataMember(Name = "UseSecurity")]
         public bool? UseSecurity { get; set; }
 
         /// <summary>
         /// Endpoint security profile uri (optional)
         /// </summary>
-        [JsonProperty(PropertyName = "SecurityProfileUri",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "SecurityProfileUri",
+            EmitDefaultValue = false)]
         public string SecurityProfileUri { get; set; }
 
         /// <summary>
         /// Endpoint security mode name (optional)
         /// </summary>
-        [JsonProperty(PropertyName = "SecurityMode",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "SecurityMode",
+            EmitDefaultValue = false)]
         public string SecurityMode { get; set; }
 
         /// <summary>
         /// User name for user name password credential
         /// </summary>
-        [JsonProperty(PropertyName = "UserName",
-           NullValueHandling = NullValueHandling.Include)]
+        [DataMember(Name = "UserName")]
         public string UserName { get; set; }
 
         /// <summary>
         /// Password for user name password credential
         /// </summary>
-        [JsonProperty(PropertyName = "Password",
-           NullValueHandling = NullValueHandling.Include)]
+        [DataMember(Name = "Password")]
         public string Password { get; set; }
 
         /// <summary>
         /// Nodes to publish
         /// </summary>
-        [JsonProperty(PropertyName = "OpcNodes",
-           NullValueHandling = NullValueHandling.Include)]
+        [DataMember(Name = "OpcNodes")]
         public List<PublisherNodeModel> OpcNodes { get; set; }
     }
 }

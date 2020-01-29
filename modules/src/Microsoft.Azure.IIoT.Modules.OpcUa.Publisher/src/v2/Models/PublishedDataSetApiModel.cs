@@ -5,7 +5,7 @@
 
 namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.v2.Models {
     using Microsoft.Azure.IIoT.OpcUa.Publisher.Models;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -13,6 +13,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.v2.Models {
     /// <summary>
     /// Dataset model
     /// </summary>
+    [DataContract]
     public class PublishedDataSetApiModel {
 
         /// <summary>
@@ -53,28 +54,28 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.v2.Models {
         /// <summary>
         /// Name of dataset
         /// </summary>
-        [JsonProperty(PropertyName = "name",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "name",
+            EmitDefaultValue = false)]
         public string Name { get; set; }
 
         /// <summary>
         /// Data set source
         /// </summary>
-        [JsonProperty(PropertyName = "dataSetSource")]
+        [DataMember(Name = "dataSetSource")]
         public PublishedDataSetSourceApiModel DataSetSource { get; set; }
 
         /// <summary>
         /// Dataset meta data to emit
         /// </summary>
-        [JsonProperty(PropertyName = "dataSetMetaData",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "dataSetMetaData",
+            EmitDefaultValue = false)]
         public DataSetMetaDataApiModel DataSetMetaData { get; set; }
 
         /// <summary>
         /// Extension fields
         /// </summary>
-        [JsonProperty(PropertyName = "extensionFields",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "extensionFields",
+            EmitDefaultValue = false)]
         public Dictionary<string, string> ExtensionFields { get; set; }
     }
 }

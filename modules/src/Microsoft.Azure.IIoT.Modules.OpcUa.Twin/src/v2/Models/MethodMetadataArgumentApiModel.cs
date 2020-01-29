@@ -6,13 +6,14 @@
 namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Models {
     using Microsoft.Azure.IIoT.OpcUa.Twin.Models;
     using Microsoft.Azure.IIoT.OpcUa.Core.Models;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using Newtonsoft.Json.Linq;
     using System;
 
     /// <summary>
     /// Method argument metadata model
     /// </summary>
+    [DataContract]
     public class MethodMetadataArgumentApiModel {
 
         /// <summary>
@@ -55,41 +56,41 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Models {
         /// <summary>
         /// Argument name
         /// </summary>
-        [JsonProperty(PropertyName = "Name")]
+        [DataMember(Name = "Name")]
         public string Name { get; set; }
 
         /// <summary>
         /// Optional description
         /// </summary>
-        [JsonProperty(PropertyName = "Description",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "Description",
+            EmitDefaultValue = false)]
         public string Description { get; set; }
 
         /// <summary>
         /// Data type node of the argument
         /// </summary>
-        [JsonProperty(PropertyName = "Type")]
+        [DataMember(Name = "Type")]
         public NodeApiModel Type { get; set; }
 
         /// <summary>
         /// Default value
         /// </summary>
-        [JsonProperty(PropertyName = "DefaultValue",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "DefaultValue",
+            EmitDefaultValue = false)]
         public JToken DefaultValue { get; set; }
 
         /// <summary>
         /// Optional, scalar if not set
         /// </summary>
-        [JsonProperty(PropertyName = "ValueRank",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "ValueRank",
+            EmitDefaultValue = false)]
         public NodeValueRank? ValueRank { get; set; }
 
         /// <summary>
         /// Optional, array dimension
         /// </summary>
-        [JsonProperty(PropertyName = "ArrayDimensions",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "ArrayDimensions",
+            EmitDefaultValue = false)]
         public uint[] ArrayDimensions { get; set; }
     }
 }

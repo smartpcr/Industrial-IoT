@@ -21,7 +21,6 @@ namespace Microsoft.Azure.IIoT.Module.Default {
     using System.Threading;
     using System.Threading.Tasks;
     using System.Collections.Generic;
-    using Microsoft.Azure.IIoT.Utils;
 
     /// <summary>
     /// Provides a http handler factory using events and methods as tunnel.

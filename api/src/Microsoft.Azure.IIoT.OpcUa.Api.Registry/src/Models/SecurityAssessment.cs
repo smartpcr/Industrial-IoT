@@ -4,28 +4,30 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Models {
-    using Newtonsoft.Json;
-    using Newtonsoft.Json.Converters;
+    using System.Runtime.Serialization;
 
     /// <summary>
     /// Security assessment of the endpoint or application
     /// </summary>
-    [JsonConverter(typeof(StringEnumConverter))]
+    [DataContract]
     public enum SecurityAssessment {
 
         /// <summary>
         /// Low
         /// </summary>
+        [EnumMember]
         Low,
 
         /// <summary>
         /// Medium
         /// </summary>
+        [EnumMember]
         Medium,
 
         /// <summary>
         /// High
         /// </summary>
+        [EnumMember]
         High
     }
 }

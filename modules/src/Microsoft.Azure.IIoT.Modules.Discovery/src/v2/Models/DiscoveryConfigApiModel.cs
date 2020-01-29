@@ -5,13 +5,14 @@
 
 namespace Microsoft.Azure.IIoT.Modules.Discovery.v2.Models {
     using Microsoft.Azure.IIoT.OpcUa.Registry.Models;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System;
     using System.Collections.Generic;
 
     /// <summary>
     /// Discovery configuration
     /// </summary>
+    [DataContract]
     public class DiscoveryConfigApiModel {
 
         /// <summary>
@@ -64,78 +65,78 @@ namespace Microsoft.Azure.IIoT.Modules.Discovery.v2.Models {
         /// <summary>
         /// Address ranges to scan (null == all wired nics)
         /// </summary>
-        [JsonProperty(PropertyName = "AddressRangesToScan",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "AddressRangesToScan",
+            EmitDefaultValue = false)]
         public string AddressRangesToScan { get; set; }
 
         /// <summary>
         /// Network probe timeout.
         /// </summary>
-        [JsonProperty(PropertyName = "NetworkProbeTimeout",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "NetworkProbeTimeout",
+            EmitDefaultValue = false)]
         public TimeSpan? NetworkProbeTimeout { get; set; }
 
         /// <summary>
         /// Max network probes that should ever run.
         /// </summary>
-        [JsonProperty(PropertyName = "MaxNetworkProbes",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "MaxNetworkProbes",
+            EmitDefaultValue = false)]
         public int? MaxNetworkProbes { get; set; }
 
         /// <summary>
         /// Port ranges to scan (null == all unassigned)
         /// </summary>
-        [JsonProperty(PropertyName = "PortRangesToScan",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "PortRangesToScan",
+            EmitDefaultValue = false)]
         public string PortRangesToScan { get; set; }
 
         /// <summary>
         /// Port probe timeout
         /// </summary>
-        [JsonProperty(PropertyName = "PortProbeTimeout",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "PortProbeTimeout",
+            EmitDefaultValue = false)]
         public TimeSpan? PortProbeTimeout { get; set; }
 
         /// <summary>
         /// Max port probes that should ever run.
         /// </summary>
-        [JsonProperty(PropertyName = "MaxPortProbes",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "MaxPortProbes",
+            EmitDefaultValue = false)]
         public int? MaxPortProbes { get; set; }
 
         /// <summary>
         /// Probes that must always be there as percent of max.
         /// </summary>
-        [JsonProperty(PropertyName = "MinPortProbesPercent",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "MinPortProbesPercent",
+            EmitDefaultValue = false)]
         public int? MinPortProbesPercent { get; set; }
 
         /// <summary>
         /// Delay time between discovery sweeps
         /// </summary>
-        [JsonProperty(PropertyName = "IdleTimeBetweenScans",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "IdleTimeBetweenScans",
+            EmitDefaultValue = false)]
         public TimeSpan? IdleTimeBetweenScans { get; set; }
 
         /// <summary>
         /// List of preset discovery urls to use
         /// </summary>
-        [JsonProperty(PropertyName = "DiscoveryUrls",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "DiscoveryUrls",
+            EmitDefaultValue = false)]
         public List<string> DiscoveryUrls { get; set; }
 
         /// <summary>
         /// List of locales to filter with during discovery
         /// </summary>
-        [JsonProperty(PropertyName = "Locales",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "Locales",
+            EmitDefaultValue = false)]
         public List<string> Locales { get; set; }
 
         /// <summary>
         /// Activate all twins with this filter during onboarding.
         /// </summary>
-        [JsonProperty(PropertyName = "ActivationFilter",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "ActivationFilter",
+            EmitDefaultValue = false)]
         public EndpointActivationFilterApiModel ActivationFilter { get; set; }
     }
 }

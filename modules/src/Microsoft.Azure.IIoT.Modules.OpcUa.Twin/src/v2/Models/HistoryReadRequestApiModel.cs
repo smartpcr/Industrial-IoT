@@ -5,13 +5,14 @@
 
 namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Models {
     using Microsoft.Azure.IIoT.OpcUa.History.Models;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using Newtonsoft.Json.Linq;
     using System;
 
     /// <summary>
     /// Request node history read
     /// </summary>
+    [DataContract]
     public class HistoryReadRequestApiModel {
 
         /// <summary>
@@ -52,16 +53,16 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Models {
         /// <summary>
         /// Node to read from (mandatory)
         /// </summary>
-        [JsonProperty(PropertyName = "NodeId",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "NodeId",
+            EmitDefaultValue = false)]
         public string NodeId { get; set; }
 
         /// <summary>
         /// An optional path from NodeId instance to
         /// an actual node.
         /// </summary>
-        [JsonProperty(PropertyName = "BrowsePath",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "BrowsePath",
+            EmitDefaultValue = false)]
         public string[] BrowsePath { get; set; }
 
         /// <summary>
@@ -69,7 +70,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Models {
         /// encoded in json and containing the tunneled
         /// Historian reader request.
         /// </summary>
-        [JsonProperty(PropertyName = "Details")]
+        [DataMember(Name = "Details")]
         public JToken Details { get; set; }
 
         /// <summary>
@@ -78,15 +79,15 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Models {
         /// an array, string or bytestring.
         /// See 7.22 of part 4: NumericRange.
         /// </summary>
-        [JsonProperty(PropertyName = "IndexRange",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "IndexRange",
+            EmitDefaultValue = false)]
         public string IndexRange { get; set; }
 
         /// <summary>
         /// Optional request header
         /// </summary>
-        [JsonProperty(PropertyName = "Header",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "Header",
+            EmitDefaultValue = false)]
         public RequestHeaderApiModel Header { get; set; }
     }
 }

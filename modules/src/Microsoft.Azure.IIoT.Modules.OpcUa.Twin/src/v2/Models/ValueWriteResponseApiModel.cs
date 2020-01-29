@@ -5,12 +5,13 @@
 
 namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Models {
     using Microsoft.Azure.IIoT.OpcUa.Twin.Models;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System;
 
     /// <summary>
     /// Value write response model for module
     /// </summary>
+    [DataContract]
     public class ValueWriteResponseApiModel {
 
         /// <summary>
@@ -33,8 +34,8 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Models {
         /// <summary>
         /// Service result in case of error
         /// </summary>
-        [JsonProperty(PropertyName = "ErrorInfo",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "ErrorInfo",
+            EmitDefaultValue = false)]
         public ServiceResultApiModel ErrorInfo { get; set; }
     }
 }

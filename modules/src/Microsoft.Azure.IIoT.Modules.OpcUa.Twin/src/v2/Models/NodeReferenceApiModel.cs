@@ -5,12 +5,13 @@
 
 namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Models {
     using Microsoft.Azure.IIoT.OpcUa.Core.Models;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System;
 
     /// <summary>
     /// reference model for module
     /// </summary>
+    [DataContract]
     public class NodeReferenceApiModel {
 
         /// <summary>
@@ -35,21 +36,21 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Models {
         /// <summary>
         /// Reference Type identifier
         /// </summary>
-        [JsonProperty(PropertyName = "ReferenceTypeId",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "ReferenceTypeId",
+            EmitDefaultValue = false)]
         public string ReferenceTypeId { get; set; }
 
         /// <summary>
         /// Browse direction of reference
         /// </summary>
-        [JsonProperty(PropertyName = "Direction",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "Direction",
+            EmitDefaultValue = false)]
         public BrowseDirection? Direction { get; set; }
 
         /// <summary>
         /// Target node
         /// </summary>
-        [JsonProperty(PropertyName = "Target")]
+        [DataMember(Name = "Target")]
         public NodeApiModel Target { get; set; }
     }
 }

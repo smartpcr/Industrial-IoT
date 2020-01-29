@@ -4,55 +4,56 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Models {
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System;
     using System.ComponentModel.DataAnnotations;
 
     /// <summary>
     /// reference model
     /// </summary>
+    [DataContract]
     public class NodeReferenceApiModel {
 
         /// <summary>
         /// Reference Type id
         /// </summary>
-        [JsonProperty(PropertyName = "referenceTypeId",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "referenceTypeId",
+            EmitDefaultValue = false)]
         public string ReferenceTypeId { get; set; }
 
         /// <summary>
         /// Browse direction of reference
         /// </summary>
-        [JsonProperty(PropertyName = "direction",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "direction",
+            EmitDefaultValue = false)]
         public BrowseDirection? Direction { get; set; }
 
         /// <summary>
         /// Target node
         /// </summary>
-        [JsonProperty(PropertyName = "target")]
+        [DataMember(Name = "target")]
         [Required]
         public NodeApiModel Target { get; set; }
 
         // Legacy
 
         /// <ignore/>
-        [JsonIgnore]
+        [IgnoreDataMember]
         [Obsolete]
         public string TypeId => ReferenceTypeId;
 
         /// <ignore/>
-        [JsonIgnore]
+        [IgnoreDataMember]
         [Obsolete]
         public string BrowseName => Target?.BrowseName;
 
         /// <ignore/>
-        [JsonIgnore]
+        [IgnoreDataMember]
         [Obsolete]
         public string DisplayName => Target?.DisplayName;
 
         /// <ignore/>
-        [JsonIgnore]
+        [IgnoreDataMember]
         [Obsolete]
         public string TypeDefinition => Target?.TypeDefinitionId;
     }

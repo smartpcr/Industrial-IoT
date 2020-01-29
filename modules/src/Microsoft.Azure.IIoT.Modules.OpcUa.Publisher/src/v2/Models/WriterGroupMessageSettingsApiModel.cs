@@ -5,13 +5,14 @@
 
 namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.v2.Models {
     using Microsoft.Azure.IIoT.OpcUa.Publisher.Models;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System;
     using System.Collections.Generic;
 
     /// <summary>
     /// Writer group message configuration
     /// </summary>
+    [DataContract]
     public class WriterGroupMessageSettingsApiModel {
 
         /// <summary>
@@ -50,36 +51,36 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.v2.Models {
         /// <summary>
         /// Network message content
         /// </summary>
-        [JsonProperty(PropertyName = "networkMessageContentMask",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "networkMessageContentMask",
+            EmitDefaultValue = false)]
         public NetworkMessageContentMask? NetworkMessageContentMask { get; set; }
 
         /// <summary>
         /// Group version
         /// </summary>
-        [JsonProperty(PropertyName = "groupVersion",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "groupVersion",
+            EmitDefaultValue = false)]
         public uint? GroupVersion { get; set; }
 
         /// <summary>
         /// Uadp dataset ordering
         /// </summary>
-        [JsonProperty(PropertyName = "dataSetOrdering",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "dataSetOrdering",
+            EmitDefaultValue = false)]
         public DataSetOrderingType? DataSetOrdering { get; set; }
 
         /// <summary>
         /// Uadp Sampling offset
         /// </summary>
-        [JsonProperty(PropertyName = "samplingOffset",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "samplingOffset",
+            EmitDefaultValue = false)]
         public double? SamplingOffset { get; set; }
 
         /// <summary>
         /// Publishing offset for uadp messages
         /// </summary>
-        [JsonProperty(PropertyName = "publishingOffset",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "publishingOffset",
+            EmitDefaultValue = false)]
         public List<double> PublishingOffset { get; set; }
     }
 }

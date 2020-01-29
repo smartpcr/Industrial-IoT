@@ -5,13 +5,14 @@
 
 namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Models {
     using Microsoft.Azure.IIoT.OpcUa.Core.Models;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System;
     using System.Collections.Generic;
 
     /// <summary>
     /// Request header model for module
     /// </summary>
+    [DataContract]
     public class RequestHeaderApiModel {
 
         /// <summary>
@@ -49,22 +50,22 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Models {
         /// <summary>
         /// Optional User elevation
         /// </summary>
-        [JsonProperty(PropertyName = "Elevation",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "Elevation",
+            EmitDefaultValue = false)]
         public CredentialApiModel Elevation { get; set; }
 
         /// <summary>
         /// Optional list of locales in preference order.
         /// </summary>
-        [JsonProperty(PropertyName = "Locales",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "Locales",
+            EmitDefaultValue = false)]
         public List<string> Locales { get; set; }
 
         /// <summary>
         /// Optional diagnostics configuration
         /// </summary>
-        [JsonProperty(PropertyName = "Diagnostics",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "Diagnostics",
+            EmitDefaultValue = false)]
         public DiagnosticsApiModel Diagnostics { get; set; }
     }
 }

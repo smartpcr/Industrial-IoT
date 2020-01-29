@@ -12,7 +12,6 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin.Api {
     using Microsoft.Azure.IIoT.OpcUa.Testing.Tests;
     using Microsoft.Azure.IIoT.OpcUa.Protocol;
     using Serilog;
-    using System;
     using System.Net;
     using System.Threading.Tasks;
     using Xunit;

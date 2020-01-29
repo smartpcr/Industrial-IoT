@@ -5,12 +5,13 @@
 
 namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.v2.Models {
     using Microsoft.Azure.IIoT.OpcUa.Core.Models;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System;
 
     /// <summary>
     /// Localized text.
     /// </summary>
+    [DataContract]
     public class LocalizedTextApiModel {
         /// <summary>
         /// Default constructor
@@ -42,14 +43,14 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.v2.Models {
         /// <summary>
         /// Locale or null for default locale
         /// </summary>
-        [JsonProperty(PropertyName = "locale",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "locale",
+            EmitDefaultValue = false)]
         public string Locale { get; set; }
 
         /// <summary>
         /// Text
         /// </summary>
-        [JsonProperty(PropertyName = "text")]
+        [DataMember(Name = "text")]
         public string Text { get; set; }
     }
 }

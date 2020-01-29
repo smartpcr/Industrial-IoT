@@ -4,59 +4,60 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Models {
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
 
     /// <summary>
     /// Publisher registration model
     /// </summary>
+    [DataContract]
     public class PublisherApiModel {
 
         /// <summary>
         /// Publisher id
         /// </summary>
-        [JsonProperty(PropertyName = "id")]
+        [DataMember(Name = "id")]
         [Required]
         public string Id { get; set; }
 
         /// <summary>
         /// Site of the publisher
         /// </summary>
-        [JsonProperty(PropertyName = "siteId",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "siteId",
+            EmitDefaultValue = false)]
         [DefaultValue(null)]
         public string SiteId { get; set; }
 
         /// <summary>
         /// Current log level
         /// </summary>
-        [JsonProperty(PropertyName = "logLevel",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "logLevel",
+            EmitDefaultValue = false)]
         [DefaultValue(TraceLogLevel.Information)]
         public TraceLogLevel? LogLevel { get; set; }
 
         /// <summary>
         /// Publisher agent configuration
         /// </summary>
-        [JsonProperty(PropertyName = "configuration",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "configuration",
+            EmitDefaultValue = false)]
         public PublisherConfigApiModel Configuration { get; set; }
 
         /// <summary>
         /// Whether the registration is out of sync between
         /// client (module) and server (service) (default: false).
         /// </summary>
-        [JsonProperty(PropertyName = "outOfSync",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "outOfSync",
+            EmitDefaultValue = false)]
         [DefaultValue(null)]
         public bool? OutOfSync { get; set; }
 
         /// <summary>
         /// Whether publisher is connected on this registration
         /// </summary>
-        [JsonProperty(PropertyName = "connected",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "connected",
+            EmitDefaultValue = false)]
         [DefaultValue(null)]
         public bool? Connected { get; set; }
     }

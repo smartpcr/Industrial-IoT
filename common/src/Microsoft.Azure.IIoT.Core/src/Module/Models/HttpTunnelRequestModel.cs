@@ -4,12 +4,13 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.Module.Models {
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System.Collections.Generic;
 
     /// <summary>
     /// Tunneled message
     /// </summary>
+    [DataContract]
     public class HttpTunnelRequestModel {
 
         /// <summary>
@@ -21,34 +22,34 @@ namespace Microsoft.Azure.IIoT.Module.Models {
         /// <summary>
         /// Method
         /// </summary>
-        [JsonProperty(PropertyName = "method")]
+        [DataMember(Name = "method")]
         public string Method { get; set; }
 
         /// <summary>
         /// Resource id
         /// </summary>
-        [JsonProperty(PropertyName = "resourceId",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "resourceId",
+            EmitDefaultValue = false)]
         public string ResourceId { get; internal set; }
 
         /// <summary>
         /// Uri to call
         /// </summary>
-        [JsonProperty(PropertyName = "uri")]
+        [DataMember(Name = "uri")]
         public string Uri { get; internal set; }
 
         /// <summary>
         /// Headers
         /// </summary>
-        [JsonProperty(PropertyName = "requestHeaders",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "requestHeaders",
+            EmitDefaultValue = false)]
         public Dictionary<string, List<string>> RequestHeaders { get; set; }
 
         /// <summary>
         /// Headers
         /// </summary>
-        [JsonProperty(PropertyName = "contentHeaders",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "contentHeaders",
+            EmitDefaultValue = false)]
         public Dictionary<string, List<string>> ContentHeaders { get; set; }
     }
 }

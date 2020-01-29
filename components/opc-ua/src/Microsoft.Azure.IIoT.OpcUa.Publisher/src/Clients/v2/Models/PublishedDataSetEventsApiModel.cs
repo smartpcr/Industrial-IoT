@@ -5,7 +5,7 @@
 
 namespace Microsoft.Azure.IIoT.OpcUa.Publisher.Clients.v2.Models {
     using Microsoft.Azure.IIoT.OpcUa.Publisher.Models;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -13,6 +13,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Publisher.Clients.v2.Models {
     /// <summary>
     /// Describes event fields to be published
     /// </summary>
+    [DataContract]
     public class PublishedDataSetEventsApiModel {
 
         /// <summary>
@@ -64,62 +65,62 @@ namespace Microsoft.Azure.IIoT.OpcUa.Publisher.Clients.v2.Models {
         /// <summary>
         /// Identifier of event in the dataset.
         /// </summary>
-        [JsonProperty(PropertyName = "id",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "id",
+            EmitDefaultValue = false)]
         public string Id { get; set; }
 
         /// <summary>
         /// Event notifier to subscribe to
         /// </summary>
-        [JsonProperty(PropertyName = "eventNotifier")]
+        [DataMember(Name = "eventNotifier")]
         public string EventNotifier { get; set; }
 
         /// <summary>
         /// Browse path to event notifier node (Publisher extension)
         /// </summary>
-        [JsonProperty(PropertyName = "browsePath",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "browsePath",
+            EmitDefaultValue = false)]
         public string[] BrowsePath { get; set; }
 
         /// <summary>
         /// Event fields to select
         /// </summary>
-        [JsonProperty(PropertyName = "selectedFields")]
+        [DataMember(Name = "selectedFields")]
         public List<SimpleAttributeOperandApiModel> SelectedFields { get; set; }
 
         /// <summary>
         /// Filter to use to select event fields
         /// </summary>
-        [JsonProperty(PropertyName = "filter")]
+        [DataMember(Name = "filter")]
         public ContentFilterApiModel Filter { get; set; }
 
         /// <summary>
         /// Queue size (Publisher extension)
         /// </summary>
-        [JsonProperty(PropertyName = "queueSize",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "queueSize",
+            EmitDefaultValue = false)]
         public uint? QueueSize { get; set; }
 
         /// <summary>
         /// Discard new values if queue is full (Publisher extension)
         /// </summary>
-        [JsonProperty(PropertyName = "discardNew",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "discardNew",
+            EmitDefaultValue = false)]
         public bool? DiscardNew { get; set; }
 
         /// <summary>
         /// Monitoring mode (Publisher extension)
         /// </summary>
-        [JsonProperty(PropertyName = "monitoringMode",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "monitoringMode",
+            EmitDefaultValue = false)]
         public MonitoringMode? MonitoringMode { get; set; }
 
         /// <summary>
         /// Node in dataset writer that triggers reporting
         /// (Publisher extension)
         /// </summary>
-        [JsonProperty(PropertyName = "triggerId",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "triggerId",
+            EmitDefaultValue = false)]
         public string TriggerId { get; set; }
     }
 }

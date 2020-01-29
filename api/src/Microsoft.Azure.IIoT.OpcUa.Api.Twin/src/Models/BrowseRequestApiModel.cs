@@ -4,27 +4,28 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Models {
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System.ComponentModel;
 
     /// <summary>
     /// Browse request model
     /// </summary>
+    [DataContract]
     public class BrowseRequestApiModel {
 
         /// <summary>
         /// Node to browse.
         /// (defaults to root folder).
         /// </summary>
-        [JsonProperty(PropertyName = "nodeId")]
+        [DataMember(Name = "nodeId")]
         public string NodeId { get; set; }
 
         /// <summary>
         /// Direction to browse in
         /// (default: forward)
         /// </summary>
-        [JsonProperty(PropertyName = "direction",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "direction",
+            EmitDefaultValue = false)]
         [DefaultValue(null)]
         public BrowseDirection? Direction { get; set; }
 
@@ -32,8 +33,8 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Models {
         /// View to browse
         /// (default: null = new view = All nodes).
         /// </summary>
-        [JsonProperty(PropertyName = "view",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "view",
+            EmitDefaultValue = false)]
         [DefaultValue(null)]
         public BrowseViewApiModel View { get; set; }
 
@@ -41,8 +42,8 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Models {
         /// Reference types to browse.
         /// (default: hierarchical).
         /// </summary>
-        [JsonProperty(PropertyName = "referenceTypeId",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "referenceTypeId",
+            EmitDefaultValue = false)]
         [DefaultValue(null)]
         public string ReferenceTypeId { get; set; }
 
@@ -50,8 +51,8 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Models {
         /// Whether to include subtypes of the reference type.
         /// (default is false)
         /// </summary>
-        [JsonProperty(PropertyName = "noSubtypes",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "noSubtypes",
+            EmitDefaultValue = false)]
         [DefaultValue(false)]
         public bool? NoSubtypes { get; set; }
 
@@ -62,8 +63,8 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Models {
         /// or target nodes.
         /// (default is decided by client e.g. 60)
         /// </summary>
-        [JsonProperty(PropertyName = "maxReferencesToReturn",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "maxReferencesToReturn",
+            EmitDefaultValue = false)]
         [DefaultValue(null)]
         public uint? MaxReferencesToReturn { get; set; }
 
@@ -73,8 +74,8 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Models {
         /// information.
         /// (default is false)
         /// </summary>
-        [JsonProperty(PropertyName = "targetNodesOnly",
-           NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "targetNodesOnly",
+           EmitDefaultValue = false)]
         [DefaultValue(false)]
         public bool? TargetNodesOnly { get; set; }
 
@@ -82,16 +83,16 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Models {
         /// Whether to read variable values on target nodes.
         /// (default is false)
         /// </summary>
-        [JsonProperty(PropertyName = "readVariableValues",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "readVariableValues",
+            EmitDefaultValue = false)]
         [DefaultValue(false)]
         public bool? ReadVariableValues { get; set; }
 
         /// <summary>
         /// Optional request header
         /// </summary>
-        [JsonProperty(PropertyName = "header",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "header",
+            EmitDefaultValue = false)]
         [DefaultValue(null)]
         public RequestHeaderApiModel Header { get; set; }
     }

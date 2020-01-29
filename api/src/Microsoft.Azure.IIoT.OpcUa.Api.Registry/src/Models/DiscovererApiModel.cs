@@ -4,51 +4,52 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Models {
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
 
     /// <summary>
     /// Discoverer registration model
     /// </summary>
+    [DataContract]
     public class DiscovererApiModel {
 
         /// <summary>
         /// Discoverer id
         /// </summary>
-        [JsonProperty(PropertyName = "id")]
+        [DataMember(Name = "id")]
         [Required]
         public string Id { get; set; }
 
         /// <summary>
         /// Site of the discoverer
         /// </summary>
-        [JsonProperty(PropertyName = "siteId",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "siteId",
+            EmitDefaultValue = false)]
         [DefaultValue(null)]
         public string SiteId { get; set; }
 
         /// <summary>
         /// Whether the discoverer is in discovery mode
         /// </summary>
-        [JsonProperty(PropertyName = "discovery",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "discovery",
+            EmitDefaultValue = false)]
         [DefaultValue(DiscoveryMode.Off)]
         public DiscoveryMode? Discovery { get; set; }
 
         /// <summary>
         /// Discoverer configuration
         /// </summary>
-        [JsonProperty(PropertyName = "discoveryConfig",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "discoveryConfig",
+            EmitDefaultValue = false)]
         [DefaultValue(null)]
         public DiscoveryConfigApiModel DiscoveryConfig { get; set; }
 
         /// <summary>
         /// Current log level
         /// </summary>
-        [JsonProperty(PropertyName = "logLevel",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "logLevel",
+            EmitDefaultValue = false)]
         [DefaultValue(TraceLogLevel.Information)]
         public TraceLogLevel? LogLevel { get; set; }
 
@@ -56,16 +57,16 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Models {
         /// Whether the registration is out of sync between
         /// client (module) and server (service) (default: false).
         /// </summary>
-        [JsonProperty(PropertyName = "outOfSync",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "outOfSync",
+            EmitDefaultValue = false)]
         [DefaultValue(null)]
         public bool? OutOfSync { get; set; }
 
         /// <summary>
         /// Whether discoverer is connected on this registration
         /// </summary>
-        [JsonProperty(PropertyName = "connected",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "connected",
+            EmitDefaultValue = false)]
         [DefaultValue(null)]
         public bool? Connected { get; set; }
     }

@@ -5,12 +5,13 @@
 
 namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Models {
     using Microsoft.Azure.IIoT.OpcUa.Twin.Models;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System;
 
     /// <summary>
     /// Method metadata request model for module
     /// </summary>
+    [DataContract]
     public class MethodMetadataRequestApiModel {
 
         /// <summary>
@@ -47,23 +48,23 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Models {
         /// <summary>
         /// Method id of method to call.
         /// </summary>
-        [JsonProperty(PropertyName = "MethodId",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "MethodId",
+            EmitDefaultValue = false)]
         public string MethodId { get; set; }
 
         /// <summary>
         /// An optional component path from the node identified by
         /// MethodId to the actual method node.
         /// </summary>
-        [JsonProperty(PropertyName = "MethodBrowsePath",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "MethodBrowsePath",
+            EmitDefaultValue = false)]
         public string[] MethodBrowsePath { get; set; }
 
         /// <summary>
         /// Optional request header
         /// </summary>
-        [JsonProperty(PropertyName = "Header",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "Header",
+            EmitDefaultValue = false)]
         public RequestHeaderApiModel Header { get; set; }
     }
 }

@@ -5,12 +5,13 @@
 
 namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Models {
     using Microsoft.Azure.IIoT.OpcUa.History.Models;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System;
 
     /// <summary>
     /// Request node history read continuation
     /// </summary>
+    [DataContract]
     public class HistoryReadNextRequestApiModel {
 
         /// <summary>
@@ -48,21 +49,21 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Models {
         /// Continuation token to continue reading more
         /// results.
         /// </summary>
-        [JsonProperty(PropertyName = "ContinuationToken")]
+        [DataMember(Name = "ContinuationToken")]
         public string ContinuationToken { get; set; }
 
         /// <summary>
         /// Abort reading after this read
         /// </summary>
-        [JsonProperty(PropertyName = "Abort",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "Abort",
+            EmitDefaultValue = false)]
         public bool? Abort { get; set; }
 
         /// <summary>
         /// Optional request header
         /// </summary>
-        [JsonProperty(PropertyName = "Header",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "Header",
+            EmitDefaultValue = false)]
         public RequestHeaderApiModel Header { get; set; }
     }
 }

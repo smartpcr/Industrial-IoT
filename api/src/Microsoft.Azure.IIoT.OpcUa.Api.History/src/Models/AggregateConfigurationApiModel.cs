@@ -4,46 +4,47 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Models {
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
 
     /// <summary>
     /// Aggregate configuration
     /// </summary>
+    [DataContract]
     public class AggregateConfigurationApiModel {
 
         /// <summary>
         /// Whether to use the default server caps
         /// </summary>
-        [JsonProperty(PropertyName = "useServerCapabilitiesDefaults",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "useServerCapabilitiesDefaults",
+            EmitDefaultValue = false)]
         public bool? UseServerCapabilitiesDefaults { get; set; }
 
         /// <summary>
         /// Whether to treat uncertain as bad
         /// </summary>
-        [JsonProperty(PropertyName = "treatUncertainAsBad",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "treatUncertainAsBad",
+            EmitDefaultValue = false)]
         public bool? TreatUncertainAsBad { get; set; }
 
         /// <summary>
         /// Percent of data that is bad
         /// </summary>
-        [JsonProperty(PropertyName = "percentDataBad",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "percentDataBad",
+            EmitDefaultValue = false)]
         public byte? PercentDataBad { get; set; }
 
         /// <summary>
         /// Percent of data that is good
         /// </summary>
-        [JsonProperty(PropertyName = "percentDataGood",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "percentDataGood",
+            EmitDefaultValue = false)]
         public byte? PercentDataGood { get; set; }
 
         /// <summary>
         /// Whether to use sloped extrapolation.
         /// </summary>
-        [JsonProperty(PropertyName = "useSlopedExtrapolation",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "useSlopedExtrapolation",
+            EmitDefaultValue = false)]
         public bool? UseSlopedExtrapolation { get; set; }
     }
 }

@@ -4,103 +4,120 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Models {
-    using Newtonsoft.Json;
-    using Newtonsoft.Json.Converters;
+    using System.Runtime.Serialization;
 
     /// <summary>
     /// Filter operator type
     /// </summary>
-    [JsonConverter(typeof(StringEnumConverter))]
+    [DataContract]
     public enum FilterOperatorType {
 
         /// <summary>
         /// Equals
         /// </summary>
+        [EnumMember]
         Equals,
 
         /// <summary>
         /// Element is null
         /// </summary>
+        [EnumMember]
         IsNull,
 
         /// <summary>
         /// Greater than
         /// </summary>
+        [EnumMember]
         GreaterThan,
 
         /// <summary>
         /// Less than
         /// </summary>
+        [EnumMember]
         LessThan,
 
         /// <summary>
         /// Greater than or equal
         /// </summary>
+        [EnumMember]
         GreaterThanOrEqual,
 
         /// <summary>
         /// Less than or equal
         /// </summary>
+        [EnumMember]
         LessThanOrEqual,
 
         /// <summary>
         /// String match
         /// </summary>
+        [EnumMember]
         Like,
 
         /// <summary>
         /// Logical not
         /// </summary>
+        [EnumMember]
         Not,
 
         /// <summary>
         /// Between
         /// </summary>
+        [EnumMember]
         Between,
 
         /// <summary>
         /// In list
         /// </summary>
+        [EnumMember]
         InList,
 
         /// <summary>
         /// Logical And
         /// </summary>
+        [EnumMember]
         And,
 
         /// <summary>
         /// Logical Or
         /// </summary>
+        [EnumMember]
         Or,
 
         /// <summary>
         /// Cast
         /// </summary>
+        [EnumMember]
         Cast,
 
         /// <summary>
         /// View scope
         /// </summary>
+        [EnumMember]
         InView,
 
         /// <summary>
         /// Type test
         /// </summary>
+        [EnumMember]
         OfType,
 
         /// <summary>
         /// Relationship
         /// </summary>
+        [EnumMember]
         RelatedTo,
 
         /// <summary>
         /// Bitwise and
         /// </summary>
+        [EnumMember]
         BitwiseAnd,
 
         /// <summary>
         /// Bitwise or
         /// </summary>
+        [EnumMember]
         BitwiseOr
     }
 }

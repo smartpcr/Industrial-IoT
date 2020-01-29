@@ -5,7 +5,7 @@
 
 namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.v2.Models {
     using Microsoft.Azure.IIoT.OpcUa.Publisher.Models;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -13,6 +13,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.v2.Models {
     /// <summary>
     /// Metadata for the published dataset
     /// </summary>
+    [DataContract]
     public class DataSetMetaDataApiModel {
 
         /// <summary>
@@ -79,64 +80,64 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.v2.Models {
         /// <summary>
         /// Name of the dataset
         /// </summary>
-        [JsonProperty(PropertyName = "name",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "name",
+            EmitDefaultValue = false)]
         public string Name { get; set; }
 
         /// <summary>
         /// Description of the dataset
         /// </summary>
-        [JsonProperty(PropertyName = "description",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "description",
+            EmitDefaultValue = false)]
         public LocalizedTextApiModel Description { get; set; }
 
         /// <summary>
         /// Metadata for the data set fiels
         /// </summary>
-        [JsonProperty(PropertyName = "fields",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "fields",
+            EmitDefaultValue = false)]
         public List<FieldMetaDataApiModel> Fields { get; set; }
 
         /// <summary>
         /// Dataset class id
         /// </summary>
-        [JsonProperty(PropertyName = "dataSetClassId",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "dataSetClassId",
+            EmitDefaultValue = false)]
         public Guid DataSetClassId { get; set; }
 
         /// <summary>
         /// Dataset version
         /// </summary>
-        [JsonProperty(PropertyName = "configurationVersion",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "configurationVersion",
+            EmitDefaultValue = false)]
         public ConfigurationVersionApiModel ConfigurationVersion { get; set; }
 
         /// <summary>
         /// Namespaces in the metadata description
         /// </summary>
-        [JsonProperty(PropertyName = "namespaces",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "namespaces",
+            EmitDefaultValue = false)]
         public List<string> Namespaces { get; set; }
 
         /// <summary>
         /// Structure data types
         /// </summary>
-        [JsonProperty(PropertyName = "structureDataTypes",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "structureDataTypes",
+            EmitDefaultValue = false)]
         public List<StructureDescriptionApiModel> StructureDataTypes { get; set; }
 
         /// <summary>
         /// Enum data types
         /// </summary>
-        [JsonProperty(PropertyName = "enumDataTypes",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "enumDataTypes",
+            EmitDefaultValue = false)]
         public List<EnumDescriptionApiModel> EnumDataTypes { get; set; }
 
         /// <summary>
         /// Simple data type.
         /// </summary>
-        [JsonProperty(PropertyName = "simpleDataTypes",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "simpleDataTypes",
+            EmitDefaultValue = false)]
         public List<SimpleTypeDescriptionApiModel> SimpleDataTypes { get; set; }
     }
 }

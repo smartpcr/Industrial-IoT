@@ -4,25 +4,26 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Api.Vault.Models {
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using Newtonsoft.Json.Linq;
 
     /// <summary>
     /// A X509 certificate revocation list.
     /// </summary>
+    [DataContract]
     public sealed class X509CrlApiModel {
 
         /// <summary>
         /// The Issuer name of the revocation list.
         /// </summary>
-        [JsonProperty(PropertyName = "issuer",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "issuer",
+            EmitDefaultValue = false)]
         public string Issuer { get; set; }
 
         /// <summary>
         /// The certificate revocation list.
         /// </summary>
-        [JsonProperty(PropertyName = "crl")]
+        [DataMember(Name = "crl")]
         public JToken Crl { get; set; }
     }
 }

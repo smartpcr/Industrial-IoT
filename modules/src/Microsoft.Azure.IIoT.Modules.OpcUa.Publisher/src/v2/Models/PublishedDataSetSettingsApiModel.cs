@@ -5,12 +5,13 @@
 
 namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.v2.Models {
     using Microsoft.Azure.IIoT.OpcUa.Publisher.Models;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System;
 
     /// <summary>
     /// Published dataset settings - corresponds to SubscriptionModel
     /// </summary>
+    [DataContract]
     public class PublishedDataSetSettingsApiModel {
         /// <summary>
         /// Default constructor
@@ -48,36 +49,36 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.v2.Models {
         /// <summary>
         /// Publishing interval
         /// </summary>
-        [JsonProperty(PropertyName = "publishingInterval",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "publishingInterval",
+            EmitDefaultValue = false)]
         public TimeSpan? PublishingInterval { get; set; }
 
         /// <summary>
         /// Life time
         /// </summary>
-        [JsonProperty(PropertyName = "lifeTimeCount",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "lifeTimeCount",
+            EmitDefaultValue = false)]
         public uint? LifeTimeCount { get; set; }
 
         /// <summary>
         /// Max keep alive count
         /// </summary>
-        [JsonProperty(PropertyName = "maxKeepAliveCount",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "maxKeepAliveCount",
+            EmitDefaultValue = false)]
         public uint? MaxKeepAliveCount { get; set; }
 
         /// <summary>
         /// Max notifications per publish
         /// </summary>
-        [JsonProperty(PropertyName = "maxNotificationsPerPublish",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "maxNotificationsPerPublish",
+            EmitDefaultValue = false)]
         public uint? MaxNotificationsPerPublish { get; set; }
 
         /// <summary>
         /// Priority
         /// </summary>
-        [JsonProperty(PropertyName = "priority",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "priority",
+            EmitDefaultValue = false)]
         public byte? Priority { get; set; }
     }
 }

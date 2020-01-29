@@ -4,18 +4,19 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Models {
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System.Collections.Generic;
 
     /// <summary>
     /// Content filter
     /// </summary>
+    [DataContract]
     public class ContentFilterApiModel {
 
         /// <summary>
         /// The flat list of elements in the filter AST
         /// </summary>
-        [JsonProperty(PropertyName = "elements")]
+        [DataMember(Name = "elements")]
         public List<ContentFilterElementApiModel> Elements { get; set; }
     }
 }

@@ -4,28 +4,29 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Models {
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using Newtonsoft.Json.Linq;
     using System.ComponentModel;
 
     /// <summary>
     /// Credential model
     /// </summary>
+    [DataContract]
     public class CredentialApiModel {
 
         /// <summary>
         /// Type of credential
         /// </summary>
-        [JsonProperty(PropertyName = "type",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "type",
+            EmitDefaultValue = false)]
         [DefaultValue(CredentialType.None)]
         public CredentialType? Type { get; set; }
 
         /// <summary>
         /// Value to pass to server
         /// </summary>
-        [JsonProperty(PropertyName = "value",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "value",
+            EmitDefaultValue = false)]
         [DefaultValue(null)]
         public JToken Value { get; set; }
     }

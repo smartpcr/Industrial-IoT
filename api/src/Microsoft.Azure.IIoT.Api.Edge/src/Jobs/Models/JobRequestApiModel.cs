@@ -4,19 +4,20 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.Api.Jobs.Models {
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System.Collections.Generic;
 
     /// <summary>
     /// Get job processing instructions from orchestrator
     /// </summary>
+    [DataContract]
     public class JobRequestApiModel {
 
         /// <summary>
         /// Capabilities to match
         /// </summary>
-        [JsonProperty(PropertyName = "capabilities",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "capabilities",
+            EmitDefaultValue = false)]
         public Dictionary<string, string> Capabilities { get; set; }
     }
 }

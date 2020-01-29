@@ -4,13 +4,14 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Models {
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System.ComponentModel;
     using System.Collections.Generic;
 
     /// <summary>
     /// Endpoint Activation Filter model
     /// </summary>
+    [DataContract]
     public class EndpointActivationFilterApiModel {
 
         /// <summary>
@@ -19,8 +20,8 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Models {
         /// trusted.  If empty list, no certificates are
         /// trusted which is equal to no filter.
         /// </summary>
-        [JsonProperty(PropertyName = "trustLists",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "trustLists",
+            EmitDefaultValue = false)]
         [DefaultValue(null)]
         public List<string> TrustLists { get; set; }
 
@@ -28,8 +29,8 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Models {
         /// Endpoint security policies to filter against.
         /// If set to null, all policies are in scope.
         /// </summary>
-        [JsonProperty(PropertyName = "securityPolicies",
-           NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "securityPolicies",
+           EmitDefaultValue = false)]
         [DefaultValue(null)]
         public List<string> SecurityPolicies { get; set; }
 
@@ -37,8 +38,8 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Models {
         /// Security mode level to activate. If null,
         /// then <see cref="SecurityMode.Best"/> is assumed.
         /// </summary>
-        [JsonProperty(PropertyName = "securityMode",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "securityMode",
+            EmitDefaultValue = false)]
         [DefaultValue(null)]
         public SecurityMode? SecurityMode { get; set; }
     }

@@ -5,32 +5,33 @@
 
 
 namespace Microsoft.Azure.IIoT.OpcUa.Api.Vault.Models {
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
 
     /// <summary>
     /// Finish request results
     /// </summary>
+    [DataContract]
     public sealed class FinishNewKeyPairRequestResponseApiModel {
 
         /// <summary>
         /// Request
         /// </summary>
-        [JsonProperty(PropertyName = "request",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "request",
+            EmitDefaultValue = false)]
         public CertificateRequestRecordApiModel Request { get; set; }
 
         /// <summary>
         /// Signed certificate
         /// </summary>
-        [JsonProperty(PropertyName = "certificate",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "certificate",
+            EmitDefaultValue = false)]
         public X509CertificateApiModel Certificate { get; set; }
 
         /// <summary>
         /// Private key
         /// </summary>
-        [JsonProperty(PropertyName = "privateKey",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "privateKey",
+            EmitDefaultValue = false)]
         public PrivateKeyApiModel PrivateKey { get; set; }
     }
 }

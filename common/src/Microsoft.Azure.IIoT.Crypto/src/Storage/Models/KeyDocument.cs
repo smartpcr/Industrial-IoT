@@ -5,18 +5,19 @@
 
 namespace Microsoft.Azure.IIoT.Crypto.Storage.Models {
     using Microsoft.Azure.IIoT.Crypto.Models;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using Newtonsoft.Json.Linq;
 
     /// <summary>
     /// Key document
     /// </summary>
+    [DataContract]
     public class KeyDocument {
 
         /// <summary>
         /// Key id
         /// </summary>
-        [JsonProperty(PropertyName = "id")]
+        [DataMember(Name = "id")]
         public string Id { get; set; }
 
         /// <summary>

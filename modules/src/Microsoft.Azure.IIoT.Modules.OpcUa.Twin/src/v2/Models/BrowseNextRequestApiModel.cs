@@ -5,12 +5,13 @@
 
 namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Models {
     using Microsoft.Azure.IIoT.OpcUa.Twin.Models;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System;
 
     /// <summary>
     /// Request node browsing continuation
     /// </summary>
+    [DataContract]
     public class BrowseNextRequestApiModel {
 
         /// <summary>
@@ -54,15 +55,15 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Models {
         /// Continuation token from previews browse request.
         /// (mandatory)
         /// </summary>
-        [JsonProperty(PropertyName = "ContinuationToken")]
+        [DataMember(Name = "ContinuationToken")]
         public string ContinuationToken { get; set; }
 
         /// <summary>
         /// Whether to abort browse and release.
         /// (default: false)
         /// </summary>
-        [JsonProperty(PropertyName = "Abort",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "Abort",
+            EmitDefaultValue = false)]
         public bool? Abort { get; set; }
 
         /// <summary>
@@ -71,16 +72,16 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Models {
         /// information.
         /// (default is false)
         /// </summary>
-        [JsonProperty(PropertyName = "TargetNodesOnly",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "TargetNodesOnly",
+            EmitDefaultValue = false)]
         public bool? TargetNodesOnly { get; set; }
 
         /// <summary>
         /// Whether to read variable values on target nodes.
         /// (default is false)
         /// </summary>
-        [JsonProperty(PropertyName = "ReadVariableValues",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "ReadVariableValues",
+            EmitDefaultValue = false)]
         public bool? ReadVariableValues { get; set; }
 
         /// <summary>
@@ -88,15 +89,15 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Models {
         /// information and not read the target node.
         /// (default is false)
         /// </summary>
-        [JsonProperty(PropertyName = "NodeIdsOnly",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "NodeIdsOnly",
+            EmitDefaultValue = false)]
         public bool? NodeIdsOnly { get; set; }
 
         /// <summary>
         /// Optional request header
         /// </summary>
-        [JsonProperty(PropertyName = "Header",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "Header",
+            EmitDefaultValue = false)]
         public RequestHeaderApiModel Header { get; set; }
     }
 }

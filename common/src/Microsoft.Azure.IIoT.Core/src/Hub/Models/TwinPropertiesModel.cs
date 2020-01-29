@@ -5,26 +5,27 @@
 
 namespace Microsoft.Azure.IIoT.Hub.Models {
     using System.Collections.Generic;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using Newtonsoft.Json.Linq;
 
     /// <summary>
     /// Twin properties
     /// </summary>
+    [DataContract]
     public class TwinPropertiesModel {
 
         /// <summary>
         /// Reported settings
         /// </summary>
-        [JsonProperty(PropertyName = "reported",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "reported",
+            EmitDefaultValue = false)]
         public Dictionary<string, JToken> Reported { get; set; }
 
         /// <summary>
         /// Desired settings
         /// </summary>
-        [JsonProperty(PropertyName = "desired",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "desired",
+            EmitDefaultValue = false)]
         public Dictionary<string, JToken> Desired { get; set; }
     }
 }

@@ -4,25 +4,26 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.Hub.Models {
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using Newtonsoft.Json.Linq;
 
     /// <summary>
     /// List of device twins with continuation token
     /// </summary>
+    [DataContract]
     public class QueryResultModel {
 
         /// <summary>
         /// Continuation token to use for next call or null
         /// </summary>
-        [JsonProperty(PropertyName = "continuationToken",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "continuationToken",
+            EmitDefaultValue = false)]
         public string ContinuationToken { get; set; }
 
         /// <summary>
         /// Result returned
         /// </summary>
-        [JsonProperty(PropertyName = "result")]
+        [DataMember(Name = "result")]
         public JArray Result { get; set; }
     }
 }

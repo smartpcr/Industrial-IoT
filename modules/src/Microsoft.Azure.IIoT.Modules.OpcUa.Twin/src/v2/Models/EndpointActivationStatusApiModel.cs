@@ -5,12 +5,13 @@
 
 namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Models {
     using Microsoft.Azure.IIoT.OpcUa.Registry.Models;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System;
 
     /// <summary>
     /// Endpoint Activation status model
     /// </summary>
+    [DataContract]
     public class EndpointActivationStatusApiModel {
 
         /// <summary>
@@ -44,14 +45,14 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Models {
         /// <summary>
         /// Identifier of the endoint
         /// </summary>
-        [JsonProperty(PropertyName = "Id")]
+        [DataMember(Name = "Id")]
         public string Id { get; set; }
 
         /// <summary>
         /// Activation state
         /// </summary>
-        [JsonProperty(PropertyName = "ActivationState",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "ActivationState",
+            EmitDefaultValue = false)]
         public EndpointActivationState? ActivationState { get; set; }
     }
 }

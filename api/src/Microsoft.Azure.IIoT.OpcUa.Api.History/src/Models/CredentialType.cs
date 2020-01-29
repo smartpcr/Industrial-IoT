@@ -4,33 +4,36 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Models {
-    using Newtonsoft.Json;
-    using Newtonsoft.Json.Converters;
+    using System.Runtime.Serialization;
 
     /// <summary>
     /// Type of credentials to use for authentication
     /// </summary>
-    [JsonConverter(typeof(StringEnumConverter))]
+    [DataContract]
     public enum CredentialType {
 
         /// <summary>
         /// No credentials for anonymous access
         /// </summary>
+        [EnumMember]
         None,
 
         /// <summary>
         /// User name and password as credential
         /// </summary>
+        [EnumMember]
         UserName,
 
         /// <summary>
         /// Credential is a x509 certificate
         /// </summary>
+        [EnumMember]
         X509Certificate,
 
         /// <summary>
         /// Jwt token as credential
         /// </summary>
+        [EnumMember]
         JwtToken
     }
 }

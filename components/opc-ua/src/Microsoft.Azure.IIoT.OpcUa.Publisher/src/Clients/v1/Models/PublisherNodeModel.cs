@@ -4,39 +4,36 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Edge.Publisher.Models {
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
 
     /// <summary>
     /// Published node model
     /// </summary>
+    [DataContract]
     public class PublisherNodeModel {
 
         /// <summary>
         /// Node id
         /// </summary>
-        [JsonProperty(PropertyName = "Id",
-            NullValueHandling = NullValueHandling.Include)]
+        [DataMember(Name = "Id")]
         public string Id { get; set; }
 
         /// <summary>
         /// Publishing interval
         /// </summary>
-        [JsonProperty(PropertyName = "OpcPublishingInterval",
-            NullValueHandling = NullValueHandling.Include)]
+        [DataMember(Name = "OpcPublishingInterval")]
         public int? OpcPublishingInterval { get; set; }
 
         /// <summary>
         /// Sampling interval
         /// </summary>
-        [JsonProperty(PropertyName = "OpcSamplingInterval",
-            NullValueHandling = NullValueHandling.Include)]
+        [DataMember(Name = "OpcSamplingInterval")]
         public int? OpcSamplingInterval { get; set; }
 
         /// <summary>
         /// Display name to use
         /// </summary>
-        [JsonProperty(PropertyName = "DisplayName",
-            NullValueHandling = NullValueHandling.Include)]
+        [DataMember(Name = "DisplayName")]
         public string DisplayName { get; set; }
     }
 }

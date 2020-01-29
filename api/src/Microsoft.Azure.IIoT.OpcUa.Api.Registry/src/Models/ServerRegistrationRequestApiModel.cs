@@ -4,36 +4,37 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Models {
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
 
     /// <summary>
     /// Server registration request
     /// </summary>
+    [DataContract]
     public class ServerRegistrationRequestApiModel {
 
 
         /// <summary>
         /// Discovery url to use for registration
         /// </summary>
-        [JsonProperty(PropertyName = "discoveryUrl")]
+        [DataMember(Name = "discoveryUrl")]
         [Required]
         public string DiscoveryUrl { get; set; }
 
         /// <summary>
         /// Registration id
         /// </summary>
-        [JsonProperty(PropertyName = "id",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "id",
+            EmitDefaultValue = false)]
         [DefaultValue(null)]
         public string Id { get; set; }
 
         /// <summary>
         /// Upon discovery, activate all endpoints with this filter.
         /// </summary>
-        [JsonProperty(PropertyName = "activationFilter",
-           NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "activationFilter",
+           EmitDefaultValue = false)]
         [DefaultValue(null)]
         public EndpointActivationFilterApiModel ActivationFilter { get; set; }
     }

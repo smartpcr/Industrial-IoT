@@ -4,38 +4,39 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Models {
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
 
     /// <summary>
     /// Gateway event
     /// </summary>
+    [DataContract]
     public class GatewayEventApiModel {
 
         /// <summary>
         /// Event type
         /// </summary>
-        [JsonProperty(PropertyName = "eventType")]
+        [DataMember(Name = "eventType")]
         public GatewayEventType EventType { get; set; }
 
         /// <summary>
         /// Gateway id
         /// </summary>
-        [JsonProperty(PropertyName = "id",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "id",
+            EmitDefaultValue = false)]
         public string Id { get; set; }
 
         /// <summary>
         /// Gateway
         /// </summary>
-        [JsonProperty(PropertyName = "gateway",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "gateway",
+            EmitDefaultValue = false)]
         public GatewayApiModel Gateway { get; set; }
 
         /// <summary>
         /// The information is provided as a patch
         /// </summary>
-        [JsonProperty(PropertyName = "isPatch",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "isPatch",
+            EmitDefaultValue = false)]
         public bool? IsPatch { get; set; }
     }
 }

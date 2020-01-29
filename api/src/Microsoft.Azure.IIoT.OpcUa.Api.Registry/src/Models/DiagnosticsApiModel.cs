@@ -4,36 +4,37 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Models {
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System;
 
     /// <summary>
     /// Diagnostics configuration
     /// </summary>
+    [DataContract]
     public class DiagnosticsApiModel {
 
         /// <summary>
         /// Requested level of response diagnostics.
         /// (default: None)
         /// </summary>
-        [JsonProperty(PropertyName = "level",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "level",
+            EmitDefaultValue = false)]
         public DiagnosticsLevel? Level { get; set; }
 
         /// <summary>
         /// Client audit log entry.
         /// (default: client generated)
         /// </summary>
-        [JsonProperty(PropertyName = "auditId",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "auditId",
+            EmitDefaultValue = false)]
         public string AuditId { get; set; }
 
         /// <summary>
         /// Timestamp of request.
         /// (default: client generated)
         /// </summary>
-        [JsonProperty(PropertyName = "timeStamp",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "timeStamp",
+            EmitDefaultValue = false)]
         public DateTime? TimeStamp { get; set; }
     }
 }

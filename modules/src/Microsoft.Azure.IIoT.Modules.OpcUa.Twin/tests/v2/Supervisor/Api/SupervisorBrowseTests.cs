@@ -12,7 +12,6 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Supervisor.Api {
     using Microsoft.Azure.IIoT.OpcUa.Twin;
     using System.Net;
     using System.Threading.Tasks;
-    using System;
     using Xunit;
     using Autofac;
 

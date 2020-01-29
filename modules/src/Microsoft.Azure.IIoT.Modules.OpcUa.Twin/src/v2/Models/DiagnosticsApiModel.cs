@@ -5,12 +5,13 @@
 
 namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Models {
     using Microsoft.Azure.IIoT.OpcUa.Core.Models;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System;
 
     /// <summary>
     /// Diagnostics configuration
     /// </summary>
+    [DataContract]
     public class DiagnosticsApiModel {
 
         /// <summary>
@@ -46,24 +47,24 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Models {
         /// Requested level of response diagnostics.
         /// (default: Status)
         /// </summary>
-        [JsonProperty(PropertyName = "Level",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "Level",
+            EmitDefaultValue = false)]
         public DiagnosticsLevel? Level { get; set; }
 
         /// <summary>
         /// Client audit log entry.
         /// (default: client generated)
         /// </summary>
-        [JsonProperty(PropertyName = "AuditId",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "AuditId",
+            EmitDefaultValue = false)]
         public string AuditId { get; set; }
 
         /// <summary>
         /// Timestamp of request.
         /// (default: client generated)
         /// </summary>
-        [JsonProperty(PropertyName = "TimeStamp",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "TimeStamp",
+            EmitDefaultValue = false)]
         public DateTime? TimeStamp { get; set; }
     }
 }

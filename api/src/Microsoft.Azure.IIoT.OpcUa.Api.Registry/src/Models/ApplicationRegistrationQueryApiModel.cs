@@ -4,99 +4,100 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Models {
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System.ComponentModel;
 
     /// <summary>
     /// Application information
     /// </summary>
+    [DataContract]
     public class ApplicationRegistrationQueryApiModel {
 
         /// <summary>
         /// Type of application
         /// </summary>
-        [JsonProperty(PropertyName = "applicationType",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "applicationType",
+            EmitDefaultValue = false)]
         [DefaultValue(null)]
         public ApplicationType? ApplicationType { get; set; }
 
         /// <summary>
         /// Application uri
         /// </summary>
-        [JsonProperty(PropertyName = "applicationUri",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "applicationUri",
+            EmitDefaultValue = false)]
         [DefaultValue(null)]
         public string ApplicationUri { get; set; }
 
         /// <summary>
         /// Product uri
         /// </summary>
-        [JsonProperty(PropertyName = "productUri",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "productUri",
+            EmitDefaultValue = false)]
         [DefaultValue(null)]
         public string ProductUri { get; set; }
 
         /// <summary>
         /// Name of application
         /// </summary>
-        [JsonProperty(PropertyName = "applicationName",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "applicationName",
+            EmitDefaultValue = false)]
         [DefaultValue(null)]
         public string ApplicationName { get; set; }
 
         /// <summary>
         /// Locale of application name - default is "en"
         /// </summary>
-        [JsonProperty(PropertyName = "locale",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "locale",
+            EmitDefaultValue = false)]
         [DefaultValue(null)]
         public string Locale { get; set; }
 
         /// <summary>
         /// Application capability to query with
         /// </summary>
-        [JsonProperty(PropertyName = "capability",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "capability",
+            EmitDefaultValue = false)]
         [DefaultValue(null)]
         public string Capability { get; set; }
 
         /// <summary>
         /// Discovery profile uri
         /// </summary>
-        [JsonProperty(PropertyName = "discoveryProfileUri",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "discoveryProfileUri",
+            EmitDefaultValue = false)]
         [DefaultValue(null)]
         public string DiscoveryProfileUri { get; set; }
 
         /// <summary>
         /// Gateway server uri
         /// </summary>
-        [JsonProperty(PropertyName = "gatewayServerUri",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "gatewayServerUri",
+            EmitDefaultValue = false)]
         [DefaultValue(null)]
         public string GatewayServerUri { get; set; }
 
         /// <summary>
         /// Supervisor or site the application belongs to.
         /// </summary>
-        [JsonProperty(PropertyName = "siteOrGatewayId",
-           NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "siteOrGatewayId",
+           EmitDefaultValue = false)]
         [DefaultValue(null)]
         public string SiteOrGatewayId { get; set; }
 
         /// <summary>
         /// Whether to include apps that were soft deleted
         /// </summary>
-        [JsonProperty(PropertyName = "includeNotSeenSince",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "includeNotSeenSince",
+            EmitDefaultValue = false)]
         [DefaultValue(null)]
         public bool? IncludeNotSeenSince { get; set; }
 
         /// <summary>
         /// Discoverer id to filter with
         /// </summary>
-        [JsonProperty(PropertyName = "discovererId",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "discovererId",
+            EmitDefaultValue = false)]
         public string DiscovererId { get; set; }
     }
 }

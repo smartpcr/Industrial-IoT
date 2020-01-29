@@ -5,7 +5,7 @@
 
 namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.v2.Models {
     using Microsoft.Azure.IIoT.OpcUa.Core.Models;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -13,6 +13,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.v2.Models {
     /// <summary>
     /// Enum definition
     /// </summary>
+    [DataContract]
     public class EnumDefinitionApiModel {
         /// <summary>
         /// Default constructor
@@ -46,7 +47,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.v2.Models {
         /// <summary>
         /// The fields of the enum
         /// </summary>
-        [JsonProperty(PropertyName = "fields")]
+        [DataMember(Name = "fields")]
         public List<EnumFieldApiModel> Fields { get; set; }
     }
 }

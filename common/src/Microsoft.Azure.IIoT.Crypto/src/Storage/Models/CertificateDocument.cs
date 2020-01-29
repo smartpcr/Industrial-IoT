@@ -5,7 +5,7 @@
 
 namespace Microsoft.Azure.IIoT.Crypto.Storage.Models {
     using Microsoft.Azure.IIoT.Crypto.Models;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using Newtonsoft.Json.Linq;
     using System;
     using System.Collections.Generic;
@@ -13,12 +13,13 @@ namespace Microsoft.Azure.IIoT.Crypto.Storage.Models {
     /// <summary>
     /// Certificate document
     /// </summary>
+    [DataContract]
     public class CertificateDocument {
 
         /// <summary>
         /// Serial number
         /// </summary>
-        [JsonProperty(PropertyName = "id")]
+        [DataMember(Name = "id")]
         public string SerialNumber { get; set; }
 
         /// <summary>

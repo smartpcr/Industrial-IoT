@@ -4,8 +4,8 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.Storage.Default {
-    using Serilog;
     using Microsoft.Azure.IIoT.Exceptions;
+    using Serilog;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using System.IO;

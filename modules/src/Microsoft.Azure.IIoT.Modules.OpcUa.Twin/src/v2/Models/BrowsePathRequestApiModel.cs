@@ -5,13 +5,14 @@
 
 namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Models {
     using Microsoft.Azure.IIoT.OpcUa.Twin.Models;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System;
     using System.Collections.Generic;
 
     /// <summary>
     /// Browse nodes by path
     /// </summary>
+    [DataContract]
     public class BrowsePathRequestApiModel {
 
         /// <summary>
@@ -53,22 +54,22 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Models {
         /// Node to browse.
         /// (defaults to root folder).
         /// </summary>
-        [JsonProperty(PropertyName = "NodeId")]
+        [DataMember(Name = "NodeId")]
         public string NodeId { get; set; }
 
         /// <summary>
         /// The path elements of the path to browse from node.
         /// (mandatory)
         /// </summary>
-        [JsonProperty(PropertyName = "BrowsePaths")]
+        [DataMember(Name = "BrowsePaths")]
         public List<string[]> BrowsePaths { get; set; }
 
         /// <summary>
         /// Whether to read variable values on target nodes.
         /// (default is false)
         /// </summary>
-        [JsonProperty(PropertyName = "ReadVariableValues",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "ReadVariableValues",
+            EmitDefaultValue = false)]
         public bool? ReadVariableValues { get; set; }
 
         /// <summary>
@@ -76,15 +77,15 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Models {
         /// information and not read the target node.
         /// (default is false)
         /// </summary>
-        [JsonProperty(PropertyName = "NodeIdsOnly",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "NodeIdsOnly",
+            EmitDefaultValue = false)]
         public bool? NodeIdsOnly { get; set; }
 
         /// <summary>
         /// Optional request header
         /// </summary>
-        [JsonProperty(PropertyName = "Header",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "Header",
+            EmitDefaultValue = false)]
         public RequestHeaderApiModel Header { get; set; }
     }
 }

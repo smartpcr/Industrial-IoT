@@ -4,25 +4,26 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Models {
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using Newtonsoft.Json.Linq;
 
     /// <summary>
     /// Attribute value read
     /// </summary>
+    [DataContract]
     public class AttributeReadResponseApiModel {
 
         /// <summary>
         /// Attribute value
         /// </summary>
-        [JsonProperty(PropertyName = "value")]
+        [DataMember(Name = "value")]
         public JToken Value { get; set; }
 
         /// <summary>
         /// Service result in case of error
         /// </summary>
-        [JsonProperty(PropertyName = "errorInfo",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "errorInfo",
+            EmitDefaultValue = false)]
         public ServiceResultApiModel ErrorInfo { get; set; }
     }
 }

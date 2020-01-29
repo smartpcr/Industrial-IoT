@@ -5,7 +5,7 @@
 
 namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Models {
     using Microsoft.Azure.IIoT.OpcUa.History.Models;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -13,6 +13,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Models {
     /// <summary>
     /// History update results
     /// </summary>
+    [DataContract]
     public class HistoryUpdateResponseApiModel {
 
         /// <summary>
@@ -38,15 +39,15 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Models {
         /// <summary>
         /// List of results from the update operation
         /// </summary>
-        [JsonProperty(PropertyName = "Results",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "Results",
+            EmitDefaultValue = false)]
         public List<ServiceResultApiModel> Results { get; set; }
 
         /// <summary>
         /// Service result in case of service call error
         /// </summary>
-        [JsonProperty(PropertyName = "ErrorInfo",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "ErrorInfo",
+            EmitDefaultValue = false)]
         public ServiceResultApiModel ErrorInfo { get; set; }
     }
 }

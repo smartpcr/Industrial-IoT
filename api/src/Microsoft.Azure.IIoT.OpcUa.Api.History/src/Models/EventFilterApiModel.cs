@@ -4,24 +4,25 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Models {
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System.Collections.Generic;
 
     /// <summary>
     /// Event filter
     /// </summary>
+    [DataContract]
     public class EventFilterApiModel {
 
         /// <summary>
         /// Select statements
         /// </summary>
-        [JsonProperty(PropertyName = "selectClauses")]
+        [DataMember(Name = "selectClauses")]
         public List<SimpleAttributeOperandApiModel> SelectClauses { get; set; }
 
         /// <summary>
         /// Where clause
         /// </summary>
-        [JsonProperty(PropertyName = "whereClause")]
+        [DataMember(Name = "whereClause")]
         public ContentFilterApiModel WhereClause { get; set; }
     }
 }

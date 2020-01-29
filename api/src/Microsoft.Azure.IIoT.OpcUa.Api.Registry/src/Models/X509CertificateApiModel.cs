@@ -4,60 +4,61 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Models {
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System;
 
     /// <summary>
     /// Certificate model
     /// </summary>
+    [DataContract]
     public sealed class X509CertificateApiModel {
 
         /// <summary>
         /// Subject
         /// </summary>
-        [JsonProperty(PropertyName = "subject",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "subject",
+            EmitDefaultValue = false)]
         public string Subject { get; set; }
 
         /// <summary>
         /// Thumbprint
         /// </summary>
-        [JsonProperty(PropertyName = "thumbprint",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "thumbprint",
+            EmitDefaultValue = false)]
         public string Thumbprint { get; set; }
 
         /// <summary>
         /// Serial number
         /// </summary>
-        [JsonProperty(PropertyName = "serialNumber",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "serialNumber",
+            EmitDefaultValue = false)]
         public string SerialNumber { get; set; }
 
         /// <summary>
         /// Not before validity
         /// </summary>
-        [JsonProperty(PropertyName = "notBeforeUtc",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "notBeforeUtc",
+            EmitDefaultValue = false)]
         public DateTime? NotBeforeUtc { get; set; }
 
         /// <summary>
         /// Not after validity
         /// </summary>
-        [JsonProperty(PropertyName = "notAfterUtc",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "notAfterUtc",
+            EmitDefaultValue = false)]
         public DateTime? NotAfterUtc { get; set; }
 
         /// <summary>
         /// Self signed
         /// </summary>
-        [JsonProperty(PropertyName = "selfSigned",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "selfSigned",
+            EmitDefaultValue = false)]
         public bool? SelfSigned { get; set; }
 
         /// <summary>
         /// Raw data
         /// </summary>
-        [JsonProperty(PropertyName = "certificate")]
+        [DataMember(Name = "certificate")]
         public byte[] Certificate { get; set; }
     }
 }

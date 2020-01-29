@@ -6,6 +6,7 @@
 namespace Microsoft.Azure.IIoT.Module.Default {
     using Microsoft.Azure.IIoT.Module.Models;
     using Microsoft.Azure.IIoT.Exceptions;
+    using Microsoft.Azure.IIoT.Hub;
     using Serilog;
     using System;
     using System.Collections.Concurrent;
@@ -13,7 +14,6 @@ namespace Microsoft.Azure.IIoT.Module.Default {
     using System.Threading.Tasks;
     using System.Net;
     using System.Text;
-    using Microsoft.Azure.IIoT.Hub;
     using Newtonsoft.Json;
 
     /// <summary>

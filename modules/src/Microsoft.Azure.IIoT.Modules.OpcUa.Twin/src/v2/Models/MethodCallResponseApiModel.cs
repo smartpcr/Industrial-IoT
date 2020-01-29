@@ -5,7 +5,7 @@
 
 namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Models {
     using Microsoft.Azure.IIoT.OpcUa.Twin.Models;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -13,6 +13,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Models {
     /// <summary>
     /// Method call response model
     /// </summary>
+    [DataContract]
     public class MethodCallResponseApiModel {
 
         /// <summary>
@@ -38,14 +39,14 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Models {
         /// <summary>
         /// Output results
         /// </summary>
-        [JsonProperty(PropertyName = "Results")]
+        [DataMember(Name = "Results")]
         public List<MethodCallArgumentApiModel> Results { get; set; }
 
         /// <summary>
         /// Service result in case of error
         /// </summary>
-        [JsonProperty(PropertyName = "ErrorInfo",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "ErrorInfo",
+            EmitDefaultValue = false)]
         public ServiceResultApiModel ErrorInfo { get; set; }
     }
 }

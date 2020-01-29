@@ -5,7 +5,7 @@
 
 namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Models {
     using Microsoft.Azure.IIoT.OpcUa.Twin.Models;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -13,6 +13,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Models {
     /// <summary>
     /// Result of node browse continuation
     /// </summary>
+    [DataContract]
     public class BrowseNextResponseApiModel {
 
         /// <summary>
@@ -39,22 +40,22 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Models {
         /// <summary>
         /// References, if included, otherwise null.
         /// </summary>
-        [JsonProperty(PropertyName = "References",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "References",
+            EmitDefaultValue = false)]
         public List<NodeReferenceApiModel> References { get; set; }
 
         /// <summary>
         /// Continuation token if more results pending.
         /// </summary>
-        [JsonProperty(PropertyName = "ContinuationToken",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "ContinuationToken",
+            EmitDefaultValue = false)]
         public string ContinuationToken { get; set; }
 
         /// <summary>
         /// Service result in case of error
         /// </summary>
-        [JsonProperty(PropertyName = "ErrorInfo",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "ErrorInfo",
+            EmitDefaultValue = false)]
         public ServiceResultApiModel ErrorInfo { get; set; }
     }
 }

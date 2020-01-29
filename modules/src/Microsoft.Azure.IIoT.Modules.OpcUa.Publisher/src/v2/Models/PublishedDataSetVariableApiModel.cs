@@ -6,7 +6,7 @@
 namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.v2.Models {
     using Microsoft.Azure.IIoT.OpcUa.Core.Models;
     using Microsoft.Azure.IIoT.OpcUa.Publisher.Models;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using Newtonsoft.Json.Linq;
     using System;
     using System.Collections.Generic;
@@ -15,6 +15,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.v2.Models {
     /// <summary>
     /// Dataset Field model
     /// </summary>
+    [DataContract]
     public class PublishedDataSetVariableApiModel {
 
         /// <summary>
@@ -73,15 +74,15 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.v2.Models {
         /// <summary>
         /// Identifier of variable in the dataset.
         /// </summary>
-        [JsonProperty(PropertyName = "id",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "id",
+            EmitDefaultValue = false)]
         public string Id { get; set; }
 
         /// <summary>
         /// Node id
         /// </summary>
-        [JsonProperty(PropertyName = "publishedVariableNodeId",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "publishedVariableNodeId",
+            EmitDefaultValue = false)]
         public string PublishedVariableNodeId { get; set; }
 
         /// <summary>
@@ -89,93 +90,93 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.v2.Models {
         /// PublishedVariableNodeId to the actual node to publish
         /// (Publisher extension).
         /// </summary>
-        [JsonProperty(PropertyName = "browsePath",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "browsePath",
+            EmitDefaultValue = false)]
         public string[] BrowsePath { get; set; }
 
         /// <summary>
         /// Default is <see cref="NodeAttribute.Value"/>.
         /// </summary>
-        [JsonProperty(PropertyName = "attribute",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "attribute",
+            EmitDefaultValue = false)]
         public NodeAttribute? Attribute { get; set; }
 
         /// <summary>
         /// Index range
         /// </summary>
-        [JsonProperty(PropertyName = "indexRange",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "indexRange",
+            EmitDefaultValue = false)]
         public string IndexRange { get; set; }
 
         /// <summary>
         /// Sampling Interval - default is best effort
         /// </summary>
-        [JsonProperty(PropertyName = "samplingInterval",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "samplingInterval",
+            EmitDefaultValue = false)]
         public TimeSpan? SamplingInterval { get; set; }
 
         /// <summary>
         /// Data change filter
         /// </summary>
-        [JsonProperty(PropertyName = "dataChangeFilter",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "dataChangeFilter",
+            EmitDefaultValue = false)]
         public DataChangeTriggerType? DataChangeFilter { get; set; }
 
         /// <summary>
         /// Deadband type
         /// </summary>
-        [JsonProperty(PropertyName = "deadbandType",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "deadbandType",
+            EmitDefaultValue = false)]
         public DeadbandType? DeadbandType { get; set; }
 
         /// <summary>
         /// Deadband value
         /// </summary>
-        [JsonProperty(PropertyName = "deadbandValue",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "deadbandValue",
+            EmitDefaultValue = false)]
         public double? DeadbandValue { get; set; }
 
         /// <summary>
         /// Substitution value for empty results
         /// </summary>
-        [JsonProperty(PropertyName = "substituteValue",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "substituteValue",
+            EmitDefaultValue = false)]
         public JToken SubstituteValue { get; set; }
 
         /// <summary>
         /// MetaData properties qualified names.
         /// </summary>
-        [JsonProperty(PropertyName = "metaDataProperties",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "metaDataProperties",
+            EmitDefaultValue = false)]
         public List<string> MetaDataProperties { get; set; }
 
         /// <summary>
         /// Monitoring mode (Publisher extension)
         /// </summary>
-        [JsonProperty(PropertyName = "monitoringMode",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "monitoringMode",
+            EmitDefaultValue = false)]
         public MonitoringMode? MonitoringMode { get; set; }
 
         /// <summary>
         /// Queue size (Publisher extension)
         /// </summary>
-        [JsonProperty(PropertyName = "queueSize",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "queueSize",
+            EmitDefaultValue = false)]
         public uint? QueueSize { get; set; }
 
         /// <summary>
         /// Discard new values if queue is full (Publisher extension)
         /// </summary>
-        [JsonProperty(PropertyName = "discardNew",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "discardNew",
+            EmitDefaultValue = false)]
         public bool? DiscardNew { get; set; }
 
         /// <summary>
         /// Node in dataset writer that triggers reporting
         /// (Publisher extension)
         /// </summary>
-        [JsonProperty(PropertyName = "triggerId",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "triggerId",
+            EmitDefaultValue = false)]
         public string TriggerId { get; set; }
     }
 }

@@ -5,25 +5,24 @@
 
 namespace Microsoft.Azure.IIoT.OpcUa.Vault.Storage.Models {
     using Microsoft.Azure.IIoT.OpcUa.Vault.Models;
-    using Newtonsoft.Json;
-    using System;
+    using System.Runtime.Serialization;
 
     /// <summary>
     /// Trust relationship document
     /// </summary>
-    [Serializable]
+    [DataContract]
     public sealed class TrustDocument {
 
         /// <summary>
         /// The id of the relationship.
         /// </summary>
-        [JsonProperty(PropertyName = "id")]
+        [DataMember(Name = "id")]
         public string Id { get; set; }
 
         /// <summary>
         /// Etag
         /// </summary>
-        [JsonProperty(PropertyName = "_etag")]
+        [DataMember(Name = "_etag")]
         public string ETag { get; set; }
 
         /// <summary>

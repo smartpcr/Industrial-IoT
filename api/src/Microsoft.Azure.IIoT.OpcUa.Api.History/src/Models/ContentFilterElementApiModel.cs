@@ -4,26 +4,27 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Models {
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System.Collections.Generic;
 
     /// <summary>
     /// An expression element in the filter ast
     /// </summary>
+    [DataContract]
     public class ContentFilterElementApiModel {
 
         /// <summary>
         /// The operator to use on the operands
         /// </summary>
-        [JsonProperty(PropertyName = "filterOperator",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "filterOperator",
+            EmitDefaultValue = false)]
         public FilterOperatorType FilterOperator { get; set; }
 
         /// <summary>
         /// The operands in the element for the operator
         /// </summary>
-        [JsonProperty(PropertyName = "filterOperands",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "filterOperands",
+            EmitDefaultValue = false)]
         public List<FilterOperandApiModel> FilterOperands { get; set; }
     }
 }

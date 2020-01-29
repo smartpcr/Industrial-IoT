@@ -4,34 +4,35 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.Api.Jobs.Models {
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using Newtonsoft.Json.Linq;
     using System;
 
     /// <summary>
     /// processing status
     /// </summary>
+    [DataContract]
     public class ProcessingStatusApiModel {
 
         /// <summary>
         /// Last known heartbeat
         /// </summary>
-        [JsonProperty(PropertyName = "lastKnownHeartbeat",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "lastKnownHeartbeat",
+            EmitDefaultValue = false)]
         public DateTime? LastKnownHeartbeat { get; set; }
 
         /// <summary>
         /// Last known state
         /// </summary>
-        [JsonProperty(PropertyName = "lastKnownState",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "lastKnownState",
+            EmitDefaultValue = false)]
         public JToken LastKnownState { get; set; }
 
         /// <summary>
         /// Processing mode
         /// </summary>
-        [JsonProperty(PropertyName = "processMode",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "processMode",
+            EmitDefaultValue = false)]
         public ProcessMode? ProcessMode { get; set; }
     }
 }

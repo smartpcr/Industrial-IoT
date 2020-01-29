@@ -4,32 +4,31 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Edge.Publisher.Models {
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
 
     /// <summary>
     /// Request to get all published nodes on an endpoint
     /// </summary>
+    [DataContract]
     public class GetNodesRequestModel {
 
         /// <summary>
         /// Endpoint url
         /// </summary>
-        [JsonProperty(PropertyName = "EndpointUrl",
-            NullValueHandling = NullValueHandling.Include)]
+        [DataMember(Name = "EndpointUrl")]
         public string EndpointUrl { get; set; }
 
         /// <summary>
         /// Endpoint identifier on the publisher (optional)
         /// </summary>
-        [JsonProperty(PropertyName = "EndpointId",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "EndpointId",
+            EmitDefaultValue = false)]
         public string EndpointId { get; set; }
 
         /// <summary>
         /// Continuation token
         /// </summary>
-        [JsonProperty(PropertyName = "ContinuationToken",
-            NullValueHandling = NullValueHandling.Include)]
+        [DataMember(Name = "ContinuationToken")]
         public ulong? ContinuationToken { get; set; }
     }
 }

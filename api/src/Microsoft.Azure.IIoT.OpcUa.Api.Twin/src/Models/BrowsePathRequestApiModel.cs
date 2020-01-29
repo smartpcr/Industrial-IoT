@@ -4,7 +4,7 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Models {
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
@@ -12,14 +12,15 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Models {
     /// <summary>
     /// Browse nodes by path
     /// </summary>
+    [DataContract]
     public class BrowsePathRequestApiModel {
 
         /// <summary>
         /// Node to browse from.
         /// (defaults to root folder).
         /// </summary>
-        [JsonProperty(PropertyName = "nodeId",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "nodeId",
+            EmitDefaultValue = false)]
         [DefaultValue(null)]
         public string NodeId { get; set; }
 
@@ -27,7 +28,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Models {
         /// The paths to browse from node.
         /// (mandatory)
         /// </summary>
-        [JsonProperty(PropertyName = "browsePaths")]
+        [DataMember(Name = "browsePaths")]
         [Required]
         public List<string[]> BrowsePaths { get; set; }
 
@@ -35,16 +36,16 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Models {
         /// Whether to read variable values on target nodes.
         /// (default is false)
         /// </summary>
-        [JsonProperty(PropertyName = "readVariableValues",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "readVariableValues",
+            EmitDefaultValue = false)]
         [DefaultValue(false)]
         public bool? ReadVariableValues { get; set; }
 
         /// <summary>
         /// Optional request header
         /// </summary>
-        [JsonProperty(PropertyName = "header",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "header",
+            EmitDefaultValue = false)]
         [DefaultValue(null)]
         public RequestHeaderApiModel Header { get; set; }
     }

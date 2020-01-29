@@ -5,7 +5,7 @@
 
 namespace Microsoft.Azure.IIoT.OpcUa.Publisher.Clients.v2.Models {
     using Microsoft.Azure.IIoT.OpcUa.Core.Models;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -13,6 +13,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Publisher.Clients.v2.Models {
     /// <summary>
     /// Structure field
     /// </summary>
+    [DataContract]
     public class StructureFieldApiModel {
 
         /// <summary>
@@ -56,48 +57,48 @@ namespace Microsoft.Azure.IIoT.OpcUa.Publisher.Clients.v2.Models {
         /// <summary>
         /// Structure name
         /// </summary>
-        [JsonProperty(PropertyName = "name")]
+        [DataMember(Name = "name")]
         public string Name { get; set; }
 
         /// <summary>
         /// Description
         /// </summary>
-        [JsonProperty(PropertyName = "description",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "description",
+            EmitDefaultValue = false)]
         public LocalizedTextApiModel Description { get; set; }
 
         /// <summary>
         /// Data type  of the structure field
         /// </summary>
-        [JsonProperty(PropertyName = "dataTypeId")]
+        [DataMember(Name = "dataTypeId")]
         public string DataTypeId { get; set; }
 
         /// <summary>
         /// Value rank of the type
         /// </summary>
-        [JsonProperty(PropertyName = "valueRank",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "valueRank",
+            EmitDefaultValue = false)]
         public int? ValueRank { get; set; }
 
         /// <summary>
         /// Array dimensions
         /// </summary>
-        [JsonProperty(PropertyName = "arrayDimensions",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "arrayDimensions",
+            EmitDefaultValue = false)]
         public List<uint> ArrayDimensions { get; set; }
 
         /// <summary>
         /// Max length of a byte or character string
         /// </summary>
-        [JsonProperty(PropertyName = "maxStringLength",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "maxStringLength",
+            EmitDefaultValue = false)]
         public uint? MaxStringLength { get; set; }
 
         /// <summary>
         /// If the field is optional
         /// </summary>
-        [JsonProperty(PropertyName = "isOptional",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "isOptional",
+            EmitDefaultValue = false)]
         public bool? IsOptional { get; set; }
     }
 }

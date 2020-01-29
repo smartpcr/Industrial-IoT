@@ -5,13 +5,14 @@
 
 namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Models {
     using Microsoft.Azure.IIoT.OpcUa.Twin.Models;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using Newtonsoft.Json.Linq;
     using System;
 
     /// <summary>
     /// Value read response model for module
     /// </summary>
+    [DataContract]
     public class ValueReadResponseApiModel {
 
         /// <summary>
@@ -40,50 +41,50 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Models {
         /// <summary>
         /// Value read
         /// </summary>
-        [JsonProperty(PropertyName = "Value",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "Value",
+            EmitDefaultValue = false)]
         public JToken Value { get; set; }
 
         /// <summary>
         /// Built in data type of the value read.
         /// </summary>
-        [JsonProperty(PropertyName = "DataType",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "DataType",
+            EmitDefaultValue = false)]
         public string DataType { get; set; }
 
         /// <summary>
         /// Pico seconds part of when value was read at source.
         /// </summary>
-        [JsonProperty(PropertyName = "SourcePicoseconds",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "SourcePicoseconds",
+            EmitDefaultValue = false)]
         public ushort? SourcePicoseconds { get; set; }
 
         /// <summary>
         /// Timestamp of when value was read at source.
         /// </summary>
-        [JsonProperty(PropertyName = "SourceTimestamp",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "SourceTimestamp",
+            EmitDefaultValue = false)]
         public DateTime? SourceTimestamp { get; set; }
 
         /// <summary>
         /// Pico seconds part of when value was read at server.
         /// </summary>
-        [JsonProperty(PropertyName = "ServerPicoseconds",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "ServerPicoseconds",
+            EmitDefaultValue = false)]
         public ushort? ServerPicoseconds { get; set; }
 
         /// <summary>
         /// Timestamp of when value was read at server.
         /// </summary>
-        [JsonProperty(PropertyName = "ServerTimestamp",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "ServerTimestamp",
+            EmitDefaultValue = false)]
         public DateTime? ServerTimestamp { get; set; }
 
         /// <summary>
         /// Service result in case of error
         /// </summary>
-        [JsonProperty(PropertyName = "ErrorInfo",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "ErrorInfo",
+            EmitDefaultValue = false)]
         public ServiceResultApiModel ErrorInfo { get; set; }
     }
 }

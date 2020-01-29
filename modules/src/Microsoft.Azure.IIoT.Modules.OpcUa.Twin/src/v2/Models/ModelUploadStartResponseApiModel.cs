@@ -5,12 +5,13 @@
 
 namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Models {
     using Microsoft.Azure.IIoT.OpcUa.Twin.Models;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System;
 
     /// <summary>
     /// Model upload start response
     /// </summary>
+    [DataContract]
     public class ModelUploadStartResponseApiModel {
 
         /// <summary>
@@ -45,22 +46,22 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Models {
         /// <summary>
         /// Blob File name
         /// </summary>
-        [JsonProperty(PropertyName = "BlobName",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "BlobName",
+            EmitDefaultValue = false)]
         public string BlobName { get; set; }
 
         /// <summary>
         /// Content encoding
         /// </summary>
-        [JsonProperty(PropertyName = "ContentEncoding",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "ContentEncoding",
+            EmitDefaultValue = false)]
         public string ContentEncoding { get; set; }
 
         /// <summary>
         /// Timestamp
         /// </summary>
-        [JsonProperty(PropertyName = "TimeStamp",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "TimeStamp",
+            EmitDefaultValue = false)]
         public DateTime? TimeStamp { get; set; }
     }
 }

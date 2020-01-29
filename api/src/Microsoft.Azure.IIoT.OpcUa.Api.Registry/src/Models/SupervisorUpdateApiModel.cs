@@ -4,27 +4,28 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Models {
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System.ComponentModel;
 
     /// <summary>
     /// Supervisor update request
     /// </summary>
+    [DataContract]
     public class SupervisorUpdateApiModel {
 
         /// <summary>
         /// Site the supervisor is part of
         /// </summary>
-        [JsonProperty(PropertyName = "siteId",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "siteId",
+            EmitDefaultValue = false)]
         [DefaultValue(null)]
         public string SiteId { get; set; }
 
         /// <summary>
         /// Current log level
         /// </summary>
-        [JsonProperty(PropertyName = "logLevel",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "logLevel",
+            EmitDefaultValue = false)]
         [DefaultValue(null)]
         public TraceLogLevel? LogLevel { get; set; }
     }

@@ -4,25 +4,26 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.Api.Jobs.Models {
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
 
     /// <summary>
     /// Processing instructions
     /// </summary>
+    [DataContract]
     public class JobProcessingInstructionApiModel {
 
         /// <summary>
         /// Processing mode
         /// </summary>
-        [JsonProperty(PropertyName = "processMode",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "processMode",
+            EmitDefaultValue = false)]
         public ProcessMode? ProcessMode { get; set; }
 
         /// <summary>
         /// Job to process
         /// </summary>
-        [JsonProperty(PropertyName = "job",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "job",
+            EmitDefaultValue = false)]
         public JobInfoApiModel Job { get; set; }
     }
 }

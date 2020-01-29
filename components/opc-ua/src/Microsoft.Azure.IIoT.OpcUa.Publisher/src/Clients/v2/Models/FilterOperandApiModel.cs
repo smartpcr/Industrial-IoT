@@ -5,13 +5,14 @@
 
 namespace Microsoft.Azure.IIoT.OpcUa.Publisher.Clients.v2.Models {
     using Microsoft.Azure.IIoT.OpcUa.Core.Models;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using Newtonsoft.Json.Linq;
     using System;
 
     /// <summary>
     /// Filter operand
     /// </summary>
+    [DataContract]
     public class FilterOperandApiModel {
 
         /// <summary>
@@ -57,52 +58,52 @@ namespace Microsoft.Azure.IIoT.OpcUa.Publisher.Clients.v2.Models {
         /// Element reference in the outer list if
         /// operand is an element operand
         /// </summary>
-        [JsonProperty(PropertyName = "index",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "index",
+            EmitDefaultValue = false)]
         public uint? Index { get; set; }
 
         /// <summary>
         /// Variant value if operand is a literal
         /// </summary>
-        [JsonProperty(PropertyName = "value",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "value",
+            EmitDefaultValue = false)]
         public JToken Value { get; set; }
 
         /// <summary>
         /// Type definition node id if operand is
         /// simple or full attribute operand.
         /// </summary>
-        [JsonProperty(PropertyName = "nodeId",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "nodeId",
+            EmitDefaultValue = false)]
         public string NodeId { get; set; }
 
         /// <summary>
         /// Browse path of attribute operand
         /// </summary>
-        [JsonProperty(PropertyName = "browsePath",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "browsePath",
+            EmitDefaultValue = false)]
         public string[] BrowsePath { get; set; }
 
         /// <summary>
         /// Attribute id
         /// </summary>
-        [JsonProperty(PropertyName = "attributeId",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "attributeId",
+            EmitDefaultValue = false)]
         public NodeAttribute? AttributeId { get; set; }
 
         /// <summary>
         /// Index range of attribute operand
         /// </summary>
-        [JsonProperty(PropertyName = "indexRange",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "indexRange",
+            EmitDefaultValue = false)]
         public string IndexRange { get; set; }
 
         /// <summary>
         /// Optional alias to refer to it makeing it a
         /// full blown attribute operand
         /// </summary>
-        [JsonProperty(PropertyName = "alias",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "alias",
+            EmitDefaultValue = false)]
         public string Alias { get; set; }
     }
 }

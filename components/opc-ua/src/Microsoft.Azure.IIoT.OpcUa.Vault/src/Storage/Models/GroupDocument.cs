@@ -5,25 +5,25 @@
 
 namespace Microsoft.Azure.IIoT.OpcUa.Vault.Storage.Models {
     using Microsoft.Azure.IIoT.OpcUa.Vault.Models;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System;
 
     /// <summary>
     /// Group document
     /// </summary>
-    [Serializable]
+    [DataContract]
     public sealed class GroupDocument {
 
         /// <summary>
         /// The id of the group.
         /// </summary>
-        [JsonProperty(PropertyName = "id")]
+        [DataMember(Name = "id")]
         public string GroupId { get; set; }
 
         /// <summary>
         /// Etag
         /// </summary>
-        [JsonProperty(PropertyName = "_etag")]
+        [DataMember(Name = "_etag")]
         public string ETag { get; set; }
 
         /// <summary>

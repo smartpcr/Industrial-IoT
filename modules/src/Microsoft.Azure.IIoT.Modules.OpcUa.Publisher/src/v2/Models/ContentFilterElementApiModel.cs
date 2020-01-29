@@ -5,7 +5,7 @@
 
 namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.v2.Models {
     using Microsoft.Azure.IIoT.OpcUa.Core.Models;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -13,6 +13,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.v2.Models {
     /// <summary>
     /// An expression element in the filter ast
     /// </summary>
+    [DataContract]
     public class ContentFilterElementApiModel {
 
         /// <summary>
@@ -49,15 +50,15 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.v2.Models {
         /// <summary>
         /// The operator to use on the operands
         /// </summary>
-        [JsonProperty(PropertyName = "filterOperator",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "filterOperator",
+            EmitDefaultValue = false)]
         public FilterOperatorType FilterOperator { get; set; }
 
         /// <summary>
         /// The operands in the element for the operator
         /// </summary>
-        [JsonProperty(PropertyName = "filterOperands",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "filterOperands",
+            EmitDefaultValue = false)]
         public List<FilterOperandApiModel> FilterOperands { get; set; }
     }
 }

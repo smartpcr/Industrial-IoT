@@ -4,38 +4,39 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Models {
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
 
     /// <summary>
     /// Publisher event
     /// </summary>
+    [DataContract]
     public class PublisherEventApiModel {
 
         /// <summary>
         /// Event type
         /// </summary>
-        [JsonProperty(PropertyName = "eventType")]
+        [DataMember(Name = "eventType")]
         public PublisherEventType EventType { get; set; }
 
         /// <summary>
         /// Publisher id
         /// </summary>
-        [JsonProperty(PropertyName = "id",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "id",
+            EmitDefaultValue = false)]
         public string Id { get; set; }
 
         /// <summary>
         /// Publisher
         /// </summary>
-        [JsonProperty(PropertyName = "publisher",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "publisher",
+            EmitDefaultValue = false)]
         public PublisherApiModel Publisher { get; set; }
 
         /// <summary>
         /// The information is provided as a patch
         /// </summary>
-        [JsonProperty(PropertyName = "isPatch",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "isPatch",
+            EmitDefaultValue = false)]
         public bool? IsPatch { get; set; }
     }
 }

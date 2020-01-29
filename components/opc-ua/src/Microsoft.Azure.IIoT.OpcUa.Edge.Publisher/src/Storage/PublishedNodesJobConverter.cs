@@ -8,8 +8,8 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Publisher.Models {
     using Microsoft.Azure.IIoT.OpcUa.Publisher;
     using Microsoft.Azure.IIoT.OpcUa.Core.Models;
     using Microsoft.Azure.IIoT.Module;
+    using System.Runtime.Serialization;
     using Newtonsoft.Json;
-    using Newtonsoft.Json.Converters;
     using Newtonsoft.Json.Linq;
     using System;
     using System.Collections.Generic;
@@ -164,7 +164,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Publisher.Models {
         /// <param name="opcNodes"></param>
         /// <param name="legacyCliModel">The legacy command line arguments</param>
         /// <returns></returns>
-        private static TimeSpan? GetPublishingIntervalFromNodes(IEnumerable<OpcNodeModel> opcNodes, 
+        private static TimeSpan? GetPublishingIntervalFromNodes(IEnumerable<OpcNodeModel> opcNodes,
             LegacyCliModel legacyCliModel) {
             var interval = opcNodes
                 .FirstOrDefault(x => x.OpcPublishingInterval != null)?.OpcPublishingIntervalTimespan;
@@ -204,122 +204,125 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Publisher.Models {
         /// <summary>
         /// Describing an entry in the node list
         /// </summary>
+        [DataContract]
         public class OpcNodeModel {
 
             /// <summary> Node Identifier </summary>
-            [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+            [DataMember(EmitDefaultValue = false)]
             public string Id { get; set; }
 
             /// <summary> Also </summary>
-            [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+            [DataMember(EmitDefaultValue = false)]
             public string ExpandedNodeId { get; set; }
 
             /// <summary> Sampling interval </summary>
-            [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+            [DataMember(EmitDefaultValue = false)]
             public int? OpcSamplingInterval { get; set; }
 
             /// <summary>
             /// OpcSamplingInterval as TimeSpan.
             /// </summary>
-            [JsonIgnore]
+            [IgnoreDataMember]
             public TimeSpan? OpcSamplingIntervalTimespan {
-                get => OpcSamplingInterval.HasValue ? 
+                get => OpcSamplingInterval.HasValue ?
                     TimeSpan.FromMilliseconds(OpcSamplingInterval.Value) : (TimeSpan?)null;
-                set => OpcSamplingInterval = value != null ? 
+                set => OpcSamplingInterval = value != null ?
                     (int)value.Value.TotalMilliseconds : (int?)null;
             }
 
             /// <summary> Publishing interval </summary>
-            [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+            [DataMember(EmitDefaultValue = false)]
             public int? OpcPublishingInterval { get; set; }
 
             /// <summary>
             /// OpcPublishingInterval as TimeSpan.
             /// </summary>
-            [JsonIgnore]
+            [IgnoreDataMember]
             public TimeSpan? OpcPublishingIntervalTimespan {
-                get => OpcPublishingInterval.HasValue ? 
+                get => OpcPublishingInterval.HasValue ?
                     TimeSpan.FromMilliseconds(OpcPublishingInterval.Value) : (TimeSpan?)null;
-                set => OpcPublishingInterval = value != null ? 
+                set => OpcPublishingInterval = value != null ?
                     (int)value.Value.TotalMilliseconds : (int?)null;
             }
 
             /// <summary> Display name </summary>
-            [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+            [DataMember(EmitDefaultValue = false)]
             public string DisplayName { get; set; }
 
             /// <summary> Heartbeat </summary>
-            [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+            [DataMember(EmitDefaultValue = false)]
             public int? HeartbeatInterval { get; set; }
 
             /// <summary>
             /// Heartbeat interval as TimeSpan.
             /// </summary>
-            [JsonIgnore]
+            [IgnoreDataMember]
             public TimeSpan? HeartbeatIntervalTimespan {
                 get => HeartbeatInterval.HasValue ?
                     TimeSpan.FromSeconds(HeartbeatInterval.Value) : (TimeSpan?)null;
-                set => HeartbeatInterval = value != null ? 
+                set => HeartbeatInterval = value != null ?
                     (int)value.Value.TotalSeconds : (int?)null;
             }
 
             /// <summary> Skip first value </summary>
-            [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+            [DataMember(EmitDefaultValue = false)]
             public bool? SkipFirst { get; set; }
         }
 
         /// <summary>
         /// Node id serialized as object
         /// </summary>
+        [DataContract]
         public class NodeIdModel {
             /// <summary> Identifier </summary>
-            [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+            [DataMember(EmitDefaultValue = false)]
             public string Identifier { get; set; }
         }
 
         /// <summary>
         /// Contains the nodes which should be
         /// </summary>
+        [DataContract]
         public class PublishedNodesEntryModel {
 
             /// <summary> The endpoint URL of the OPC UA server. </summary>
             public Uri EndpointUrl { get; set; }
 
             /// <summary> Secure transport should be used to </summary>
-            [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+            [DataMember(EmitDefaultValue = false)]
             public bool? UseSecurity { get; set; }
 
             /// <summary> The node to monitor in "ns=" syntax. </summary>
-            [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+            [DataMember(EmitDefaultValue = false)]
             public NodeIdModel NodeId { get; set; }
 
             /// <summary> authentication mode </summary>
-            [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+            [DataMember(EmitDefaultValue = false)]
             public OpcAuthenticationMode OpcAuthenticationMode { get; set; }
 
             /// <summary> encrypted username </summary>
-            [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+            [DataMember(EmitDefaultValue = false)]
             public string EncryptedAuthUsername { get; set; }
 
             /// <summary> encrypted password </summary>
             public string EncryptedAuthPassword { get; set; }
 
             /// <summary> unencrypted username </summary>
-            [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+            [DataMember(EmitDefaultValue = false)]
             public string Username { get; set; }
 
             /// <summary> unencrypted password </summary>
             public string Password { get; set; }
 
             /// <summary> Nodes defined in the collection. </summary>
-            [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+            [DataMember(EmitDefaultValue = false)]
             public List<OpcNodeModel> OpcNodes { get; set; }
         }
 
         /// <summary>
         /// Enum that defines the authentication method
         /// </summary>
-        [JsonConverter(typeof(StringEnumConverter))]
+        [DataContract]
         public enum OpcAuthenticationMode {
             /// <summary> Anonymous authentication </summary>
             Anonymous,

@@ -5,12 +5,13 @@
 
 namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.v2.Models {
     using Microsoft.Azure.IIoT.OpcUa.Core.Models;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System;
 
     /// <summary>
     /// Describes the enumeration
     /// </summary>
+    [DataContract]
     public class EnumDescriptionApiModel {
         /// <summary>
         /// Default constructor
@@ -47,27 +48,27 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.v2.Models {
         /// <summary>
         /// Data type id
         /// </summary>
-        [JsonProperty(PropertyName = "dataTypeId")]
+        [DataMember(Name = "dataTypeId")]
         public string DataTypeId { get; set; }
 
         /// <summary>
         /// The qualified name of the enum
         /// </summary>
-        [JsonProperty(PropertyName = "name",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "name",
+            EmitDefaultValue = false)]
         public string Name { get; set; }
 
         /// <summary>
         /// Enum definition
         /// </summary>
-        [JsonProperty(PropertyName = "enumDefinition")]
+        [DataMember(Name = "enumDefinition")]
         public EnumDefinitionApiModel EnumDefinition { get; set; }
 
         /// <summary>
         /// The built in type of the enum
         /// </summary>
-        [JsonProperty(PropertyName = "builtInType",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "builtInType",
+            EmitDefaultValue = false)]
         public string BuiltInType { get; set; }
     }
 }

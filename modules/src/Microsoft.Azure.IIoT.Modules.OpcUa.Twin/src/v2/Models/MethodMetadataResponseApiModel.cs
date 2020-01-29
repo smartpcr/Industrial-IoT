@@ -5,7 +5,7 @@
 
 namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Models {
     using Microsoft.Azure.IIoT.OpcUa.Twin.Models;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -13,6 +13,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Models {
     /// <summary>
     /// Method metadata query model for module
     /// </summary>
+    [DataContract]
     public class MethodMetadataResponseApiModel {
 
         /// <summary>
@@ -42,29 +43,29 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Models {
         /// <summary>
         /// Id of object that the method is a component of
         /// </summary>
-        [JsonProperty(PropertyName = "ObjectId",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "ObjectId",
+            EmitDefaultValue = false)]
         public string ObjectId { get; set; }
 
         /// <summary>
         /// Input argument meta data
         /// </summary>
-        [JsonProperty(PropertyName = "InputArguments",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "InputArguments",
+            EmitDefaultValue = false)]
         public List<MethodMetadataArgumentApiModel> InputArguments { get; set; }
 
         /// <summary>
         /// output argument meta data
         /// </summary>
-        [JsonProperty(PropertyName = "OutputArguments",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "OutputArguments",
+            EmitDefaultValue = false)]
         public List<MethodMetadataArgumentApiModel> OutputArguments { get; set; }
 
         /// <summary>
         /// Service result in case of error
         /// </summary>
-        [JsonProperty(PropertyName = "ErrorInfo",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "ErrorInfo",
+            EmitDefaultValue = false)]
         public ServiceResultApiModel ErrorInfo { get; set; }
     }
 }

@@ -4,35 +4,36 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Models {
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System.ComponentModel;
 
     /// <summary>
     /// Publisher registration update request
     /// </summary>
+    [DataContract]
     public class PublisherUpdateApiModel {
 
         /// <summary>
         /// Site of the publisher
         /// </summary>
-        [JsonProperty(PropertyName = "siteId",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "siteId",
+            EmitDefaultValue = false)]
         [DefaultValue(null)]
         public string SiteId { get; set; }
 
         /// <summary>
         /// Publisher discovery configuration
         /// </summary>
-        [JsonProperty(PropertyName = "configuration",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "configuration",
+            EmitDefaultValue = false)]
         [DefaultValue(null)]
         public PublisherConfigApiModel Configuration { get; set; }
 
         /// <summary>
         /// Current log level
         /// </summary>
-        [JsonProperty(PropertyName = "logLevel",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "logLevel",
+            EmitDefaultValue = false)]
         [DefaultValue(null)]
         public TraceLogLevel? LogLevel { get; set; }
     }

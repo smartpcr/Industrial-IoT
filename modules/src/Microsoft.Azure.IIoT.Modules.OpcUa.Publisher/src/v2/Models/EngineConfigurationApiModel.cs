@@ -5,12 +5,13 @@
 
 namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.v2.Models {
     using Microsoft.Azure.IIoT.OpcUa.Publisher.Models;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System;
 
     /// <summary>
     /// Publisher processing engine configuration
     /// </summary>
+    [DataContract]
     public class EngineConfigurationApiModel {
 
         /// <summary>
@@ -43,15 +44,15 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.v2.Models {
         /// <summary>
         /// Buffer size
         /// </summary>
-        [JsonProperty(PropertyName = "batchSize",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "batchSize",
+            EmitDefaultValue = false)]
         public int? BatchSize { get; set; }
 
         /// <summary>
         /// Interval for diagnostic messages
         /// </summary>
-        [JsonProperty(PropertyName = "diagnosticsInterval",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "diagnosticsInterval",
+            EmitDefaultValue = false)]
         public TimeSpan? DiagnosticsInterval { get; set; }
     }
 }

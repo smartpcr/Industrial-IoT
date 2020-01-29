@@ -4,26 +4,27 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Models {
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System.ComponentModel.DataAnnotations;
 
     /// <summary>
     /// Role permission model
     /// </summary>
+    [DataContract]
     public class RolePermissionApiModel {
 
         /// <summary>
         /// Identifier of the role object.
         /// </summary>
-        [JsonProperty(PropertyName = "roleId")]
+        [DataMember(Name = "roleId")]
         [Required]
         public string RoleId { get; set; }
 
         /// <summary>
         /// Permissions assigned for the role.
         /// </summary>
-        [JsonProperty(PropertyName = "permissions",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "permissions",
+            EmitDefaultValue = false)]
         public RolePermissions? Permissions { get; set; }
     }
 }

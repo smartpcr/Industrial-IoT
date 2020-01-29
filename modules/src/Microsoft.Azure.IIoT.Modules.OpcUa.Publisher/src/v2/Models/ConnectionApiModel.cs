@@ -5,12 +5,13 @@
 
 namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.v2.Models {
     using Microsoft.Azure.IIoT.OpcUa.Core.Models;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System;
 
     /// <summary>
     /// Connection model
     /// </summary>
+    [DataContract]
     public class ConnectionApiModel {
 
         /// <summary>
@@ -48,21 +49,21 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.v2.Models {
         /// <summary>
         /// Endpoint information
         /// </summary>
-        [JsonProperty(PropertyName = "endpoint")]
+        [DataMember(Name = "endpoint")]
         public EndpointApiModel Endpoint { get; set; }
 
         /// <summary>
         /// Elevation
         /// </summary>
-        [JsonProperty(PropertyName = "user",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "user",
+            EmitDefaultValue = false)]
         public CredentialApiModel User { get; set; }
 
         /// <summary>
         /// Diagnostics configuration
         /// </summary>
-        [JsonProperty(PropertyName = "diagnostics",
-             NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "diagnostics",
+             EmitDefaultValue = false)]
         public DiagnosticsApiModel Diagnostics { get; set; }
     }
 }

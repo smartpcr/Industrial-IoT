@@ -4,52 +4,53 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Models {
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using Newtonsoft.Json.Linq;
 
     /// <summary>
     /// Method argument metadata model
     /// </summary>
+    [DataContract]
     public class MethodMetadataArgumentApiModel {
 
         /// <summary>
         /// Argument name
         /// </summary>
-        [JsonProperty(PropertyName = "name")]
+        [DataMember(Name = "name")]
         public string Name { get; set; }
 
         /// <summary>
         /// Optional description
         /// </summary>
-        [JsonProperty(PropertyName = "description",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "description",
+            EmitDefaultValue = false)]
         public string Description { get; set; }
 
         /// <summary>
         /// Data type node of the argument
         /// </summary>
-        [JsonProperty(PropertyName = "type")]
+        [DataMember(Name = "type")]
         public NodeApiModel Type { get; set; }
 
         /// <summary>
         /// Default value
         /// </summary>
-        [JsonProperty(PropertyName = "defaultValue",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "defaultValue",
+            EmitDefaultValue = false)]
         public JToken DefaultValue { get; set; }
 
         /// <summary>
         /// Optional, scalar if not set
         /// </summary>
-        [JsonProperty(PropertyName = "valueRank",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "valueRank",
+            EmitDefaultValue = false)]
         public NodeValueRank? ValueRank { get; set; }
 
         /// <summary>
         /// Optional, array dimension
         /// </summary>
-        [JsonProperty(PropertyName = "arrayDimensions",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "arrayDimensions",
+            EmitDefaultValue = false)]
         public uint[] ArrayDimensions { get; set; }
     }
 }

@@ -5,12 +5,13 @@
 
 namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.v2.Models {
     using Microsoft.Azure.IIoT.OpcUa.Publisher.Models;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System;
 
     /// <summary>
     /// Pub/sub job description
     /// </summary>
+    [DataContract]
     public class DataSetWriterApiModel {
 
         /// <summary>
@@ -55,49 +56,49 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.v2.Models {
         /// <summary>
         /// Dataset writer id
         /// </summary>
-        [JsonProperty(PropertyName = "DataSetWriterId")]
+        [DataMember(Name = "DataSetWriterId")]
         public string DataSetWriterId { get; set; }
 
         /// <summary>
         /// Published dataset inline definition
         /// </summary>
-        [JsonProperty(PropertyName = "dataSet",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "dataSet",
+            EmitDefaultValue = false)]
         public PublishedDataSetApiModel DataSet { get; set; }
 
         /// <summary>
         /// Dataset field content mask
         /// </summary>
-        [JsonProperty(PropertyName = "dataSetFieldContentMask",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "dataSetFieldContentMask",
+            EmitDefaultValue = false)]
         public DataSetFieldContentMask? DataSetFieldContentMask { get; set; }
 
         /// <summary>
         /// Data set message settings
         /// </summary>
-        [JsonProperty(PropertyName = "messageSettings",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "messageSettings",
+            EmitDefaultValue = false)]
         public DataSetWriterMessageSettingsApiModel MessageSettings { get; set; }
 
         /// <summary>
         /// Keyframe count
         /// </summary>
-        [JsonProperty(PropertyName = "keyFrameCount",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "keyFrameCount",
+            EmitDefaultValue = false)]
         public uint? KeyFrameCount { get; set; }
 
         /// <summary>
         /// Or keyframe timer interval (publisher extension)
         /// </summary>
-        [JsonProperty(PropertyName = "keyFrameInterval",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "keyFrameInterval",
+            EmitDefaultValue = false)]
         public TimeSpan? KeyFrameInterval { get; set; }
 
         /// <summary>
         /// Metadata message sending interval (publisher extension)
         /// </summary>
-        [JsonProperty(PropertyName = "dataSetMetaDataSendInterval",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "dataSetMetaDataSendInterval",
+            EmitDefaultValue = false)]
         public TimeSpan? DataSetMetaDataSendInterval { get; set; }
     }
 }

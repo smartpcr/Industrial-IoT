@@ -4,36 +4,37 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Models {
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using Newtonsoft.Json.Linq;
     using System.ComponentModel;
 
     /// <summary>
     /// Service result
     /// </summary>
+    [DataContract]
     public class ServiceResultApiModel {
 
         /// <summary>
         /// Error code - if null operation succeeded.
         /// </summary>
-        [JsonProperty(PropertyName = "statusCode",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "statusCode",
+            EmitDefaultValue = false)]
         [DefaultValue(null)]
         public uint? StatusCode { get; set; }
 
         /// <summary>
         /// Error message in case of error or null.
         /// </summary>
-        [JsonProperty(PropertyName = "errorMessage",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "errorMessage",
+            EmitDefaultValue = false)]
         [DefaultValue(null)]
         public string ErrorMessage { get; set; }
 
         /// <summary>
         /// Additional diagnostics information
         /// </summary>
-        [JsonProperty(PropertyName = "diagnostics",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "diagnostics",
+            EmitDefaultValue = false)]
         [DefaultValue(null)]
         public JToken Diagnostics { get; set; }
     }

@@ -5,12 +5,13 @@
 
 namespace Microsoft.Azure.IIoT.Modules.Discovery.v2.Models {
     using Microsoft.Azure.IIoT.OpcUa.Registry.Models;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System;
 
     /// <summary>
     /// Discovery cancel request
     /// </summary>
+    [DataContract]
     public class DiscoveryCancelApiModel {
 
         /// <summary>
@@ -45,15 +46,15 @@ namespace Microsoft.Azure.IIoT.Modules.Discovery.v2.Models {
         /// <summary>
         /// Id of discovery request
         /// </summary>
-        [JsonProperty(PropertyName = "id",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "id",
+            EmitDefaultValue = false)]
         public string Id { get; set; }
 
         /// <summary>
         /// Operation audit context
         /// </summary>
-        [JsonProperty(PropertyName = "context",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "context",
+            EmitDefaultValue = false)]
         public RegistryOperationContextApiModel Context { get; set; }
     }
 }

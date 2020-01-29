@@ -5,13 +5,14 @@
 
 namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Models {
     using Microsoft.Azure.IIoT.OpcUa.Core.Models;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using Newtonsoft.Json.Linq;
     using System;
 
     /// <summary>
     /// Service result
     /// </summary>
+    [DataContract]
     public class ServiceResultApiModel {
 
         /// <summary>
@@ -47,22 +48,22 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Models {
         /// <summary>
         /// Error code - if null operation succeeded.
         /// </summary>
-        [JsonProperty(PropertyName = "StatusCode",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "StatusCode",
+            EmitDefaultValue = false)]
         public uint? StatusCode { get; set; }
 
         /// <summary>
         /// Error message in case of error or null.
         /// </summary>
-        [JsonProperty(PropertyName = "ErrorMessage",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "ErrorMessage",
+            EmitDefaultValue = false)]
         public string ErrorMessage { get; set; }
 
         /// <summary>
         /// Additional diagnostics information
         /// </summary>
-        [JsonProperty(PropertyName = "Diagnostics",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "Diagnostics",
+            EmitDefaultValue = false)]
         public JToken Diagnostics { get; set; }
     }
 }

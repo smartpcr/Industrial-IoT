@@ -5,12 +5,13 @@
 
 namespace Microsoft.Azure.IIoT.Modules.Discovery.v2.Models {
     using Microsoft.Azure.IIoT.OpcUa.Registry.Models;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System;
 
     /// <summary>
     /// Discovery request
     /// </summary>
+    [DataContract]
     public class DiscoveryRequestApiModel {
 
         /// <summary>
@@ -50,29 +51,29 @@ namespace Microsoft.Azure.IIoT.Modules.Discovery.v2.Models {
         /// <summary>
         /// Id of discovery request
         /// </summary>
-        [JsonProperty(PropertyName = "Id",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "Id",
+            EmitDefaultValue = false)]
         public string Id { get; set; }
 
         /// <summary>
         /// Discovery mode to use
         /// </summary>
-        [JsonProperty(PropertyName = "Discovery",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "Discovery",
+            EmitDefaultValue = false)]
         public DiscoveryMode? Discovery { get; set; }
 
         /// <summary>
         /// Scan configuration to use
         /// </summary>
-        [JsonProperty(PropertyName = "Configuration",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "Configuration",
+            EmitDefaultValue = false)]
         public DiscoveryConfigApiModel Configuration { get; set; }
 
         /// <summary>
         /// Operation audit context
         /// </summary>
-        [JsonProperty(PropertyName = "context",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "context",
+            EmitDefaultValue = false)]
         public RegistryOperationContextApiModel Context { get; set; }
     }
 }

@@ -5,7 +5,7 @@
 
 namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Models {
     using Microsoft.Azure.IIoT.OpcUa.Twin.Models;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -13,6 +13,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Models {
     /// <summary>
     /// Result of attribute write
     /// </summary>
+    [DataContract]
     public class WriteResponseApiModel {
 
         /// <summary>
@@ -36,7 +37,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Models {
         /// <summary>
         /// All results of attribute writes
         /// </summary>
-        [JsonProperty(PropertyName = "Results")]
+        [DataMember(Name = "Results")]
         public List<AttributeWriteResponseApiModel> Results { set; get; }
     }
 }

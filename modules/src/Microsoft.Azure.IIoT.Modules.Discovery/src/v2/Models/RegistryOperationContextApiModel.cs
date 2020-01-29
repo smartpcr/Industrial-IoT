@@ -5,12 +5,13 @@
 
 namespace Microsoft.Azure.IIoT.Modules.Discovery.v2.Models {
     using Microsoft.Azure.IIoT.OpcUa.Registry.Models;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System;
 
     /// <summary>
     /// Registry operation log model
     /// </summary>
+    [DataContract]
     public class RegistryOperationContextApiModel {
 
         /// <summary>
@@ -44,15 +45,15 @@ namespace Microsoft.Azure.IIoT.Modules.Discovery.v2.Models {
         /// <summary>
         /// User
         /// </summary>
-        [JsonProperty(PropertyName = "AuthorityId",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "AuthorityId",
+            EmitDefaultValue = false)]
         public string AuthorityId { get; set; }
 
         /// <summary>
         /// Operation time
         /// </summary>
-        [JsonProperty(PropertyName = "Time",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "Time",
+            EmitDefaultValue = false)]
         public DateTime Time { get; set; }
     }
 }

@@ -5,12 +5,13 @@
 
 namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.v2.Models {
     using Microsoft.Azure.IIoT.OpcUa.Publisher.Models;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System;
 
     /// <summary>
     /// Data set source akin to a monitored item subscription.
     /// </summary>
+    [DataContract]
     public class PublishedDataSetSourceApiModel {
         /// <summary>
         /// Default constructor
@@ -51,28 +52,28 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.v2.Models {
         /// <summary>
         /// Either published data variables
         /// </summary>
-        [JsonProperty(PropertyName = "publishedVariables",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "publishedVariables",
+            EmitDefaultValue = false)]
         public PublishedDataItemsApiModel PublishedVariables { get; set; }
 
         /// <summary>
         /// Or published events data
         /// </summary>
-        [JsonProperty(PropertyName = "publishedEvents",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "publishedEvents",
+            EmitDefaultValue = false)]
         public PublishedDataSetEventsApiModel PublishedEvents { get; set; }
 
         /// <summary>
         /// Connection information (publisher extension)
         /// </summary>
-        [JsonProperty(PropertyName = "connection")]
+        [DataMember(Name = "connection")]
         public ConnectionApiModel Connection { get; set; }
 
         /// <summary>
         /// Subscription settings (publisher extension)
         /// </summary>
-        [JsonProperty(PropertyName = "subscriptionSettings",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "subscriptionSettings",
+            EmitDefaultValue = false)]
         public PublishedDataSetSettingsApiModel SubscriptionSettings { get; set; }
     }
 }

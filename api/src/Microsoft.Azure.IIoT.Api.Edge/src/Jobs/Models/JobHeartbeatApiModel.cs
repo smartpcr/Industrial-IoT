@@ -4,48 +4,49 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.Api.Jobs.Models {
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using Newtonsoft.Json.Linq;
     using System.ComponentModel.DataAnnotations;
 
     /// <summary>
     /// Job heartbeat
     /// </summary>
+    [DataContract]
     public class JobHeartbeatApiModel {
 
         /// <summary>
         /// Job id
         /// </summary>
-        [JsonProperty(PropertyName = "jobId")]
+        [DataMember(Name = "jobId")]
         [Required]
         public string JobId { get; set; }
 
         /// <summary>
         /// Hash
         /// </summary>
-        [JsonProperty(PropertyName = "jobHash",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "jobHash",
+            EmitDefaultValue = false)]
         public string JobHash { get; set; }
 
         /// <summary>
         /// Status
         /// </summary>
-        [JsonProperty(PropertyName = "status",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "status",
+            EmitDefaultValue = false)]
         public JobStatus Status { get; set; }
 
         /// <summary>
         /// Process mode
         /// </summary>
-        [JsonProperty(PropertyName = "processMode",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "processMode",
+            EmitDefaultValue = false)]
         public ProcessMode ProcessMode { get; set; }
 
         /// <summary>
         /// Job state
         /// </summary>
-        [JsonProperty(PropertyName = "state",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "state",
+            EmitDefaultValue = false)]
         public JToken State { get; set; }
     }
 }

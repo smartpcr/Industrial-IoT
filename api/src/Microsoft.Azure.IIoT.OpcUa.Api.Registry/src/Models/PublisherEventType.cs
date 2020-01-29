@@ -4,28 +4,30 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Models {
-    using Newtonsoft.Json;
-    using Newtonsoft.Json.Converters;
+    using System.Runtime.Serialization;
 
     /// <summary>
     /// Publisher event type
     /// </summary>
-    [JsonConverter(typeof(StringEnumConverter))]
+    [DataContract]
     public enum PublisherEventType {
 
         /// <summary>
         /// New
         /// </summary>
+        [EnumMember]
         New,
 
         /// <summary>
         /// Updated
         /// </summary>
+        [EnumMember]
         Updated,
 
         /// <summary>
         /// Deleted
         /// </summary>
+        [EnumMember]
         Deleted,
     }
 }

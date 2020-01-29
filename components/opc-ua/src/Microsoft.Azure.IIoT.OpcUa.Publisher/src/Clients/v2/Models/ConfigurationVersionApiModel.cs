@@ -6,12 +6,13 @@
 
 namespace Microsoft.Azure.IIoT.OpcUa.Publisher.Clients.v2.Models {
     using Microsoft.Azure.IIoT.OpcUa.Publisher.Models;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System;
 
     /// <summary>
     /// Configuration version
     /// </summary>
+    [DataContract]
     public class ConfigurationVersionApiModel {
 
         /// <summary>
@@ -44,13 +45,13 @@ namespace Microsoft.Azure.IIoT.OpcUa.Publisher.Clients.v2.Models {
         /// <summary>
         /// Major version
         /// </summary>
-        [JsonProperty(PropertyName = "majorVersion")]
+        [DataMember(Name = "majorVersion")]
         public uint MajorVersion { get; set; }
 
         /// <summary>
         /// Minor version
         /// </summary>
-        [JsonProperty(PropertyName = "minorVersion")]
+        [DataMember(Name = "minorVersion")]
         public uint MinorVersion { get; set; }
     }
 }

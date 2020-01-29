@@ -4,32 +4,34 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Models {
-    using Newtonsoft.Json;
-    using Newtonsoft.Json.Converters;
+    using System.Runtime.Serialization;
     using System;
 
     /// <summary>
     /// Flags that can be set for the EventNotifier attribute.
     /// </summary>
     [Flags]
-    [JsonConverter(typeof(StringEnumConverter))]
+    [DataContract]
     public enum NodeEventNotifier {
 
         /// <summary>
         /// The Object or View produces event notifications.
         /// </summary>
+        [EnumMember]
         SubscribeToEvents = 0x1,
 
         /// <summary>
         /// The Object has an event history which may
         /// be read.
         /// </summary>
+        [EnumMember]
         HistoryRead = 0x4,
 
         /// <summary>
         /// The Object has an event history which may
         /// be updated.
         /// </summary>
+        [EnumMember]
         HistoryWrite = 0x8,
     }
 }

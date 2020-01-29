@@ -5,12 +5,13 @@
 
 namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Models {
     using Microsoft.Azure.IIoT.OpcUa.Twin.Models;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System;
 
     /// <summary>
     /// Node path target
     /// </summary>
+    [DataContract]
     public class NodePathTargetApiModel {
 
         /// <summary>
@@ -35,20 +36,20 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Models {
         /// <summary>
         /// The target browse path
         /// </summary>
-        [JsonProperty(PropertyName = "BrowsePath")]
+        [DataMember(Name = "BrowsePath")]
         public string[] BrowsePath { get; set; }
 
         /// <summary>
         /// Target node
         /// </summary>
-        [JsonProperty(PropertyName = "Target")]
+        [DataMember(Name = "Target")]
         public NodeApiModel Target { get; set; }
 
         /// <summary>
         /// Remaining index in path
         /// </summary>
-        [JsonProperty(PropertyName = "RemainingPathIndex",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "RemainingPathIndex",
+            EmitDefaultValue = false)]
         public int? RemainingPathIndex { get; set; }
     }
 }

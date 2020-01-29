@@ -4,89 +4,90 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Models {
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using Newtonsoft.Json.Linq;
     using System;
 
     /// <summary>
     /// Publisher monitored item sample model
     /// </summary>
+    [DataContract]
     public class MonitoredItemMessageApiModel {
 
         /// <summary>
         /// Subscription id
         /// </summary>
-        [JsonProperty(PropertyName = "subscriptionId",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "subscriptionId",
+            EmitDefaultValue = false)]
         public string SubscriptionId { get; set; }
 
         /// <summary>
         /// Endpoint
         /// </summary>
-        [JsonProperty(PropertyName = "endpointId",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "endpointId",
+            EmitDefaultValue = false)]
         public string EndpointId { get; set; }
 
         /// <summary>
         /// Dataset id
         /// </summary>
-        [JsonProperty(PropertyName = "dataSetId",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "dataSetId",
+            EmitDefaultValue = false)]
         public string DataSetId { get; set; }
 
         /// <summary>
         /// Node id
         /// </summary>
-        [JsonProperty(PropertyName = "nodeId")]
+        [DataMember(Name = "nodeId")]
         public string NodeId { get; set; }
 
         /// <summary>
         /// Value
         /// </summary>
-        [JsonProperty(PropertyName = "value",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "value",
+            EmitDefaultValue = false)]
         public JToken Value { get; set; }
 
         /// <summary>
         /// Type id
         /// </summary>
-        [JsonProperty(PropertyName = "typeId",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "typeId",
+            EmitDefaultValue = false)]
         public string TypeId { get; set; }
 
         /// <summary>
         /// Sent time stamp
         /// </summary>
-        [JsonProperty(PropertyName = "timestamp",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "timestamp",
+            EmitDefaultValue = false)]
         public DateTime? Timestamp { get; set; }
 
         /// <summary>
         /// Source time stamp
         /// </summary>
-        [JsonProperty(PropertyName = "sourceTimestamp",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "sourceTimestamp",
+            EmitDefaultValue = false)]
         public DateTime? SourceTimestamp { get; set; }
 
         /// <summary>
         /// Source pico
         /// </summary>
-        [JsonProperty(PropertyName = "sourcePicoseconds",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "sourcePicoseconds",
+            EmitDefaultValue = false)]
         public ushort? SourcePicoseconds { get; set; }
 
         /// <summary>
         /// Server time stamp
         /// </summary>
-        [JsonProperty(PropertyName = "serverTimestamp",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "serverTimestamp",
+            EmitDefaultValue = false)]
         public DateTime? ServerTimestamp { get; set; }
 
         /// <summary>
         /// Server pico
         /// </summary>
-        [JsonProperty(PropertyName = "serverPicoseconds",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "serverPicoseconds",
+            EmitDefaultValue = false)]
         public ushort? ServerPicoseconds { get; set; }
     }
 }

@@ -5,12 +5,13 @@
 
 namespace Microsoft.Azure.IIoT.OpcUa.Publisher.Clients.v2.Models {
     using Microsoft.Azure.IIoT.OpcUa.Core.Models;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System;
 
     /// <summary>
     /// Enum field
     /// </summary>
+    [DataContract]
     public class EnumFieldApiModel {
         /// <summary>
         /// Default constructor
@@ -48,27 +49,27 @@ namespace Microsoft.Azure.IIoT.OpcUa.Publisher.Clients.v2.Models {
         /// <summary>
         /// Name of the field.
         /// </summary>
-        [JsonProperty(PropertyName = "name")]
+        [DataMember(Name = "name")]
         public string Name { get; set; }
 
         /// <summary>
         /// The value of the enumfielderation.
         /// </summary>
-        [JsonProperty(PropertyName = "value")]
+        [DataMember(Name = "value")]
         public long Value { get; set; }
 
         /// <summary>
         /// Human readable name for the value.
         /// </summary>
-        [JsonProperty(PropertyName = "displayName",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "displayName",
+            EmitDefaultValue = false)]
         public LocalizedTextApiModel DisplayName { get; set; }
 
         /// <summary>
         /// A description of the value.
         /// </summary>
-        [JsonProperty(PropertyName = "description",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "description",
+            EmitDefaultValue = false)]
         public LocalizedTextApiModel Description { get; set; }
     }
 }

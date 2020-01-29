@@ -5,7 +5,7 @@
 
 namespace Microsoft.Azure.IIoT.OpcUa.Publisher.Clients.v2.Models {
     using Microsoft.Azure.IIoT.OpcUa.Publisher.Models;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -13,6 +13,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Publisher.Clients.v2.Models {
     /// <summary>
     /// Describes the field metadata
     /// </summary>
+    [DataContract]
     public class FieldMetaDataApiModel {
 
         /// <summary>
@@ -64,69 +65,69 @@ namespace Microsoft.Azure.IIoT.OpcUa.Publisher.Clients.v2.Models {
         /// <summary>
         /// Name of the field
         /// </summary>
-        [JsonProperty(PropertyName = "name")]
+        [DataMember(Name = "name")]
         public string Name { get; set; }
 
         /// <summary>
         /// Description for the field
         /// </summary>
-        [JsonProperty(PropertyName = "description",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "description",
+            EmitDefaultValue = false)]
         public LocalizedTextApiModel Description { get; set; }
 
         /// <summary>
         /// Field Flags.
         /// </summary>
-        [JsonProperty(PropertyName = "fieldFlags",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "fieldFlags",
+            EmitDefaultValue = false)]
         public ushort? FieldFlags { get; set; }
 
         /// <summary>
         /// Built in type
         /// </summary>
-        [JsonProperty(PropertyName = "builtInType",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "builtInType",
+            EmitDefaultValue = false)]
         public string BuiltInType { get; set; }
 
         /// <summary>
         /// The Datatype Id
         /// </summary>
-        [JsonProperty(PropertyName = "dataTypeId")]
+        [DataMember(Name = "dataTypeId")]
         public string DataTypeId { get; set; }
 
         /// <summary>
         /// ValueRank.
         /// </summary>
-        [JsonProperty(PropertyName = "valueRank",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "valueRank",
+            EmitDefaultValue = false)]
         public int? ValueRank { get; set; }
 
         /// <summary>
         /// Array dimensions
         /// </summary>
-        [JsonProperty(PropertyName = "arrayDimensions",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "arrayDimensions",
+            EmitDefaultValue = false)]
         public List<uint> ArrayDimensions { get; set; }
 
         /// <summary>
         /// Max String Length constraint.
         /// </summary>
-        [JsonProperty(PropertyName = "maxStringLength",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "maxStringLength",
+            EmitDefaultValue = false)]
         public uint? MaxStringLength { get; set; }
 
         /// <summary>
         /// The unique guid of the field in the dataset.
         /// </summary>
-        [JsonProperty(PropertyName = "dataSetFieldId",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "dataSetFieldId",
+            EmitDefaultValue = false)]
         public Guid? DataSetFieldId { get; set; }
 
         /// <summary>
         /// Additional properties
         /// </summary>
-        [JsonProperty(PropertyName = "properties",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "properties",
+            EmitDefaultValue = false)]
         public Dictionary<string, string> Properties { get; set; }
     }
 }

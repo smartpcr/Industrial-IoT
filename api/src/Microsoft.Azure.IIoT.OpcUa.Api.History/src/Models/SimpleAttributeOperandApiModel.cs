@@ -4,39 +4,40 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Models {
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
 
     /// <summary>
     /// Simple attribute operand model
     /// </summary>
+    [DataContract]
     public class SimpleAttributeOperandApiModel {
 
         /// <summary>
         /// Type definition node id if operand is
         /// simple or full attribute operand.
         /// </summary>
-        [JsonProperty(PropertyName = "nodeId")]
+        [DataMember(Name = "nodeId")]
         public string NodeId { get; set; }
 
         /// <summary>
         /// Browse path of attribute operand
         /// </summary>
-        [JsonProperty(PropertyName = "browsePath",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "browsePath",
+            EmitDefaultValue = false)]
         public string[] BrowsePath { get; set; }
 
         /// <summary>
         /// Attribute id
         /// </summary>
-        [JsonProperty(PropertyName = "attributeId",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "attributeId",
+            EmitDefaultValue = false)]
         public NodeAttribute? AttributeId { get; set; }
 
         /// <summary>
         /// Index range of attribute operand
         /// </summary>
-        [JsonProperty(PropertyName = "indexRange",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "indexRange",
+            EmitDefaultValue = false)]
         public string IndexRange { get; set; }
     }
 }

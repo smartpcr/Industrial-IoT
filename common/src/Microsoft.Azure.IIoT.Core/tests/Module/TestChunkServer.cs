@@ -5,10 +5,8 @@
 
 namespace Microsoft.Azure.IIoT.Module {
     using Microsoft.Azure.IIoT.Module.Default;
-    using Microsoft.Azure.IIoT.Module.Models;
     using Microsoft.Azure.IIoT.Diagnostics;
     using Microsoft.Azure.IIoT.Hub;
-    using Newtonsoft.Json;
     using System;
     using System.Threading.Tasks;
     using System.Threading;

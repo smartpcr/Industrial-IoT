@@ -5,30 +5,31 @@
 
 
 namespace Microsoft.Azure.IIoT.OpcUa.Api.Vault.Models {
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using Newtonsoft.Json.Linq;
 
     /// <summary>
     /// Signing request
     /// </summary>
+    [DataContract]
     public sealed class StartSigningRequestApiModel {
 
         /// <summary>
         /// Id of entity to sign a certificate for
         /// </summary>
-        [JsonProperty(PropertyName = "entityId")]
+        [DataMember(Name = "entityId")]
         public string EntityId { get; set; }
 
         /// <summary>
         /// Certificate group id
         /// </summary>
-        [JsonProperty(PropertyName = "groupId")]
+        [DataMember(Name = "groupId")]
         public string GroupId { get; set; }
 
         /// <summary>
         /// Request
         /// </summary>
-        [JsonProperty(PropertyName = "certificateRequest")]
+        [DataMember(Name = "certificateRequest")]
         public JToken CertificateRequest { get; set; }
     }
 }

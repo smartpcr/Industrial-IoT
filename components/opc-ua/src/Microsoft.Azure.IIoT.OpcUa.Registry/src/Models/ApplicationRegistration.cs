@@ -6,14 +6,14 @@
 namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
     using Microsoft.Azure.IIoT.OpcUa.Core.Models;
     using Microsoft.Azure.IIoT.Hub;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System;
     using System.Collections.Generic;
 
     /// <summary>
     /// Aapplication registration persisted and comparable
     /// </summary>
-    [Serializable]
+    [DataContract]
     public sealed class ApplicationRegistration : EntityRegistration {
 
         /// <inheritdoc/>
@@ -137,7 +137,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
         /// <summary>
         /// Application registration id
         /// </summary>
-        [JsonProperty(PropertyName = "id")]
+        [DataMember(Name = "id")]
         public string Id => ApplicationInfoModelEx.CreateApplicationId(
              SiteOrGatewayId, ApplicationUri, ApplicationType);
 

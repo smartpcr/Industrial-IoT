@@ -6,7 +6,7 @@
 namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
     using Microsoft.Azure.IIoT.Http;
     using Microsoft.Azure.IIoT.Utils;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using Serilog;
     using System;
     using System.Threading;
@@ -14,6 +14,7 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
     using System.Threading.Tasks;
     using System.Security.Cryptography.X509Certificates;
     using Newtonsoft.Json.Linq;
+    using Newtonsoft.Json;
 
     /// <summary>
     /// Edgelet client providing discovery and in the future other services
@@ -104,31 +105,33 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
         /// <summary>
         /// Edgelet create certificate response
         /// </summary>
+        [DataContract]
         public class EdgeletCertificateResponse {
 
             /// <summary>
             /// Base64 encoded PEM formatted byte array
             /// containing the certificate and its chain.
             /// </summary>
-            [JsonProperty(PropertyName = "certificate")]
+            [DataMember(Name = "certificate")]
             public string Certificate { get; set; }
 
             /// <summary>Private key.</summary>
-            [JsonProperty(PropertyName = "privateKey")]
+            [DataMember(Name = "privateKey")]
             public EdgeletPrivateKey PrivateKey { get; set; }
         }
 
         /// <summary>
         /// Edgelet private key
         /// </summary>
+        [DataContract]
         public class EdgeletPrivateKey {
 
             /// <summary>Type of private key.</summary>
-            [JsonProperty(PropertyName = "type")]
+            [DataMember(Name = "type")]
             public string Type { get; set; }
 
             /// <summary>Base64 encoded PEM formatted byte array</summary>
-            [JsonProperty(PropertyName = "bytes")]
+            [DataMember(Name = "bytes")]
             public string Bytes { get; set; }
         }
 

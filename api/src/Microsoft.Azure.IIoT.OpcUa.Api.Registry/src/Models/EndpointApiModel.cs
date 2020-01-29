@@ -4,7 +4,7 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Models {
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
@@ -12,12 +12,13 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Models {
     /// <summary>
     /// Endpoint model
     /// </summary>
+    [DataContract]
     public class EndpointApiModel {
 
         /// <summary>
         /// Endpoint url to use to connect with
         /// </summary>
-        [JsonProperty(PropertyName = "url")]
+        [DataMember(Name = "url")]
         [Required]
         public string Url { get; set; }
 
@@ -25,16 +26,16 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Models {
         /// Alternative endpoint urls that can be used for
         /// accessing and validating the server
         /// </summary>
-        [JsonProperty(PropertyName = "alternativeUrls",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "alternativeUrls",
+            EmitDefaultValue = false)]
         public HashSet<string> AlternativeUrls { get; set; }
 
         /// <summary>
         /// Security Mode to use for communication
         /// default to best.
         /// </summary>
-        [JsonProperty(PropertyName = "securityMode",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "securityMode",
+            EmitDefaultValue = false)]
         [DefaultValue(Models.SecurityMode.Best)]
         public SecurityMode? SecurityMode { get; set; }
 
@@ -42,16 +43,16 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Models {
         /// Security policy uri to use for communication
         /// default to best.
         /// </summary>
-        [JsonProperty(PropertyName = "securityPolicy",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "securityPolicy",
+            EmitDefaultValue = false)]
         [DefaultValue(null)]
         public string SecurityPolicy { get; set; }
 
         /// <summary>
         /// Endpoint certificate thumbprint
         /// </summary>
-        [JsonProperty(PropertyName = "certificate",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "certificate",
+            EmitDefaultValue = false)]
         public string Certificate { get; set; }
     }
 }

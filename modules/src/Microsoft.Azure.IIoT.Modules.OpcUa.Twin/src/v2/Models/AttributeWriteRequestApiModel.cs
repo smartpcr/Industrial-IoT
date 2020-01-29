@@ -6,13 +6,14 @@
 namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Models {
     using Microsoft.Azure.IIoT.OpcUa.Twin.Models;
     using Microsoft.Azure.IIoT.OpcUa.Core.Models;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using Newtonsoft.Json.Linq;
     using System;
 
     /// <summary>
     /// Attribute and value to write to it
     /// </summary>
+    [DataContract]
     public class AttributeWriteRequestApiModel {
 
         /// <summary>
@@ -48,19 +49,19 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Models {
         /// <summary>
         /// Node to write to (mandatory)
         /// </summary>
-        [JsonProperty(PropertyName = "NodeId")]
+        [DataMember(Name = "NodeId")]
         public string NodeId { get; set; }
 
         /// <summary>
         /// Attribute to write (mandatory)
         /// </summary>
-        [JsonProperty(PropertyName = "Attribute")]
+        [DataMember(Name = "Attribute")]
         public NodeAttribute Attribute { get; set; }
 
         /// <summary>
         /// Value to write (mandatory)
         /// </summary>
-        [JsonProperty(PropertyName = "Value")]
+        [DataMember(Name = "Value")]
         public JToken Value { get; set; }
     }
 }

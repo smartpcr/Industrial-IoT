@@ -4,26 +4,25 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Edge.Publisher.Models {
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System.Collections.Generic;
 
     /// <summary>
     /// All published nodes on an endpoint response
     /// </summary>
+    [DataContract]
     public class GetNodesResponseModel {
 
         /// <summary>
         /// Nodes that are published
         /// </summary>
-        [JsonProperty(PropertyName = "OpcNodes",
-            NullValueHandling = NullValueHandling.Include)]
+        [DataMember(Name = "OpcNodes")]
         public List<PublisherNodeModel> OpcNodes { get; set; }
 
         /// <summary>
         /// Continuation token
         /// </summary>
-        [JsonProperty(PropertyName = "ContinuationToken",
-            NullValueHandling = NullValueHandling.Include)]
+        [DataMember(Name = "ContinuationToken")]
         public ulong? ContinuationToken { get; set; }
     }
 }

@@ -5,13 +5,14 @@
 
 namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Models {
     using Microsoft.Azure.IIoT.OpcUa.Twin.Models;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using Newtonsoft.Json.Linq;
     using System;
 
     /// <summary>
     /// method arg model
     /// </summary>
+    [DataContract]
     public class MethodCallArgumentApiModel {
 
         /// <summary>
@@ -45,13 +46,13 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Models {
         /// <summary>
         /// Initial value or value to use
         /// </summary>
-        [JsonProperty(PropertyName = "Value")]
+        [DataMember(Name = "Value")]
         public JToken Value { get; set; }
 
         /// <summary>
         /// Data type Id of the value (from meta data)
         /// </summary>
-        [JsonProperty(PropertyName = "DataType")]
+        [DataMember(Name = "DataType")]
         public string DataType { get; set; }
     }
 }

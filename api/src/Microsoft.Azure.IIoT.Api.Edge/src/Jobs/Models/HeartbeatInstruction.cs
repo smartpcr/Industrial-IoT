@@ -4,28 +4,30 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.Api.Jobs.Models {
-    using Newtonsoft.Json;
-    using Newtonsoft.Json.Converters;
+    using System.Runtime.Serialization;
 
     /// <summary>
     /// Heartbeat
     /// </summary>
-    [JsonConverter(typeof(StringEnumConverter))]
+    [DataContract]
     public enum HeartbeatInstruction {
 
         /// <summary>
         /// Keep
         /// </summary>
+        [EnumMember]
         Keep,
 
         /// <summary>
         /// Switch to active
         /// </summary>
+        [EnumMember]
         SwitchToActive,
 
         /// <summary>
         /// Cancel processing
         /// </summary>
+        [EnumMember]
         CancelProcessing
     }
 }

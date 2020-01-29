@@ -5,7 +5,7 @@
 
 namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Models {
     using Microsoft.Azure.IIoT.OpcUa.Registry.Models;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -13,6 +13,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Models {
     /// <summary>
     /// Supervisor runtime status
     /// </summary>
+    [DataContract]
     public class SupervisorStatusApiModel {
 
         /// <summary>
@@ -39,28 +40,28 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Models {
         /// <summary>
         /// Edge device id
         /// </summary>
-        [JsonProperty(PropertyName = "DeviceId")]
+        [DataMember(Name = "DeviceId")]
         public string DeviceId { get; set; }
 
         /// <summary>
         /// Module id
         /// </summary>
-        [JsonProperty(PropertyName = "ModuleId",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "ModuleId",
+            EmitDefaultValue = false)]
         public string ModuleId { get; set; }
 
         /// <summary>
         /// Site id
         /// </summary>
-        [JsonProperty(PropertyName = "SiteId",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "SiteId",
+            EmitDefaultValue = false)]
         public string SiteId { get; set; }
 
         /// <summary>
         /// Endpoint activation status
         /// </summary>
-        [JsonProperty(PropertyName = "Endpoints",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "Endpoints",
+            EmitDefaultValue = false)]
         public List<EndpointActivationStatusApiModel> Endpoints { get; set; }
     }
 }

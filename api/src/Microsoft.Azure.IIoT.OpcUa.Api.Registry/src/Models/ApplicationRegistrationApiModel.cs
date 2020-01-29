@@ -4,7 +4,7 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Models {
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
@@ -12,28 +12,29 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Models {
     /// <summary>
     /// Application with optional list of endpoints
     /// </summary>
+    [DataContract]
     public class ApplicationRegistrationApiModel {
 
         /// <summary>
         /// Server information
         /// </summary>
-        [JsonProperty(PropertyName = "application")]
+        [DataMember(Name = "application")]
         [Required]
         public ApplicationInfoApiModel Application { get; set; }
 
         /// <summary>
         /// List of endpoint twins
         /// </summary>
-        [JsonProperty(PropertyName = "endpoints",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "endpoints",
+            EmitDefaultValue = false)]
         [DefaultValue(null)]
         public List<EndpointRegistrationApiModel> Endpoints { get; set; }
 
         /// <summary>
         /// Application security assessment
         /// </summary>
-        [JsonProperty(PropertyName = "securityAssessment",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "securityAssessment",
+            EmitDefaultValue = false)]
         [DefaultValue(null)]
         public SecurityAssessment? SecurityAssessment { get; set; }
     }

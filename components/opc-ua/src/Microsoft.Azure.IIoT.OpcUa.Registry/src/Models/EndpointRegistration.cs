@@ -6,15 +6,14 @@
 namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
     using Microsoft.Azure.IIoT.OpcUa.Core.Models;
     using Microsoft.Azure.IIoT.Hub;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using Newtonsoft.Json.Linq;
-    using System;
     using System.Collections.Generic;
 
     /// <summary>
     /// Twin (endpoint) registration persisted and comparable
     /// </summary>
-    [Serializable]
+    [DataContract]
     public sealed class EndpointRegistration : EntityRegistration {
 
         /// <inheritdoc/>
@@ -105,7 +104,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
         /// <summary>
         /// Device id is the endpoint id
         /// </summary>
-        [JsonProperty(PropertyName = "id")]
+        [DataMember(Name = "id")]
         public string Id => EndpointInfoModelEx.CreateEndpointId(
             ApplicationId, EndpointRegistrationUrl, SecurityMode, SecurityPolicy);
 

@@ -5,7 +5,7 @@
 
 namespace Microsoft.Azure.IIoT.OpcUa.Graph.Models {
     using Gremlin.Net.CosmosDb.Structure;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using Newtonsoft.Json.Linq;
     using Opc.Ua.Nodeset.Schema;
 
@@ -13,28 +13,29 @@ namespace Microsoft.Azure.IIoT.OpcUa.Graph.Models {
     /// Data type node vertex
     /// </summary>
     [Label(AddressSpaceElementNames.DataType)]
+    [DataContract]
     public class DataTypeNodeVertexModel : BaseNodeVertexModel {
 
         /// <summary>
         /// Whether type is abstract, if type can
         /// be abstract.  Null if not type node.
         /// </summary>
-        [JsonProperty(PropertyName = "isAbstract",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "isAbstract",
+            EmitDefaultValue = false)]
         public bool? IsAbstract { get; set; }
 
         /// <summary>
         /// Data type definition as extension object.
         /// </summary>
-        [JsonProperty(PropertyName = "dataTypeDefinition",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "dataTypeDefinition",
+            EmitDefaultValue = false)]
         public JToken DataTypeDefinition { get; set; }
 
         /// <summary>
         /// Data type purpose
         /// </summary>
-        [JsonProperty(PropertyName = "purpose",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "purpose",
+            EmitDefaultValue = false)]
         public DataTypePurpose? Purpose { get; set; }
 
         /// <summary>

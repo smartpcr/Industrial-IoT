@@ -4,26 +4,27 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Models {
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System.Collections.Generic;
 
     /// <summary>
     /// Certificate chain
     /// </summary>
+    [DataContract]
     public sealed class X509CertificateChainApiModel {
 
         /// <summary>
         /// Chain
         /// </summary>
-        [JsonProperty(PropertyName = "chain",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "chain",
+            EmitDefaultValue = false)]
         public List<X509CertificateApiModel> Chain { get; set; }
 
         /// <summary>
         /// Chain validation status if validated
         /// </summary>
-        [JsonProperty(PropertyName = "status",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "status",
+            EmitDefaultValue = false)]
         public List<X509ChainStatus> Status { get; set; }
     }
 }

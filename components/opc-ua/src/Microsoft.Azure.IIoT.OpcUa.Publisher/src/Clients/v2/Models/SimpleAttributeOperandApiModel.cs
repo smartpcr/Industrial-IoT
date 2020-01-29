@@ -5,12 +5,13 @@
 
 namespace Microsoft.Azure.IIoT.OpcUa.Publisher.Clients.v2.Models {
     using Microsoft.Azure.IIoT.OpcUa.Core.Models;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System;
 
     /// <summary>
     /// Simple attribute operand model
     /// </summary>
+    [DataContract]
     public class SimpleAttributeOperandApiModel {
 
         /// <summary>
@@ -49,28 +50,28 @@ namespace Microsoft.Azure.IIoT.OpcUa.Publisher.Clients.v2.Models {
         /// Type definition node id if operand is
         /// simple or full attribute operand.
         /// </summary>
-        [JsonProperty(PropertyName = "nodeId")]
+        [DataMember(Name = "nodeId")]
         public string NodeId { get; set; }
 
         /// <summary>
         /// Browse path of attribute operand
         /// </summary>
-        [JsonProperty(PropertyName = "browsePath",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "browsePath",
+            EmitDefaultValue = false)]
         public string[] BrowsePath { get; set; }
 
         /// <summary>
         /// Attribute id
         /// </summary>
-        [JsonProperty(PropertyName = "attributeId",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "attributeId",
+            EmitDefaultValue = false)]
         public NodeAttribute? AttributeId { get; set; }
 
         /// <summary>
         /// Index range of attribute operand
         /// </summary>
-        [JsonProperty(PropertyName = "indexRange",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "indexRange",
+            EmitDefaultValue = false)]
         public string IndexRange { get; set; }
     }
 }

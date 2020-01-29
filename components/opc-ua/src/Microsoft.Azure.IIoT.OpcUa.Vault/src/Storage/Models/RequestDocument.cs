@@ -6,14 +6,13 @@
 namespace Microsoft.Azure.IIoT.OpcUa.Vault.Storage.Models {
     using Microsoft.Azure.IIoT.OpcUa.Core.Models;
     using Microsoft.Azure.IIoT.OpcUa.Vault.Models;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using Newtonsoft.Json.Linq;
-    using System;
 
     /// <summary>
     /// Certificate request document in cosmos db
     /// </summary>
-    [Serializable]
+    [DataContract]
     public class RequestDocument {
 
         /// <summary>
@@ -24,13 +23,13 @@ namespace Microsoft.Azure.IIoT.OpcUa.Vault.Storage.Models {
         /// <summary>
         /// Request id
         /// </summary>
-        [JsonProperty(PropertyName = "id")]
+        [DataMember(Name = "id")]
         public string RequestId { get; set; }
 
         /// <summary>
         /// Etag
         /// </summary>
-        [JsonProperty(PropertyName = "_etag")]
+        [DataMember(Name = "_etag")]
         public string ETag { get; set; }
 
         /// <summary>

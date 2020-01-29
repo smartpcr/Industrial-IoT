@@ -4,7 +4,7 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Models {
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using Newtonsoft.Json.Linq;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
@@ -12,21 +12,22 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Models {
     /// <summary>
     /// Value write request model
     /// </summary>
+    [DataContract]
     public class ValueWriteRequestApiModel {
 
         /// <summary>
         /// Node id to to write value to.
         /// </summary>
-        [JsonProperty(PropertyName = "nodeId",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "nodeId",
+            EmitDefaultValue = false)]
         public string NodeId { get; set; }
 
         /// <summary>
         /// An optional path from NodeId instance to
         /// the actual node.
         /// </summary>
-        [JsonProperty(PropertyName = "browsePath",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "browsePath",
+            EmitDefaultValue = false)]
         [DefaultValue(null)]
         public string[] BrowsePath { get; set; }
 
@@ -36,7 +37,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Models {
         /// e.g. convert comma seperated value strings
         /// into arrays.  (Mandatory)
         /// </summary>
-        [JsonProperty(PropertyName = "value")]
+        [DataMember(Name = "value")]
         [Required]
         public JToken Value { get; set; }
 
@@ -46,23 +47,23 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Models {
         /// type.
         /// (default: best effort)
         /// </summary>
-        [JsonProperty(PropertyName = "dataType",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "dataType",
+            EmitDefaultValue = false)]
         public string DataType { get; set; }
 
         /// <summary>
         /// Index range to write
         /// </summary>
-        [JsonProperty(PropertyName = "indexRange",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "indexRange",
+            EmitDefaultValue = false)]
         [DefaultValue(null)]
         public string IndexRange { get; set; }
 
         /// <summary>
         /// Optional request header
         /// </summary>
-        [JsonProperty(PropertyName = "header",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "header",
+            EmitDefaultValue = false)]
         [DefaultValue(null)]
         public RequestHeaderApiModel Header { get; set; }
     }

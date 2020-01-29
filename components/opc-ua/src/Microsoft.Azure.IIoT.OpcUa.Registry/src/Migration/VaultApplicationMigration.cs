@@ -9,7 +9,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Migration {
     using Microsoft.Azure.IIoT.Storage;
     using Microsoft.Azure.IIoT.Exceptions;
     using Microsoft.Extensions.Configuration;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using Serilog;
     using System;
     using System.Collections.Generic;
@@ -133,22 +133,22 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Migration {
         }
 
         /// <summary>from Vault v1</summary>
-        [Serializable]
+        [DataContract]
         internal class ApplicationName {
             internal string Locale { get; set; }
             internal string Text { get; set; }
         }
 
         /// <summary>from Vault v1</summary>
-        [Serializable]
+        [DataContract]
         internal class Application {
             internal static readonly string ClassTypeName = "Application";
             internal Application() {
                 ClassType = ClassTypeName;
             }
-            [JsonProperty(PropertyName = "id")]
+            [DataMember(Name = "id")]
             internal Guid ApplicationId { get; set; }
-            [JsonProperty(PropertyName = "_etag")]
+            [DataMember(Name = "_etag")]
             internal string ETag { get; set; }
             internal string ClassType { get; set; }
             internal int ID { get; set; }

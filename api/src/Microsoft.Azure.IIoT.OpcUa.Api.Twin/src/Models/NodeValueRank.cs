@@ -4,49 +4,54 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Models {
-    using Newtonsoft.Json;
-    using Newtonsoft.Json.Converters;
+    using System.Runtime.Serialization;
     using System;
 
     /// <summary>
     /// Constants defined for the ValueRank attribute.
     /// </summary>
     [Flags]
-    [JsonConverter(typeof(StringEnumConverter))]
+    [DataContract]
     public enum NodeValueRank {
 
         /// <summary>
         /// The variable may be a scalar or a one
         /// dimensional array.
         /// </summary>
+        [EnumMember]
         ScalarOrOneDimension = -3,
 
         /// <summary>
         /// The variable may be a scalar or an array of
         /// any dimension.
         /// </summary>
+        [EnumMember]
         Any = -2,
 
         /// <summary>
         /// The variable is always a scalar.
         /// </summary>
+        [EnumMember]
         Scalar = -1,
 
         /// <summary>
         /// The variable is always an array with one or
         /// more dimensions.
         /// </summary>
+        [EnumMember]
         OneOrMoreDimensions = 0,
 
         /// <summary>
         /// The variable is always one dimensional array.
         /// </summary>
+        [EnumMember]
         OneDimension = 1,
 
         /// <summary>
         /// The variable is always an array with two or
         /// more dimensions.
         /// </summary>
+        [EnumMember]
         TwoDimensions = 2
     }
 }

@@ -5,12 +5,13 @@
 
 namespace Microsoft.Azure.IIoT.OpcUa.Publisher.Clients.v2.Models {
     using Microsoft.Azure.IIoT.OpcUa.Core.Models;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
     using System;
 
     /// <summary>
     /// Simple type
     /// </summary>
+    [DataContract]
     public class SimpleTypeDescriptionApiModel {
 
         /// <summary>
@@ -47,27 +48,27 @@ namespace Microsoft.Azure.IIoT.OpcUa.Publisher.Clients.v2.Models {
         /// <summary>
         /// Data type id
         /// </summary>
-        [JsonProperty(PropertyName = "dataTypeId")]
+        [DataMember(Name = "dataTypeId")]
         public string DataTypeId { get; set; }
 
         /// <summary>
         /// The qualified name of the data type.
         /// </summary>
-        [JsonProperty(PropertyName = "name")]
+        [DataMember(Name = "name")]
         public string Name { get; set; }
 
         /// <summary>
         /// Base data type of the type
         /// </summary>
-        [JsonProperty(PropertyName = "baseDataTypeId",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "baseDataTypeId",
+            EmitDefaultValue = false)]
         public string BaseDataTypeId { get; set; }
 
         /// <summary>
         /// The built in type
         /// </summary>
-        [JsonProperty(PropertyName = "builtInType",
-            NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "builtInType",
+            EmitDefaultValue = false)]
         public string BuiltInType { get; set; }
     }
 }
