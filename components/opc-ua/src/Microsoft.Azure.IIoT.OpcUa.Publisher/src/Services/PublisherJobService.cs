@@ -20,7 +20,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Publisher.Clients {
     /// <summary>
     /// Publisher client
     /// </summary>
-    public sealed class PublisherJobClient : IPublishServices<string> {
+    public sealed class PublisherJobService : IPublishServices<string> {
 
         /// <summary>
         /// Create client
@@ -28,7 +28,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Publisher.Clients {
         /// <param name="endpoints"></param>
         /// <param name="jobs"></param>
         /// <param name="serializer"></param>
-        public PublisherJobClient(IEndpointRegistry endpoints, IJobScheduler jobs,
+        public PublisherJobService(IEndpointRegistry endpoints, IJobScheduler jobs,
             IJobSerializer serializer) {
             _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
             _endpoints = endpoints ?? throw new ArgumentNullException(nameof(endpoints));

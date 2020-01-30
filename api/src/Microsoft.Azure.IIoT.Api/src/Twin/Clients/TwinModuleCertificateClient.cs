@@ -3,8 +3,9 @@
 //  Licensed under the MIT License (MIT). See License.txt in the repo root for license information.
 // ------------------------------------------------------------
 
-namespace Microsoft.Azure.IIoT.OpcUa.Registry.Clients {
+namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Clients {
     using Microsoft.Azure.IIoT.OpcUa.Registry.Models;
+    using Microsoft.Azure.IIoT.OpcUa.Registry;
     using Microsoft.Azure.IIoT.Module;
     using Newtonsoft.Json;
     using Serilog;
@@ -16,14 +17,14 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Clients {
     /// <summary>
     /// Client to retrieve endpoint certificate through the supervisor
     /// </summary>
-    public sealed class CertificateClient : ICertificateServices<EndpointRegistrationModel> {
+    public sealed class TwinModuleCertificateClient : ICertificateServices<EndpointRegistrationModel> {
 
         /// <summary>
         /// Create service
         /// </summary>
         /// <param name="client"></param>
         /// <param name="logger"></param>
-        public CertificateClient(IMethodClient client, ILogger logger) {
+        public TwinModuleCertificateClient(IMethodClient client, ILogger logger) {
             _client = client ?? throw new ArgumentNullException(nameof(client));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }

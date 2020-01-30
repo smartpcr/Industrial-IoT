@@ -4,28 +4,27 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Tests {
-    using Microsoft.Azure.IIoT.Http.Default;
-    using Microsoft.Azure.IIoT.Hub;
-    using Microsoft.Azure.IIoT.Hub.Client;
-    using Microsoft.Azure.IIoT.Hub.Mock;
-    using Microsoft.Azure.IIoT.Hub.Models;
     using Microsoft.Azure.IIoT.Module.Framework;
     using Microsoft.Azure.IIoT.Module.Framework.Client;
     using Microsoft.Azure.IIoT.OpcUa.History.Clients;
     using Microsoft.Azure.IIoT.OpcUa.Protocol.Services;
     using Microsoft.Azure.IIoT.OpcUa.Registry;
-    using Microsoft.Azure.IIoT.OpcUa.Registry.Clients;
     using Microsoft.Azure.IIoT.OpcUa.Registry.Models;
     using Microsoft.Azure.IIoT.OpcUa.Registry.Services;
-    using Microsoft.Azure.IIoT.OpcUa.Twin;
     using Microsoft.Azure.IIoT.OpcUa.Testing.Runtime;
     using Microsoft.Azure.IIoT.OpcUa.Core.Models;
     using Microsoft.Azure.IIoT.OpcUa.Api.Core.Models;
+    using Microsoft.Azure.IIoT.OpcUa.Api.Registry.Clients;
     using Microsoft.Azure.IIoT.OpcUa.Api.Twin;
     using Microsoft.Azure.IIoT.OpcUa.Api.Twin.Clients;
     using Microsoft.Azure.IIoT.OpcUa.Api.History.Clients;
     using Microsoft.Azure.IIoT.OpcUa.Api.History;
     using Microsoft.Azure.IIoT.Diagnostics;
+    using Microsoft.Azure.IIoT.Http.Default;
+    using Microsoft.Azure.IIoT.Hub;
+    using Microsoft.Azure.IIoT.Hub.Client;
+    using Microsoft.Azure.IIoT.Hub.Mock;
+    using Microsoft.Azure.IIoT.Hub.Models;
     using Microsoft.Azure.IIoT.Utils;
     using Autofac;
     using AutofacSerilogIntegration;
@@ -274,7 +273,10 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Tests {
                 .AsImplementedInterfaces();
 
             // Twin and history clients
-            builder.RegisterModule<TwinModuleClients>();
+            builder.RegisterType<TwinModuleControlClient>()
+                .AsImplementedInterfaces().SingleInstance();
+            builder.RegisterType<TwinModuleSupervisorClient>()
+                .AsImplementedInterfaces().SingleInstance();
 
             builder.RegisterType<HistoryRawSupervisorAdapter>()
                 .AsImplementedInterfaces().SingleInstance();
@@ -294,13 +296,13 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Tests {
                 .AsImplementedInterfaces().SingleInstance();
 
             // Supervisor clients
-            builder.RegisterType<ActivationClient>()
+            builder.RegisterType<TwinModuleActivationClient>()
                 .AsImplementedInterfaces();
-            builder.RegisterType<CertificateClient>()
+            builder.RegisterType<TwinModuleCertificateClient>()
                 .AsImplementedInterfaces();
-            builder.RegisterType<DiagnosticsClient>()
+            builder.RegisterType<TwinModuleDiagnosticsClient>()
                 .AsImplementedInterfaces();
-            builder.RegisterType<DiscovererClient>()
+            builder.RegisterType<DiscovererModuleClient>()
                 .AsImplementedInterfaces();
             builder.RegisterType<VariantEncoderFactory>()
                 .AsImplementedInterfaces();

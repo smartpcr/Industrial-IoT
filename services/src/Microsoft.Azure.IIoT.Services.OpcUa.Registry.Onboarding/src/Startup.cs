@@ -8,6 +8,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Onboarding {
     using Microsoft.Azure.IIoT.OpcUa.Registry.Clients;
     using Microsoft.Azure.IIoT.OpcUa.Registry;
     using Microsoft.Azure.IIoT.OpcUa.Registry.Services;
+    using Microsoft.Azure.IIoT.OpcUa.Api.Twin.Clients;
     using Microsoft.Azure.IIoT.AspNetCore.Auth;
     using Microsoft.Azure.IIoT.AspNetCore.Auth.Clients;
     using Microsoft.Azure.IIoT.AspNetCore.Cors;
@@ -203,9 +204,9 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Onboarding {
                 .AsImplementedInterfaces().SingleInstance();
 #endif
             // which need additional registry services
-            builder.RegisterType<CertificateClient>()
+            builder.RegisterType<TwinModuleCertificateClient>()
                 .AsImplementedInterfaces();
-            builder.RegisterType<ActivationClient>()
+            builder.RegisterType<TwinModuleActivationClient>()
                 .AsImplementedInterfaces().SingleInstance();
             builder.RegisterType<OnboardingClient>()
                 .AsImplementedInterfaces().SingleInstance();

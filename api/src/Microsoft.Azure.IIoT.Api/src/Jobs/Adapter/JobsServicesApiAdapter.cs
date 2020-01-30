@@ -14,13 +14,13 @@ namespace Microsoft.Azure.IIoT.Api.Jobs {
     /// <summary>
     /// Implements agent and job registry services on top of api
     /// </summary>
-    public sealed class JobsAdapter : IJobService, IWorkerRegistry {
+    public sealed class JobsServicesApiAdapter : IJobService, IWorkerRegistry {
 
         /// <summary>
         /// Create adapter
         /// </summary>
         /// <param name="client"></param>
-        public JobsAdapter(IJobsServiceApi client) {
+        public JobsServicesApiAdapter(IJobsServiceApi client) {
             _client = client ?? throw new ArgumentNullException(nameof(client));
         }
 

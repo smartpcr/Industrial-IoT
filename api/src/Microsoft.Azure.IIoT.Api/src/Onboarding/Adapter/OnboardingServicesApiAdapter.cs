@@ -14,13 +14,13 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Onboarding {
     /// <summary>
     /// Implements discovery processor as adapter on top of onboarding api.
     /// </summary>
-    public sealed class OnboardingAdapter : IDiscoveryResultProcessor {
+    public sealed class OnboardingServicesApiAdapter : IDiscoveryResultProcessor {
 
         /// <summary>
         /// Create service
         /// </summary>
         /// <param name="client"></param>
-        public OnboardingAdapter(IOnboardingServiceApi client) {
+        public OnboardingServicesApiAdapter(IOnboardingServiceApi client) {
             _client = client ?? throw new ArgumentNullException(nameof(client));
         }
 

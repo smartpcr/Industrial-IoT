@@ -197,19 +197,19 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Publisher {
                 .AsImplementedInterfaces().SingleInstance();
 
             // Twin services for browsing and tag selection ...
-            builder.RegisterType<TwinAdapter>()
+            builder.RegisterType<TwinServicesApiAdapter>()
                 .AsImplementedInterfaces().SingleInstance();
             builder.RegisterType<TwinServiceClient>()
                 .AsImplementedInterfaces().SingleInstance();
 
             // Registry services to lookup endpoints.
-            builder.RegisterType<RegistryAdapter>()
+            builder.RegisterType<RegistryServicesApiAdapter>()
                 .AsImplementedInterfaces().SingleInstance();
             builder.RegisterType<RegistryServiceClient>()
                 .AsImplementedInterfaces().SingleInstance();
 
             // Create Publish jobs using ...
-            builder.RegisterType<PublisherJobClient>()
+            builder.RegisterType<PublisherJobService>()
                 .AsImplementedInterfaces().SingleInstance();
             builder.RegisterType<PublisherJobSerializer>()
                 .AsImplementedInterfaces().SingleInstance();

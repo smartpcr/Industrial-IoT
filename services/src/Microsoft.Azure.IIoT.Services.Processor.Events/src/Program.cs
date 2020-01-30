@@ -129,7 +129,7 @@ namespace Microsoft.Azure.IIoT.Services.Processor.Events {
                 .AsImplementedInterfaces().SingleInstance();
             // ... requires the corresponding services
             // Call onboarder
-            builder.RegisterType<OnboardingAdapter>()
+            builder.RegisterType<OnboardingServicesApiAdapter>()
                 .AsImplementedInterfaces().SingleInstance();
             builder.RegisterType<OnboardingServiceClient>()
                 .AsImplementedInterfaces().SingleInstance();

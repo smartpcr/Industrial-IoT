@@ -3,8 +3,9 @@
 //  Licensed under the MIT License (MIT). See License.txt in the repo root for license information.
 // ------------------------------------------------------------
 
-namespace Microsoft.Azure.IIoT.OpcUa.Registry.Clients {
+namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Clients {
     using Microsoft.Azure.IIoT.OpcUa.Registry.Models;
+    using Microsoft.Azure.IIoT.OpcUa.Registry;
     using Microsoft.Azure.IIoT.Module;
     using Newtonsoft.Json;
     using Serilog;
@@ -16,14 +17,14 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Clients {
     /// <summary>
     /// Client for Activation services in supervisor
     /// </summary>
-    public sealed class ActivationClient : IActivationServices<EndpointRegistrationModel> {
+    public sealed class TwinModuleActivationClient : IActivationServices<EndpointRegistrationModel> {
 
         /// <summary>
         /// Create service
         /// </summary>
         /// <param name="client"></param>
         /// <param name="logger"></param>
-        public ActivationClient(IMethodClient client, ILogger logger) {
+        public TwinModuleActivationClient(IMethodClient client, ILogger logger) {
             _client = client ?? throw new ArgumentNullException(nameof(client));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }

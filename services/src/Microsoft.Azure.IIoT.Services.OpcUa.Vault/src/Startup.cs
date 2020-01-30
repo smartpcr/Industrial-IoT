@@ -236,7 +236,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Vault {
             // Register registry micro services adapters
             builder.RegisterType<RegistryServiceClient>()
                 .AsImplementedInterfaces().SingleInstance();
-            builder.RegisterType<RegistryAdapter>()
+            builder.RegisterType<RegistryServicesApiAdapter>()
                 .AsImplementedInterfaces().SingleInstance();
             builder.RegisterType<EntityInfoResolver>()
                 .AsImplementedInterfaces().SingleInstance();

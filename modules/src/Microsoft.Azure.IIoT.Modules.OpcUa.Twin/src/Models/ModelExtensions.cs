@@ -269,6 +269,9 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <returns></returns>
         public static BrowseRequestModel ToServiceModel(this BrowseRequestInternalApiModel model) {
+            if (model == null) {
+                return null;
+            }
             return new BrowseRequestModel {
                 NodeIdsOnly = model.NodeIdsOnly,
                 NodeId = model.NodeId,
@@ -349,6 +352,9 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// Create service model from api model
         /// </summary>
         public static CredentialModel ToServiceModel(this CredentialApiModel model) {
+            if (model == null) {
+                return null;
+            }
             return new CredentialModel {
                 Value = model.Value,
                 Type = (Microsoft.Azure.IIoT.OpcUa.Core.Models.CredentialType?)model.Type

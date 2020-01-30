@@ -29,7 +29,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin.Api {
             module.Endpoint = Endpoint;
             var log = _factory.Resolve<ILogger>();
             return new CallScalarMethodTests<string>(() => // Create an adapter over the api
-                new TwinAdapter(
+                new TwinServicesApiAdapter(
                     new TwinServiceClient(
                        new HttpClient(_factory, log), new TestConfig(client.BaseAddress))), "fakeid");
         }

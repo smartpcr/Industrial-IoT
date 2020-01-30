@@ -30,7 +30,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin.Controllers {
             module.Endpoint = Endpoint;
             var log = _factory.Resolve<ILogger>();
             return new ReadScalarValueTests<string>(() => // Create an adapter over the api
-                new TwinAdapter(
+                new TwinServicesApiAdapter(
                     new ControllerTestClient(
                        new HttpClient(_factory, log), new TestConfig(client.BaseAddress))),
                        "fakeid", (ep, n) => _server.Client.ReadValueAsync(Endpoint, n));

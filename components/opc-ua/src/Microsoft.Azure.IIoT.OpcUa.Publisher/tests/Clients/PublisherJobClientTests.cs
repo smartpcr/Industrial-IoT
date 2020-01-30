@@ -36,7 +36,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Publisher.Clients {
                     throw new AssertActualExpectedException(null, q, "Query");
                 });
 
-                IPublishServices<string> service = mock.Create<PublisherJobClient>();
+                IPublishServices<string> service = mock.Create<PublisherJobService>();
 
                 // Run
                 var result = await service.NodePublishStartAsync("endpoint1", new PublishStartRequestModel {
@@ -71,7 +71,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Publisher.Clients {
                     throw new AssertActualExpectedException(null, q, "Query");
                 });
 
-                IPublishServices<string> service = mock.Create<PublisherJobClient>();
+                IPublishServices<string> service = mock.Create<PublisherJobService>();
 
                 // Run
                 var result = await service.NodePublishStartAsync("endpoint1", new PublishStartRequestModel {
@@ -104,7 +104,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Publisher.Clients {
                     throw new AssertActualExpectedException(null, q, "Query");
                 });
 
-                IPublishServices<string> service = mock.Create<PublisherJobClient>();
+                IPublishServices<string> service = mock.Create<PublisherJobService>();
 
                 // Run
                 var result = await service.NodePublishStartAsync("endpoint1", new PublishStartRequestModel {
@@ -141,7 +141,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Publisher.Clients {
                     throw new AssertActualExpectedException(null, q, "Query");
                 });
 
-                IPublishServices<string> service = mock.Create<PublisherJobClient>();
+                IPublishServices<string> service = mock.Create<PublisherJobService>();
 
                 // Run
                 var result = await service.NodePublishStartAsync("endpoint1", new PublishStartRequestModel {
@@ -184,7 +184,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Publisher.Clients {
                     throw new AssertActualExpectedException(null, q, "Query");
                 });
 
-                IPublishServices<string> service = mock.Create<PublisherJobClient>();
+                IPublishServices<string> service = mock.Create<PublisherJobService>();
 
                 // Run
                 var result = await service.NodePublishStartAsync("endpoint1", new PublishStartRequestModel {
@@ -226,7 +226,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Publisher.Clients {
                     throw new AssertActualExpectedException(null, q, "Query");
                 });
 
-                IPublishServices<string> service = mock.Create<PublisherJobClient>();
+                IPublishServices<string> service = mock.Create<PublisherJobService>();
 
                 // Run
                 var result = await service.NodePublishStartAsync("endpoint1", new PublishStartRequestModel {
@@ -268,7 +268,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Publisher.Clients {
                     throw new AssertActualExpectedException(null, q, "Query");
                 });
 
-                IPublishServices<string> service = mock.Create<PublisherJobClient>();
+                IPublishServices<string> service = mock.Create<PublisherJobService>();
 
                 // Run
                 for (var i = 0; i < 100; i++) {
@@ -347,7 +347,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Publisher.Clients {
                         Id = "endpoint1"
                     }
                 }));
-            mock.Provide<IPublishServices<string>, PublisherJobClient>();
+            mock.Provide<IPublishServices<string>, PublisherJobService>();
         }
 
         /// <summary>

@@ -3,8 +3,9 @@
 //  Licensed under the MIT License (MIT). See License.txt in the repo root for license information.
 // ------------------------------------------------------------
 
-namespace Microsoft.Azure.IIoT.OpcUa.Registry.Clients {
+namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Clients {
     using Microsoft.Azure.IIoT.OpcUa.Registry.Models;
+    using Microsoft.Azure.IIoT.OpcUa.Registry;
     using Microsoft.Azure.IIoT.Module;
     using Newtonsoft.Json;
     using Serilog;
@@ -16,14 +17,14 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Clients {
     /// <summary>
     /// Implements discovery through discovery module
     /// </summary>
-    public sealed class DiscovererClient : IDiscovererClient {
+    public sealed class DiscovererModuleClient : IDiscovererClient {
 
         /// <summary>
         /// Create client
         /// </summary>
         /// <param name="client"></param>
         /// <param name="logger"></param>
-        public DiscovererClient(IMethodClient client, ILogger logger) {
+        public DiscovererModuleClient(IMethodClient client, ILogger logger) {
             _client = client ?? throw new ArgumentNullException(nameof(client));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
