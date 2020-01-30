@@ -4,6 +4,7 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Models {
+    using Microsoft.Azure.IIoT.OpcUa.Api.Core.Models;
     using System.Runtime.Serialization;
     using System.Collections.Generic;
     using System.ComponentModel;
@@ -30,7 +31,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Models {
     public class MethodCallRequestApiModel {
 
         /// <summary>
-        /// Method id of method to call. 
+        /// Method id of method to call.
         /// </summary>
         [DataMember(Name = "methodId",
             EmitDefaultValue = false)]

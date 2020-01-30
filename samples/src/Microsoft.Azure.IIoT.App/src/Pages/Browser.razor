@@ -9,10 +9,10 @@
 @using Microsoft.Azure.IIoT.App.Data
 @using Microsoft.AspNetCore.Components
 @using Microsoft.Azure.IIoT.OpcUa.Api.Twin.Models
-@using System.Collections.Generic
+@using Microsoft.Azure.IIoT.OpcUa.Api.Core.Models
 @using Microsoft.Azure.IIoT.OpcUa.Api.Publisher
 @using Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Models
-
+@using System.Collections.Generic
 
 @inject NavigationManager NavigationManager
 @inject Services.Browser BrowseManager
@@ -39,18 +39,14 @@
             <th>Value</th>
             <th>Publishing</th>
             <th>
-                @if (PagedNodeList.Results.Count > 0)
-                {
-                    if (PagedNodeList.Results[0].ParentName != "Root")
-                    {
+                @if (PagedNodeList.Results.Count > 0) {
+                    if (PagedNodeList.Results[0].ParentName != "Root") {
                         <a href="javascript: void(0)" @onclick="@(() => GetTreeBackAsync(PagedNodeList.Results[0].NextParentId, PagedNodeList.Results[0].ParentIdList))">
                             <span class="oi oi-arrow-left"></span>
                         </a>
                     }
-                    else
-                    {
-                        if (PagedNodeList.Results[0].DiscovererId != null)
-                        {
+                    else {
+                        if (PagedNodeList.Results[0].DiscovererId != null) {
                             <a href='endpoints/@PagedNodeList.Results[0].DiscovererId/@applicationId'>
                                 <span class="oi oi-arrow-left"></span>
                             </a>
@@ -61,34 +57,29 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var node in PagedNodeList.Results)
-        {
+        @foreach (var node in PagedNodeList.Results) {
             <tr>
                 <td>@node.NodeName</td>
                 <td>@node.Id</td>
-                @if (node.Children && (node.NodeClass != NodeClass.Method))
-                {
+                @if (node.Children && (node.NodeClass != NodeClass.Method)) {
                     <td>
                         <a href="javascript: void(0)" @onclick="@(() => GetTreeAsync(node.Id, node.ParentIdList))">
                             @node.NodeClass
                         </a>
                     </td>
                 }
-                else if (node.NodeClass == NodeClass.Method)
-                {
+                else if (node.NodeClass == NodeClass.Method) {
                     <td>
                         <a href="javascript: void(0)" @onclick="@(() => OpenDrawer(node))">
                             @node.NodeClass
                         </a>
                     </td>
                 }
-                else
-                {
+                else {
                     <td>@node.NodeClass</td>
                 }
                 @if (node.NodeClass == NodeClass.Variable && (node.AccessLevel == NodeAccessLevel.CurrentRead || node.AccessLevel == NodeAccessLevel.CurrentWrite ||
-                    node.AccessLevel == (NodeAccessLevel.CurrentRead | NodeAccessLevel.CurrentWrite)))
-                {
+                 node.AccessLevel == (NodeAccessLevel.CurrentRead | NodeAccessLevel.CurrentWrite))) {
                     <td>
                         <a href="javascript: void(0)" @onclick="@(() => OpenDrawer(node))">
                             @{string output = $"{node.Value} ({node.DataType})";}
@@ -96,13 +87,11 @@
                         </a>
                     </td>
                 }
-                else
-                {
+                else {
                     <td>N/A</td>
                 }
 
-                @if (node.NodeClass == NodeClass.Variable)
-                {
+                @if (node.NodeClass == NodeClass.Variable) {
                     <td>
                         <input type="checkbox" checked=@node.Publishing @onchange="@((EventArgs) => SetPublishing(endpointId, node, EventArgs))" />
                         <a href="javascript: void(0)" @onclick="@(() => OpenDrawer(node))">
@@ -111,8 +100,7 @@
                         </a>
                     </td>
                 }
-                else
-                {
+                else {
                     <td>N/A</td>
                 }
             </tr>
@@ -155,14 +143,11 @@
     /// Notify page change
     /// </summary>
     /// <param name="page"></param>
-    public async void PagerPageChanged(int page)
-    {
+    public async void PagerPageChanged(int page) {
         PagedNodeList = NodeList.GetPaged(page, PageLength);
-        foreach (var node in PagedNodeList.Results)
-        {
+        foreach (var node in PagedNodeList.Results) {
             // fetch the actual value
-            if (node.NodeClass == NodeClass.Variable)
-            {
+            if (node.NodeClass == NodeClass.Variable) {
                 node.Value = await BrowseManager.ReadValueAsync(endpointId, node.Id);
             }
         }
@@ -172,8 +157,7 @@
     /// <summary>
     /// OnInitialized
     /// </summary>
-    protected override void OnInitialized()
-    {
+    protected override void OnInitialized() {
         _spinner = "loader-big";
     }
 
@@ -181,10 +165,8 @@
     /// OnAfterRenderAsync
     /// </summary>
     /// <param name="firstRender"></param>
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
+    protected override async Task OnAfterRenderAsync(bool firstRender) {
+        if (firstRender) {
             await BrowseTreeAsync(string.Empty, new List<string>(), BrowseDirection.Forward);
             _spinner = "";
             StateHasChanged();
@@ -197,8 +179,7 @@
     /// </summary>
     /// <param name="id"></param>
     /// <param name="parentId"></param>
-    private async Task GetTreeAsync(string id, List<string> parentId)
-    {
+    private async Task GetTreeAsync(string id, List<string> parentId) {
         await BrowseTreeAsync(id, parentId, BrowseDirection.Forward);
     }
 
@@ -207,8 +188,7 @@
     /// </summary>
     /// <param name="id"></param>
     /// <param name="parentId"></param>
-    private async Task GetTreeBackAsync(string id, List<string> parentId)
-    {
+    private async Task GetTreeBackAsync(string id, List<string> parentId) {
         await BrowseTreeAsync(id, parentId, BrowseDirection.Backward);
         NavigationManager.NavigateTo("/browser/" + discovererId + "/" + applicationId + "/" + endpointId);
     }
@@ -219,21 +199,16 @@
     /// <param name="id"></param>
     /// <param name="parentId"></param>
     /// <param name="direction"></param>
-    private async Task BrowseTreeAsync(String id, List<string> parentId, BrowseDirection direction)
-    {
+    private async Task BrowseTreeAsync(String id, List<string> parentId, BrowseDirection direction) {
         _spinner = "loader-big";
         NodeList = await BrowseManager.GetTreeAsync(endpointId, id, parentId, discovererId, direction);
         var publishedNodes = await Publisher.PublishedAsync(endpointId);
 
-        foreach (var node in NodeList.Results)
-        {
-            if (node.NodeClass == NodeClass.Variable)
-            {
+        foreach (var node in NodeList.Results) {
+            if (node.NodeClass == NodeClass.Variable) {
                 // check if publishing enabled
-                foreach (var publishedItem in publishedNodes.Results)
-                {
-                    if (node.Id == publishedItem.NodeId)
-                    {
+                foreach (var publishedItem in publishedNodes.Results) {
+                    if (node.Id == publishedItem.NodeId) {
                         node.PublishedItem = publishedItem;
                         node.Publishing = true;
                         break;
@@ -252,32 +227,25 @@
     /// </summary>
     /// <param name="endpointId"></param>
     /// <param name="node"></param>
-    private async Task SetPublishing(string endpointId, ListNode node, ChangeEventArgs ev)
-    {
-        if ((bool)ev.Value)
-        {
+    private async Task SetPublishing(string endpointId, ListNode node, ChangeEventArgs ev) {
+        if ((bool)ev.Value) {
             var result = await Publisher.StartPublishingAsync(endpointId, node.Id, 1000, 1000);
-            if (result)
-            {
-                node.PublishedItem = new OpcUa.Api.Publisher.Models.PublishedItemApiModel()
-                {
+            if (result) {
+                node.PublishedItem = new OpcUa.Api.Publisher.Models.PublishedItemApiModel() {
                     NodeId = node.Id,
                     PublishingInterval = TimeSpan.FromMilliseconds(1000),
                     SamplingInterval = TimeSpan.FromMilliseconds(1000)
                 };
                 node.Publishing = true;
             }
-            else
-            {
+            else {
                 node.PublishedItem = null;
                 node.Publishing = false;
             }
         }
-        else
-        {
+        else {
             var result = await Publisher.StopPublishingAsync(endpointId, node.Id);
-            if (result)
-            {
+            if (result) {
                 node.PublishedItem = null;
                 node.Publishing = false;
             }
@@ -288,8 +256,7 @@
     /// Open the Drawer
     /// </summary>
     /// <param name="node"></param>
-    private void OpenDrawer(ListNode node)
-    {
+    private void OpenDrawer(ListNode node) {
         IsOpened = true;
         NodeData = node;
     }
@@ -297,19 +264,15 @@
     /// <summary>
     /// Close the Drawer
     /// </summary>
-    private void CloseDrawer()
-    {
+    private void CloseDrawer() {
         IsOpened = false;
         BrowseManager.MethodCallResponse = null;
         this.StateHasChanged();
     }
 
-    private Task PublishEvent(MonitoredItemMessageApiModel samples)
-    {
-        foreach (var node in PagedNodeList.Results)
-        {
-            if (node.Id == samples.NodeId)
-            {
+    private Task PublishEvent(MonitoredItemMessageApiModel samples) {
+        foreach (var node in PagedNodeList.Results) {
+            if (node.Id == samples.NodeId) {
                 node.Value = samples.Value?.ToString();
                 this.StateHasChanged();
             }
@@ -318,10 +281,8 @@
     }
 
 
-    public async void Dispose()
-    {
-        if (_publishEvent != null)
-        {
+    public async void Dispose() {
+        if (_publishEvent != null) {
             await _publishEvent.DisposeAsync();
         }
     }

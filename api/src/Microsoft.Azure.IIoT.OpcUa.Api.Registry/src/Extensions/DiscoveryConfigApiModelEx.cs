@@ -30,8 +30,8 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Models {
             if (!isPatch || update.DiscoveryUrls != null) {
                 config.DiscoveryUrls = update.DiscoveryUrls;
             }
-            if (!isPatch || update.IdleTimeBetweenScansSec != null) {
-                config.IdleTimeBetweenScansSec = update.IdleTimeBetweenScansSec;
+            if (!isPatch || update.IdleTimeBetweenScans != null) {
+                config.IdleTimeBetweenScans = update.IdleTimeBetweenScans;
             }
             if (!isPatch || update.Locales != null) {
                 config.Locales = update.Locales;
@@ -45,11 +45,11 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Models {
             if (!isPatch || update.MinPortProbesPercent != null) {
                 config.MinPortProbesPercent = update.MinPortProbesPercent;
             }
-            if (!isPatch || update.NetworkProbeTimeoutMs != null) {
-                config.NetworkProbeTimeoutMs = update.NetworkProbeTimeoutMs;
+            if (!isPatch || update.NetworkProbeTimeout != null) {
+                config.NetworkProbeTimeout = update.NetworkProbeTimeout;
             }
-            if (!isPatch || update.PortProbeTimeoutMs != null) {
-                config.PortProbeTimeoutMs = update.PortProbeTimeoutMs;
+            if (!isPatch || update.PortProbeTimeout != null) {
+                config.PortProbeTimeout = update.PortProbeTimeout;
             }
             if (!isPatch || update.PortRangesToScan != null) {
                 config.PortRangesToScan = update.PortRangesToScan;

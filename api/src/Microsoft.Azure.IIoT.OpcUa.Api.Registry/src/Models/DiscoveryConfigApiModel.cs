@@ -7,6 +7,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Models {
     using System.Runtime.Serialization;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System;
 
     /// <summary>
     /// Discovery configuration api model
@@ -28,7 +29,18 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Models {
         [DataMember(Name = "networkProbeTimeoutMs",
             EmitDefaultValue = false)]
         [DefaultValue(null)]
-        public int? NetworkProbeTimeoutMs { get; set; }
+        [Obsolete("Use NetworkProbeTimeout")]
+        public int? NetworkProbeTimeoutMs {
+            get => (int?)NetworkProbeTimeout?.TotalMilliseconds;
+            set => NetworkProbeTimeout = value != null ?
+                TimeSpan.FromMilliseconds(value.Value) : (TimeSpan?)null;
+        }
+
+        /// <summary>
+        /// Network probe timeout
+        /// </summary>
+        [IgnoreDataMember]
+        public TimeSpan? NetworkProbeTimeout { get; set; }
 
         /// <summary>
         /// Max network probes that should ever run.
@@ -52,7 +64,18 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Models {
         [DataMember(Name = "portProbeTimeoutMs",
             EmitDefaultValue = false)]
         [DefaultValue(null)]
-        public int? PortProbeTimeoutMs { get; set; }
+        [Obsolete("Use PortProbeTimeout")]
+        public int? PortProbeTimeoutMs {
+            get => (int?)PortProbeTimeout?.TotalMilliseconds;
+            set => PortProbeTimeout = value != null ?
+                TimeSpan.FromMilliseconds(value.Value) : (TimeSpan?)null;
+        }
+
+        /// <summary>
+        /// Port probe timeout
+        /// </summary>
+        [IgnoreDataMember]
+        public TimeSpan? PortProbeTimeout { get; set; }
 
         /// <summary>
         /// Max port probes that should ever run.
@@ -76,7 +99,18 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Models {
         [DataMember(Name = "idleTimeBetweenScansSec",
             EmitDefaultValue = false)]
         [DefaultValue(null)]
-        public int? IdleTimeBetweenScansSec { get; set; }
+        [Obsolete("Use IdleTimeBetweenScans")]
+        public int? IdleTimeBetweenScansSec {
+            get => (int?)PortProbeTimeout?.TotalSeconds;
+            set => PortProbeTimeout = value != null ?
+                TimeSpan.FromSeconds(value.Value) : (TimeSpan?)null;
+        }
+
+        /// <summary>
+        /// Delay time between discovery sweeps
+        /// </summary>
+        [IgnoreDataMember]
+        public TimeSpan? IdleTimeBetweenScans { get; set; }
 
         /// <summary>
         /// List of preset discovery urls to use

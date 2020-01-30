@@ -5,6 +5,7 @@
 
 namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin {
     using Microsoft.Azure.IIoT.OpcUa.Api.Twin.Models;
+    using Microsoft.Azure.IIoT.OpcUa.Api.Core.Models;
     using Microsoft.Azure.IIoT.OpcUa.Twin;
     using Microsoft.Azure.IIoT.OpcUa.Twin.Models;
     using System;
@@ -36,7 +37,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin {
         public async Task<BrowseNextResultModel> NodeBrowseNextAsync(
             EndpointApiModel endpoint, BrowseNextRequestModel request) {
             var result = await _client.NodeBrowseNextAsync(endpoint,
-                request.Map<BrowseNextRequestApiModel>());
+                request.Map<BrowseNextRequestInternalApiModel>());
             return result.Map<BrowseNextResultModel>();
         }
 

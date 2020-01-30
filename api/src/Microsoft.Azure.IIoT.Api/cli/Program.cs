@@ -8,6 +8,7 @@ namespace Microsoft.Azure.IIoT.Api.Cli {
     using Microsoft.Azure.IIoT.Api.Jobs.Clients;
     using Microsoft.Azure.IIoT.Api.Jobs;
     using Microsoft.Azure.IIoT.Api.Jobs.Models;
+    using Microsoft.Azure.IIoT.OpcUa.Api.Core.Models;
     using Microsoft.Azure.IIoT.OpcUa.Api.Publisher;
     using Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Clients;
     using Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Models;
@@ -1839,7 +1840,7 @@ namespace Microsoft.Azure.IIoT.Api.Cli {
                     Id = id,
                     DiscoveryUrl = options.GetValue<string>("-u", "--url"),
                     ActivationFilter = !activate ? null : new EndpointActivationFilterApiModel {
-                        SecurityMode = OpcUa.Api.Registry.Models.SecurityMode.None
+                        SecurityMode = OpcUa.Api.Core.Models.SecurityMode.None
                     }
                 });
         }
@@ -2178,7 +2179,7 @@ namespace Microsoft.Azure.IIoT.Api.Cli {
             var query = new EndpointRegistrationQueryApiModel {
                 Url = options.GetValueOrDefault<string>("-u", "--uri", null),
                 SecurityMode = options
-                    .GetValueOrDefault<OpcUa.Api.Registry.Models.SecurityMode>("-m", "--mode", null),
+                    .GetValueOrDefault<OpcUa.Api.Core.Models.SecurityMode>("-m", "--mode", null),
                 SecurityPolicy = options.GetValueOrDefault<string>("-l", "--policy", null),
                 Connected = options.IsProvidedOrNull("-c", "--connected"),
                 Activated = options.IsProvidedOrNull("-a", "--activated"),
@@ -2217,7 +2218,7 @@ namespace Microsoft.Azure.IIoT.Api.Cli {
 
             // Activate all sign and encrypt endpoints
             var result = await _registry.QueryAllEndpointsAsync(new EndpointRegistrationQueryApiModel {
-                SecurityMode = options.GetValueOrDefault<OpcUa.Api.Registry.Models.SecurityMode>("-m", "mode", null),
+                SecurityMode = options.GetValueOrDefault<OpcUa.Api.Core.Models.SecurityMode>("-m", "mode", null),
                 Activated = false
             });
             foreach (var item in result) {
@@ -2243,7 +2244,7 @@ namespace Microsoft.Azure.IIoT.Api.Cli {
 
             // Activate all sign and encrypt endpoints
             var result = await _registry.QueryAllEndpointsAsync(new EndpointRegistrationQueryApiModel {
-                SecurityMode = options.GetValueOrDefault<OpcUa.Api.Registry.Models.SecurityMode>("-m", "mode", null),
+                SecurityMode = options.GetValueOrDefault<OpcUa.Api.Core.Models.SecurityMode>("-m", "mode", null),
                 Activated = true
             });
             foreach (var item in result) {
@@ -2690,7 +2691,7 @@ namespace Microsoft.Azure.IIoT.Api.Cli {
 
             if (options.IsSet("-a", "--activate")) {
                 config.ActivationFilter = new EndpointActivationFilterApiModel {
-                    SecurityMode = OpcUa.Api.Registry.Models.SecurityMode.None
+                    SecurityMode = OpcUa.Api.Core.Models.SecurityMode.None
                 };
                 empty = false;
             }
@@ -2731,19 +2732,19 @@ namespace Microsoft.Azure.IIoT.Api.Cli {
 
             var netProbeTimeout = options.GetValueOrDefault<int>("-T", "--address-probe-timeout", null);
             if (netProbeTimeout != null && netProbeTimeout != 0) {
-                config.NetworkProbeTimeoutMs = netProbeTimeout.Value;
+                config.NetworkProbeTimeout = TimeSpan.FromMilliseconds(netProbeTimeout.Value);
                 empty = false;
             }
 
             var portProbeTimeout = options.GetValueOrDefault<int>("-t", "--port-probe-timeout", null);
             if (portProbeTimeout != null && portProbeTimeout != 0) {
-                config.PortProbeTimeoutMs = portProbeTimeout.Value;
+                config.PortProbeTimeout = TimeSpan.FromMilliseconds(portProbeTimeout.Value);
                 empty = false;
             }
 
             var idleTime = options.GetValueOrDefault<int>("-I", "--idle-time", null);
             if (idleTime != null && idleTime != 0) {
-                config.IdleTimeBetweenScansSec = idleTime.Value;
+                config.IdleTimeBetweenScans = TimeSpan.FromSeconds(idleTime.Value);
                 empty = false;
             }
             return empty ? null : config;

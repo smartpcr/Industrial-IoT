@@ -9,6 +9,7 @@
 @using Microsoft.Azure.IIoT.Http.SignalR
 @using Microsoft.Azure.IIoT.OpcUa.Api.Registry
 @using Microsoft.Azure.IIoT.OpcUa.Api.Registry.Models
+@using Microsoft.Azure.IIoT.OpcUa.Api.Core.Models
 
 
 @inject NavigationManager NavigationManager
@@ -29,94 +30,86 @@
     </thead>
     <tbody>
         @{string connectStatus = "Disconnected"; }
-        @foreach (var discoverer in pagedDiscovererList.Results)
-        {
-        <tr>
-            @if (discoverer.HasApplication == true)
-            {
+        @foreach (var discoverer in pagedDiscovererList.Results) {
+            <tr>
+                @if (discoverer.HasApplication == true) {
+                    <td>
+                        <a href='endpoints/@discoverer.DiscovererModel.Id/@RegistryHelper.PathAll'>
+                            @discoverer.DiscovererModel.Id
+                        </a>
+                    </td>
+                }
+                else {
+                    <td>@discoverer.DiscovererModel.Id</td>
+                }
+                @{connectStatus = discoverer.DiscovererModel.Connected == true ? "Connected" : "Disconnected";}
                 <td>
-                    <a href='endpoints/@discoverer.DiscovererModel.Id/@RegistryHelper.PathAll'>
-                        @discoverer.DiscovererModel.Id
+                    @connectStatus
+                </td>
+                <td>
+                    @if (discoverer.DiscovererModel.Connected == true) {
+                        <input type="checkbox" enabled @bind="@discoverer.ScanStatus" @onclick="@(async() => await SetScanAsync(discoverer))" />
+                    }
+                    else {
+                        <input type="checkbox" disabled @bind="@discoverer.ScanStatus" />
+                    }
+
+                    @{string output = discoverer.ScanStatus == true ? "On" : "Off";}
+                    @output
+                    @if (discoverer.IsSearching) {
+                        <div class=" pos-right loader"></div>
+                    }
+                    else {
+                        <div class=" pos-right"></div>
+                    }
+                </td>
+                <td>
+                    @{ string ScanMask = "--"; }
+                    @{ string PortRange = "--";}
+                    @{ string MaxNetworkProbes = "--";}
+                    @{ string MaxPortProbes = "--";}
+                    @{ string NetworkProbeTimeoutMs = "--";}
+                    @{ string PortProbeTimeoutMs = "--";}
+                    @{ string IdleTimeBetweenScansSec = "--";}
+                    @{ string ActivationFilter = "--";}
+                    @if (discoverer.DiscovererModel.DiscoveryConfig != null) {
+                        ScanMask = discoverer.DiscovererModel.DiscoveryConfig?.AddressRangesToScan == null ? "Default" : discoverer.DiscovererModel.DiscoveryConfig?.AddressRangesToScan == "" ? "Default" :
+                            discoverer.DiscovererModel.DiscoveryConfig.AddressRangesToScan;
+                        PortRange = discoverer.DiscovererModel.DiscoveryConfig?.PortRangesToScan == null ? "Default" : discoverer.DiscovererModel.DiscoveryConfig?.PortRangesToScan == "" ? "Default" :
+                            discoverer.DiscovererModel.DiscoveryConfig.PortRangesToScan;
+                        MaxNetworkProbes = discoverer.DiscovererModel.DiscoveryConfig?.MaxNetworkProbes == null ? "Default" : discoverer.DiscovererModel.DiscoveryConfig.MaxNetworkProbes.ToString();
+                        MaxPortProbes = discoverer.DiscovererModel.DiscoveryConfig?.MaxPortProbes == null ? "Default" : discoverer.DiscovererModel.DiscoveryConfig.MaxPortProbes.ToString();
+                        NetworkProbeTimeoutMs = discoverer.DiscovererModel.DiscoveryConfig?.NetworkProbeTimeout == null ? "Default" : discoverer.DiscovererModel.DiscoveryConfig.NetworkProbeTimeout.ToString();
+                        PortProbeTimeoutMs = discoverer.DiscovererModel.DiscoveryConfig?.PortProbeTimeout == null ? "Default" : discoverer.DiscovererModel.DiscoveryConfig.PortProbeTimeout.ToString();
+                        IdleTimeBetweenScansSec = discoverer.DiscovererModel.DiscoveryConfig?.IdleTimeBetweenScans == null ? "Default" : discoverer.DiscovererModel.DiscoveryConfig.IdleTimeBetweenScans.ToString();
+                        ActivationFilter = discoverer.DiscovererModel.DiscoveryConfig?.ActivationFilter?.SecurityMode == null ? "--" : discoverer.DiscovererModel.DiscoveryConfig.ActivationFilter.SecurityMode.ToString();
+                    }
+                    Scan Mask: <a href="javascript: void(0)" @onclick="@(() => OpenDrawer(discoverer))">
+                        @ScanMask<br />
+                    </a>
+                    Port Range: <a href="javascript: void(0)" @onclick="@(() => OpenDrawer(discoverer))">
+                        @PortRange<br />
+                    </a>
+                    Max Network Probes: <a href="javascript: void(0)" @onclick="@(() => OpenDrawer(discoverer))">
+                        @MaxNetworkProbes<br />
+                    </a>
+                    Max Port Probes: <a href="javascript: void(0)" @onclick="@(() => OpenDrawer(discoverer))">
+                        @MaxPortProbes<br />
+                    </a>
+                    Network Probe Timeout (ms): <a href="javascript: void(0)" @onclick="@(() => OpenDrawer(discoverer))">
+                        @NetworkProbeTimeoutMs<br />
+                    </a>
+                    Port Probe Timeout (ms): <a href="javascript: void(0)" @onclick="@(() => OpenDrawer(discoverer))">
+                        @PortProbeTimeoutMs<br />
+                    </a>
+                    Idle Time Between Scans (sec): <a href="javascript: void(0)" @onclick="@(() => OpenDrawer(discoverer))">
+                        @IdleTimeBetweenScansSec<br />
+                    </a>
+                    Activation Filter: <a href="javascript: void(0)" @onclick="@(() => OpenDrawer(discoverer))">
+                        @ActivationFilter
                     </a>
                 </td>
-            }
-            else
-            {
-                <td>@discoverer.DiscovererModel.Id</td>
-            }
-            @{connectStatus = discoverer.DiscovererModel.Connected == true ? "Connected" : "Disconnected";}
-            <td>
-                @connectStatus
-            </td>
-            <td>
-                @if (discoverer.DiscovererModel.Connected == true)
-                {
-                    <input type="checkbox" enabled @bind="@discoverer.ScanStatus" @onclick="@(async() => await SetScanAsync(discoverer))" />
-                }
-                else
-                {
-                    <input type="checkbox" disabled @bind="@discoverer.ScanStatus" />
-                }
-
-                @{string output = discoverer.ScanStatus == true ? "On" : "Off";}
-                @output
-                @if (discoverer.IsSearching)
-                {
-                    <div class=" pos-right loader"></div>
-                }
-                else
-                {
-                    <div class=" pos-right"></div>
-                }
-            </td>
-            <td>
-                @{ string ScanMask = "--"; }
-                @{ string PortRange = "--";}
-                @{ string MaxNetworkProbes = "--";}
-                @{ string MaxPortProbes = "--";}
-                @{ string NetworkProbeTimeoutMs = "--";}
-                @{ string PortProbeTimeoutMs = "--";}
-                @{ string IdleTimeBetweenScansSec = "--";}
-                @{ string ActivationFilter = "--";}
-                @if (discoverer.DiscovererModel.DiscoveryConfig != null)
-                {
-                    ScanMask = discoverer.DiscovererModel.DiscoveryConfig?.AddressRangesToScan == null ? "Default" : discoverer.DiscovererModel.DiscoveryConfig?.AddressRangesToScan == "" ? "Default" :
-                        discoverer.DiscovererModel.DiscoveryConfig.AddressRangesToScan;
-                    PortRange = discoverer.DiscovererModel.DiscoveryConfig?.PortRangesToScan == null ? "Default" : discoverer.DiscovererModel.DiscoveryConfig?.PortRangesToScan == "" ? "Default" :
-                        discoverer.DiscovererModel.DiscoveryConfig.PortRangesToScan;
-                    MaxNetworkProbes = discoverer.DiscovererModel.DiscoveryConfig?.MaxNetworkProbes == null ? "Default" : discoverer.DiscovererModel.DiscoveryConfig.MaxNetworkProbes.ToString();
-                    MaxPortProbes = discoverer.DiscovererModel.DiscoveryConfig?.MaxPortProbes == null ? "Default" : discoverer.DiscovererModel.DiscoveryConfig.MaxPortProbes.ToString();
-                    NetworkProbeTimeoutMs = discoverer.DiscovererModel.DiscoveryConfig?.NetworkProbeTimeoutMs == null ? "Default" : discoverer.DiscovererModel.DiscoveryConfig.NetworkProbeTimeoutMs.ToString();
-                    PortProbeTimeoutMs = discoverer.DiscovererModel.DiscoveryConfig?.PortProbeTimeoutMs == null ? "Default" : discoverer.DiscovererModel.DiscoveryConfig.PortProbeTimeoutMs.ToString();
-                    IdleTimeBetweenScansSec = discoverer.DiscovererModel.DiscoveryConfig?.IdleTimeBetweenScansSec == null ? "Default" : discoverer.DiscovererModel.DiscoveryConfig.IdleTimeBetweenScansSec.ToString();
-                    ActivationFilter = discoverer.DiscovererModel.DiscoveryConfig?.ActivationFilter?.SecurityMode == null ? "--" : discoverer.DiscovererModel.DiscoveryConfig.ActivationFilter.SecurityMode.ToString();
-                }
-                Scan Mask: <a href="javascript: void(0)" @onclick="@(() => OpenDrawer(discoverer))">
-                    @ScanMask<br />
-                </a>
-                Port Range: <a href="javascript: void(0)" @onclick="@(() => OpenDrawer(discoverer))">
-                    @PortRange<br />
-                </a>
-                Max Network Probes: <a href="javascript: void(0)" @onclick="@(() => OpenDrawer(discoverer))">
-                    @MaxNetworkProbes<br />
-                </a>
-                Max Port Probes: <a href="javascript: void(0)" @onclick="@(() => OpenDrawer(discoverer))">
-                    @MaxPortProbes<br />
-                </a>
-                Network Probe Timeout (ms): <a href="javascript: void(0)" @onclick="@(() => OpenDrawer(discoverer))">
-                    @NetworkProbeTimeoutMs<br />
-                </a>
-                Port Probe Timeout (ms): <a href="javascript: void(0)" @onclick="@(() => OpenDrawer(discoverer))">
-                    @PortProbeTimeoutMs<br />
-                </a>
-                Idle Time Between Scans (sec): <a href="javascript: void(0)" @onclick="@(() => OpenDrawer(discoverer))">
-                    @IdleTimeBetweenScansSec<br />
-                </a>
-                Activation Filter: <a href="javascript: void(0)" @onclick="@(() => OpenDrawer(discoverer))">
-                    @ActivationFilter
-                </a>
-            </td>
-        </tr>
+            </tr>
         }
     </tbody>
 </table>
@@ -151,7 +144,7 @@
                 </div>
                 <div class="form-group">
                     <label>Network Probe Timeout</label>
-                    <input @bind-value="@DiscovererData.DiscovererModel.DiscoveryConfig.NetworkProbeTimeoutMs" aria-label="networkProbeTimeout" id="NetworkProbeTimeoutMs" type="number" class="form-control" placeholder="Network Probe Timeout ms" />
+                    <input @bind-value="@DiscovererData.DiscovererModel.DiscoveryConfig.NetworkProbeTimeout" aria-label="networkProbeTimeout" id="NetworkProbeTimeoutMs" type="number" class="form-control" placeholder="Network Probe Timeout ms" />
                 </div>
                 <div class="form-group">
                     <label>Max Port Probes</label>
@@ -159,23 +152,22 @@
                 </div>
                 <div class="form-group">
                     <label>Port Probe Timeout</label>
-                    <input @bind-value="@DiscovererData.DiscovererModel.DiscoveryConfig.PortProbeTimeoutMs" aria-label="portProbeTimeout" id="PortProbeTimeoutMs" type="number" class="form-control" placeholder="Port Probe Timeout ms" />
+                    <input @bind-value="@DiscovererData.DiscovererModel.DiscoveryConfig.PortProbeTimeout" aria-label="portProbeTimeout" id="PortProbeTimeoutMs" type="number" class="form-control" placeholder="Port Probe Timeout ms" />
                 </div>
                 <div class="form-group">
                     <label>Idle TimeBetween Scans</label>
-                    <input @bind="@DiscovererData.DiscovererModel.DiscoveryConfig.IdleTimeBetweenScansSec" aria-label="idleTimeBetweenScansSec" id="IdleTimeBetweenScansSec" type="number" class="form-control" placeholder="Idle Time Between Scans Sec"/>
+                    <input @bind="@DiscovererData.DiscovererModel.DiscoveryConfig.IdleTimeBetweenScans" aria-label="idleTimeBetweenScansSec" id="IdleTimeBetweenScansSec" type="number" class="form-control" placeholder="Idle Time Between Scans Sec" />
                 </div>
                 <div class="form-group">
-                    @if(DiscovererData.DiscovererModel.DiscoveryConfig.ActivationFilter == null)
-                    {
+                    @if (DiscovererData.DiscovererModel.DiscoveryConfig.ActivationFilter == null) {
                         DiscovererData.DiscovererModel.DiscoveryConfig.ActivationFilter = new EndpointActivationFilterApiModel();
                     }
                     <label>Activation Filter (Security Modes)</label>
                     <select class="form-control" @bind="@DiscovererData.DiscovererModel.DiscoveryConfig.ActivationFilter.SecurityMode" name="securityMode">
-                        <option value="@OpcUa.Api.Registry.Models.SecurityMode.None">None</option>
-                        <option value="@OpcUa.Api.Registry.Models.SecurityMode.Sign">Sign</option>
-                        <option value="@OpcUa.Api.Registry.Models.SecurityMode.SignAndEncrypt">SignAndEncrypt</option>
-                        <option value="@OpcUa.Api.Registry.Models.SecurityMode.Best">Best</option>
+                        <option value="@SecurityMode.None">None</option>
+                        <option value="@SecurityMode.Sign">Sign</option>
+                        <option value="@SecurityMode.SignAndEncrypt">SignAndEncrypt</option>
+                        <option value="@SecurityMode.Best">Best</option>
                     </select>
                 </div>
                 <hr />
@@ -213,8 +205,7 @@
     /// </summary>
     /// <param name="page"></param>
     /// <returns></returns>
-    public void PagerPageChanged(int page)
-    {
+    public void PagerPageChanged(int page) {
         pagedDiscovererList = discovererList.GetPaged(page, PageLength);
         NavigationManager.NavigateTo("/discoverers/" + page);
     }
@@ -222,8 +213,7 @@
     /// <summary>
     /// OnInitialized
     /// </summary>
-    protected override void OnInitialized()
-    {
+    protected override void OnInitialized() {
         _spinner = "loader-big";
     }
 
@@ -231,10 +221,8 @@
     /// OnAfterRenderAsync
     /// </summary>
     /// <param name="firstRender"></param>
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
+    protected override async Task OnAfterRenderAsync(bool firstRender) {
+        if (firstRender) {
             discovererList = await RegistryHelper.GetDiscovererListAsync();
             Page = "1";
             pagedDiscovererList = discovererList.GetPaged(Int32.Parse(Page), PageLength);
@@ -253,40 +241,33 @@
     /// <param name="forceScan"></param>
     /// <param name="ipMask"></param>
     /// <param name="portRange"></param>
-    private async Task SetScanAsync(DiscovererInfo discoverer)
-    {
+    private async Task SetScanAsync(DiscovererInfo discoverer) {
         _discovery = await RegistryServiceEvents.SubscribeDiscoveryProgressByDiscovererIdAsync(
-                discoverer.DiscovererModel.Id, null, async data =>
-                {
+                discoverer.DiscovererModel.Id, null, async data => {
                     await InvokeAsync(() => ScanProgress(data));
                 });
 
-        try
-        {
+        try {
             _eventResult = string.Empty;
 
-            if (discoverer.ScanStatus == true)
-            {
+            if (discoverer.ScanStatus == true) {
                 discoverer.IsSearching = true;
                 _scanResult = "visible";
                 DiscovererData = discoverer;
             }
-            else
-            {
+            else {
                 discoverer.IsSearching = false;
                 _scanResult = "hidden";
                 await _discovery.DisposeAsync();
             }
             await RegistryHelper.SetDiscoveryAsync(discoverer);
         }
-        catch
-        {
+        catch {
             await _discovery.DisposeAsync();
         }
     }
 
-    private async Task UpdateDiscovererConfigAsync(DiscovererInfo discoverer, DiscoveryConfigApiModel config)
-    {
+    private async Task UpdateDiscovererConfigAsync(DiscovererInfo discoverer, DiscoveryConfigApiModel config) {
         await RegistryHelper.UpdateDiscovererAsync(discoverer, config);
     }
 
@@ -294,8 +275,7 @@
     /// Open then Drawer
     /// </summary>
     /// <param name="OpenDrawer"></param>
-    private void OpenDrawer(DiscovererInfo discoverer)
-    {
+    private void OpenDrawer(DiscovererInfo discoverer) {
         IsOpened = true;
         DiscovererData = discoverer;
     }
@@ -303,8 +283,7 @@
     /// <summary>
     /// Close the Drawer
     /// </summary>
-    private void CloseDrawer()
-    {
+    private void CloseDrawer() {
         IsOpened = false;
         this.StateHasChanged();
     }
@@ -313,10 +292,8 @@
     /// display discoverers scan events
     /// </summary>
     /// <param name="ev"></param>
-    private void ScanProgress(DiscoveryProgressApiModel ev)
-    {
-        switch (ev.EventType)
-        {
+    private void ScanProgress(DiscoveryProgressApiModel ev) {
+        switch (ev.EventType) {
             case DiscoveryProgressType.Pending:
                 _eventResult += string.Format("{0}: {1} waiting...", ev.DiscovererId, ev.Total) + System.Environment.NewLine;
                 break;
@@ -363,24 +340,21 @@
             case DiscoveryProgressType.Cancelled:
                 _eventResult += "==========================================" + System.Environment.NewLine;
                 _eventResult += string.Format("{0}: Cancelled.", ev.DiscovererId) + System.Environment.NewLine;
-                if (DiscovererData != null)
-                {
+                if (DiscovererData != null) {
                     DiscovererData.IsSearching = false;
                 }
                 break;
             case DiscoveryProgressType.Error:
                 _eventResult += "==========================================" + System.Environment.NewLine;
                 _eventResult += string.Format("{0}: Failure.", ev.DiscovererId) + System.Environment.NewLine;
-                if (DiscovererData != null)
-                {
+                if (DiscovererData != null) {
                     DiscovererData.IsSearching = false;
                 }
                 break;
             case DiscoveryProgressType.Finished:
                 _eventResult += "==========================================" + System.Environment.NewLine;
                 _eventResult += string.Format("{0}: Completed.", ev.DiscovererId) + System.Environment.NewLine;
-                if (DiscovererData != null)
-                {
+                if (DiscovererData != null) {
                     DiscovererData.IsSearching = false;
                 }
                 break;
@@ -392,17 +366,14 @@
     /// refresh UI on DiscovererEvent
     /// </summary>
     /// <param name="ev"></param>
-    private Task DiscovererEvent(DiscovererEventApiModel ev)
-    {
+    private Task DiscovererEvent(DiscovererEventApiModel ev) {
         discovererList.Results.Update(ev);
         StateHasChanged();
         return Task.CompletedTask;
     }
 
-    public async void Dispose()
-    {
-        if (_discovererEvent != null)
-        {
+    public async void Dispose() {
+        if (_discovererEvent != null) {
             await _discovererEvent.DisposeAsync();
         }
     }

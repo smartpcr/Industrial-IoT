@@ -5,6 +5,7 @@
 
 namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin {
     using Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Runtime;
+    using Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Controllers;
     using Microsoft.Azure.IIoT.OpcUa.Edge;
     using Microsoft.Azure.IIoT.OpcUa.Edge.Control.Services;
     using Microsoft.Azure.IIoT.OpcUa.Edge.Export.Services;
@@ -143,9 +144,9 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin {
                 .AsImplementedInterfaces();
 
             // Register controllers
-            builder.RegisterType<v2.Supervisor.SupervisorMethodsController>()
+            builder.RegisterType<SupervisorMethodsController>()
                 .AsImplementedInterfaces().InstancePerLifetimeScope();
-            builder.RegisterType<v2.Supervisor.SupervisorSettingsController>()
+            builder.RegisterType<SupervisorSettingsController>()
                 .AsImplementedInterfaces().InstancePerLifetimeScope();
 
             // Register supervisor services
@@ -212,9 +213,9 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin {
                 builder.RegisterModule<ModuleFramework>();
 
                 // Register twin controllers
-                builder.RegisterType<v2.Supervisor.EndpointMethodsController>()
+                builder.RegisterType<EndpointMethodsController>()
                     .AsImplementedInterfaces().InstancePerLifetimeScope();
-                builder.RegisterType<v2.Supervisor.EndpointSettingsController>()
+                builder.RegisterType<EndpointSettingsController>()
                     .AsImplementedInterfaces().InstancePerLifetimeScope();
 
                 configure?.Invoke(builder);

@@ -36,7 +36,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin {
         public async Task<BrowseNextResultModel> NodeBrowseNextAsync(
             string endpoint, BrowseNextRequestModel request) {
             var result = await _client.NodeBrowseNextAsync(endpoint,
-                request.Map<BrowseNextRequestApiModel>());
+                request.Map<BrowseNextRequestInternalApiModel>());
             return result.Map<BrowseNextResultModel>();
         }
 

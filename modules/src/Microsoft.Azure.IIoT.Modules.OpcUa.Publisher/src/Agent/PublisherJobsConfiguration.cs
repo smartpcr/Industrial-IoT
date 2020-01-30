@@ -4,12 +4,13 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.Agent {
-    using Autofac;
-    using Microsoft.Azure.IIoT.Agent.Framework;
-    using Microsoft.Azure.IIoT.Agent.Framework.Exceptions;
-    using Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.v2.Models;
+    using Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.Models;
+    using Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Models;
     using Microsoft.Azure.IIoT.OpcUa.Edge.Publisher.Runtime;
     using Microsoft.Azure.IIoT.OpcUa.Publisher.Models;
+    using Microsoft.Azure.IIoT.Agent.Framework;
+    using Microsoft.Azure.IIoT.Agent.Framework.Exceptions;
+    using Autofac;
     using Newtonsoft.Json.Linq;
 
     /// <summary>
@@ -37,7 +38,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.Agent {
                 switch (jobConfig) {
                     case WriterGroupJobModel pj:
                         jobConfigurationType = kDataSetWriterJobV2;
-                        return JObject.FromObject(new WriterGroupJobApiModel(pj));
+                        return JObject.FromObject(pj.ToApiModel());
                         // ... Add more if needed
                 }
                 throw new UnknownJobTypeException(typeof(T).Name);

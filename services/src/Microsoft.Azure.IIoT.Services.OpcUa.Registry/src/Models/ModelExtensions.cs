@@ -7,6 +7,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Models {
     using Microsoft.Azure.IIoT.OpcUa.Registry.Models;
     using Microsoft.Azure.IIoT.OpcUa.Core.Models;
     using Microsoft.Azure.IIoT.OpcUa.Api.Registry.Models;
+    using Microsoft.Azure.IIoT.OpcUa.Api.Core.Models;
     using System;
     using System.Linq;
     using System.Collections.Generic;
@@ -28,7 +29,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Models {
             }
             return new ApplicationInfoApiModel {
                 ApplicationId = model.ApplicationId,
-                ApplicationType = (IIoT.OpcUa.Api.Registry.Models.ApplicationType)model.ApplicationType,
+                ApplicationType = (IIoT.OpcUa.Api.Core.Models.ApplicationType)model.ApplicationType,
                 ApplicationUri = model.ApplicationUri,
                 ApplicationName = model.ApplicationName,
                 Locale = model.Locale,
@@ -203,8 +204,8 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Models {
                 Id = model.Id,
                 SecurityPolicy = model.SecurityPolicy,
                 Configuration = model.Configuration,
-                CredentialType = (IIoT.OpcUa.Api.Registry.Models.CredentialType?)model.CredentialType ??
-                    IIoT.OpcUa.Api.Registry.Models.CredentialType.None
+                CredentialType = (IIoT.OpcUa.Api.Core.Models.CredentialType?)model.CredentialType ??
+                    IIoT.OpcUa.Api.Core.Models.CredentialType.None
             };
         }
 
@@ -292,13 +293,13 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Models {
             }
             return new DiscoveryConfigApiModel {
                 AddressRangesToScan = model.AddressRangesToScan,
-                NetworkProbeTimeoutMs = (int?)model.NetworkProbeTimeout?.TotalMilliseconds,
+                NetworkProbeTimeout = model.NetworkProbeTimeout,
                 MaxNetworkProbes = model.MaxNetworkProbes,
                 PortRangesToScan = model.PortRangesToScan,
-                PortProbeTimeoutMs = (int?)model.PortProbeTimeout?.TotalMilliseconds,
+                PortProbeTimeout = model.PortProbeTimeout,
                 MaxPortProbes = model.MaxPortProbes,
                 MinPortProbesPercent = model.MinPortProbesPercent,
-                IdleTimeBetweenScansSec = (int?)model.IdleTimeBetweenScans?.TotalSeconds,
+                IdleTimeBetweenScans = model.IdleTimeBetweenScans,
                 ActivationFilter = model.ActivationFilter.ToApiModel(),
                 Locales = model.Locales,
                 DiscoveryUrls = model.DiscoveryUrls
@@ -316,16 +317,13 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Models {
             }
             return new DiscoveryConfigModel {
                 AddressRangesToScan = model.AddressRangesToScan,
-                NetworkProbeTimeout = model.NetworkProbeTimeoutMs == null ?
-                    (TimeSpan?)null : TimeSpan.FromMilliseconds((double)model.NetworkProbeTimeoutMs),
+                NetworkProbeTimeout = model.NetworkProbeTimeout,
                 MaxNetworkProbes = model.MaxNetworkProbes,
                 PortRangesToScan = model.PortRangesToScan,
-                PortProbeTimeout = model.PortProbeTimeoutMs == null ?
-                    (TimeSpan?)null : TimeSpan.FromMilliseconds((double)model.PortProbeTimeoutMs),
+                PortProbeTimeout = model.PortProbeTimeout,
                 MaxPortProbes = model.MaxPortProbes,
                 MinPortProbesPercent = model.MinPortProbesPercent,
-                IdleTimeBetweenScans = model.IdleTimeBetweenScansSec == null ?
-                    (TimeSpan?)null : TimeSpan.FromSeconds((double)model.IdleTimeBetweenScansSec),
+                IdleTimeBetweenScans = model.IdleTimeBetweenScans,
                 ActivationFilter = model.ActivationFilter.ToServiceModel(),
                 Locales = model.Locales,
                 DiscoveryUrls = model.DiscoveryUrls
@@ -361,7 +359,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Models {
             return new EndpointActivationFilterApiModel {
                 TrustLists = model.TrustLists,
                 SecurityPolicies = model.SecurityPolicies,
-                SecurityMode = (IIoT.OpcUa.Api.Registry.Models.SecurityMode?)model.SecurityMode
+                SecurityMode = (IIoT.OpcUa.Api.Core.Models.SecurityMode?)model.SecurityMode
             };
         }
 
@@ -410,7 +408,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Models {
             return new EndpointApiModel {
                 Url = model.Url,
                 AlternativeUrls = model.AlternativeUrls,
-                SecurityMode = (IIoT.OpcUa.Api.Registry.Models.SecurityMode?)model.SecurityMode,
+                SecurityMode = (IIoT.OpcUa.Api.Core.Models.SecurityMode?)model.SecurityMode,
                 SecurityPolicy = model.SecurityPolicy,
                 Certificate = model.Certificate,
             };
@@ -865,7 +863,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Models {
             }
             return new X509CertificateChainApiModel {
                 Status = model.Status?
-                    .Select(s => (IIoT.OpcUa.Api.Registry.Models.X509ChainStatus)s)
+                    .Select(s => (IIoT.OpcUa.Api.Core.Models.X509ChainStatus)s)
                     .ToList(),
                 Chain = model.Chain?
                     .Select(c => c.ToApiModel())

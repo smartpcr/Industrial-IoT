@@ -5,6 +5,7 @@
 
 namespace Microsoft.Azure.IIoT.Modules.Discovery {
     using Microsoft.Azure.IIoT.Modules.Discovery.Runtime;
+    using Microsoft.Azure.IIoT.Modules.Discovery.Controllers;
     using Microsoft.Azure.IIoT.OpcUa.Protocol.Services;
     using Microsoft.Azure.IIoT.OpcUa.Edge.Discovery.Services;
     using Microsoft.Azure.IIoT.Module.Framework;
@@ -138,11 +139,11 @@ namespace Microsoft.Azure.IIoT.Modules.Discovery {
                 .AsImplementedInterfaces();
 
             // Register controllers
-            builder.RegisterType<v2.Supervisor.DiscoveryMethodsController>()
+            builder.RegisterType<DiscoveryMethodsController>()
                 .AsImplementedInterfaces().InstancePerLifetimeScope();
-            builder.RegisterType<v2.Supervisor.DiagnosticSettingsController>()
+            builder.RegisterType<DiagnosticSettingsController>()
                 .AsImplementedInterfaces().InstancePerLifetimeScope();
-            builder.RegisterType<v2.Supervisor.DiscoverySettingsController>()
+            builder.RegisterType<DiscoverySettingsController>()
                 .AsImplementedInterfaces().InstancePerLifetimeScope();
 
             return builder.Build();

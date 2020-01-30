@@ -190,17 +190,17 @@ namespace Microsoft.Azure.IIoT.App.Services {
             if (config.MaxPortProbes != null && config.MaxPortProbes != 0) {
                 model.DiscoveryConfig.MaxPortProbes = config.MaxPortProbes;
             }
-            if (config.NetworkProbeTimeoutMs != null && config.NetworkProbeTimeoutMs != 0) {
-                model.DiscoveryConfig.NetworkProbeTimeoutMs = config.NetworkProbeTimeoutMs;
+            if (config.NetworkProbeTimeout != null && config.NetworkProbeTimeout != TimeSpan.Zero) {
+                model.DiscoveryConfig.NetworkProbeTimeout = config.NetworkProbeTimeout;
             }
-            if (config.PortProbeTimeoutMs != null && config.PortProbeTimeoutMs != 0) {
-                model.DiscoveryConfig.PortProbeTimeoutMs = config.PortProbeTimeoutMs;
+            if (config.PortProbeTimeout != null && config.PortProbeTimeout != TimeSpan.Zero) {
+                model.DiscoveryConfig.PortProbeTimeout = config.PortProbeTimeout;
             }
-            if (config.IdleTimeBetweenScansSec != null && config.IdleTimeBetweenScansSec != 0) {
-                model.DiscoveryConfig.IdleTimeBetweenScansSec = config.IdleTimeBetweenScansSec;
+            if (config.IdleTimeBetweenScans != null && config.IdleTimeBetweenScans != TimeSpan.Zero) {
+                model.DiscoveryConfig.IdleTimeBetweenScans = config.IdleTimeBetweenScans;
             }
             else {
-                model.DiscoveryConfig.IdleTimeBetweenScansSec = _5MINUTES;
+                model.DiscoveryConfig.IdleTimeBetweenScans = _5MINUTES;
             }
 
             try {
@@ -277,7 +277,7 @@ namespace Microsoft.Azure.IIoT.App.Services {
         }
 
         private readonly IRegistryServiceApi _registryService;
-        private const int _5MINUTES = 300;
+        private static readonly TimeSpan _5MINUTES = TimeSpan.FromMinutes(5);
         public string PathAll = "All";
     }
 }

@@ -7,6 +7,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Vault.Models {
     using Microsoft.Azure.IIoT.OpcUa.Vault.Models;
     using Microsoft.Azure.IIoT.OpcUa.Core.Models;
     using Microsoft.Azure.IIoT.OpcUa.Api.Vault.Models;
+    using Microsoft.Azure.IIoT.OpcUa.Api.Core.Models;
     using System.Linq;
 
     /// <summary>
@@ -364,7 +365,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Vault.Models {
             }
             return new X509CertificateChainApiModel {
                 Status = model.Status?
-                    .Select(s => (IIoT.OpcUa.Api.Vault.Models.X509ChainStatus)s)
+                    .Select(s => (IIoT.OpcUa.Api.Core.Models.X509ChainStatus)s)
                     .ToList(),
                 Chain = model.Chain?
                     .Select(c => c.ToApiModel())

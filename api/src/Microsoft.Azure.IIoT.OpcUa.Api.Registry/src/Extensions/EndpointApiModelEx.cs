@@ -4,6 +4,8 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Models {
+    using Microsoft.Azure.IIoT.OpcUa.Api.Core.Models;
+
     /// <summary>
     /// Endpoint api model extensions
     /// </summary>

@@ -6,7 +6,7 @@
 namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher {
     using Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.Agent;
     using Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.Runtime;
-    using Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.v2.Controller;
+    using Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.Controller;
     using Microsoft.Azure.IIoT.Module.Framework;
     using Microsoft.Azure.IIoT.Module.Framework.Client;
     using Microsoft.Azure.IIoT.Module.Framework.Hosting;

@@ -5,7 +5,7 @@
 
 namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Supervisor.History.Api {
     using Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Tests;
-    using Microsoft.Azure.IIoT.OpcUa.Api.History.Models;
+    using Microsoft.Azure.IIoT.OpcUa.Api.Core.Models;
     using Microsoft.Azure.IIoT.OpcUa.Testing.Fixtures;
     using Microsoft.Azure.IIoT.OpcUa.Testing.Tests;
     using Microsoft.Azure.IIoT.OpcUa.History;
