@@ -7,11 +7,11 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Clients {
     using Microsoft.Azure.IIoT.OpcUa.Api.Twin.Models;
     using Microsoft.Azure.IIoT.OpcUa.Api.Core.Models;
     using Microsoft.Azure.IIoT.Module;
+    using Microsoft.Azure.IIoT.Serializer;
     using System;
     using System.Threading.Tasks;
     using System.Linq;
     using System.Threading;
-    using Newtonsoft.Json;
 
     /// <summary>
     /// Implementation of supervisor module api.
@@ -24,7 +24,10 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Clients {
         /// <param name="methodClient"></param>
         /// <param name="deviceId"></param>
         /// <param name="moduleId"></param>
-        public TwinModuleClient(IMethodClient methodClient, string deviceId, string moduleId) {
+        /// <param name="serializer"></param>
+        public TwinModuleClient(IMethodClient methodClient, string deviceId, string moduleId,
+            IJsonSerializer serializer = null) {
+            _serializer = serializer ?? new NewtonSoftJsonSerializer();
             _methodClient = methodClient ?? throw new ArgumentNullException(nameof(methodClient));
             _moduleId = moduleId ?? throw new ArgumentNullException(nameof(moduleId));
             _deviceId = deviceId ?? throw new ArgumentNullException(nameof(deviceId));
@@ -35,8 +38,10 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Clients {
         /// </summary>
         /// <param name="methodClient"></param>
         /// <param name="config"></param>
-        public TwinModuleClient(IMethodClient methodClient, ITwinModuleConfig config) :
-            this(methodClient, config?.DeviceId, config?.ModuleId) {
+        /// <param name="serializer"></param>
+        public TwinModuleClient(IMethodClient methodClient, ITwinModuleConfig config,
+            IJsonSerializer serializer = null) :
+            this(methodClient, config?.DeviceId, config?.ModuleId, serializer) {
         }
 
         /// <inheritdoc/>
@@ -52,11 +57,11 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Clients {
                 throw new ArgumentNullException(nameof(request));
             }
             var response = await _methodClient.CallMethodAsync(_deviceId, _moduleId,
-                "Browse_V2", JsonConvertEx.SerializeObject(new {
+                "Browse_V2", _serializer.SerializeObject(new {
                     endpoint,
                     request
                 }), null, ct);
-            return JsonConvertEx.DeserializeObject<BrowseResponseApiModel>(response);
+            return _serializer.DeserializeObject<BrowseResponseApiModel>(response);
         }
 
         /// <inheritdoc/>
@@ -75,11 +80,11 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Clients {
                 throw new ArgumentNullException(nameof(request.ContinuationToken));
             }
             var response = await _methodClient.CallMethodAsync(_deviceId, _moduleId,
-                "BrowseNext_V2", JsonConvertEx.SerializeObject(new {
+                "BrowseNext_V2", _serializer.SerializeObject(new {
                     endpoint,
                     request
                 }), null, ct);
-            return JsonConvertEx.DeserializeObject<BrowseNextResponseApiModel>(response);
+            return _serializer.DeserializeObject<BrowseNextResponseApiModel>(response);
         }
 
         /// <inheritdoc/>
@@ -99,11 +104,11 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Clients {
                 throw new ArgumentNullException(nameof(request.BrowsePaths));
             }
             var response = await _methodClient.CallMethodAsync(_deviceId, _moduleId,
-                "BrowsePath_V2", JsonConvertEx.SerializeObject(new {
+                "BrowsePath_V2", _serializer.SerializeObject(new {
                     endpoint,
                     request
                 }), null, ct);
-            return JsonConvertEx.DeserializeObject<BrowsePathResponseApiModel>(response);
+            return _serializer.DeserializeObject<BrowsePathResponseApiModel>(response);
         }
 
         /// <inheritdoc/>
@@ -122,11 +127,11 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Clients {
                 throw new ArgumentException(nameof(request.Attributes));
             }
             var response = await _methodClient.CallMethodAsync(_deviceId, _moduleId,
-                "NodeRead_V2", JsonConvertEx.SerializeObject(new {
+                "NodeRead_V2", _serializer.SerializeObject(new {
                     endpoint,
                     request
                 }), null, ct);
-            return JsonConvertEx.DeserializeObject<ReadResponseApiModel>(response);
+            return _serializer.DeserializeObject<ReadResponseApiModel>(response);
         }
 
         /// <inheritdoc/>
@@ -145,11 +150,11 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Clients {
                 throw new ArgumentException(nameof(request.Attributes));
             }
             var response = await _methodClient.CallMethodAsync(_deviceId, _moduleId,
-                "NodeWrite_V2", JsonConvertEx.SerializeObject(new {
+                "NodeWrite_V2", _serializer.SerializeObject(new {
                     endpoint,
                     request
                 }), null, ct);
-            return JsonConvertEx.DeserializeObject<WriteResponseApiModel>(response);
+            return _serializer.DeserializeObject<WriteResponseApiModel>(response);
         }
 
         /// <inheritdoc/>
@@ -165,11 +170,11 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Clients {
                 throw new ArgumentNullException(nameof(request));
             }
             var response = await _methodClient.CallMethodAsync(_deviceId, _moduleId,
-                "ValueRead_V2", JsonConvertEx.SerializeObject(new {
+                "ValueRead_V2", _serializer.SerializeObject(new {
                     endpoint,
                     request
                 }), null, ct);
-            return JsonConvertEx.DeserializeObject<ValueReadResponseApiModel>(response);
+            return _serializer.DeserializeObject<ValueReadResponseApiModel>(response);
         }
 
         /// <inheritdoc/>
@@ -188,11 +193,11 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Clients {
                 throw new ArgumentNullException(nameof(request.Value));
             }
             var response = await _methodClient.CallMethodAsync(_deviceId, _moduleId,
-                "ValueWrite_V2", JsonConvertEx.SerializeObject(new {
+                "ValueWrite_V2", _serializer.SerializeObject(new {
                     endpoint,
                     request
                 }), null, ct);
-            return JsonConvertEx.DeserializeObject<ValueWriteResponseApiModel>(response);
+            return _serializer.DeserializeObject<ValueWriteResponseApiModel>(response);
         }
 
         /// <inheritdoc/>
@@ -208,11 +213,11 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Clients {
                 throw new ArgumentNullException(nameof(request));
             }
             var response = await _methodClient.CallMethodAsync(_deviceId, _moduleId,
-                "MethodMetadata_V2", JsonConvertEx.SerializeObject(new {
+                "MethodMetadata_V2", _serializer.SerializeObject(new {
                     endpoint,
                     request
                 }), null, ct);
-            return JsonConvertEx.DeserializeObject<MethodMetadataResponseApiModel>(response);
+            return _serializer.DeserializeObject<MethodMetadataResponseApiModel>(response);
         }
 
         /// <inheritdoc/>
@@ -228,13 +233,14 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Clients {
                 throw new ArgumentNullException(nameof(request));
             }
             var response = await _methodClient.CallMethodAsync(_deviceId, _moduleId,
-                "MethodCall_V2", JsonConvertEx.SerializeObject(new {
+                "MethodCall_V2", _serializer.SerializeObject(new {
                     endpoint,
                     request
                 }), null, ct);
-            return JsonConvertEx.DeserializeObject<MethodCallResponseApiModel>(response);
+            return _serializer.DeserializeObject<MethodCallResponseApiModel>(response);
         }
 
+        private readonly IJsonSerializer _serializer;
         private readonly IMethodClient _methodClient;
         private readonly string _moduleId;
         private readonly string _deviceId;

@@ -6,10 +6,10 @@
 namespace Microsoft.Azure.IIoT.OpcUa.Subscriber.Handlers {
     using Microsoft.Azure.IIoT.OpcUa.Subscriber.Models;
     using Microsoft.Azure.IIoT.Messaging;
+    using Microsoft.Azure.IIoT.Serializer;
     using System;
     using System.Threading.Tasks;
     using System.Text;
-    using Newtonsoft.Json;
 
     /// <summary>
     /// Forwards samples to another event hub
@@ -21,7 +21,11 @@ namespace Microsoft.Azure.IIoT.OpcUa.Subscriber.Handlers {
         /// Create forwarder
         /// </summary>
         /// <param name="queue"></param>
-        public MonitoredItemSampleForwarder(IEventQueueService queue) {
+        /// <param name="serializer"></param>
+        public MonitoredItemSampleForwarder(IEventQueueService queue,
+            IJsonSerializer serializer) {
+            _serializer = serializer ??
+                throw new ArgumentNullException(nameof(serializer));
             if (queue == null) {
                 throw new ArgumentNullException(nameof(queue));
             }
@@ -35,7 +39,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Subscriber.Handlers {
             // TODO: Make configurablew
             sample.Timestamp = sample.SourceTimestamp;
             return _client.SendAsync(Encoding.UTF8.GetBytes(
-                JsonConvertEx.SerializeObject(sample)));
+                _serializer.SerializeObject(sample)));
         }
 
         /// <inheritdoc/>
@@ -44,5 +48,6 @@ namespace Microsoft.Azure.IIoT.OpcUa.Subscriber.Handlers {
         }
 
         private readonly IEventQueueClient _client;
+        private readonly IJsonSerializer _serializer;
     }
 }

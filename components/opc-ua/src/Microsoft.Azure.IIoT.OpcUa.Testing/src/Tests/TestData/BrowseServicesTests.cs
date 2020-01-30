@@ -7,7 +7,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Testing.Tests {
     using Microsoft.Azure.IIoT.OpcUa.Twin.Models;
     using Microsoft.Azure.IIoT.OpcUa.Core.Models;
     using Microsoft.Azure.IIoT.OpcUa.Twin;
-    using Newtonsoft.Json;
+    using Microsoft.Azure.IIoT.Serializer;
     using Newtonsoft.Json.Linq;
     using System.Threading.Tasks;
     using Xunit;
@@ -15,6 +15,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Testing.Tests {
     using System.Collections.Generic;
 
     public class BrowseServicesTests<T> {
+        private readonly IJsonSerializer _serializer = new NewtonSoftJsonSerializer();
 
         /// <summary>
         /// Create browse services tests
@@ -247,7 +248,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Testing.Tests {
                 });
 
             // Assert
-            var test = JsonConvertEx.SerializeObjectPretty(results);
+            var test = _serializer.SerializeObjectPretty(results);
 
             Assert.Equal("nsu=DataAccess;s=0:TestData/Static", results.Node.NodeId);
             Assert.Equal("Static", results.Node.DisplayName);
@@ -331,7 +332,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Testing.Tests {
                 });
 
             // Assert
-            var test = JsonConvertEx.SerializeObjectPretty(results);
+            var test = _serializer.SerializeObjectPretty(results);
 
             Assert.Equal("nsu=DataAccess;s=0:TestData/Static", results.Node.NodeId);
             Assert.Equal("Static", results.Node.DisplayName);
@@ -416,7 +417,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Testing.Tests {
                 });
 
             // Assert
-            var test = JsonConvertEx.SerializeObjectPretty(results);
+            var test = _serializer.SerializeObjectPretty(results);
 
             Assert.Equal("nsu=DataAccess;s=0:TestData/Static", results.Node.NodeId);
             Assert.Equal("Static", results.Node.DisplayName);
@@ -507,7 +508,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Testing.Tests {
                 });
 
             // Assert
-            var test = JsonConvertEx.SerializeObjectPretty(results);
+            var test = _serializer.SerializeObjectPretty(results);
 
             Assert.Equal("nsu=DataAccess;s=0:TestData/Static", results.Node.NodeId);
             Assert.Equal("Static", results.Node.DisplayName);
@@ -598,7 +599,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Testing.Tests {
                 });
 
             // Assert
-            var test = JsonConvertEx.SerializeObjectPretty(results);
+            var test = _serializer.SerializeObjectPretty(results);
 
             Assert.Equal("nsu=DataAccess;s=1:FC1001", results.Node.NodeId);
             Assert.Equal("FC1001", results.Node.DisplayName);
@@ -669,7 +670,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Testing.Tests {
                 });
 
             // Assert
-            var test = JsonConvertEx.SerializeObjectPretty(results);
+            var test = _serializer.SerializeObjectPretty(results);
 
             Assert.Equal("nsu=DataAccess;s=1:FC1001", results.Node.NodeId);
             Assert.Equal("FC1001", results.Node.DisplayName);
@@ -743,7 +744,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Testing.Tests {
                 });
 
             // Assert
-            var test = JsonConvertEx.SerializeObjectPretty(results);
+            var test = _serializer.SerializeObjectPretty(results);
 
             Assert.Equal("http://opcfoundation.org/UA/Boiler/#i=1240", results.Node.NodeId);
             Assert.Equal("Boilers", results.Node.DisplayName);

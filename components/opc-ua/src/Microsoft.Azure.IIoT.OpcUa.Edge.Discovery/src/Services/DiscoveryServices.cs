@@ -16,6 +16,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Discovery.Services {
     using Microsoft.Azure.IIoT.Exceptions;
     using Microsoft.Azure.IIoT.Utils;
     using Microsoft.Azure.IIoT.Hub;
+    using Microsoft.Azure.IIoT.Serializer;
     using Newtonsoft.Json.Linq;
     using System;
     using System.Collections.Generic;
@@ -51,11 +52,13 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Discovery.Services {
         /// <param name="client"></param>
         /// <param name="events"></param>
         /// <param name="logger"></param>
+        /// <param name="serializer"></param>
         /// <param name="progress"></param>
         public DiscoveryServices(IEndpointDiscovery client, IEventEmitter events,
-            ILogger logger, IDiscoveryProgress progress = null) {
+            IJsonSerializer serializer, ILogger logger, IDiscoveryProgress progress = null) {
 
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
             _client = client ?? throw new ArgumentNullException(nameof(client));
             _events = events ?? throw new ArgumentNullException(nameof(events));
             _progress = progress ?? new ProgressLogger(logger);
@@ -485,8 +488,9 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Discovery.Services {
                     discovery.Index = i;
                     return discovery;
                 });
-            await Task.Run(() => _events.SendJsonEventAsync(
-                messages, Registry.Models.MessageSchemaTypes.DiscoveryEvents), ct);
+            await Task.Run(() => _events.SendJsonEventsAsync(
+                messages.Select(message => _serializer.SerializeObject(message)),
+                    Registry.Models.MessageSchemaTypes.DiscoveryEvents), ct);
             _logger.Information("{count} results uploaded.", discovered.Count);
         }
 
@@ -567,6 +571,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Discovery.Services {
         private static readonly TimeSpan kProgressInterval = TimeSpan.FromSeconds(3);
 
         private readonly ILogger _logger;
+        private readonly IJsonSerializer _serializer;
         private readonly IEventEmitter _events;
         private readonly IDiscoveryProgress _progress;
         private readonly IEndpointDiscovery _client;

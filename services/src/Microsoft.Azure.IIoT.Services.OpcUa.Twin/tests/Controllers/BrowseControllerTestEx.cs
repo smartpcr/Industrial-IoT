@@ -10,6 +10,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin.Controllers {
     using Microsoft.Azure.IIoT.OpcUa.Api.Twin;
     using Microsoft.Azure.IIoT.OpcUa.Testing.Fixtures;
     using Microsoft.Azure.IIoT.OpcUa.Testing.Tests;
+    using Microsoft.Azure.IIoT.Serializer;
     using Serilog;
     using System.Net;
     using System.Threading.Tasks;
@@ -31,7 +32,8 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin.Controllers {
             return new BrowseServicesTests<string>(() => // Create an adapter over the api
                 new TwinServicesApiAdapter(
                     new ControllerTestClient(
-                       new HttpClient(_factory, log), new TestConfig(client.BaseAddress))), "fakeid");
+                       new HttpClient(_factory, log), new TestConfig(client.BaseAddress),
+                            new NewtonSoftJsonSerializer())), "fakeid");
         }
 
         public EndpointModel Endpoint => new EndpointModel {

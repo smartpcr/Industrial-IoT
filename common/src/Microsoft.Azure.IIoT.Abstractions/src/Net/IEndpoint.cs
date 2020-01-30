@@ -3,20 +3,23 @@
 //  Licensed under the MIT License (MIT). See License.txt in the repo root for license information.
 // ------------------------------------------------------------
 
-namespace Microsoft.Azure.IIoT.OpcUa.Api.Core.Models {
-    using System.Runtime.Serialization;
-    using System.Collections.Generic;
+namespace Microsoft.Azure.IIoT.Net {
+    using System;
 
     /// <summary>
-    /// Enum definition
+    /// Endpoint lookup
     /// </summary>
-    [DataContract]
-    public class EnumDefinitionApiModel {
+    public interface IEndpoint {
 
         /// <summary>
-        /// The fields of the enum
+        /// Resource name
         /// </summary>
-        [DataMember(Name = "fields")]
-        public List<EnumFieldApiModel> Fields { get; set; }
+        string Resource { get; }
+
+        /// <summary>
+        /// Get client endpoint
+        /// </summary>
+        /// <returns>Client endpoint</returns>
+        Uri EndpointUrl { get; }
     }
 }

@@ -6,15 +6,14 @@
 namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
     using Microsoft.Azure.IIoT.Http;
     using Microsoft.Azure.IIoT.Utils;
-    using System.Runtime.Serialization;
+    using Microsoft.Azure.IIoT.Serializer;
     using Serilog;
     using System;
     using System.Threading;
     using System.Linq;
     using System.Threading.Tasks;
     using System.Security.Cryptography.X509Certificates;
-    using Newtonsoft.Json.Linq;
-    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
 
     /// <summary>
     /// Edgelet client providing discovery and in the future other services
@@ -25,8 +24,10 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
         /// Create client
         /// </summary>
         /// <param name="client"></param>
+        /// <param name="serializer"></param>
         /// <param name="logger"></param>
-        public EdgeletClient(IHttpClient client, ILogger logger) : this(client,
+        public EdgeletClient(IHttpClient client, IJsonSerializer serializer,
+            ILogger logger) : this(client, serializer,
             Environment.GetEnvironmentVariable("IOTEDGE_WORKLOADURI")?.TrimEnd('/'),
             Environment.GetEnvironmentVariable("IOTEDGE_MODULEGENERATIONID"),
             Environment.GetEnvironmentVariable("IOTEDGE_MODULEID"),
@@ -38,14 +39,16 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
         /// Create client
         /// </summary>
         /// <param name="client"></param>
+        /// <param name="serializer"></param>
         /// <param name="workloaduri"></param>
         /// <param name="genId"></param>
         /// <param name="moduleId"></param>
         /// <param name="apiVersion"></param>
         /// <param name="logger"></param>
-        public EdgeletClient(IHttpClient client, string workloaduri,
-            string genId, string moduleId, string apiVersion,
+        public EdgeletClient(IHttpClient client, IJsonSerializer serializer,
+            string workloaduri, string genId, string moduleId, string apiVersion,
             ILogger logger) {
+            _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
             _client = client ?? throw new ArgumentNullException(nameof(client));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _workloaduri = workloaduri;
@@ -60,12 +63,11 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
             var request = _client.NewRequest(
                 $"{_workloaduri}/modules/{_moduleId}/genid/{_moduleGenerationId}/" +
                 $"certificate/server?api-version={_apiVersion}");
-            request.SetContent(new { commonName, expiration });
+            _serializer.SetContent(request, new { commonName, expiration });
             return await Retry.WithExponentialBackoff(_logger, ct, async () => {
                 var response = await _client.PostAsync(request, ct);
                 response.Validate();
-                var result = JsonConvertEx.DeserializeObject<EdgeletCertificateResponse>(
-                   response.GetContentAsString());
+                var result = _serializer.DeserializeResponse<EdgeletCertificateResponse>(response);
                 // TODO add private key
                 return new X509Certificate2Collection(
                     X509Certificate2Ex.ParsePemCerts(result.Certificate).ToArray());
@@ -78,12 +80,11 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
             var request = _client.NewRequest(
                 $"{_workloaduri}/modules/{_moduleId}/genid/{_moduleGenerationId}/" +
                 $"encrypt?api-version={_apiVersion}");
-            request.SetContent(new { initializationVector, plaintext });
+            _serializer.SetContent(request, new { initializationVector, plaintext });
             return await Retry.WithExponentialBackoff(_logger, ct, async () => {
                 var response = await _client.PostAsync(request, ct);
                 response.Validate();
-                return JObject.Parse(response.GetContentAsString())?
-                    .GetValueOrDefault<byte[]>("ciphertext");
+                return _serializer.DeserializeResponse<EncryptResponse>(response).CipherText;
             }, kMaxRetryCount);
         }
 
@@ -93,13 +94,34 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
             var request = _client.NewRequest(
                 $"{_workloaduri}/modules/{_moduleId}/genid/{_moduleGenerationId}/" +
                 $"decrypt?api-version={_apiVersion}");
-            request.SetContent(new { initializationVector, ciphertext });
+            _serializer.SetContent(request, new { initializationVector, ciphertext });
             return await Retry.WithExponentialBackoff(_logger, ct, async () => {
                 var response = await _client.PostAsync(request, ct);
                 response.Validate();
-                return JObject.Parse(response.GetContentAsString())?
-                    .GetValueOrDefault<byte[]>("plaintext");
+                return _serializer.DeserializeResponse<DecryptResponse>(response).Plaintext;
             }, kMaxRetryCount);
+        }
+
+        /// <summary>
+        /// Encrypt response
+        /// </summary>
+        [DataContract]
+        public class EncryptResponse {
+
+            /// <summary>Cypher.</summary>
+            [DataMember(Name = "cipherText")]
+            public byte[] CipherText { get; set; }
+        }
+
+        /// <summary>
+        /// Decrypt response
+        /// </summary>
+        [DataContract]
+        public class DecryptResponse {
+
+            /// <summary>Cypher.</summary>
+            [DataMember(Name = "plaintext")]
+            public byte[] Plaintext { get; set; }
         }
 
         /// <summary>
@@ -136,6 +158,7 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
         }
 
         private readonly IHttpClient _client;
+        private readonly IJsonSerializer _serializer;
         private readonly ILogger _logger;
         private readonly string _workloaduri;
         private readonly string _moduleGenerationId;

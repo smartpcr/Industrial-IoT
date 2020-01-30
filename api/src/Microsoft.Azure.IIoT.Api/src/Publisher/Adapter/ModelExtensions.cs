@@ -11,7 +11,6 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
     using Microsoft.Azure.IIoT.OpcUa.Publisher.Models;
     using Microsoft.Azure.IIoT.Agent.Framework.Models;
     using Microsoft.Azure.IIoT.Auth.Models;
-    using System;
     using System.Linq;
 
     /// <summary>

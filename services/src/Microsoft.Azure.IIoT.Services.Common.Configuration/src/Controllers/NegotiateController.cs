@@ -4,6 +4,7 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.Services.Common.Configuration.Controllers {
+    using Microsoft.Azure.IIoT.Net;
     using Microsoft.Azure.IIoT.Auth;
     using Microsoft.AspNetCore.Mvc;
     using System;

@@ -34,6 +34,9 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Publisher.Runtime {
                 builder.RegisterInstance(_jobConfig.ToWriterGroupJobConfiguration(jobId))
                     .AsImplementedInterfaces();
 
+                // Register default serializers...
+                builder.RegisterModule<DefaultSerializers>();
+
                 // Register processing engine - trigger, transform, sink
                 builder.RegisterType<DataFlowProcessingEngine>()
                     .AsImplementedInterfaces().InstancePerLifetimeScope();

@@ -10,6 +10,7 @@ namespace Microsoft.Azure.IIoT.Modules.Discovery.Cli {
     using Microsoft.Azure.IIoT.Hub;
     using Microsoft.Azure.IIoT.Utils;
     using Microsoft.Azure.IIoT.Diagnostics;
+    using Microsoft.Azure.IIoT.Serializer;
     using Microsoft.Extensions.Configuration;
     using Serilog.Events;
     using Serilog;
@@ -143,7 +144,7 @@ Options:
             string deviceId, string moduleId) {
             var logger = ConsoleLogger.Create(LogEventLevel.Error);
             var registry = new IoTHubServiceHttpClient(new HttpClient(logger),
-                config, logger);
+                config, new NewtonSoftJsonSerializer(), logger);
             await registry.CreateAsync(new DeviceTwinModel {
                 Id = deviceId,
                 Tags = new Dictionary<string, JToken> {

@@ -41,6 +41,9 @@ namespace Microsoft.Azure.IIoT.Hub.Mock {
             builder.RegisterType<DefaultScheduler>()
                 .AsImplementedInterfaces().SingleInstance()
                 .IfNotRegistered(typeof(ITaskScheduler));
+
+            // Register default serializers...
+            builder.RegisterModule<DefaultSerializers>();
             base.Load(builder);
         }
     }

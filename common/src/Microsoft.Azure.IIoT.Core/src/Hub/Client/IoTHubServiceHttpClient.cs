@@ -8,6 +8,7 @@ namespace Microsoft.Azure.IIoT.Hub.Client {
     using Microsoft.Azure.IIoT.Exceptions;
     using Microsoft.Azure.IIoT.Http;
     using Microsoft.Azure.IIoT.Utils;
+    using Microsoft.Azure.IIoT.Serializer;
     using Microsoft.Extensions.Diagnostics.HealthChecks;
     using Newtonsoft.Json.Linq;
     using Serilog;
@@ -35,10 +36,11 @@ namespace Microsoft.Azure.IIoT.Hub.Client {
         /// </summary>
         /// <param name="httpClient"></param>
         /// <param name="config"></param>
+        /// <param name="serializer"></param>
         /// <param name="logger"></param>
         public IoTHubServiceHttpClient(IHttpClient httpClient,
-            IIoTHubConfig config, ILogger logger) :
-            base(httpClient, config, logger) {
+            IIoTHubConfig config, IJsonSerializer serializer, ILogger logger) :
+            base(httpClient, config, serializer, logger) {
         }
 
         /// <inheritdoc/>
@@ -68,7 +70,7 @@ namespace Microsoft.Azure.IIoT.Hub.Client {
                 // First try create device
                 try {
                     var device = NewRequest($"/devices/{twin.Id}");
-                    device.SetContent(new {
+                    _serializer.SetContent(device, new {
                         deviceId = twin.Id,
                         capabilities = twin.Capabilities
                     });
@@ -88,7 +90,7 @@ namespace Microsoft.Azure.IIoT.Hub.Client {
                     try {
                         var module = NewRequest(
                             $"/devices/{twin.Id}/modules/{twin.ModuleId}");
-                        module.SetContent(new {
+                        _serializer.SetContent(module, new {
                             deviceId = twin.Id,
                             moduleId = twin.ModuleId
                         });
@@ -124,7 +126,7 @@ namespace Microsoft.Azure.IIoT.Hub.Client {
                 if (!string.IsNullOrEmpty(twin.ModuleId)) {
 
                     // Patch module
-                    patch.SetContent(new {
+                    _serializer.SetContent(patch, new {
                         deviceId = twin.Id,
                         moduleId = twin.ModuleId,
                         tags = twin.Tags ?? new Dictionary<string, JToken>(),
@@ -135,7 +137,7 @@ namespace Microsoft.Azure.IIoT.Hub.Client {
                 }
                 else {
                     // Patch device
-                    patch.SetContent(new {
+                    _serializer.SetContent(patch, new {
                         deviceId = twin.Id,
                         tags = twin.Tags ?? new Dictionary<string, JToken>(),
                         properties = new {
@@ -146,7 +148,7 @@ namespace Microsoft.Azure.IIoT.Hub.Client {
                 {
                     var response = await _httpClient.PatchAsync(patch, ct);
                     response.Validate();
-                    var result = response.GetContent<DeviceTwinModel>();
+                    var result = _serializer.DeserializeResponse<DeviceTwinModel>(response);
                     _logger.Information(
                         "{id} ({moduleId}) created or updated ({twinEtag} -> {resultEtag})",
                         twin.Id, twin.ModuleId ?? string.Empty, twin.Etag ?? "*", result.Etag);
@@ -170,7 +172,7 @@ namespace Microsoft.Azure.IIoT.Hub.Client {
             var request = NewRequest(
                 $"/twins/{ToResourceId(deviceId, moduleId)}/methods");
 
-            request.SetContent(new {
+            _serializer.SetContent(request, new {
                 methodName = parameters.Name,
                 // TODO: Add timeouts...
                 // responseTimeoutInSeconds = ...
@@ -194,7 +196,7 @@ namespace Microsoft.Azure.IIoT.Hub.Client {
             return Retry.WithExponentialBackoff(_logger, ct, async () => {
                 var request = NewRequest(
                     $"/twins/{ToResourceId(deviceId, moduleId)}");
-                request.SetContent(new {
+                _serializer.SetContent(request, new {
                     deviceId,
                     properties = new {
                         desired = properties ?? new Dictionary<string, JToken>()
@@ -219,7 +221,7 @@ namespace Microsoft.Azure.IIoT.Hub.Client {
             return Retry.WithExponentialBackoff(_logger, ct, async () => {
                 var request = NewRequest(
                     $"/devices/{ToResourceId(deviceId, null)}/applyConfigurationContent");
-                request.SetContent(configuration);
+                _serializer.SetContent(request, configuration);
                 var response = await _httpClient.PostAsync(request, ct);
                 response.Validate();
             }, kMaxRetryCount);
@@ -236,7 +238,7 @@ namespace Microsoft.Azure.IIoT.Hub.Client {
                     $"/twins/{ToResourceId(deviceId, moduleId)}");
                 var response = await _httpClient.GetAsync(request, ct);
                 response.Validate();
-                return response.GetContent<DeviceTwinModel>();
+                return _serializer.DeserializeResponse<DeviceTwinModel>(response);
             }, kMaxRetryCount);
         }
 
@@ -268,7 +270,7 @@ namespace Microsoft.Azure.IIoT.Hub.Client {
             if (pageSize != null) {
                 request.Headers.Add(HttpHeader.MaxItemCount, pageSize.ToString());
             }
-            request.SetContent(new {
+            _serializer.SetContent(request, new {
                 query
             });
             var response = await _httpClient.PostAsync(request, ct);

@@ -8,8 +8,8 @@ namespace Microsoft.Azure.IIoT.Storage.Cli {
     using Microsoft.Azure.IIoT.Storage.CosmosDb.Services;
     using Microsoft.Azure.IIoT.Utils;
     using Microsoft.Azure.IIoT.Diagnostics;
+    using Microsoft.Azure.IIoT.Serializer;
     using Microsoft.Extensions.Configuration;
-    using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
     using System;
     using System.IO;
@@ -68,11 +68,12 @@ namespace Microsoft.Azure.IIoT.Storage.Cli {
         public static async Task DumpCollectionAsync(CliOptions options) {
             var collection = await GetDocsAsync(options);
             var queryable = collection.OpenSqlClient();
+            var serializer = new NewtonSoftJsonSerializer();
             var feed = queryable.Query<dynamic>("select * from root");
             while (feed.HasMore()) {
                 var result = await feed.ReadAsync();
                 foreach (var item in result) {
-                    Console.WriteLine(JsonConvertEx.SerializeObjectPretty(item));
+                    Console.WriteLine(serializer.SerializeObjectPretty(item));
                 }
             }
         }

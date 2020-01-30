@@ -11,7 +11,6 @@ namespace System {
     /// </summary>
     internal static class ObjectEx {
 
-
         /// <summary>
         /// Convert from to
         /// </summary>

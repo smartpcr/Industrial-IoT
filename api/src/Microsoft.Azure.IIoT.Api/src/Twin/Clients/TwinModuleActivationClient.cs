@@ -7,7 +7,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Clients {
     using Microsoft.Azure.IIoT.OpcUa.Registry.Models;
     using Microsoft.Azure.IIoT.OpcUa.Registry;
     using Microsoft.Azure.IIoT.Module;
-    using Newtonsoft.Json;
+    using Microsoft.Azure.IIoT.Serializer;
     using Serilog;
     using System;
     using System.Threading.Tasks;
@@ -20,11 +20,14 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Clients {
     public sealed class TwinModuleActivationClient : IActivationServices<EndpointRegistrationModel> {
 
         /// <summary>
-        /// Create service
+        /// Create client
         /// </summary>
         /// <param name="client"></param>
+        /// <param name="serializer"></param>
         /// <param name="logger"></param>
-        public TwinModuleActivationClient(IMethodClient client, ILogger logger) {
+        public TwinModuleActivationClient(IMethodClient client, IJsonSerializer serializer,
+            ILogger logger) {
+            _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
             _client = client ?? throw new ArgumentNullException(nameof(client));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
@@ -83,12 +86,13 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Clients {
             var deviceId = SupervisorModelEx.ParseDeviceId(supervisorId,
                 out var moduleId);
             var result = await _client.CallMethodAsync(deviceId, moduleId, service,
-                JsonConvertEx.SerializeObject(payload), null, ct);
+                _serializer.SerializeObject(payload), null, ct);
             _logger.Debug("Calling supervisor service '{service}' on " +
                 "{deviceId}/{moduleId} took {elapsed} ms.", service, deviceId,
                 moduleId, sw.ElapsedMilliseconds);
         }
 
+        private readonly IJsonSerializer _serializer;
         private readonly IMethodClient _client;
         private readonly ILogger _logger;
     }

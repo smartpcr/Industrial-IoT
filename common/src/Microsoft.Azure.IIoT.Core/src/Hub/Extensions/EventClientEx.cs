@@ -4,7 +4,6 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.Hub {
-    using Newtonsoft.Json;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
@@ -16,33 +15,30 @@ namespace Microsoft.Azure.IIoT.Hub {
     public static class EventClientEx {
 
         /// <summary>
-        /// Send as json
+        /// Send json
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         /// <param name="client"></param>
         /// <param name="message"></param>
         /// <param name="eventSchema"></param>
         /// <returns></returns>
-        public static Task SendJsonEventAsync<T>(this IEventClient client, T message,
+        public static Task SendJsonEventAsync(this IEventClient client, string message,
             string eventSchema) {
-            return client.SendEventAsync(
-                Encoding.UTF8.GetBytes(JsonConvertEx.SerializeObject(message)),
+            return client.SendEventAsync(Encoding.UTF8.GetBytes(message),
                     ContentMimeType.Json, eventSchema, "utf-8");
         }
 
         /// <summary>
-        /// Send as json
+        /// Send json
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         /// <param name="client"></param>
         /// <param name="messages"></param>
         /// <param name="eventSchema"></param>
         /// <returns></returns>
-        public static Task SendJsonEventAsync<T>(this IEventClient client, IEnumerable<T> messages,
-            string eventSchema) {
-            return client.SendEventAsync(messages.Select(message =>
-                Encoding.UTF8.GetBytes(JsonConvertEx.SerializeObject(message))),
-                    ContentMimeType.Json, eventSchema, "utf-8");
+        public static Task SendJsonEventsAsync(this IEventClient client,
+            IEnumerable<string> messages, string eventSchema) {
+            return client.SendEventAsync(messages
+                    .Select(message => Encoding.UTF8.GetBytes(message)),
+                ContentMimeType.Json, eventSchema, "utf-8");
         }
     }
 }

@@ -4,7 +4,7 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.Module {
-    using Newtonsoft.Json;
+    using Microsoft.Azure.IIoT.Serializer;
     using System;
     using System.Text;
     using Xunit;
@@ -21,14 +21,15 @@ namespace Microsoft.Azure.IIoT.Module {
         [InlineData(0)]
         public void SendReceiveJsonTestWithVariousChunkSizes(int chunkSize) {
             var fixture = new Fixture();
+            var serializer = new NewtonSoftJsonSerializer();
 
             var expectedMethod = fixture.Create<string>();
             var expectedContentType = fixture.Create<string>();
-            var expectedRequest = JsonConvertEx.SerializeObject(new {
+            var expectedRequest = serializer.SerializeObject(new {
                 test1 = fixture.Create<string>(),
                 test2 = fixture.Create<long>()
             });
-            var expectedResponse = JsonConvertEx.SerializeObject(new {
+            var expectedResponse = serializer.SerializeObject(new {
                 test1 = fixture.Create<byte[]>(),
                 test2 = fixture.Create<string>()
             });

@@ -7,7 +7,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Clients {
     using Microsoft.Azure.IIoT.OpcUa.Registry.Models;
     using Microsoft.Azure.IIoT.OpcUa.Registry;
     using Microsoft.Azure.IIoT.Module;
-    using Newtonsoft.Json;
+    using Microsoft.Azure.IIoT.Serializer;
     using Serilog;
     using System;
     using System.Threading.Tasks;
@@ -23,8 +23,11 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Clients {
         /// Create client
         /// </summary>
         /// <param name="client"></param>
+        /// <param name="serializer"></param>
         /// <param name="logger"></param>
-        public DiscovererModuleClient(IMethodClient client, ILogger logger) {
+        public DiscovererModuleClient(IMethodClient client, IJsonSerializer serializer,
+            ILogger logger) {
+            _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
             _client = client ?? throw new ArgumentNullException(nameof(client));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
@@ -65,12 +68,13 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Clients {
             var deviceId = DiscovererModelEx.ParseDeviceId(discovererId,
                 out var moduleId);
             var result = await _client.CallMethodAsync(deviceId, moduleId, service,
-                JsonConvertEx.SerializeObject(request), null, ct);
+                _serializer.SerializeObject(request), null, ct);
             _logger.Debug("Calling discoverer service '{service}' on " +
                 "{deviceId}/{moduleId} took {elapsed} ms.", service,
                 deviceId, moduleId, sw.ElapsedMilliseconds);
         }
 
+        private readonly IJsonSerializer _serializer;
         private readonly IMethodClient _client;
         private readonly ILogger _logger;
     }

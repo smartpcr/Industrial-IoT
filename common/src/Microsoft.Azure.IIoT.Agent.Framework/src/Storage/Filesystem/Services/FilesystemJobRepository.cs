@@ -6,7 +6,7 @@
 namespace Microsoft.Azure.IIoT.Agent.Framework.Storage.Filesystem {
     using Microsoft.Azure.IIoT.Agent.Framework.Models;
     using Microsoft.Azure.IIoT.Exceptions;
-    using Newtonsoft.Json;
+    using Microsoft.Azure.IIoT.Serializer;
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -22,8 +22,11 @@ namespace Microsoft.Azure.IIoT.Agent.Framework.Storage.Filesystem {
         /// <summary>
         /// Create repo
         /// </summary>
+        /// <param name="serializer"></param>
         /// <param name="filesystemJobRepositoryConfig"></param>
-        public FilesystemJobRepository(FilesystemJobRepositoryConfig filesystemJobRepositoryConfig) {
+        public FilesystemJobRepository(IJsonSerializer serializer,
+            FilesystemJobRepositoryConfig filesystemJobRepositoryConfig) {
+            _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
             _filesystemJobRepositoryConfig = filesystemJobRepositoryConfig;
             _jobsDirectory = filesystemJobRepositoryConfig.RootDirectory.Trim().TrimEnd('/') + "/Jobs";
             _jobs = new List<JobInfoModel>(ReadJobsFromFilesystem());
@@ -162,7 +165,7 @@ namespace Microsoft.Azure.IIoT.Agent.Framework.Storage.Filesystem {
             var jobs = new List<JobInfoModel>();
             foreach (var file in files) {
                 var json = File.ReadAllText(file);
-                var job = JsonConvertEx.DeserializeObject<JobInfoModel>(json);
+                var job = _serializer.DeserializeObject<JobInfoModel>(json);
                 jobs.Add(job);
             }
             return jobs.ToArray();
@@ -178,7 +181,7 @@ namespace Microsoft.Azure.IIoT.Agent.Framework.Storage.Filesystem {
             }
             foreach (var job in _jobs) {
                 var jobFilename = _jobsDirectory.Trim().TrimEnd('/') + "/" + $"{job.Id}.json";
-                var json = JsonConvertEx.SerializeObjectPretty(job);
+                var json = _serializer.SerializeObjectPretty(job);
                 File.WriteAllText(jobFilename, json);
             }
             return Task.CompletedTask;
@@ -214,6 +217,7 @@ namespace Microsoft.Azure.IIoT.Agent.Framework.Storage.Filesystem {
             _disposed = true;
         }
 
+        private readonly IJsonSerializer _serializer;
         private readonly FilesystemJobRepositoryConfig _filesystemJobRepositoryConfig;
         private readonly List<JobInfoModel> _jobs;
         private readonly string _jobsDirectory;

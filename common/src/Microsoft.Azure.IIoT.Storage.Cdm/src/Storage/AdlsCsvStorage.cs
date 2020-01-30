@@ -102,7 +102,7 @@ namespace Microsoft.Azure.IIoT.Cdm.Storage {
                     request = _httpClient.NewRequest(
                         $"{partitionUrl}?action=append&position={contentPosition}",
                         kResource);
-                    request.SetContent(content);
+                    request.SetStringContent(content);
                     response = await _httpClient.PatchAsync(request);
                     contentPosition += content.Length;
                     request = _httpClient.NewRequest

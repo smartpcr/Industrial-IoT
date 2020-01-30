@@ -7,6 +7,7 @@ namespace Microsoft.Azure.IIoT.Module.Default {
     using Microsoft.Azure.IIoT.Module.Models;
     using Microsoft.Azure.IIoT.Exceptions;
     using Microsoft.Azure.IIoT.Hub;
+    using Microsoft.Azure.IIoT.Serializer;
     using Serilog;
     using System;
     using System.Collections.Concurrent;
@@ -14,7 +15,6 @@ namespace Microsoft.Azure.IIoT.Module.Default {
     using System.Threading.Tasks;
     using System.Net;
     using System.Text;
-    using Newtonsoft.Json;
 
     /// <summary>
     /// Chunked method provide reliable any size send/receive
@@ -27,8 +27,10 @@ namespace Microsoft.Azure.IIoT.Module.Default {
         /// <summary>
         /// Create server
         /// </summary>
+        /// <param name="serializer"></param>
         /// <param name="logger"></param>
-        public ChunkMethodServer(ILogger logger) {
+        public ChunkMethodServer(IJsonSerializer serializer, ILogger logger) {
+            _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _requests = new ConcurrentDictionary<string, ChunkProcessor>();
             _timer = new Timer(_ => OnTimer(), null,
@@ -44,7 +46,7 @@ namespace Microsoft.Azure.IIoT.Module.Default {
         /// <inheritdoc/>
         public async Task<byte[]> InvokeAsync(byte[] payload, string contentType,
             IMethodHandler handler) {
-            var request = JsonConvertEx.DeserializeObject<MethodChunkModel>(
+            var request = _serializer.DeserializeObject<MethodChunkModel>(
                 Encoding.UTF8.GetString(payload));
             ChunkProcessor processor;
             if (request.Handle != null) {
@@ -64,7 +66,7 @@ namespace Microsoft.Azure.IIoT.Module.Default {
                 }
             }
             var response = await processor.ProcessAsync(handler, request);
-            return Encoding.UTF8.GetBytes(JsonConvertEx.SerializeObject(response));
+            return Encoding.UTF8.GetBytes(_serializer.SerializeObject(response));
         }
 
         /// <summary>
@@ -196,6 +198,7 @@ namespace Microsoft.Azure.IIoT.Module.Default {
 
         private const int kTimeoutCheckInterval = 10000;
         private static long _requestCounter;
+        private readonly IJsonSerializer _serializer;
         private readonly ILogger _logger;
         private readonly ConcurrentDictionary<string, ChunkProcessor> _requests;
         private readonly Timer _timer;

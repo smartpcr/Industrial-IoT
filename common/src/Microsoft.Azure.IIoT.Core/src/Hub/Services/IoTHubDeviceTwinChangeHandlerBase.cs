@@ -7,7 +7,7 @@ namespace Microsoft.Azure.IIoT.Hub.Services {
     using Microsoft.Azure.IIoT.Hub;
     using Microsoft.Azure.IIoT.Hub.Models;
     using Microsoft.Azure.IIoT.Utils;
-    using Newtonsoft.Json;
+    using Microsoft.Azure.IIoT.Serializer;
     using Serilog;
     using System;
     using System.Collections.Generic;
@@ -26,10 +26,12 @@ namespace Microsoft.Azure.IIoT.Hub.Services {
         /// <summary>
         /// Create handler
         /// </summary>
+        /// <param name="serializer"></param>
         /// <param name="handlers"></param>
         /// <param name="logger"></param>
-        public IoTHubDeviceTwinChangeHandlerBase(
+        public IoTHubDeviceTwinChangeHandlerBase(IJsonSerializer serializer,
             IEnumerable<IIoTHubDeviceTwinEventHandler> handlers, ILogger logger) {
+            _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _handlers = handlers.ToList();
         }
@@ -48,7 +50,7 @@ namespace Microsoft.Azure.IIoT.Hub.Services {
                 return;
             }
 
-            var twin = Try.Op(() => JsonConvertEx.DeserializeObject<DeviceTwinModel>(
+            var twin = Try.Op(() => _serializer.DeserializeObject<DeviceTwinModel>(
                 Encoding.UTF8.GetString(payload)));
             if (twin == null) {
                 return;
@@ -87,6 +89,7 @@ namespace Microsoft.Azure.IIoT.Hub.Services {
         /// <returns></returns>
         protected abstract DeviceTwinEventType? GetOperation(string opType);
 
+        private readonly IJsonSerializer _serializer;
         private readonly ILogger _logger;
         private readonly List<IIoTHubDeviceTwinEventHandler> _handlers;
     }

@@ -7,8 +7,8 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
     using Microsoft.Azure.IIoT.Module.Framework.Services;
     using Microsoft.Azure.IIoT.Module.Default;
     using Microsoft.Azure.IIoT.Exceptions;
+    using Microsoft.Azure.IIoT.Serializer;
     using Microsoft.Azure.Devices.Client;
-    using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
     using Serilog;
     using System;
@@ -49,12 +49,14 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
         /// <summary>
         /// Create router
         /// </summary>
+        /// <param name="serializer"></param>
         /// <param name="logger"></param>
-        public MethodRouter(ILogger logger) {
+        public MethodRouter(IJsonSerializer serializer, ILogger logger) {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
 
             // Create chunk server always
-            var server = new ChunkMethodServer(logger);
+            var server = new ChunkMethodServer(_serializer, logger);
             _calltable = new Dictionary<string, IMethodInvoker> {
                 { server.MethodName, server }
             };
@@ -133,7 +135,7 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
                         _calltable.Add(versionedName, invoker);
                     }
                     if (invoker is DynamicInvoker dynamicInvoker) {
-                        dynamicInvoker.Add(target, methodInfo);
+                        dynamicInvoker.Add(target, methodInfo, _serializer);
                     }
                     else {
                         // Should never happen...
@@ -165,10 +167,11 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
             /// </summary>
             /// <param name="controller"></param>
             /// <param name="controllerMethod"></param>
-            public void Add(object controller, MethodInfo controllerMethod) {
+            /// <param name="serializer"></param>
+            public void Add(object controller, MethodInfo controllerMethod, IJsonSerializer serializer) {
                 _logger.Verbose("Adding {controller}.{method} method to invoker...",
                     controller.GetType().Name, controllerMethod.Name);
-                _invokers.Add(new JsonMethodInvoker(controller, controllerMethod, _logger));
+                _invokers.Add(new JsonMethodInvoker(controller, controllerMethod, serializer, _logger));
                 MethodName = controllerMethod.Name;
             }
 
@@ -223,10 +226,12 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
             /// </summary>
             /// <param name="controller"></param>
             /// <param name="controllerMethod"></param>
+            /// <param name="serializer"></param>
             /// <param name="logger"></param>
             public JsonMethodInvoker(object controller, MethodInfo controllerMethod,
-                ILogger logger) {
+                IJsonSerializer serializer, ILogger logger) {
                 _logger = logger;
+                _serializer = serializer;
                 _controller = controller;
                 _controllerMethod = controllerMethod;
                 _methodParams = _controllerMethod.GetParameters();
@@ -250,7 +255,7 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
                         inputs = new object[0];
                     }
                     else if (_methodParams.Length == 1) {
-                        var data = JsonConvertEx.DeserializeObject(
+                        var data = _serializer.Deserialize(
                             Encoding.UTF8.GetString(payload), _methodParams[0].ParameterType);
                         inputs = new[] { data };
                     }
@@ -298,10 +303,10 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
                         _logger.Verbose(ex, "Method call error");
                         ex = _ef.Filter(ex, out var status);
                         throw new MethodCallStatusException(ex != null ?
-                           JsonConvertEx.SerializeObject(ex) : null, status);
+                           _serializer.SerializeObject(ex) : null, status);
                     }
                     return Encoding.UTF8.GetBytes(
-                        JsonConvertEx.SerializeObject(tr.Result));
+                        _serializer.SerializeObject(tr.Result));
                 });
             }
 
@@ -321,7 +326,7 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
                         _logger.Verbose(ex, "Method call error");
                         ex = _ef.Filter(ex, out var status);
                         throw new MethodCallStatusException(ex != null ?
-                            JsonConvertEx.SerializeObject(ex) : null, status);
+                            _serializer.SerializeObject(ex) : null, status);
                     }
                     return new byte[0];
                 });
@@ -330,6 +335,7 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
             private static readonly MethodInfo _methodResponseAsContinuation =
                 typeof(JsonMethodInvoker).GetMethod(nameof(MethodResultConverterContinuation),
                     BindingFlags.Public | BindingFlags.Instance);
+            private readonly IJsonSerializer _serializer;
             private readonly ILogger _logger;
             private readonly object _controller;
             private readonly ParameterInfo[] _methodParams;
@@ -339,6 +345,7 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
         }
 
         private readonly ILogger _logger;
+        private readonly IJsonSerializer _serializer;
         private readonly Dictionary<string, IMethodInvoker> _calltable;
     }
 }

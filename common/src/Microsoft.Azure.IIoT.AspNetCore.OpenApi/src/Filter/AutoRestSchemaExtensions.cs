@@ -45,8 +45,8 @@ namespace Microsoft.Azure.IIoT.AspNetCore.OpenApi {
                     // Replace parameter definition with property schema
                     parameter.Name = propertySchema.Key;
                     // Quick and dirty clone of the schema for the parameter
-                    parameter.Schema = JsonConvertEx.DeserializeObject<OpenApiSchema>(
-                        JsonConvertEx.SerializeObject(propertySchema.Value));
+                    parameter.Schema = JsonConvert.DeserializeObject<OpenApiSchema>(
+                        JsonConvert.SerializeObject(propertySchema.Value));
                 }
                 parameter.Required = context.PropertyInfo
                     .GetCustomAttributes(typeof(RequiredAttribute), true)

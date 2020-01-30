@@ -9,12 +9,13 @@ namespace Microsoft.Azure.IIoT.Api.Jobs.Clients {
     using Microsoft.Azure.IIoT.Agent.Framework.Models;
     using Microsoft.Azure.IIoT.Auth;
     using Microsoft.Azure.IIoT.Auth.Models;
+    using Microsoft.Azure.IIoT.Exceptions;
+    using Microsoft.Azure.IIoT.Serializer;
     using Microsoft.Azure.IIoT.Http;
     using System;
     using System.Net.Http.Headers;
     using System.Threading;
     using System.Threading.Tasks;
-    using Microsoft.Azure.IIoT.Exceptions;
 
     /// <summary>
     /// Job orchestrator client that connects to the cloud endpoint.
@@ -27,9 +28,11 @@ namespace Microsoft.Azure.IIoT.Api.Jobs.Clients {
         /// <param name="config"></param>
         /// <param name="httpClient"></param>
         /// <param name="tokenProvider"></param>
-        public JobOrchestratorClient(IHttpClient httpClient,
-            IAgentConfigProvider config, IIdentityTokenProvider tokenProvider) {
+        /// <param name="serializer"></param>
+        public JobOrchestratorClient(IHttpClient httpClient, IAgentConfigProvider config,
+            IIdentityTokenProvider tokenProvider, IJsonSerializer serializer) {
             _tokenProvider = tokenProvider ?? throw new ArgumentNullException(nameof(tokenProvider));
+            _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
             _config = config ?? throw new ArgumentNullException(nameof(config));
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
         }
@@ -48,12 +51,12 @@ namespace Microsoft.Azure.IIoT.Api.Jobs.Clients {
                 var request = _httpClient.NewRequest($"{uri}/v2/workers/{workerId}");
                 request.Headers.Authorization = new AuthenticationHeaderValue("Basic",
                     _tokenProvider.IdentityToken.ToAuthorizationValue());
-                request.SetContent(jobRequest.Map<JobRequestApiModel>());
+                _serializer.SetContent(request, jobRequest.Map<JobRequestApiModel>());
                 var response = await _httpClient.PostAsync(request, ct)
                     .ConfigureAwait(false);
                 try {
                     response.Validate();
-                    return response.GetContent<JobProcessingInstructionApiModel>()
+                    return _serializer.DeserializeResponse<JobProcessingInstructionApiModel>(response)
                         .Map<JobProcessingInstructionModel>();
                 }
                 catch (UnauthorizedAccessException) {
@@ -76,12 +79,12 @@ namespace Microsoft.Azure.IIoT.Api.Jobs.Clients {
                 var request = _httpClient.NewRequest($"{uri}/v2/heartbeat");
                 request.Headers.Authorization = new AuthenticationHeaderValue("Basic",
                     _tokenProvider.IdentityToken.ToAuthorizationValue());
-                request.SetContent(heartbeat.Map<HeartbeatApiModel>());
+                _serializer.SetContent(request, heartbeat.Map<HeartbeatApiModel>());
                 var response = await _httpClient.PostAsync(request, ct)
                     .ConfigureAwait(false);
                 try {
                     response.Validate();
-                    return response.GetContent<HeartbeatResponseApiModel>()
+                    return _serializer.DeserializeResponse<HeartbeatResponseApiModel>(response)
                         .Map<HeartbeatResultModel>();
                 }
                 catch (UnauthorizedAccessException) {
@@ -91,6 +94,7 @@ namespace Microsoft.Azure.IIoT.Api.Jobs.Clients {
         }
 
         private readonly IIdentityTokenProvider _tokenProvider;
+        private readonly IJsonSerializer _serializer;
         private readonly IAgentConfigProvider _config;
         private readonly IHttpClient _httpClient;
     }

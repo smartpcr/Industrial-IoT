@@ -24,6 +24,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Cli {
     using Microsoft.Azure.IIoT.OpcUa.Registry.Events.v2;
     using Microsoft.Azure.IIoT.OpcUa.Registry.Models;
     using Microsoft.Azure.IIoT.OpcUa.Testing.Runtime;
+    using Microsoft.Azure.IIoT.Serializer;
     using Microsoft.Azure.IIoT.Utils;
     using Newtonsoft.Json;
     using Opc.Ua;
@@ -243,8 +244,7 @@ Operations (Mutually exclusive):
             var logger = ConsoleOutLogger.Create();
             var config = new IoTHubConfig(null);
             var registry = new IoTHubServiceHttpClient(new HttpClient(logger),
-                config, logger);
-
+                config, new NewtonSoftJsonSerializer(), logger);
 
             await registry.CreateAsync(new DeviceTwinModel {
                 Id = deviceId,
@@ -268,7 +268,7 @@ Operations (Mutually exclusive):
             var logger = ConsoleOutLogger.Create();
             var config = new IoTHubConfig(null);
             var registry = new IoTHubServiceHttpClient(new HttpClient(logger),
-                config, logger);
+                config, new NewtonSoftJsonSerializer(), logger);
 
             var query = "SELECT * FROM devices.modules WHERE " +
                 $"properties.reported.{TwinProperty.Type} = '{IdentityType.Supervisor}'";
@@ -296,7 +296,7 @@ Operations (Mutually exclusive):
             var logger = ConsoleOutLogger.Create();
             var config = new IoTHubConfig(null);
             var registry = new IoTHubServiceHttpClient(new HttpClient(logger),
-                config, logger);
+                config, new NewtonSoftJsonSerializer(), logger);
 
             var result = await registry.QueryAllDeviceTwinsAsync(
                 "SELECT * from devices where IS_DEFINED(tags.DeviceType)");
@@ -348,7 +348,7 @@ Operations (Mutually exclusive):
             using (var logger = StackLogger.Create(ConsoleLogger.Create()))
             using (var client = new ClientServices(logger.Logger, new TestClientServicesConfig()))
             using (var scanner = new DiscoveryServices(client, new ConsoleEmitter(),
-                logger.Logger)) {
+                new NewtonSoftJsonSerializer(), logger.Logger)) {
                 var rand = new Random();
                 while (true) {
                     scanner.Configuration = new DiscoveryConfigModel {

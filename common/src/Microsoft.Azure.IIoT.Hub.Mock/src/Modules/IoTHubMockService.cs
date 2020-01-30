@@ -32,6 +32,9 @@ namespace Microsoft.Azure.IIoT.Hub.Mock {
             builder.RegisterType<ChunkMethodClient>()
                 .AsImplementedInterfaces().SingleInstance();
 
+            // Register default serializers...
+            builder.RegisterModule<DefaultSerializers>();
+
             base.Load(builder);
         }
     }

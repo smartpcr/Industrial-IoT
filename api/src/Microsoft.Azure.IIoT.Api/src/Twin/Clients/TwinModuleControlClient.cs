@@ -9,8 +9,8 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Clients {
     using Microsoft.Azure.IIoT.OpcUa.History;
     using Microsoft.Azure.IIoT.OpcUa.Twin;
     using Microsoft.Azure.IIoT.Module;
+    using Microsoft.Azure.IIoT.Serializer;
     using Serilog;
-    using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
     using System;
     using System.Linq;
@@ -28,8 +28,11 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Clients {
         /// Create service
         /// </summary>
         /// <param name="client"></param>
+        /// <param name="serializer"></param>
         /// <param name="logger"></param>
-        public TwinModuleControlClient(IMethodClient client, ILogger logger) {
+        public TwinModuleControlClient(IMethodClient client, IJsonSerializer serializer,
+            ILogger logger) {
+            _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
             _client = client ?? throw new ArgumentNullException(nameof(client));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
@@ -218,12 +221,13 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Clients {
             }
             var sw = Stopwatch.StartNew();
             var result = await _client.CallMethodAsync(endpointId, null, service,
-                JsonConvertEx.SerializeObject(request));
+                _serializer.SerializeObject(request));
             _logger.Debug("Twin call '{service}' took {elapsed} ms)!",
                 service, sw.ElapsedMilliseconds);
-            return JsonConvertEx.DeserializeObject<R>(result);
+            return _serializer.DeserializeObject<R>(result);
         }
 
+        private readonly IJsonSerializer _serializer;
         private readonly IMethodClient _client;
         private readonly ILogger _logger;
     }

@@ -9,7 +9,7 @@ namespace Microsoft.Azure.IIoT.Module.Default {
     using Microsoft.Azure.IIoT.Hub;
     using Microsoft.Azure.IIoT.Http;
     using Microsoft.Azure.IIoT.Http.Default;
-    using Newtonsoft.Json;
+    using Microsoft.Azure.IIoT.Serializer;
     using Serilog;
     using System;
     using System.Collections.Concurrent;
@@ -38,11 +38,13 @@ namespace Microsoft.Azure.IIoT.Module.Default {
         /// Create handler factory
         /// </summary>
         /// <param name="client"></param>
+        /// <param name="serializer"></param>
         /// <param name="handlers"></param>
         /// <param name="logger"></param>
-        public HttpTunnelHandlerFactory(IEventClient client,
+        public HttpTunnelHandlerFactory(IEventClient client, IJsonSerializer serializer,
             IEnumerable<IHttpHandler> handlers, ILogger logger) {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
             _handlers = handlers?.ToList() ?? new List<IHttpHandler>();
             _client = client ?? throw new ArgumentNullException(nameof(client));
             _outstanding = new ConcurrentDictionary<string, RequestTask>();
@@ -70,7 +72,7 @@ namespace Microsoft.Azure.IIoT.Module.Default {
             IMethodHandler context) {
             // Handle response from device method
             var result = Encoding.UTF8.GetString(payload);
-            var response = JsonConvertEx.DeserializeObject<HttpTunnelResponseModel>(result);
+            var response = _serializer.DeserializeObject<HttpTunnelResponseModel>(result);
             if (_outstanding.TryRemove(response.RequestId, out var request)) {
                 var httpResponse = new HttpResponseMessage((HttpStatusCode)response.Status) {
                     Content = response.Payload == null ? null :
@@ -187,7 +189,7 @@ namespace Microsoft.Azure.IIoT.Module.Default {
                 using (var writer = new BinaryWriter(header)) {
                     // Serialize header (0)
                     var headerBuffer = Encoding.UTF8.GetBytes(
-                        JsonConvertEx.SerializeObject(tunnelRequest)).Zip();
+                        _outer._serializer.SerializeObject(tunnelRequest)).Zip();
 
                     writer.Write(headerBuffer.Length);
                     writer.Write(headerBuffer);
@@ -270,6 +272,7 @@ namespace Microsoft.Azure.IIoT.Module.Default {
         private readonly List<IHttpHandler> _handlers;
         private readonly IEventClient _client;
         private readonly ILogger _logger;
+        private readonly IJsonSerializer _serializer;
         private readonly ConcurrentDictionary<string, RequestTask> _outstanding;
     }
 }

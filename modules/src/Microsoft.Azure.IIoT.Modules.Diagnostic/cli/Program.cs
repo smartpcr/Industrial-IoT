@@ -10,6 +10,7 @@ namespace Microsoft.Azure.IIoT.Modules.Diagnostic.Cli {
     using Microsoft.Azure.IIoT.Hub;
     using Microsoft.Azure.IIoT.Hub.Client;
     using Microsoft.Azure.IIoT.Hub.Models;
+    using Microsoft.Azure.IIoT.Serializer;
     using Microsoft.Azure.IIoT.Utils;
     using Microsoft.Extensions.Configuration;
     using Newtonsoft.Json;
@@ -332,8 +333,9 @@ Arguments:
         private static IoTHubServiceHttpClient CreateClient(IIoTHubConfig config,
             ILogger logger) {
             var registry = new IoTHubServiceHttpClient(new HttpClient(logger),
-                config, logger);
+                config, new NewtonSoftJsonSerializer(), logger);
             return registry;
         }
+
     }
 }

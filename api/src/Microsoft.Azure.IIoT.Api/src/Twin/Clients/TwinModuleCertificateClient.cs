@@ -7,7 +7,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Clients {
     using Microsoft.Azure.IIoT.OpcUa.Registry.Models;
     using Microsoft.Azure.IIoT.OpcUa.Registry;
     using Microsoft.Azure.IIoT.Module;
-    using Newtonsoft.Json;
+    using Microsoft.Azure.IIoT.Serializer;
     using Serilog;
     using System;
     using System.Threading.Tasks;
@@ -20,11 +20,14 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Clients {
     public sealed class TwinModuleCertificateClient : ICertificateServices<EndpointRegistrationModel> {
 
         /// <summary>
-        /// Create service
+        /// Create client
         /// </summary>
         /// <param name="client"></param>
+        /// <param name="serializer"></param>
         /// <param name="logger"></param>
-        public TwinModuleCertificateClient(IMethodClient client, ILogger logger) {
+        public TwinModuleCertificateClient(IMethodClient client, IJsonSerializer serializer,
+            ILogger logger) {
+            _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
             _client = client ?? throw new ArgumentNullException(nameof(client));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
@@ -48,13 +51,14 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Clients {
             var sw = Stopwatch.StartNew();
             var result = await _client.CallMethodAsync(deviceId, moduleId,
                  "GetEndpointCertificate_V2",
-                JsonConvertEx.SerializeObject(registration.Endpoint), null, ct);
+                _serializer.SerializeObject(registration.Endpoint), null, ct);
             _logger.Debug("Calling supervisor {deviceId}/{moduleId} to get certificate." +
                 "Took {elapsed} ms and returned {result}!", deviceId, moduleId,
                 sw.ElapsedMilliseconds, result);
-            return JsonConvertEx.DeserializeObject<byte[]>(result);
+            return _serializer.DeserializeObject<byte[]>(result);
         }
 
+        private readonly IJsonSerializer _serializer;
         private readonly IMethodClient _client;
         private readonly ILogger _logger;
     }

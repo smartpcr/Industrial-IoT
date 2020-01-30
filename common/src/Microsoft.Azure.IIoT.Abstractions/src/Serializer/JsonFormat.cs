@@ -3,23 +3,21 @@
 //  Licensed under the MIT License (MIT). See License.txt in the repo root for license information.
 // ------------------------------------------------------------
 
-namespace Microsoft.Azure.IIoT.Services {
-    using System;
+namespace Microsoft.Azure.IIoT.Serializer {
 
     /// <summary>
-    /// Endpoint lookup
+    /// Formatting option
     /// </summary>
-    public interface IEndpoint {
+    public enum JsonFormat {
 
         /// <summary>
-        /// Resource name
+        /// Compressed
         /// </summary>
-        string Resource { get; }
+        None,
 
         /// <summary>
-        /// Get client endpoint
+        /// Pretty print
         /// </summary>
-        /// <returns>Client endpoint</returns>
-        Uri EndpointUrl { get; }
+        Pretty
     }
 }

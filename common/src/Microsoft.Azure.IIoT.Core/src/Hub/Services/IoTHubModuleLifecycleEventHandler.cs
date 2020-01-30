@@ -6,6 +6,7 @@
 namespace Microsoft.Azure.IIoT.Hub.Services {
     using Microsoft.Azure.IIoT.Hub;
     using Microsoft.Azure.IIoT.Hub.Models;
+    using Microsoft.Azure.IIoT.Serializer;
     using Serilog;
     using System.Collections.Generic;
 
@@ -20,10 +21,12 @@ namespace Microsoft.Azure.IIoT.Hub.Services {
         /// <summary>
         /// Create handler
         /// </summary>
+        /// <param name="serializer"></param>
         /// <param name="handlers"></param>
         /// <param name="logger"></param>
-        public IoTHubModuleLifecycleEventHandler(IEnumerable<IIoTHubDeviceTwinEventHandler> handlers,
-            ILogger logger) : base (handlers, logger) {
+        public IoTHubModuleLifecycleEventHandler(IJsonSerializer serializer,
+            IEnumerable<IIoTHubDeviceTwinEventHandler> handlers, ILogger logger) :
+            base (serializer, handlers, logger) {
         }
 
         /// <summary>

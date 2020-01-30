@@ -7,10 +7,10 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Clients {
     using Microsoft.Azure.IIoT.OpcUa.Api.History.Models;
     using Microsoft.Azure.IIoT.OpcUa.Api.Core.Models;
     using Microsoft.Azure.IIoT.Module;
+    using Microsoft.Azure.IIoT.Serializer;
     using System;
     using System.Threading.Tasks;
     using System.Threading;
-    using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
 
     /// <summary>
@@ -22,9 +22,12 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Clients {
         /// Create module client
         /// </summary>
         /// <param name="methodClient"></param>
+        /// <param name="serializer"></param>
         /// <param name="deviceId"></param>
         /// <param name="moduleId"></param>
-        public HistoryModuleClient(IMethodClient methodClient, string deviceId, string moduleId) {
+        public HistoryModuleClient(IMethodClient methodClient,
+            string deviceId, string moduleId, IJsonSerializer serializer = null) {
+            _serializer = serializer ?? new NewtonSoftJsonSerializer();
             _methodClient = methodClient ?? throw new ArgumentNullException(nameof(methodClient));
             _moduleId = moduleId ?? throw new ArgumentNullException(nameof(moduleId));
             _deviceId = deviceId ?? throw new ArgumentNullException(nameof(deviceId));
@@ -35,8 +38,10 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Clients {
         /// </summary>
         /// <param name="methodClient"></param>
         /// <param name="config"></param>
-        public HistoryModuleClient(IMethodClient methodClient, IHistoryModuleConfig config) :
-            this(methodClient, config?.DeviceId, config?.ModuleId) {
+        /// <param name="serializer"></param>
+        public HistoryModuleClient(IMethodClient methodClient, IHistoryModuleConfig config,
+            IJsonSerializer serializer = null) :
+            this(methodClient, config?.DeviceId, config?.ModuleId, serializer) {
         }
 
         /// <inheritdoc/>
@@ -56,11 +61,11 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Clients {
                 throw new ArgumentNullException(nameof(request.Details));
             }
             var response = await _methodClient.CallMethodAsync(_deviceId, _moduleId,
-                "HistoryRead_V2", JsonConvertEx.SerializeObject(new {
+                "HistoryRead_V2", _serializer.SerializeObject(new {
                     endpoint,
                     request
                 }), null, ct);
-            return JsonConvertEx.DeserializeObject<HistoryReadResponseApiModel<JToken>>(response);
+            return _serializer.DeserializeObject<HistoryReadResponseApiModel<JToken>>(response);
         }
 
         /// <inheritdoc/>
@@ -80,11 +85,11 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Clients {
                 throw new ArgumentNullException(nameof(request.ContinuationToken));
             }
             var response = await _methodClient.CallMethodAsync(_deviceId, _moduleId,
-                "HistoryReadNext_V2", JsonConvertEx.SerializeObject(new {
+                "HistoryReadNext_V2", _serializer.SerializeObject(new {
                     endpoint,
                     request
                 }), null, ct);
-            return JsonConvertEx.DeserializeObject<HistoryReadNextResponseApiModel<JToken>>(response);
+            return _serializer.DeserializeObject<HistoryReadNextResponseApiModel<JToken>>(response);
         }
 
         /// <inheritdoc/>
@@ -104,13 +109,14 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Clients {
                 throw new ArgumentNullException(nameof(request.Details));
             }
             var response = await _methodClient.CallMethodAsync(_deviceId, _moduleId,
-                "HistoryUpdate_V2", JsonConvertEx.SerializeObject(new {
+                "HistoryUpdate_V2", _serializer.SerializeObject(new {
                     endpoint,
                     request
                 }), null, ct);
-            return JsonConvertEx.DeserializeObject<HistoryUpdateResponseApiModel>(response);
+            return _serializer.DeserializeObject<HistoryUpdateResponseApiModel>(response);
         }
 
+        private readonly IJsonSerializer _serializer;
         private readonly IMethodClient _methodClient;
         private readonly string _moduleId;
         private readonly string _deviceId;

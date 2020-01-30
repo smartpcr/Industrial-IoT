@@ -5,9 +5,7 @@
 
 namespace Microsoft.Azure.IIoT.OpcUa.Api.Core.Models {
     using System.Runtime.Serialization;
-    using System;
     using System.Collections.Generic;
-    using System.Linq;
 
     /// <summary>
     /// Structure definition

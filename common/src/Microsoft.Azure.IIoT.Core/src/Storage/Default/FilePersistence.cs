@@ -5,13 +5,13 @@
 
 namespace Microsoft.Azure.IIoT.Storage.Default {
     using Microsoft.Azure.IIoT.Exceptions;
+    using Microsoft.Azure.IIoT.Serializer;
     using Serilog;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using System.IO;
     using System.Threading;
     using System;
-    using Newtonsoft.Json;
 
     /// <summary>
     /// Persists into a file
@@ -21,17 +21,21 @@ namespace Microsoft.Azure.IIoT.Storage.Default {
         /// <summary>
         /// Create file persistence provider
         /// </summary>
+        /// <param name="serializer"></param>
         /// <param name="logger"></param>
-        public FilePersistance(ILogger logger) :
-            this("iiot_fpp.json", logger) {
+        public FilePersistance(IJsonSerializer serializer, ILogger logger) :
+            this(serializer, "iiot_fpp.json", logger) {
         }
 
         /// <summary>
         /// Create file persistence provider
         /// </summary>
+        /// <param name="serializer"></param>
         /// <param name="fileName"></param>
         /// <param name="logger"></param>
-        public FilePersistance(string fileName, ILogger logger) {
+        public FilePersistance(IJsonSerializer serializer, string fileName, ILogger logger) {
+            _serializer = serializer ??
+                throw new ArgumentNullException(nameof(serializer));
             _fileName = fileName ??
                 throw new ArgumentNullException(nameof(fileName));
             _logger = logger ??
@@ -65,7 +69,7 @@ namespace Microsoft.Azure.IIoT.Storage.Default {
                 }
                 // Write all to file
                 var path = Path.Combine(Path.GetTempPath(), _fileName);
-                File.WriteAllText(path, JsonConvertEx.SerializeObjectPretty(_master));
+                File.WriteAllText(path, _serializer.SerializeObjectPretty(_master));
                 // Make sure we do not unnecesarily sync
                 _updated = true;
             }
@@ -104,7 +108,7 @@ namespace Microsoft.Azure.IIoT.Storage.Default {
             var path = Path.Combine(Path.GetTempPath(), _fileName);
             try {
                 if (File.Exists(path)) {
-                    return JsonConvertEx.DeserializeObject<Dictionary<string, dynamic>>(
+                    return _serializer.DeserializeObject<Dictionary<string, dynamic>>(
                         File.ReadAllText(path));
                 }
             }
@@ -141,6 +145,7 @@ namespace Microsoft.Azure.IIoT.Storage.Default {
         private Dictionary<string, dynamic> _master;
         private readonly ILogger _logger;
         private readonly FileSystemWatcher _notifier;
+        private readonly IJsonSerializer _serializer;
         private readonly string _fileName;
         private readonly SemaphoreSlim _lock;
     }

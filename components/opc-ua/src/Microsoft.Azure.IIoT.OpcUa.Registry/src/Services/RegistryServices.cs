@@ -50,6 +50,9 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry {
             builder.RegisterType<GatewayRegistry>()
                 .AsImplementedInterfaces().SingleInstance();
 
+            // Register default serializers...
+            builder.RegisterModule<DefaultSerializers>();
+
             base.Load(builder);
         }
     }

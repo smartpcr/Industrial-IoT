@@ -7,7 +7,7 @@ namespace Microsoft.Azure.IIoT.Messaging.SignalR.Services {
     using Microsoft.Azure.IIoT.Auth;
     using Microsoft.Azure.IIoT.Auth.Models;
     using Microsoft.Azure.IIoT.Utils;
-    using Microsoft.Azure.IIoT.Services;
+    using Microsoft.Azure.IIoT.Net;
     using Microsoft.Azure.SignalR.Management;
     using Microsoft.Extensions.Diagnostics.HealthChecks;
     using System;

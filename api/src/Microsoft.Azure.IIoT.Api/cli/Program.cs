@@ -27,6 +27,7 @@ namespace Microsoft.Azure.IIoT.Api.Cli {
     using Microsoft.Azure.IIoT.Http.SignalR;
     using Microsoft.Azure.IIoT.Utils;
     using Microsoft.Azure.IIoT.Auth.Runtime;
+    using Microsoft.Azure.IIoT.Serializer;
     using Microsoft.Extensions.Configuration;
     using Newtonsoft.Json;
     using Autofac;
@@ -124,6 +125,7 @@ namespace Microsoft.Azure.IIoT.Api.Cli {
             _publisher = _scope.Resolve<IPublisherServiceApi>();
             _vault = _scope.Resolve<IVaultServiceApi>();
             _jobs = _scope.Resolve<IJobsServiceApi>();
+            _serializer = _scope.Resolve<IJsonSerializer>();
         }
 
         /// <inheritdoc/>
@@ -2629,56 +2631,56 @@ namespace Microsoft.Azure.IIoT.Api.Cli {
         /// <summary>
         /// Print event
         /// </summary>
-        private static Task PrintEvent(EndpointEventApiModel ev) {
-            Console.WriteLine(JsonConvertEx.SerializeObjectPretty(ev));
+        private Task PrintEvent(EndpointEventApiModel ev) {
+            Console.WriteLine(_serializer.SerializeObjectPretty(ev));
             return Task.CompletedTask;
         }
 
         /// <summary>
         /// Print event
         /// </summary>
-        private static Task PrintEvent(ApplicationEventApiModel ev) {
-            Console.WriteLine(JsonConvertEx.SerializeObjectPretty(ev));
+        private Task PrintEvent(ApplicationEventApiModel ev) {
+            Console.WriteLine(_serializer.SerializeObjectPretty(ev));
             return Task.CompletedTask;
         }
 
         /// <summary>
         /// Print event
         /// </summary>
-        private static Task PrintEvent(SupervisorEventApiModel ev) {
-            Console.WriteLine(JsonConvertEx.SerializeObjectPretty(ev));
+        private Task PrintEvent(SupervisorEventApiModel ev) {
+            Console.WriteLine(_serializer.SerializeObjectPretty(ev));
             return Task.CompletedTask;
         }
 
         /// <summary>
         /// Print event
         /// </summary>
-        private static Task PrintEvent(GatewayEventApiModel ev) {
-            Console.WriteLine(JsonConvertEx.SerializeObjectPretty(ev));
+        private Task PrintEvent(GatewayEventApiModel ev) {
+            Console.WriteLine(_serializer.SerializeObjectPretty(ev));
             return Task.CompletedTask;
         }
 
         /// <summary>
         /// Print event
         /// </summary>
-        private static Task PrintEvent(DiscovererEventApiModel ev) {
-            Console.WriteLine(JsonConvertEx.SerializeObjectPretty(ev));
+        private Task PrintEvent(DiscovererEventApiModel ev) {
+            Console.WriteLine(_serializer.SerializeObjectPretty(ev));
             return Task.CompletedTask;
         }
 
         /// <summary>
         /// Print event
         /// </summary>
-        private static Task PrintEvent(PublisherEventApiModel ev) {
-            Console.WriteLine(JsonConvertEx.SerializeObjectPretty(ev));
+        private Task PrintEvent(PublisherEventApiModel ev) {
+            Console.WriteLine(_serializer.SerializeObjectPretty(ev));
             return Task.CompletedTask;
         }
 
         /// <summary>
         /// Print sample
         /// </summary>
-        private static Task PrintSample(MonitoredItemMessageApiModel samples) {
-            Console.WriteLine(JsonConvertEx.SerializeObject(samples));
+        private Task PrintSample(MonitoredItemMessageApiModel samples) {
+            Console.WriteLine(_serializer.SerializeObject(samples));
             return Task.CompletedTask;
         }
 
@@ -3611,5 +3613,6 @@ Commands and Options
         private readonly IPublisherServiceApi _publisher;
         private readonly IRegistryServiceApi _registry;
         private readonly IVaultServiceApi _vault;
+        private readonly IJsonSerializer _serializer;
     }
 }

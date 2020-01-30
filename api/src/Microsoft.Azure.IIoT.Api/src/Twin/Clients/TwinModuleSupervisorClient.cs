@@ -10,9 +10,9 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Clients {
     using Microsoft.Azure.IIoT.OpcUa.Twin.Models;
     using Microsoft.Azure.IIoT.OpcUa.Twin;
     using Microsoft.Azure.IIoT.Module;
+    using Microsoft.Azure.IIoT.Serializer;
     using Serilog;
     using Newtonsoft.Json.Linq;
-    using Newtonsoft.Json;
     using System;
     using System.Threading.Tasks;
     using System.Diagnostics;
@@ -29,8 +29,11 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Clients {
         /// Create service
         /// </summary>
         /// <param name="client"></param>
+        /// <param name="serializer"></param>
         /// <param name="logger"></param>
-        public TwinModuleSupervisorClient(IMethodClient client, ILogger logger) {
+        public TwinModuleSupervisorClient(IMethodClient client, IJsonSerializer serializer,
+            ILogger logger) {
+            _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
             _client = client ?? throw new ArgumentNullException(nameof(client));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
@@ -216,16 +219,17 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Clients {
             var deviceId = SupervisorModelEx.ParseDeviceId(registration.SupervisorId,
                 out var moduleId);
             var result = await _client.CallMethodAsync(deviceId, moduleId, service,
-                JsonConvertEx.SerializeObject(new {
+                _serializer.SerializeObject(new {
                     endpoint = registration.Endpoint,
                     request
                 }));
             _logger.Debug("Calling supervisor service '{service}' on {deviceId}/{moduleId} " +
                 "took {elapsed} ms and returned {result}!", service, deviceId, moduleId,
                 sw.ElapsedMilliseconds, result);
-            return JsonConvertEx.DeserializeObject<R>(result);
+            return _serializer.DeserializeObject<R>(result);
         }
 
+        private readonly IJsonSerializer _serializer;
         private readonly IMethodClient _client;
         private readonly ILogger _logger;
     }

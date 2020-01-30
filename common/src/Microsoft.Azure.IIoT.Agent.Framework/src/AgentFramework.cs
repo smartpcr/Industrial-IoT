@@ -20,6 +20,9 @@ namespace Microsoft.Azure.IIoT.Agent.Framework {
             builder.RegisterType<Worker>()
                 .AsImplementedInterfaces().InstancePerDependency();
 
+            // Register default serializers...
+            builder.RegisterModule<DefaultSerializers>();
+
             base.Load(builder);
         }
     }

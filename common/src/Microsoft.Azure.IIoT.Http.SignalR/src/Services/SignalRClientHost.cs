@@ -142,6 +142,7 @@ namespace Microsoft.Azure.IIoT.Http.SignalR.Services {
         private async Task<HubConnection> OpenAsync() {
             var connection = new HubConnectionBuilder()
                 .WithAutomaticReconnect()
+              //  .AddMessagePackProtocol()
                 .AddNewtonsoftJsonProtocol(options => {
                     options.PayloadSerializerSettings = JsonConvertEx.GetSettings();
                 })

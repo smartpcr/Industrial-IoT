@@ -50,6 +50,8 @@ namespace Microsoft.Azure.IIoT.Module.Framework {
 #endif
             // Register http (tunnel) client module
             builder.RegisterModule<HttpTunnelClient>();
+            // Register default serializers...
+            builder.RegisterModule<DefaultSerializers>();
 
             // Register edgelet client (uses http)
             builder.RegisterType<EdgeletClient>()

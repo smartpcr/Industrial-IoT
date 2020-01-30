@@ -28,6 +28,9 @@ namespace Microsoft.Azure.IIoT.Http.Default {
                 .AsImplementedInterfaces()
                 .IfNotRegistered(typeof(System.Net.Http.IHttpClientFactory));
 
+            // Register default serializers...
+            builder.RegisterModule<DefaultSerializers>();
+
             base.Load(builder);
         }
     }

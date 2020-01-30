@@ -9,7 +9,7 @@ namespace Microsoft.Azure.IIoT.Module.Default {
     using Microsoft.Azure.IIoT.Hub;
     using Microsoft.Azure.IIoT.Utils;
     using Microsoft.Azure.IIoT.Http;
-    using Newtonsoft.Json;
+    using Microsoft.Azure.IIoT.Serializer;
     using Serilog;
     using System;
     using System.IO;
@@ -33,10 +33,13 @@ namespace Microsoft.Azure.IIoT.Module.Default {
         /// <summary>
         /// Create server
         /// </summary>
-        /// <param name="client"></param>
         /// <param name="http"></param>
+        /// <param name="client"></param>
+        /// <param name="serializer"></param>
         /// <param name="logger"></param>
-        public HttpTunnelServer(IMethodClient client, IHttpClient http, ILogger logger) {
+        public HttpTunnelServer(IHttpClient http, IMethodClient client,
+            IJsonSerializer serializer, ILogger logger) {
+            _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
             _client = client ?? throw new ArgumentNullException(nameof(client));
             _http = http ?? throw new ArgumentNullException(nameof(http));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -161,7 +164,7 @@ namespace Microsoft.Azure.IIoT.Module.Default {
                 if (chunks > kMaxNumberOfChunks) {
                     throw new ArgumentException("Bad encoding length");
                 }
-                request = JsonConvertEx.DeserializeObject<HttpTunnelRequestModel>(
+                request = _serializer.DeserializeObject<HttpTunnelRequestModel>(
                     Encoding.UTF8.GetString(headerBuf.Unzip()));
                 return chunk0;
             }
@@ -289,7 +292,7 @@ namespace Microsoft.Azure.IIoT.Module.Default {
                     // Forward response back to caller
                     await _outer._client.CallMethodAsync(
                         _deviceId, _moduleId, MethodNames.Response,
-                        JsonConvertEx.SerializeObject(new HttpTunnelResponseModel {
+                        _outer._serializer.SerializeObject(new HttpTunnelResponseModel {
                             Headers = response.Headers?
                                 .ToDictionary(h => h.Key, h => h.Value.ToList()),
                             RequestId = RequestId,
@@ -302,11 +305,11 @@ namespace Microsoft.Azure.IIoT.Module.Default {
                     // Forward failure back to caller
                     await _outer._client.CallMethodAsync(
                         _deviceId, _moduleId, MethodNames.Response,
-                        JsonConvertEx.SerializeObject(new HttpTunnelResponseModel {
+                        _outer._serializer.SerializeObject(new HttpTunnelResponseModel {
                             RequestId = RequestId,
                             Status = (int)HttpStatusCode.InternalServerError,
                             Payload = Encoding.UTF8.GetBytes(
-                                JsonConvertEx.SerializeObject(ex))
+                                _outer._serializer.SerializeObject(ex))
                         }));
                 }
             }
@@ -343,6 +346,7 @@ namespace Microsoft.Azure.IIoT.Module.Default {
         private const int kTimeoutCheckInterval = 10000;
         private readonly ConcurrentDictionary<string, HttpRequestProcessor> _requests;
         private readonly Timer _timer;
+        private readonly IJsonSerializer _serializer;
         private readonly IMethodClient _client;
         private readonly IHttpClient _http;
         private readonly ILogger _logger;
