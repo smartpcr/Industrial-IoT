@@ -7,7 +7,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Clients {
     using Microsoft.Azure.IIoT.OpcUa.Registry.Models;
     using Microsoft.Azure.IIoT.OpcUa.Registry;
     using Microsoft.Azure.IIoT.Module;
-    using Microsoft.Azure.IIoT.Serializer;
+    using Microsoft.Azure.IIoT.Serializers;
     using Serilog;
     using System;
     using System.Threading.Tasks;
@@ -86,7 +86,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Clients {
             var deviceId = SupervisorModelEx.ParseDeviceId(supervisorId,
                 out var moduleId);
             var result = await _client.CallMethodAsync(deviceId, moduleId, service,
-                _serializer.SerializeObject(payload), null, ct);
+                _serializer.Serialize(payload), null, ct);
             _logger.Debug("Calling supervisor service '{service}' on " +
                 "{deviceId}/{moduleId} took {elapsed} ms.", service, deviceId,
                 moduleId, sw.ElapsedMilliseconds);

@@ -6,7 +6,7 @@
 namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
     using Microsoft.Azure.IIoT.Http;
     using Microsoft.Azure.IIoT.Utils;
-    using Microsoft.Azure.IIoT.Serializer;
+    using Microsoft.Azure.IIoT.Serializers;
     using Serilog;
     using System;
     using System.Threading;
@@ -63,7 +63,7 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
             var request = _client.NewRequest(
                 $"{_workloaduri}/modules/{_moduleId}/genid/{_moduleGenerationId}/" +
                 $"certificate/server?api-version={_apiVersion}");
-            _serializer.SetContent(request, new { commonName, expiration });
+            _serializer.SerializeToRequest(request, new { commonName, expiration });
             return await Retry.WithExponentialBackoff(_logger, ct, async () => {
                 var response = await _client.PostAsync(request, ct);
                 response.Validate();
@@ -80,7 +80,7 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
             var request = _client.NewRequest(
                 $"{_workloaduri}/modules/{_moduleId}/genid/{_moduleGenerationId}/" +
                 $"encrypt?api-version={_apiVersion}");
-            _serializer.SetContent(request, new { initializationVector, plaintext });
+            _serializer.SerializeToRequest(request, new { initializationVector, plaintext });
             return await Retry.WithExponentialBackoff(_logger, ct, async () => {
                 var response = await _client.PostAsync(request, ct);
                 response.Validate();
@@ -94,7 +94,7 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
             var request = _client.NewRequest(
                 $"{_workloaduri}/modules/{_moduleId}/genid/{_moduleGenerationId}/" +
                 $"decrypt?api-version={_apiVersion}");
-            _serializer.SetContent(request, new { initializationVector, ciphertext });
+            _serializer.SerializeToRequest(request, new { initializationVector, ciphertext });
             return await Retry.WithExponentialBackoff(_logger, ct, async () => {
                 var response = await _client.PostAsync(request, ct);
                 response.Validate();

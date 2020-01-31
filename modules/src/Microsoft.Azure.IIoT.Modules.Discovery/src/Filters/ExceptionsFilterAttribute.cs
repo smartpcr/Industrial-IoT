@@ -7,7 +7,6 @@ namespace Microsoft.Azure.IIoT.Modules.Discovery.Filters {
     using Microsoft.Azure.IIoT.Module.Framework;
     using Microsoft.Azure.IIoT.Exceptions;
     using Microsoft.Azure.IIoT.OpcUa.Exceptions;
-    using Newtonsoft.Json;
     using System;
     using System.Net;
     using System.Net.Sockets;
@@ -51,7 +50,7 @@ namespace Microsoft.Azure.IIoT.Modules.Discovery.Filters {
                 case UnauthorizedAccessException ue:
                     status = (int)HttpStatusCode.Unauthorized;
                     break;
-                case JsonReaderException jre:
+                case SerializerException sre:
                 case MethodCallException mce:
                 case BadRequestException br:
                 case ArgumentException are:

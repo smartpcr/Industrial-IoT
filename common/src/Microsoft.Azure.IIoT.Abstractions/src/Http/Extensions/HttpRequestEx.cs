@@ -42,7 +42,7 @@ namespace Microsoft.Azure.IIoT.Http {
         public static IHttpRequest SetStringContent(this IHttpRequest request, string content,
             Encoding encoding = null, MediaTypeHeaderValue mediaType = null) {
             request.Content = new StringContent(content, encoding ?? kDefaultEncoding,
-                mediaType.MediaType ?? kDefaultMediaType.MediaType);
+                mediaType?.MediaType ?? kDefaultMediaType.MediaType);
             return request;
         }
 

@@ -3,7 +3,7 @@
 //  Licensed under the MIT License (MIT). See License.txt in the repo root for license information.
 // ------------------------------------------------------------
 
-namespace Microsoft.Azure.IIoT.Serializer {
+namespace Microsoft.Azure.IIoT.Serializers {
     using Microsoft.Azure.IIoT.Http;
     using System;
     using System.Globalization;
@@ -21,7 +21,7 @@ namespace Microsoft.Azure.IIoT.Serializer {
         /// <param name="serializer"></param>
         /// <param name="o"></param>
         /// <param name="format"></param>
-        public static string SerializeObject(this IJsonSerializer serializer,
+        public static string Serialize(this IJsonSerializer serializer,
             object o, JsonFormat format = JsonFormat.None) {
             var sb = new StringBuilder(256);
             using (var writer = new StringWriter(sb, CultureInfo.InvariantCulture)) {
@@ -42,6 +42,9 @@ namespace Microsoft.Azure.IIoT.Serializer {
         public static void Serialize(this IJsonSerializer serializer,
             object o, Stream stream, JsonFormat format = JsonFormat.None,
             Encoding encoding = null, int bufferSize = 512) {
+            if (stream == null) {
+                throw new ArgumentNullException(nameof(stream));
+            }
             using (var writer = new StreamWriter(stream,
                 encoding ?? Encoding.UTF8, bufferSize, true)) {
                 serializer.Serialize(writer, o, format);
@@ -55,9 +58,12 @@ namespace Microsoft.Azure.IIoT.Serializer {
         /// <param name="request"></param>
         /// <param name="o"></param>
         /// <returns></returns>
-        public static void SetContent(this IJsonSerializer serializer,
+        public static void SerializeToRequest(this IJsonSerializer serializer,
             IHttpRequest request, object o) {
-            request.SetStringContent(serializer.SerializeObject(o));
+            if (request == null) {
+                throw new ArgumentNullException(nameof(request));
+            }
+            request.SetStringContent(serializer.Serialize(o));
         }
 
         /// <summary>
@@ -66,22 +72,10 @@ namespace Microsoft.Azure.IIoT.Serializer {
         /// <param name="serializer"></param>
         /// <param name="o"></param>
         /// <returns></returns>
-        public static string SerializeObjectPretty(
+        public static string SerializePretty(
             this IJsonSerializer serializer, object o) {
-            return serializer.SerializeObject(o, JsonFormat.Pretty);
+            return serializer.Serialize(o, JsonFormat.Indented);
         }
-
-      // /// <summary>
-      // /// Bind token to object
-      // /// </summary>
-      // /// <typeparam name="T"></typeparam>
-      // /// <param name="serializer"></param>
-      // /// <param name="token"></param>
-      // /// <returns></returns>
-      // public static T ToObject<T>(this IJsonSerializer serializer,
-      //     dynamic token) {
-      //     return (T)serializer.ToObject(token, typeof(T));
-      // }
 
         /// <summary>
         /// Deserialize from reader
@@ -126,8 +120,7 @@ namespace Microsoft.Azure.IIoT.Serializer {
         /// <param name="serializer"></param>
         /// <param name="json"></param>
         /// <returns></returns>
-        public static T DeserializeObject<T>(this IJsonSerializer serializer,
-            string json) {
+        public static T Deserialize<T>(this IJsonSerializer serializer, string json) {
             return (T)serializer.Deserialize(json, typeof(T));
         }
 
@@ -165,6 +158,20 @@ namespace Microsoft.Azure.IIoT.Serializer {
             int bufferSize = 512, bool detectEncoding = false) {
             return (T)serializer.Deserialize(typeof(T), stream, encoding,
                 bufferSize, detectEncoding);
+        }
+
+        /// <summary>
+        /// Convert from to
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="serializer"></param>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static T Map<T>(this IJsonSerializer serializer, object model) {
+            if (model == null) {
+                return default;
+            }
+            return serializer.Deserialize<T>(serializer.Serialize(model));
         }
     }
 }

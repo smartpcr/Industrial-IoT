@@ -9,7 +9,7 @@ namespace Microsoft.Azure.IIoT.Module.Default {
     using Microsoft.Azure.IIoT.Hub;
     using Microsoft.Azure.IIoT.Http;
     using Microsoft.Azure.IIoT.Http.Default;
-    using Microsoft.Azure.IIoT.Serializer;
+    using Microsoft.Azure.IIoT.Serializers;
     using Serilog;
     using System;
     using System.Collections.Concurrent;
@@ -72,7 +72,7 @@ namespace Microsoft.Azure.IIoT.Module.Default {
             IMethodHandler context) {
             // Handle response from device method
             var result = Encoding.UTF8.GetString(payload);
-            var response = _serializer.DeserializeObject<HttpTunnelResponseModel>(result);
+            var response = _serializer.Deserialize<HttpTunnelResponseModel>(result);
             if (_outstanding.TryRemove(response.RequestId, out var request)) {
                 var httpResponse = new HttpResponseMessage((HttpStatusCode)response.Status) {
                     Content = response.Payload == null ? null :
@@ -189,7 +189,7 @@ namespace Microsoft.Azure.IIoT.Module.Default {
                 using (var writer = new BinaryWriter(header)) {
                     // Serialize header (0)
                     var headerBuffer = Encoding.UTF8.GetBytes(
-                        _outer._serializer.SerializeObject(tunnelRequest)).Zip();
+                        _outer._serializer.Serialize(tunnelRequest)).Zip();
 
                     writer.Write(headerBuffer.Length);
                     writer.Write(headerBuffer);

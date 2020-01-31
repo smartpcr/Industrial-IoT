@@ -7,7 +7,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Clients {
     using Microsoft.Azure.IIoT.OpcUa.Registry.Models;
     using Microsoft.Azure.IIoT.OpcUa.Registry;
     using Microsoft.Azure.IIoT.Module;
-    using Microsoft.Azure.IIoT.Serializer;
+    using Microsoft.Azure.IIoT.Serializers;
     using Serilog;
     using System;
     using System.Threading.Tasks;
@@ -68,7 +68,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Clients {
             var deviceId = DiscovererModelEx.ParseDeviceId(discovererId,
                 out var moduleId);
             var result = await _client.CallMethodAsync(deviceId, moduleId, service,
-                _serializer.SerializeObject(request), null, ct);
+                _serializer.Serialize(request), null, ct);
             _logger.Debug("Calling discoverer service '{service}' on " +
                 "{deviceId}/{moduleId} took {elapsed} ms.", service,
                 deviceId, moduleId, sw.ElapsedMilliseconds);

@@ -7,7 +7,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Clients {
     using Microsoft.Azure.IIoT.OpcUa.Registry.Models;
     using Microsoft.Azure.IIoT.OpcUa.Registry;
     using Microsoft.Azure.IIoT.Module;
-    using Microsoft.Azure.IIoT.Serializer;
+    using Microsoft.Azure.IIoT.Serializers;
     using Serilog;
     using System;
     using System.Threading.Tasks;
@@ -45,7 +45,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Clients {
                 "GetStatus_V2", null, null, ct);
             _logger.Debug("Get {deviceId}/{moduleId} status took " +
                 "{elapsed} ms.", deviceId, moduleId, sw.ElapsedMilliseconds);
-            return _serializer.DeserializeObject<SupervisorStatusModel>(
+            return _serializer.Deserialize<SupervisorStatusModel>(
                 result);
         }
 

@@ -7,6 +7,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher {
     using Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Models;
     using Microsoft.Azure.IIoT.OpcUa.Publisher.Models;
     using Microsoft.Azure.IIoT.OpcUa.Publisher;
+    using Microsoft.Azure.IIoT.Serializers;
     using System;
     using System.Threading.Tasks;
 
@@ -19,7 +20,10 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher {
         /// Create adapter
         /// </summary>
         /// <param name="client"></param>
-        public PublisherServicesApiAdapter(IPublisherServiceApi client) {
+        /// <param name="serializer"></param>
+        public PublisherServicesApiAdapter(IPublisherServiceApi client, 
+            IJsonSerializer serializer) {
+            _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
             _client = client ?? throw new ArgumentNullException(nameof(client));
         }
 
@@ -27,26 +31,27 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher {
         public async Task<PublishStartResultModel> NodePublishStartAsync(
             string endpoint, PublishStartRequestModel request) {
             var result = await _client.NodePublishStartAsync(endpoint,
-                request.Map<PublishStartRequestApiModel>());
-            return result.Map<PublishStartResultModel>();
+                _serializer.Map<PublishStartRequestApiModel>(request));
+            return _serializer.Map<PublishStartResultModel>(result);
         }
 
         /// <inheritdoc/>
         public async Task<PublishStopResultModel> NodePublishStopAsync(
             string endpoint, PublishStopRequestModel request) {
             var result = await _client.NodePublishStopAsync(endpoint,
-                request.Map<PublishStopRequestApiModel>());
-            return result.Map<PublishStopResultModel>();
+                _serializer.Map<PublishStopRequestApiModel>(request));
+            return _serializer.Map<PublishStopResultModel>(result);
         }
 
         /// <inheritdoc/>
         public async Task<PublishedItemListResultModel> NodePublishListAsync(
             string endpoint, PublishedItemListRequestModel request) {
             var result = await _client.NodePublishListAsync(endpoint,
-                request.Map<PublishedItemListRequestApiModel>());
-            return result.Map<PublishedItemListResultModel>();
+                _serializer.Map<PublishedItemListRequestApiModel>(request));
+            return _serializer.Map<PublishedItemListResultModel>(result);
         }
 
+        private readonly IJsonSerializer _serializer;
         private readonly IPublisherServiceApi _client;
     }
 }

@@ -24,5 +24,10 @@ namespace Microsoft.Azure.IIoT.Messaging.SignalR {
         /// Client id
         /// </summary>
         string SignalRUserId { get; }
+
+        /// <summary>
+        /// Use message pack or json
+        /// </summary>
+        bool UseMessagePackProtocol { get; }
     }
 }

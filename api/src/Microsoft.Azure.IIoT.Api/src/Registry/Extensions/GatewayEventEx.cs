@@ -5,7 +5,7 @@
 
 namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Models {
     using Microsoft.Azure.IIoT.OpcUa.Registry.Events.v2.Models;
-    using System;
+    using Microsoft.Azure.IIoT.OpcUa.Registry.Models;
 
     /// <summary>
     /// Gateway event extensions
@@ -23,7 +23,24 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Models {
                 EventType = (GatewayEventType)model.EventType,
                 Id = model.Id,
                 IsPatch = model.IsPatch,
-                Gateway = model.Gateway.Map<GatewayApiModel>()
+                Gateway = model.Gateway.ToApiModel()
+            };
+        }
+
+        /// <summary>
+        /// Create api model
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        private static GatewayApiModel ToApiModel(
+            this GatewayModel model) {
+            if (model == null) {
+                return null;
+            }
+            return new GatewayApiModel {
+                Id = model.Id,
+                SiteId = model.SiteId,
+                Connected = model.Connected
             };
         }
     }

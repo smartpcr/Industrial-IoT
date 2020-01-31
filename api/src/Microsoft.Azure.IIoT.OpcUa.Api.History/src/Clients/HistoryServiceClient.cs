@@ -6,7 +6,7 @@
 namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Clients {
     using Microsoft.Azure.IIoT.OpcUa.Api.History.Models;
     using Microsoft.Azure.IIoT.Http;
-    using Microsoft.Azure.IIoT.Serializer;
+    using Microsoft.Azure.IIoT.Serializers;
     using System;
     using System.Threading.Tasks;
     using Newtonsoft.Json.Linq;
@@ -24,8 +24,9 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Clients {
         /// <param name="config"></param>
         /// <param name="serializer"></param>
         public HistoryServiceClient(IHttpClient httpClient, IHistoryConfig config,
-            IJsonSerializer serializer = null) : this(httpClient,
-                config?.OpcUaHistoryServiceUrl, config?.OpcUaHistoryServiceResourceId, serializer) {
+            IJsonSerializer serializer) : this(httpClient,
+                config?.OpcUaHistoryServiceUrl, config?.OpcUaHistoryServiceResourceId, 
+                serializer) {
         }
 
         /// <summary>
@@ -70,7 +71,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Clients {
             }
             var request = _httpClient.NewRequest(
                 $"{_serviceUri}/v2/history/read/{endpointId}", _resourceId);
-            _serializer.SetContent(request, content);
+            _serializer.SerializeToRequest(request, content);
             var response = await _httpClient.PostAsync(request, ct).ConfigureAwait(false);
             response.Validate();
             return _serializer.DeserializeResponse<HistoryReadResponseApiModel<JToken>>(response);
@@ -90,7 +91,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Clients {
             }
             var request = _httpClient.NewRequest(
                 $"{_serviceUri}/v2/history/read/{endpointId}/next", _resourceId);
-            _serializer.SetContent(request, content);
+            _serializer.SerializeToRequest(request, content);
             var response = await _httpClient.PostAsync(request, ct).ConfigureAwait(false);
             response.Validate();
             return _serializer.DeserializeResponse<HistoryReadNextResponseApiModel<JToken>>(response);
@@ -110,7 +111,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Clients {
             }
             var request = _httpClient.NewRequest(
                 $"{_serviceUri}/v2/history/update/{endpointId}", _resourceId);
-            _serializer.SetContent(request, content);
+            _serializer.SerializeToRequest(request, content);
             var response = await _httpClient.PostAsync(request, ct).ConfigureAwait(false);
             response.Validate();
             return _serializer.DeserializeResponse<HistoryUpdateResponseApiModel>(response);
@@ -128,7 +129,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Clients {
             }
             var request = _httpClient.NewRequest(
                 $"{_serviceUri}/v2/read/{endpointId}/values", _resourceId);
-            _serializer.SetContent(request, content);
+            _serializer.SerializeToRequest(request, content);
             var response = await _httpClient.PostAsync(request, ct).ConfigureAwait(false);
             response.Validate();
             return _serializer.DeserializeResponse<HistoryReadResponseApiModel<HistoricValueApiModel[]>>(response);
@@ -146,7 +147,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Clients {
             }
             var request = _httpClient.NewRequest(
                 $"{_serviceUri}/v2/read/{endpointId}/values/modified", _resourceId);
-            _serializer.SetContent(request, content);
+            _serializer.SerializeToRequest(request, content);
             var response = await _httpClient.PostAsync(request, ct).ConfigureAwait(false);
             response.Validate();
             return _serializer.DeserializeResponse<HistoryReadResponseApiModel<HistoricValueApiModel[]>>(response);
@@ -164,7 +165,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Clients {
             }
             var request = _httpClient.NewRequest(
                 $"{_serviceUri}/v2/read/{endpointId}/values/pick", _resourceId);
-            _serializer.SetContent(request, content);
+            _serializer.SerializeToRequest(request, content);
             var response = await _httpClient.PostAsync(request, ct).ConfigureAwait(false);
             response.Validate();
             return _serializer.DeserializeResponse<HistoryReadResponseApiModel<HistoricValueApiModel[]>>(response);
@@ -182,7 +183,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Clients {
             }
             var request = _httpClient.NewRequest(
                 $"{_serviceUri}/v2/read/{endpointId}/values/processed", _resourceId);
-            _serializer.SetContent(request, content);
+            _serializer.SerializeToRequest(request, content);
             var response = await _httpClient.PostAsync(request, ct).ConfigureAwait(false);
             response.Validate();
             return _serializer.DeserializeResponse<HistoryReadResponseApiModel<HistoricValueApiModel[]>>(response);
@@ -202,7 +203,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Clients {
             }
             var request = _httpClient.NewRequest(
                 $"{_serviceUri}/v2/read/{endpointId}/values/next", _resourceId);
-            _serializer.SetContent(request, content);
+            _serializer.SerializeToRequest(request, content);
             var response = await _httpClient.PostAsync(request, ct).ConfigureAwait(false);
             response.Validate();
             return _serializer.DeserializeResponse<HistoryReadNextResponseApiModel<HistoricValueApiModel[]>>(response);
@@ -220,7 +221,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Clients {
             }
             var request = _httpClient.NewRequest(
                 $"{_serviceUri}/v2/read/{endpointId}/events", _resourceId);
-            _serializer.SetContent(request, content);
+            _serializer.SerializeToRequest(request, content);
             var response = await _httpClient.PostAsync(request, ct).ConfigureAwait(false);
             response.Validate();
             return _serializer.DeserializeResponse<HistoryReadResponseApiModel<HistoricEventApiModel[]>>(response);
@@ -240,7 +241,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Clients {
             }
             var request = _httpClient.NewRequest(
                 $"{_serviceUri}/v2/read/{endpointId}/events/next", _resourceId);
-            _serializer.SetContent(request, content);
+            _serializer.SerializeToRequest(request, content);
             var response = await _httpClient.PostAsync(request, ct).ConfigureAwait(false);
             response.Validate();
             return _serializer.DeserializeResponse<HistoryReadNextResponseApiModel<HistoricEventApiModel[]>>(response);
@@ -257,7 +258,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Clients {
             }
             var request = _httpClient.NewRequest(
                 $"{_serviceUri}/v2/replace/{endpointId}/values", _resourceId);
-            _serializer.SetContent(request, content);
+            _serializer.SerializeToRequest(request, content);
             var response = await _httpClient.PostAsync(request, ct).ConfigureAwait(false);
             response.Validate();
             return _serializer.DeserializeResponse<HistoryUpdateResponseApiModel>(response);
@@ -274,7 +275,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Clients {
             }
             var request = _httpClient.NewRequest(
                 $"{_serviceUri}/v2/replace/{endpointId}/events", _resourceId);
-            _serializer.SetContent(request, content);
+            _serializer.SerializeToRequest(request, content);
             var response = await _httpClient.PostAsync(request, ct).ConfigureAwait(false);
             response.Validate();
             return _serializer.DeserializeResponse<HistoryUpdateResponseApiModel>(response);
@@ -291,7 +292,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Clients {
             }
             var request = _httpClient.NewRequest(
                 $"{_serviceUri}/v2/insert/{endpointId}/values", _resourceId);
-            _serializer.SetContent(request, content);
+            _serializer.SerializeToRequest(request, content);
             var response = await _httpClient.PostAsync(request, ct).ConfigureAwait(false);
             response.Validate();
             return _serializer.DeserializeResponse<HistoryUpdateResponseApiModel>(response);
@@ -308,7 +309,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Clients {
             }
             var request = _httpClient.NewRequest(
                 $"{_serviceUri}/v2/insert/{endpointId}/events", _resourceId);
-            _serializer.SetContent(request, content);
+            _serializer.SerializeToRequest(request, content);
             var response = await _httpClient.PostAsync(request, ct).ConfigureAwait(false);
             response.Validate();
             return _serializer.DeserializeResponse<HistoryUpdateResponseApiModel>(response);
@@ -325,7 +326,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Clients {
             }
             var request = _httpClient.NewRequest(
                 $"{_serviceUri}/v2/delete/{endpointId}/values", _resourceId);
-            _serializer.SetContent(request, content);
+            _serializer.SerializeToRequest(request, content);
             var response = await _httpClient.PostAsync(request, ct).ConfigureAwait(false);
             response.Validate();
             return _serializer.DeserializeResponse<HistoryUpdateResponseApiModel>(response);
@@ -342,7 +343,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Clients {
             }
             var request = _httpClient.NewRequest(
                 $"{_serviceUri}/v2/delete/{endpointId}/values/pick", _resourceId);
-            _serializer.SetContent(request, content);
+            _serializer.SerializeToRequest(request, content);
             var response = await _httpClient.PostAsync(request, ct).ConfigureAwait(false);
             response.Validate();
             return _serializer.DeserializeResponse<HistoryUpdateResponseApiModel>(response);
@@ -359,7 +360,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Clients {
             }
             var request = _httpClient.NewRequest(
                 $"{_serviceUri}/v2/delete/{endpointId}/values/modified", _resourceId);
-            _serializer.SetContent(request, content);
+            _serializer.SerializeToRequest(request, content);
             var response = await _httpClient.PostAsync(request, ct).ConfigureAwait(false);
             response.Validate();
             return _serializer.DeserializeResponse<HistoryUpdateResponseApiModel>(response);
@@ -376,7 +377,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Clients {
             }
             var request = _httpClient.NewRequest(
                 $"{_serviceUri}/v2/delete/{endpointId}/events", _resourceId);
-            _serializer.SetContent(request, content);
+            _serializer.SerializeToRequest(request, content);
             var response = await _httpClient.PostAsync(request, ct).ConfigureAwait(false);
             response.Validate();
             return _serializer.DeserializeResponse<HistoryUpdateResponseApiModel>(response);

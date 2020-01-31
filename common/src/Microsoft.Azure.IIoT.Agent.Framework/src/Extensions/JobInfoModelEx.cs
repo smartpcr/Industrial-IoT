@@ -4,7 +4,7 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.Agent.Framework.Models {
-    using Newtonsoft.Json;
+    using Newtonsoft.Json.Linq;
     using System;
     using System.Linq;
 
@@ -21,7 +21,8 @@ namespace Microsoft.Azure.IIoT.Agent.Framework.Models {
             if (model == null) {
                 return "null";
             }
-            return model.JobConfiguration.ToString(Formatting.None).ToSha1Hash();
+            return model.JobConfiguration
+                .ToString(Newtonsoft.Json.Formatting.None).ToSha1Hash();
         }
 
         /// <summary>

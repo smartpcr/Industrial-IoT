@@ -7,7 +7,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Clients {
     using Microsoft.Azure.IIoT.OpcUa.Api.History.Models;
     using Microsoft.Azure.IIoT.OpcUa.Api.Core.Models;
     using Microsoft.Azure.IIoT.Module;
-    using Microsoft.Azure.IIoT.Serializer;
+    using Microsoft.Azure.IIoT.Serializers;
     using System;
     using System.Threading.Tasks;
     using System.Threading;
@@ -40,7 +40,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Clients {
         /// <param name="config"></param>
         /// <param name="serializer"></param>
         public HistoryModuleClient(IMethodClient methodClient, IHistoryModuleConfig config,
-            IJsonSerializer serializer = null) :
+            IJsonSerializer serializer) :
             this(methodClient, config?.DeviceId, config?.ModuleId, serializer) {
         }
 
@@ -61,11 +61,11 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Clients {
                 throw new ArgumentNullException(nameof(request.Details));
             }
             var response = await _methodClient.CallMethodAsync(_deviceId, _moduleId,
-                "HistoryRead_V2", _serializer.SerializeObject(new {
+                "HistoryRead_V2", _serializer.Serialize(new {
                     endpoint,
                     request
                 }), null, ct);
-            return _serializer.DeserializeObject<HistoryReadResponseApiModel<JToken>>(response);
+            return _serializer.Deserialize<HistoryReadResponseApiModel<JToken>>(response);
         }
 
         /// <inheritdoc/>
@@ -85,11 +85,11 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Clients {
                 throw new ArgumentNullException(nameof(request.ContinuationToken));
             }
             var response = await _methodClient.CallMethodAsync(_deviceId, _moduleId,
-                "HistoryReadNext_V2", _serializer.SerializeObject(new {
+                "HistoryReadNext_V2", _serializer.Serialize(new {
                     endpoint,
                     request
                 }), null, ct);
-            return _serializer.DeserializeObject<HistoryReadNextResponseApiModel<JToken>>(response);
+            return _serializer.Deserialize<HistoryReadNextResponseApiModel<JToken>>(response);
         }
 
         /// <inheritdoc/>
@@ -109,11 +109,11 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Clients {
                 throw new ArgumentNullException(nameof(request.Details));
             }
             var response = await _methodClient.CallMethodAsync(_deviceId, _moduleId,
-                "HistoryUpdate_V2", _serializer.SerializeObject(new {
+                "HistoryUpdate_V2", _serializer.Serialize(new {
                     endpoint,
                     request
                 }), null, ct);
-            return _serializer.DeserializeObject<HistoryUpdateResponseApiModel>(response);
+            return _serializer.Deserialize<HistoryUpdateResponseApiModel>(response);
         }
 
         private readonly IJsonSerializer _serializer;

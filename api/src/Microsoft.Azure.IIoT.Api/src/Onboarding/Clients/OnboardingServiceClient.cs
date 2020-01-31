@@ -6,7 +6,7 @@
 namespace Microsoft.Azure.IIoT.OpcUa.Api.Onboarding.Clients {
     using Microsoft.Azure.IIoT.OpcUa.Api.Onboarding.Models;
     using Microsoft.Azure.IIoT.Http;
-    using Microsoft.Azure.IIoT.Serializer;
+    using Microsoft.Azure.IIoT.Serializers;
     using System;
     using System.Threading.Tasks;
     using System.Threading;
@@ -65,7 +65,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Onboarding.Clients {
                 Query = $"discovererId={discovererId}"
             };
             var request = _httpClient.NewRequest(uri.Uri, _resourceId);
-            _serializer.SetContent(request, content);
+            _serializer.SerializeToRequest(request, content);
             var response = await _httpClient.PostAsync(request, ct).ConfigureAwait(false);
             response.Validate();
         }

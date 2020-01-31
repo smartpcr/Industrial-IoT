@@ -18,7 +18,6 @@ namespace Microsoft.Azure.IIoT.Storage.CosmosDb.Services {
     using System.Net;
     using System.Threading;
     using System.Threading.Tasks;
-    using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
     using Gremlin.Net.CosmosDb;
     using Gremlin.Net.CosmosDb.Structure;
@@ -43,13 +42,11 @@ namespace Microsoft.Azure.IIoT.Storage.CosmosDb.Services {
         /// </summary>
         /// <param name="db"></param>
         /// <param name="container"></param>
-        /// <param name="serializer"></param>
         /// <param name="logger"></param>
         internal DocumentCollection(DocumentDatabase db, CosmosContainer container,
-            JsonSerializerSettings serializer, ILogger logger) {
+            ILogger logger) {
             Container = container ?? throw new ArgumentNullException(nameof(container));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _serializer = serializer;
             _db = db ?? throw new ArgumentNullException(nameof(db));
             _partitioned = container.PartitionKey.Paths.Any();
         }
@@ -184,7 +181,7 @@ namespace Microsoft.Azure.IIoT.Storage.CosmosDb.Services {
             if (existing == null) {
                 throw new ArgumentNullException(nameof(existing));
             }
-            options = options ?? new OperationOptions();
+            options ??= new OperationOptions();
             options.PartitionKey = existing.PartitionKey;
             return await Retry.WithExponentialBackoff(_logger, ct, async () => {
                 try {
@@ -223,7 +220,7 @@ namespace Microsoft.Azure.IIoT.Storage.CosmosDb.Services {
             if (item == null) {
                 throw new ArgumentNullException(nameof(item));
             }
-            options = options ?? new OperationOptions();
+            options ??= new OperationOptions();
             options.PartitionKey = item.PartitionKey;
             return DeleteAsync(item.Id, ct, options, item.Etag);
         }
@@ -382,7 +379,6 @@ namespace Microsoft.Azure.IIoT.Storage.CosmosDb.Services {
 
         private readonly DocumentDatabase _db;
         private readonly ILogger _logger;
-        private readonly JsonSerializerSettings _serializer;
         private readonly bool _partitioned;
     }
 }

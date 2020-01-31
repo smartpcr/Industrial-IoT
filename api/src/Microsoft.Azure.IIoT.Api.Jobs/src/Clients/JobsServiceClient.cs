@@ -6,7 +6,7 @@
 namespace Microsoft.Azure.IIoT.Api.Jobs.Clients {
     using Microsoft.Azure.IIoT.Api.Jobs.Models;
     using Microsoft.Azure.IIoT.Http;
-    using Microsoft.Azure.IIoT.Serializer;
+    using Microsoft.Azure.IIoT.Serializers;
     using System;
     using System.Threading;
     using System.Threading.Tasks;
@@ -23,8 +23,8 @@ namespace Microsoft.Azure.IIoT.Api.Jobs.Clients {
         /// <param name="config"></param>
         /// <param name="serializer"></param>
         public JobsServiceClient(IHttpClient httpClient, IJobsServiceConfig config,
-            IJsonSerializer serializer = null) :
-            this(httpClient, config.JobServiceUrl, config.JobServiceResourceId, serializer) {
+            IJsonSerializer serializer) :
+            this(httpClient, config?.JobServiceUrl, config?.JobServiceResourceId, serializer) {
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace Microsoft.Azure.IIoT.Api.Jobs.Clients {
             if (pageSize != null) {
                 request.AddHeader(HttpHeader.MaxItemCount, pageSize.ToString());
             }
-            _serializer.SetContent(request, query);
+            _serializer.SerializeToRequest(request, query);
             var response = await _httpClient.PostAsync(request, ct).ConfigureAwait(false);
             response.Validate();
             return _serializer.DeserializeResponse<JobInfoListApiModel>(response);

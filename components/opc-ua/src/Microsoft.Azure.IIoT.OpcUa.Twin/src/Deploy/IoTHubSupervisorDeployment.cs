@@ -7,7 +7,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Twin.Deploy {
     using Microsoft.Azure.IIoT.Deploy;
     using Microsoft.Azure.IIoT.Hub;
     using Microsoft.Azure.IIoT.Hub.Models;
-    using Microsoft.Azure.IIoT.Serializer;
+    using Microsoft.Azure.IIoT.Serializers;
     using Serilog;
     using System;
     using System.Collections.Generic;
@@ -97,7 +97,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Twin.Deploy {
                     ""properties.desired.routes.upstream"": ""FROM /messages/* INTO $upstream""
                 }
             }";
-            return _serializer.DeserializeObject<IDictionary<string, IDictionary<string, object>>>(content);
+            return _serializer.Deserialize<IDictionary<string, IDictionary<string, object>>>(content);
         }
 
         private const string kDefaultSchemaVersion = "1.0";

@@ -6,7 +6,7 @@
 namespace Microsoft.Azure.IIoT.OpcUa.Registry.Handlers {
     using Microsoft.Azure.IIoT.OpcUa.Registry.Models;
     using Microsoft.Azure.IIoT.Hub;
-    using Newtonsoft.Json;
+    using Microsoft.Azure.IIoT.Serializers;
     using Serilog;
     using System;
     using System.Text;
@@ -26,10 +26,16 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Handlers {
         /// Create handler
         /// </summary>
         /// <param name="handlers"></param>
+        /// <param name="serializer"></param>
         /// <param name="logger"></param>
-        public DiscoveryMessageHandler(IEnumerable<IDiscoveryProgressProcessor> handlers, ILogger logger) {
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _handlers = handlers?.ToList() ?? throw new ArgumentNullException(nameof(handlers));
+        public DiscoveryMessageHandler(IEnumerable<IDiscoveryProgressProcessor> handlers,
+            IJsonSerializer serializer, ILogger logger) {
+            _serializer = serializer ??
+                throw new ArgumentNullException(nameof(serializer));
+            _logger = logger ??
+                throw new ArgumentNullException(nameof(logger));
+            _handlers = handlers?.ToList() ?? 
+                throw new ArgumentNullException(nameof(handlers));
         }
 
         /// <inheritdoc/>
@@ -38,7 +44,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Handlers {
             var json = Encoding.UTF8.GetString(payload);
             DiscoveryProgressModel discovery;
             try {
-                discovery = JsonConvertEx.DeserializeObject<DiscoveryProgressModel>(json);
+                discovery = _serializer.Deserialize<DiscoveryProgressModel>(json);
             }
             catch (Exception ex) {
                 _logger.Error(ex, "Failed to convert discovery message {json}", json);
@@ -58,6 +64,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Handlers {
             return Task.CompletedTask;
         }
 
+        private readonly IJsonSerializer _serializer;
         private readonly ILogger _logger;
         private readonly List<IDiscoveryProgressProcessor> _handlers;
     }

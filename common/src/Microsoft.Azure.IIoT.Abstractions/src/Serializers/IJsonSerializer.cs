@@ -3,7 +3,7 @@
 //  Licensed under the MIT License (MIT). See License.txt in the repo root for license information.
 // ------------------------------------------------------------
 
-namespace Microsoft.Azure.IIoT.Serializer {
+namespace Microsoft.Azure.IIoT.Serializers {
     using System;
     using System.IO;
 
@@ -31,19 +31,18 @@ namespace Microsoft.Azure.IIoT.Serializer {
         object Deserialize(TextReader reader, Type type);
 
         /// <summary>
-        /// Bind dynamic json token to object of type.
+        /// Bind token to object of type.
         /// </summary>
         /// <param name="type"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        object ToObject(dynamic token, Type type);
+        object ToObject(IValue token, Type type);
 
         /// <summary>
-        /// Serialize to json token that can be accessed
-        /// through the dlr.
+        /// Convert to token.
         /// </summary>
         /// <param name="o"></param>
         /// <returns></returns>
-        dynamic FromObject(object o);
+        IValue FromObject(object o);
     }
 }

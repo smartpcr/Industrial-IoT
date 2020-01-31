@@ -3,17 +3,17 @@
 //  Licensed under the MIT License (MIT). See License.txt in the repo root for license information.
 // ------------------------------------------------------------
 
-namespace Microsoft.Azure.IIoT.Storage {
+namespace Microsoft.Azure.IIoT.Serializers {
     using Newtonsoft.Json;
 
     /// <summary>
-    /// Json serializer configuration
+    /// Json serializer settings provider
     /// </summary>
-    public interface IJsonSerializerConfig {
+    public interface IJsonSerializerSettingsProvider {
 
         /// <summary>
         /// Serializer settings
         /// </summary>
-        JsonSerializerSettings Serializer { get; }
+        JsonSerializerSettings GetSettings();
     }
 }

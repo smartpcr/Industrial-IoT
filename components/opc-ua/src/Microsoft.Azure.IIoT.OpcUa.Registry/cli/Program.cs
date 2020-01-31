@@ -24,7 +24,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Cli {
     using Microsoft.Azure.IIoT.OpcUa.Registry.Events.v2;
     using Microsoft.Azure.IIoT.OpcUa.Registry.Models;
     using Microsoft.Azure.IIoT.OpcUa.Testing.Runtime;
-    using Microsoft.Azure.IIoT.Serializer;
+    using Microsoft.Azure.IIoT.Serializers;
     using Microsoft.Azure.IIoT.Utils;
     using Newtonsoft.Json;
     using Opc.Ua;
@@ -227,7 +227,7 @@ Operations (Mutually exclusive):
         private static async Task RunEventListenerAsync() {
             var logger = ConsoleLogger.Create();
             var bus = new ServiceBusEventBus(new ServiceBusClientFactory(
-                new ServiceBusConfig(null)), logger);
+                new ServiceBusConfig(null)), new NewtonSoftJsonSerializer(), logger);
             var listener = new ConsoleListener();
             using (var subscriber1 = new ApplicationEventBusSubscriber(bus, listener.YieldReturn()))
             using (var subscriber2 = new EndpointEventBusSubscriber(bus, listener.YieldReturn())) {
@@ -388,7 +388,7 @@ Operations (Mutually exclusive):
                 var json = Encoding.UTF8.GetString(data);
                 var o = JsonConvert.DeserializeObject(json);
                 Console.WriteLine(contentType);
-                Console.WriteLine(JsonConvertEx.SerializeObjectPretty(o));
+                Console.WriteLine(_serializer.SerializePretty(o));
                 return Task.CompletedTask;
             }
 
@@ -413,6 +413,8 @@ Operations (Mutually exclusive):
                 }
                 return Task.CompletedTask;
             }
+
+            private readonly IJsonSerializer _serializer = new NewtonSoftJsonSerializer();
         }
 
         /// <inheritdoc/>

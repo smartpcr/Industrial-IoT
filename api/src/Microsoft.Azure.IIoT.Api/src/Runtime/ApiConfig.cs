@@ -63,6 +63,8 @@ namespace Microsoft.Azure.IIoT.Api.Runtime {
         public string SignalRHubName => _signalR.SignalRHubName;
         /// <inheritdoc/>
         public string SignalRUserId => _signalR.SignalRUserId;
+        /// <inheritdoc/>
+        public bool UseMessagePackProtocol => _signalR.UseMessagePackProtocol;
 
         /// <inheritdoc/>
         public ApiConfig(IConfiguration configuration) :

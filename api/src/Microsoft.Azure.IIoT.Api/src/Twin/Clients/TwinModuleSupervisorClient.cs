@@ -10,7 +10,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Clients {
     using Microsoft.Azure.IIoT.OpcUa.Twin.Models;
     using Microsoft.Azure.IIoT.OpcUa.Twin;
     using Microsoft.Azure.IIoT.Module;
-    using Microsoft.Azure.IIoT.Serializer;
+    using Microsoft.Azure.IIoT.Serializers;
     using Serilog;
     using Newtonsoft.Json.Linq;
     using System;
@@ -219,14 +219,14 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Clients {
             var deviceId = SupervisorModelEx.ParseDeviceId(registration.SupervisorId,
                 out var moduleId);
             var result = await _client.CallMethodAsync(deviceId, moduleId, service,
-                _serializer.SerializeObject(new {
+                _serializer.Serialize(new {
                     endpoint = registration.Endpoint,
                     request
                 }));
             _logger.Debug("Calling supervisor service '{service}' on {deviceId}/{moduleId} " +
                 "took {elapsed} ms and returned {result}!", service, deviceId, moduleId,
                 sw.ElapsedMilliseconds, result);
-            return _serializer.DeserializeObject<R>(result);
+            return _serializer.Deserialize<R>(result);
         }
 
         private readonly IJsonSerializer _serializer;

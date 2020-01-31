@@ -10,7 +10,7 @@ namespace Microsoft.Azure.IIoT.Api.Jobs.Clients {
     using Microsoft.Azure.IIoT.Auth;
     using Microsoft.Azure.IIoT.Auth.Models;
     using Microsoft.Azure.IIoT.Exceptions;
-    using Microsoft.Azure.IIoT.Serializer;
+    using Microsoft.Azure.IIoT.Serializers;
     using Microsoft.Azure.IIoT.Http;
     using System;
     using System.Net.Http.Headers;
@@ -51,13 +51,15 @@ namespace Microsoft.Azure.IIoT.Api.Jobs.Clients {
                 var request = _httpClient.NewRequest($"{uri}/v2/workers/{workerId}");
                 request.Headers.Authorization = new AuthenticationHeaderValue("Basic",
                     _tokenProvider.IdentityToken.ToAuthorizationValue());
-                _serializer.SetContent(request, jobRequest.Map<JobRequestApiModel>());
+                _serializer.SerializeToRequest(request, 
+                    _serializer.Map<JobRequestApiModel>(jobRequest));
                 var response = await _httpClient.PostAsync(request, ct)
                     .ConfigureAwait(false);
                 try {
                     response.Validate();
-                    return _serializer.DeserializeResponse<JobProcessingInstructionApiModel>(response)
-                        .Map<JobProcessingInstructionModel>();
+                    var result = _serializer.DeserializeResponse<JobProcessingInstructionApiModel>(
+                        response);
+                    return _serializer.Map<JobProcessingInstructionModel>(result);
                 }
                 catch (UnauthorizedAccessException) {
                     await _tokenProvider.ForceUpdate();
@@ -79,13 +81,14 @@ namespace Microsoft.Azure.IIoT.Api.Jobs.Clients {
                 var request = _httpClient.NewRequest($"{uri}/v2/heartbeat");
                 request.Headers.Authorization = new AuthenticationHeaderValue("Basic",
                     _tokenProvider.IdentityToken.ToAuthorizationValue());
-                _serializer.SetContent(request, heartbeat.Map<HeartbeatApiModel>());
+                _serializer.SerializeToRequest(request, _serializer.Map<HeartbeatApiModel>(heartbeat));
                 var response = await _httpClient.PostAsync(request, ct)
                     .ConfigureAwait(false);
                 try {
                     response.Validate();
-                    return _serializer.DeserializeResponse<HeartbeatResponseApiModel>(response)
-                        .Map<HeartbeatResultModel>();
+                    var result = _serializer.DeserializeResponse<HeartbeatResponseApiModel>(
+                        response);
+                    return _serializer.Map<HeartbeatResultModel>(result);
                 }
                 catch (UnauthorizedAccessException) {
                     await _tokenProvider.ForceUpdate();

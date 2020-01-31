@@ -10,6 +10,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin.Api {
     using Microsoft.Azure.IIoT.OpcUa.Testing.Fixtures;
     using Microsoft.Azure.IIoT.OpcUa.Testing.Tests;
     using Microsoft.Azure.IIoT.Http.Default;
+    using Microsoft.Azure.IIoT.Serializers;
     using Serilog;
     using System.Net;
     using System.Threading.Tasks;
@@ -28,10 +29,11 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin.Api {
             var module = _factory.Resolve<ITestModule>();
             module.Endpoint = Endpoint;
             var log = _factory.Resolve<ILogger>();
+            var serializer = _factory.Resolve<IJsonSerializer>();
             return new CallArrayMethodTests<string>(() => // Create an adapter over the api
                 new TwinServicesApiAdapter(
-                    new TwinServiceClient(
-                       new HttpClient(_factory, log), new TestConfig(client.BaseAddress))), "fakeid");
+                    new TwinServiceClient(new HttpClient(_factory, log),
+                    new TestConfig(client.BaseAddress), serializer), serializer), "fakeid");
         }
 
         public EndpointModel Endpoint => new EndpointModel {

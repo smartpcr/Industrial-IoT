@@ -7,7 +7,7 @@ namespace Microsoft.Azure.IIoT.Module.Default {
     using Microsoft.Azure.IIoT.Module.Models;
     using Microsoft.Azure.IIoT.Exceptions;
     using Microsoft.Azure.IIoT.Hub;
-    using Microsoft.Azure.IIoT.Serializer;
+    using Microsoft.Azure.IIoT.Serializers;
     using Serilog;
     using System;
     using System.Collections.Concurrent;
@@ -46,7 +46,7 @@ namespace Microsoft.Azure.IIoT.Module.Default {
         /// <inheritdoc/>
         public async Task<byte[]> InvokeAsync(byte[] payload, string contentType,
             IMethodHandler handler) {
-            var request = _serializer.DeserializeObject<MethodChunkModel>(
+            var request = _serializer.Deserialize<MethodChunkModel>(
                 Encoding.UTF8.GetString(payload));
             ChunkProcessor processor;
             if (request.Handle != null) {
@@ -66,7 +66,7 @@ namespace Microsoft.Azure.IIoT.Module.Default {
                 }
             }
             var response = await processor.ProcessAsync(handler, request);
-            return Encoding.UTF8.GetBytes(_serializer.SerializeObject(response));
+            return Encoding.UTF8.GetBytes(_serializer.Serialize(response));
         }
 
         /// <summary>

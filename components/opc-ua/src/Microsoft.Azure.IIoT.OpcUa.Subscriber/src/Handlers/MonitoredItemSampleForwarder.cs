@@ -6,7 +6,7 @@
 namespace Microsoft.Azure.IIoT.OpcUa.Subscriber.Handlers {
     using Microsoft.Azure.IIoT.OpcUa.Subscriber.Models;
     using Microsoft.Azure.IIoT.Messaging;
-    using Microsoft.Azure.IIoT.Serializer;
+    using Microsoft.Azure.IIoT.Serializers;
     using System;
     using System.Threading.Tasks;
     using System.Text;
@@ -39,7 +39,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Subscriber.Handlers {
             // TODO: Make configurablew
             sample.Timestamp = sample.SourceTimestamp;
             return _client.SendAsync(Encoding.UTF8.GetBytes(
-                _serializer.SerializeObject(sample)));
+                _serializer.Serialize(sample)));
         }
 
         /// <inheritdoc/>

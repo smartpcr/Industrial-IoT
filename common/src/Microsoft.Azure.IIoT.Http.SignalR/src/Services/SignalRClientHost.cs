@@ -7,13 +7,13 @@ namespace Microsoft.Azure.IIoT.Http.SignalR.Services {
     using Microsoft.Azure.IIoT.Utils;
     using Microsoft.Azure.IIoT.Messaging;
     using Microsoft.Azure.IIoT.Messaging.SignalR;
+    using Microsoft.Azure.IIoT.Serializers;
     using Microsoft.AspNetCore.SignalR.Client;
     using Microsoft.Extensions.DependencyInjection;
     using Serilog;
     using System;
     using System.Threading.Tasks;
     using System.Threading;
-    using Newtonsoft.Json;
 
     /// <summary>
     /// Subscriber for signalr service
@@ -28,8 +28,11 @@ namespace Microsoft.Azure.IIoT.Http.SignalR.Services {
         /// </summary>
         /// <param name="config"></param>
         /// <param name="logger"></param>
-        public SignalRClientHost(ISignalRClientConfig config, ILogger logger) :
-            this (config.SignalREndpointUrl, config.SignalRHubName, config.SignalRUserId, logger){
+        /// <param name="jsonSettings"></param>
+        public SignalRClientHost(ISignalRClientConfig config, ILogger logger, 
+            IJsonSerializerSettingsProvider jsonSettings = null) :
+            this (config?.SignalREndpointUrl, config?.SignalRHubName, 
+                config?.SignalRUserId, config?.UseMessagePackProtocol, logger, jsonSettings) {
         }
 
         /// <summary>
@@ -38,9 +41,14 @@ namespace Microsoft.Azure.IIoT.Http.SignalR.Services {
         /// <param name="endpointUrl"></param>
         /// <param name="hubName"></param>
         /// <param name="userId"></param>
+        /// <param name="useMessagePack"></param>
+        /// <param name="jsonSettings"></param>
         /// <param name="logger"></param>
-        public SignalRClientHost(string endpointUrl, string hubName,
-            string userId, ILogger logger) {
+        public SignalRClientHost(string endpointUrl, string hubName, string userId, 
+            bool? useMessagePack, ILogger logger, 
+            IJsonSerializerSettingsProvider jsonSettings = null) {
+            _jsonSettings = jsonSettings;
+            _useMessagePack = useMessagePack ?? false;
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             if (string.IsNullOrEmpty(endpointUrl)) {
                 throw new ArgumentNullException(nameof(endpointUrl));
@@ -140,14 +148,20 @@ namespace Microsoft.Azure.IIoT.Http.SignalR.Services {
         /// </summary>
         /// <returns></returns>
         private async Task<HubConnection> OpenAsync() {
-            var connection = new HubConnectionBuilder()
-                .WithAutomaticReconnect()
-              //  .AddMessagePackProtocol()
-                .AddNewtonsoftJsonProtocol(options => {
-                    options.PayloadSerializerSettings = JsonConvertEx.GetSettings();
-                })
-                .WithUrl(_endpointUri)
-                .Build();
+            var builder = new HubConnectionBuilder()
+                .WithAutomaticReconnect();
+            if (_useMessagePack) {
+                builder = builder.AddMessagePackProtocol();
+            }
+            else {
+                var jsonSettings = _jsonSettings?.GetSettings();
+                if (jsonSettings != null) {
+                    builder = builder.AddNewtonsoftJsonProtocol(options => {
+                        options.PayloadSerializerSettings = jsonSettings;
+                    });
+                }
+            }
+            var connection = builder.WithUrl(_endpointUri).Build();
             connection.Closed += ex => OnClosedAsync(connection, ex);
             await connection.StartAsync();
             return connection;
@@ -182,7 +196,9 @@ namespace Microsoft.Azure.IIoT.Http.SignalR.Services {
         }
 
         private readonly SemaphoreSlim _lock = new SemaphoreSlim(1, 1);
+        private readonly IJsonSerializerSettingsProvider _jsonSettings;
         private readonly Uri _endpointUri;
+        private readonly bool _useMessagePack;
         private readonly ILogger _logger;
         private HubConnection _connection;
         private bool _started;

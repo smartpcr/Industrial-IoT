@@ -10,10 +10,9 @@ namespace Microsoft.Azure.IIoT.Modules.Diagnostic.Cli {
     using Microsoft.Azure.IIoT.Hub;
     using Microsoft.Azure.IIoT.Hub.Client;
     using Microsoft.Azure.IIoT.Hub.Models;
-    using Microsoft.Azure.IIoT.Serializer;
+    using Microsoft.Azure.IIoT.Serializers;
     using Microsoft.Azure.IIoT.Utils;
     using Microsoft.Extensions.Configuration;
-    using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
     using Serilog;
     using Serilog.Core;
@@ -209,12 +208,13 @@ Arguments:
         /// </summary>
         private static async Task PingAsync(IIoTHubConfig config, ILogger logger, string deviceId,
             string moduleId, CancellationToken ct) {
+            var serializer = new NewtonSoftJsonSerializer();
             var client = new IoTHubTwinMethodClient(CreateClient(config, logger), logger);
             logger.Information("Starting echo thread");
             var found = false;
             for (var index = 0; !ct.IsCancellationRequested; index++) {
                 try {
-                    var message = JsonConvertEx.SerializeObjectPretty(new {
+                    var message = serializer.SerializePretty(new {
                         Index = index,
                         Started = DateTime.UtcNow
                     });

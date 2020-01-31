@@ -7,6 +7,7 @@ namespace Microsoft.Azure.IIoT.Api.Jobs {
     using Microsoft.Azure.IIoT.Api.Jobs.Models;
     using Microsoft.Azure.IIoT.Agent.Framework;
     using Microsoft.Azure.IIoT.Agent.Framework.Models;
+    using Microsoft.Azure.IIoT.Serializers;
     using System;
     using System.Threading;
     using System.Threading.Tasks;
@@ -20,7 +21,9 @@ namespace Microsoft.Azure.IIoT.Api.Jobs {
         /// Create adapter
         /// </summary>
         /// <param name="client"></param>
-        public JobsServicesApiAdapter(IJobsServiceApi client) {
+        /// <param name="serializer"></param>
+        public JobsServicesApiAdapter(IJobsServiceApi client, IJsonSerializer serializer) {
+            _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
             _client = client ?? throw new ArgumentNullException(nameof(client));
         }
 
@@ -28,15 +31,15 @@ namespace Microsoft.Azure.IIoT.Api.Jobs {
         public async Task<JobInfoListModel> ListJobsAsync(string continuationToken,
             int? maxResults, CancellationToken ct) {
             var result = await _client.ListJobsAsync(continuationToken, maxResults, ct);
-            return result.Map<JobInfoListModel>();
+            return _serializer.Map<JobInfoListModel>(result);
         }
 
         /// <inheritdoc/>
         public async Task<JobInfoListModel> QueryJobsAsync(JobInfoQueryModel query,
             int? maxResults, CancellationToken ct) {
-            var request = query.Map<JobInfoQueryApiModel>();
+            var request = _serializer.Map<JobInfoQueryApiModel>(query);
             var result = await _client.QueryJobsAsync(request, maxResults, ct);
-            return result.Map<JobInfoListModel>();
+            return _serializer.Map<JobInfoListModel>(result);
         }
 
         /// <inheritdoc/>
@@ -57,20 +60,20 @@ namespace Microsoft.Azure.IIoT.Api.Jobs {
         /// <inheritdoc/>
         public async Task<JobInfoModel> GetJobAsync(string jobId, CancellationToken ct) {
             var result = await _client.GetJobAsync(jobId, ct);
-            return result.Map<JobInfoModel>();
+            return _serializer.Map<JobInfoModel>(result);
         }
 
         /// <inheritdoc/>
         public async Task<WorkerInfoListModel> ListWorkersAsync(
             string continuationToken, int? maxResults, CancellationToken ct) {
             var result = await _client.ListWorkersAsync(continuationToken, maxResults, ct);
-            return result.Map<WorkerInfoListModel>();
+            return _serializer.Map<WorkerInfoListModel>(result);
         }
 
         /// <inheritdoc/>
         public async Task<WorkerInfoModel> GetWorkerAsync(string workerId, CancellationToken ct) {
             var result = await _client.GetWorkerAsync(workerId, ct);
-            return result.Map<WorkerInfoModel>();
+            return _serializer.Map<WorkerInfoModel>(result);
         }
 
         /// <inheritdoc/>
@@ -78,6 +81,7 @@ namespace Microsoft.Azure.IIoT.Api.Jobs {
             await _client.DeleteWorkerAsync(workerId, ct);
         }
 
+        private readonly IJsonSerializer _serializer;
         private readonly IJobsServiceApi _client;
     }
 }

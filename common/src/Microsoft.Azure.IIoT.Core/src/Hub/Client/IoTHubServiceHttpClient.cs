@@ -8,7 +8,7 @@ namespace Microsoft.Azure.IIoT.Hub.Client {
     using Microsoft.Azure.IIoT.Exceptions;
     using Microsoft.Azure.IIoT.Http;
     using Microsoft.Azure.IIoT.Utils;
-    using Microsoft.Azure.IIoT.Serializer;
+    using Microsoft.Azure.IIoT.Serializers;
     using Microsoft.Extensions.Diagnostics.HealthChecks;
     using Newtonsoft.Json.Linq;
     using Serilog;
@@ -70,7 +70,7 @@ namespace Microsoft.Azure.IIoT.Hub.Client {
                 // First try create device
                 try {
                     var device = NewRequest($"/devices/{twin.Id}");
-                    _serializer.SetContent(device, new {
+                    _serializer.SerializeToRequest(device, new {
                         deviceId = twin.Id,
                         capabilities = twin.Capabilities
                     });
@@ -90,7 +90,7 @@ namespace Microsoft.Azure.IIoT.Hub.Client {
                     try {
                         var module = NewRequest(
                             $"/devices/{twin.Id}/modules/{twin.ModuleId}");
-                        _serializer.SetContent(module, new {
+                        _serializer.SerializeToRequest(module, new {
                             deviceId = twin.Id,
                             moduleId = twin.ModuleId
                         });
@@ -126,7 +126,7 @@ namespace Microsoft.Azure.IIoT.Hub.Client {
                 if (!string.IsNullOrEmpty(twin.ModuleId)) {
 
                     // Patch module
-                    _serializer.SetContent(patch, new {
+                    _serializer.SerializeToRequest(patch, new {
                         deviceId = twin.Id,
                         moduleId = twin.ModuleId,
                         tags = twin.Tags ?? new Dictionary<string, JToken>(),
@@ -137,7 +137,7 @@ namespace Microsoft.Azure.IIoT.Hub.Client {
                 }
                 else {
                     // Patch device
-                    _serializer.SetContent(patch, new {
+                    _serializer.SerializeToRequest(patch, new {
                         deviceId = twin.Id,
                         tags = twin.Tags ?? new Dictionary<string, JToken>(),
                         properties = new {
@@ -172,7 +172,7 @@ namespace Microsoft.Azure.IIoT.Hub.Client {
             var request = NewRequest(
                 $"/twins/{ToResourceId(deviceId, moduleId)}/methods");
 
-            _serializer.SetContent(request, new {
+            _serializer.SerializeToRequest(request, new {
                 methodName = parameters.Name,
                 // TODO: Add timeouts...
                 // responseTimeoutInSeconds = ...
@@ -196,7 +196,7 @@ namespace Microsoft.Azure.IIoT.Hub.Client {
             return Retry.WithExponentialBackoff(_logger, ct, async () => {
                 var request = NewRequest(
                     $"/twins/{ToResourceId(deviceId, moduleId)}");
-                _serializer.SetContent(request, new {
+                _serializer.SerializeToRequest(request, new {
                     deviceId,
                     properties = new {
                         desired = properties ?? new Dictionary<string, JToken>()
@@ -221,7 +221,7 @@ namespace Microsoft.Azure.IIoT.Hub.Client {
             return Retry.WithExponentialBackoff(_logger, ct, async () => {
                 var request = NewRequest(
                     $"/devices/{ToResourceId(deviceId, null)}/applyConfigurationContent");
-                _serializer.SetContent(request, configuration);
+                _serializer.SerializeToRequest(request, configuration);
                 var response = await _httpClient.PostAsync(request, ct);
                 response.Validate();
             }, kMaxRetryCount);
@@ -270,7 +270,7 @@ namespace Microsoft.Azure.IIoT.Hub.Client {
             if (pageSize != null) {
                 request.Headers.Add(HttpHeader.MaxItemCount, pageSize.ToString());
             }
-            _serializer.SetContent(request, new {
+            _serializer.SerializeToRequest(request, new {
                 query
             });
             var response = await _httpClient.PostAsync(request, ct);

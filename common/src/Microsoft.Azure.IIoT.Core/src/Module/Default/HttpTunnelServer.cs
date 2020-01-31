@@ -9,7 +9,7 @@ namespace Microsoft.Azure.IIoT.Module.Default {
     using Microsoft.Azure.IIoT.Hub;
     using Microsoft.Azure.IIoT.Utils;
     using Microsoft.Azure.IIoT.Http;
-    using Microsoft.Azure.IIoT.Serializer;
+    using Microsoft.Azure.IIoT.Serializers;
     using Serilog;
     using System;
     using System.IO;
@@ -164,7 +164,7 @@ namespace Microsoft.Azure.IIoT.Module.Default {
                 if (chunks > kMaxNumberOfChunks) {
                     throw new ArgumentException("Bad encoding length");
                 }
-                request = _serializer.DeserializeObject<HttpTunnelRequestModel>(
+                request = _serializer.Deserialize<HttpTunnelRequestModel>(
                     Encoding.UTF8.GetString(headerBuf.Unzip()));
                 return chunk0;
             }
@@ -292,7 +292,7 @@ namespace Microsoft.Azure.IIoT.Module.Default {
                     // Forward response back to caller
                     await _outer._client.CallMethodAsync(
                         _deviceId, _moduleId, MethodNames.Response,
-                        _outer._serializer.SerializeObject(new HttpTunnelResponseModel {
+                        _outer._serializer.Serialize(new HttpTunnelResponseModel {
                             Headers = response.Headers?
                                 .ToDictionary(h => h.Key, h => h.Value.ToList()),
                             RequestId = RequestId,
@@ -305,11 +305,11 @@ namespace Microsoft.Azure.IIoT.Module.Default {
                     // Forward failure back to caller
                     await _outer._client.CallMethodAsync(
                         _deviceId, _moduleId, MethodNames.Response,
-                        _outer._serializer.SerializeObject(new HttpTunnelResponseModel {
+                        _outer._serializer.Serialize(new HttpTunnelResponseModel {
                             RequestId = RequestId,
                             Status = (int)HttpStatusCode.InternalServerError,
                             Payload = Encoding.UTF8.GetBytes(
-                                _outer._serializer.SerializeObject(ex))
+                                _outer._serializer.Serialize(ex))
                         }));
                 }
             }

@@ -8,7 +8,7 @@ namespace Microsoft.Azure.IIoT.Storage.Cli {
     using Microsoft.Azure.IIoT.Storage.CosmosDb.Services;
     using Microsoft.Azure.IIoT.Utils;
     using Microsoft.Azure.IIoT.Diagnostics;
-    using Microsoft.Azure.IIoT.Serializer;
+    using Microsoft.Azure.IIoT.Serializers;
     using Microsoft.Extensions.Configuration;
     using Newtonsoft.Json.Linq;
     using System;
@@ -73,7 +73,7 @@ namespace Microsoft.Azure.IIoT.Storage.Cli {
             while (feed.HasMore()) {
                 var result = await feed.ReadAsync();
                 foreach (var item in result) {
-                    Console.WriteLine(serializer.SerializeObjectPretty(item));
+                    Console.WriteLine(serializer.SerializePretty(item));
                 }
             }
         }

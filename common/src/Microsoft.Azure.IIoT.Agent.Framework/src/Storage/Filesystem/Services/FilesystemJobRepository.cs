@@ -6,7 +6,7 @@
 namespace Microsoft.Azure.IIoT.Agent.Framework.Storage.Filesystem {
     using Microsoft.Azure.IIoT.Agent.Framework.Models;
     using Microsoft.Azure.IIoT.Exceptions;
-    using Microsoft.Azure.IIoT.Serializer;
+    using Microsoft.Azure.IIoT.Serializers;
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -165,7 +165,7 @@ namespace Microsoft.Azure.IIoT.Agent.Framework.Storage.Filesystem {
             var jobs = new List<JobInfoModel>();
             foreach (var file in files) {
                 var json = File.ReadAllText(file);
-                var job = _serializer.DeserializeObject<JobInfoModel>(json);
+                var job = _serializer.Deserialize<JobInfoModel>(json);
                 jobs.Add(job);
             }
             return jobs.ToArray();
@@ -181,7 +181,7 @@ namespace Microsoft.Azure.IIoT.Agent.Framework.Storage.Filesystem {
             }
             foreach (var job in _jobs) {
                 var jobFilename = _jobsDirectory.Trim().TrimEnd('/') + "/" + $"{job.Id}.json";
-                var json = _serializer.SerializeObjectPretty(job);
+                var json = _serializer.SerializePretty(job);
                 File.WriteAllText(jobFilename, json);
             }
             return Task.CompletedTask;

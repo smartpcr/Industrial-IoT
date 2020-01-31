@@ -58,7 +58,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry {
                 .AsImplementedInterfaces().SingleInstance();
 
             // Register default serializers...
-            builder.RegisterModule<DefaultSerializers>();
+            builder.RegisterModule<JsonSerializer>();
 
             base.Load(builder);
         }

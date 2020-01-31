@@ -5,7 +5,7 @@
 
 namespace Microsoft.Azure.IIoT.Modules.Diagnostic.Services.Default {
     using Microsoft.Azure.IIoT.Hub;
-    using Microsoft.Azure.IIoT.Serializer;
+    using Microsoft.Azure.IIoT.Serializers;
     using Microsoft.Azure.IIoT.Utils;
     using Serilog;
     using System;
@@ -81,7 +81,7 @@ namespace Microsoft.Azure.IIoT.Modules.Diagnostic.Services.Default {
         private async Task PublishAsync(CancellationToken ct) {
             _logger.Information("Starting to publish...");
             for (var index = 0; !ct.IsCancellationRequested; index++) {
-                var message = _serializer.SerializeObjectPretty(new {
+                var message = _serializer.SerializePretty(new {
                     GeneratedAt = DateTime.UtcNow,
                     Index = index
                 });

@@ -9,7 +9,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Clients {
     using Microsoft.Azure.IIoT.OpcUa.History;
     using Microsoft.Azure.IIoT.OpcUa.Twin;
     using Microsoft.Azure.IIoT.Module;
-    using Microsoft.Azure.IIoT.Serializer;
+    using Microsoft.Azure.IIoT.Serializers;
     using Serilog;
     using Newtonsoft.Json.Linq;
     using System;
@@ -221,10 +221,10 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Clients {
             }
             var sw = Stopwatch.StartNew();
             var result = await _client.CallMethodAsync(endpointId, null, service,
-                _serializer.SerializeObject(request));
+                _serializer.Serialize(request));
             _logger.Debug("Twin call '{service}' took {elapsed} ms)!",
                 service, sw.ElapsedMilliseconds);
-            return _serializer.DeserializeObject<R>(result);
+            return _serializer.Deserialize<R>(result);
         }
 
         private readonly IJsonSerializer _serializer;

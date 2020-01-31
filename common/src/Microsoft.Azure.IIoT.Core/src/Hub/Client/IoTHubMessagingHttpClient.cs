@@ -5,7 +5,7 @@
 
 namespace Microsoft.Azure.IIoT.Hub.Client {
     using Microsoft.Azure.IIoT.Hub.Models;
-    using Microsoft.Azure.IIoT.Serializer;
+    using Microsoft.Azure.IIoT.Serializers;
     using Microsoft.Azure.IIoT.Http;
     using Microsoft.Azure.IIoT.Utils;
     using Serilog;
@@ -55,7 +55,7 @@ namespace Microsoft.Azure.IIoT.Hub.Client {
                 }
                 request.AddHeader("iothub-operation", "d2c");
                 request.AddHeader("iothub-to", to);
-                _serializer.SetContent(request, message.Payload);
+                _serializer.SerializeToRequest(request, message.Payload);
                 var response = await _httpClient.PostAsync(request);
                 response.Validate();
             });

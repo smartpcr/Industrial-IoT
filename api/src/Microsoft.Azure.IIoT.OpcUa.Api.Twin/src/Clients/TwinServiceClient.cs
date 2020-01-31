@@ -6,7 +6,7 @@
 namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Clients {
     using Microsoft.Azure.IIoT.OpcUa.Api.Twin.Models;
     using Microsoft.Azure.IIoT.Http;
-    using Microsoft.Azure.IIoT.Serializer;
+    using Microsoft.Azure.IIoT.Serializers;
     using System;
     using System.Threading.Tasks;
     using System.Linq;
@@ -24,8 +24,9 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Clients {
         /// <param name="config"></param>
         /// <param name="serializer"></param>
         public TwinServiceClient(IHttpClient httpClient, ITwinConfig config,
-            IJsonSerializer serializer = null) : this(httpClient,
-                config.OpcUaTwinServiceUrl, config.OpcUaTwinServiceResourceId, serializer) {
+            IJsonSerializer serializer) : this(httpClient,
+                config?.OpcUaTwinServiceUrl, config?.OpcUaTwinServiceResourceId,
+                serializer) {
         }
 
         /// <summary>
@@ -37,11 +38,11 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Clients {
         /// <param name="serializer"></param>
         public TwinServiceClient(IHttpClient httpClient, string serviceUri, string resourceId,
             IJsonSerializer serializer = null) {
-            _serializer = serializer ?? new NewtonSoftJsonSerializer();
             _serviceUri = serviceUri ?? throw new ArgumentNullException(nameof(serviceUri),
                     "Please configure the Url of the endpoint micro service.");
-            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
             _resourceId = resourceId;
+            _serializer = serializer ?? new NewtonSoftJsonSerializer();
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
         }
 
         /// <inheritdoc/>
@@ -61,7 +62,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Clients {
             }
             var request = _httpClient.NewRequest($"{_serviceUri}/v2/browse/{endpointId}",
                 _resourceId);
-            _serializer.SetContent(request, content);
+            _serializer.SerializeToRequest(request, content);
             var response = await _httpClient.PostAsync(request, ct).ConfigureAwait(false);
             response.Validate();
             return _serializer.DeserializeResponse<BrowseResponseApiModel>(response);
@@ -81,7 +82,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Clients {
             }
             var request = _httpClient.NewRequest($"{_serviceUri}/v2/browse/{endpointId}/next",
                 _resourceId);
-            _serializer.SetContent(request, content);
+            _serializer.SerializeToRequest(request, content);
             var response = await _httpClient.PostAsync(request, ct).ConfigureAwait(false);
             response.Validate();
             return _serializer.DeserializeResponse<BrowseNextResponseApiModel>(response);
@@ -102,7 +103,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Clients {
             }
             var request = _httpClient.NewRequest($"{_serviceUri}/v2/browse/{endpointId}/path",
                 _resourceId);
-            _serializer.SetContent(request, content);
+            _serializer.SerializeToRequest(request, content);
             var response = await _httpClient.PostAsync(request, ct).ConfigureAwait(false);
             response.Validate();
             return _serializer.DeserializeResponse<BrowsePathResponseApiModel>(response);
@@ -122,7 +123,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Clients {
             }
             var request = _httpClient.NewRequest(
                 $"{_serviceUri}/v2/read/{endpointId}/attributes", _resourceId);
-            _serializer.SetContent(request, content);
+            _serializer.SerializeToRequest(request, content);
             var response = await _httpClient.PostAsync(request, ct).ConfigureAwait(false);
             response.Validate();
             return _serializer.DeserializeResponse<ReadResponseApiModel>(response);
@@ -142,7 +143,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Clients {
             }
             var request = _httpClient.NewRequest(
                 $"{_serviceUri}/v2/write/{endpointId}/attributes", _resourceId);
-            _serializer.SetContent(request, content);
+            _serializer.SerializeToRequest(request, content);
             var response = await _httpClient.PostAsync(request, ct).ConfigureAwait(false);
             response.Validate();
             return _serializer.DeserializeResponse<WriteResponseApiModel>(response);
@@ -159,7 +160,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Clients {
             }
             var request = _httpClient.NewRequest($"{_serviceUri}/v2/read/{endpointId}",
                 _resourceId);
-            _serializer.SetContent(request, content);
+            _serializer.SerializeToRequest(request, content);
             var response = await _httpClient.PostAsync(request, ct).ConfigureAwait(false);
             response.Validate();
             return _serializer.DeserializeResponse<ValueReadResponseApiModel>(response);
@@ -179,7 +180,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Clients {
             }
             var request = _httpClient.NewRequest($"{_serviceUri}/v2/write/{endpointId}",
                 _resourceId);
-            _serializer.SetContent(request, content);
+            _serializer.SerializeToRequest(request, content);
             var response = await _httpClient.PostAsync(request, ct).ConfigureAwait(false);
             response.Validate();
             return _serializer.DeserializeResponse<ValueWriteResponseApiModel>(response);
@@ -196,7 +197,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Clients {
             }
             var request = _httpClient.NewRequest($"{_serviceUri}/v2/call/{endpointId}/metadata",
                 _resourceId);
-            _serializer.SetContent(request, content);
+            _serializer.SerializeToRequest(request, content);
             var response = await _httpClient.PostAsync(request, ct).ConfigureAwait(false);
             response.Validate();
             return _serializer.DeserializeResponse<MethodMetadataResponseApiModel>(response);
@@ -213,7 +214,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Clients {
             }
             var request = _httpClient.NewRequest($"{_serviceUri}/v2/call/{endpointId}",
                 _resourceId);
-            _serializer.SetContent(request, content);
+            _serializer.SerializeToRequest(request, content);
             var response = await _httpClient.PostAsync(request, ct).ConfigureAwait(false);
             response.Validate();
             return _serializer.DeserializeResponse<MethodCallResponseApiModel>(response);

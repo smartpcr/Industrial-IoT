@@ -7,7 +7,7 @@ namespace Microsoft.Azure.IIoT.Hub.Services {
     using Microsoft.Azure.IIoT.Hub;
     using Microsoft.Azure.IIoT.Hub.Models;
     using Microsoft.Azure.IIoT.Utils;
-    using Microsoft.Azure.IIoT.Serializer;
+    using Microsoft.Azure.IIoT.Serializers;
     using Serilog;
     using System;
     using System.Collections.Generic;
@@ -50,7 +50,7 @@ namespace Microsoft.Azure.IIoT.Hub.Services {
                 return;
             }
 
-            var twin = Try.Op(() => _serializer.DeserializeObject<DeviceTwinModel>(
+            var twin = Try.Op(() => _serializer.Deserialize<DeviceTwinModel>(
                 Encoding.UTF8.GetString(payload)));
             if (twin == null) {
                 return;

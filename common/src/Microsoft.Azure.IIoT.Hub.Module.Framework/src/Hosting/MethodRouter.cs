@@ -7,7 +7,7 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
     using Microsoft.Azure.IIoT.Module.Framework.Services;
     using Microsoft.Azure.IIoT.Module.Default;
     using Microsoft.Azure.IIoT.Exceptions;
-    using Microsoft.Azure.IIoT.Serializer;
+    using Microsoft.Azure.IIoT.Serializers;
     using Microsoft.Azure.Devices.Client;
     using Newtonsoft.Json.Linq;
     using Serilog;
@@ -303,10 +303,10 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
                         _logger.Verbose(ex, "Method call error");
                         ex = _ef.Filter(ex, out var status);
                         throw new MethodCallStatusException(ex != null ?
-                           _serializer.SerializeObject(ex) : null, status);
+                           _serializer.Serialize(ex) : null, status);
                     }
                     return Encoding.UTF8.GetBytes(
-                        _serializer.SerializeObject(tr.Result));
+                        _serializer.Serialize(tr.Result));
                 });
             }
 
@@ -326,7 +326,7 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
                         _logger.Verbose(ex, "Method call error");
                         ex = _ef.Filter(ex, out var status);
                         throw new MethodCallStatusException(ex != null ?
-                            _serializer.SerializeObject(ex) : null, status);
+                            _serializer.Serialize(ex) : null, status);
                     }
                     return new byte[0];
                 });

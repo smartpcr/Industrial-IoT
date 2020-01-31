@@ -4,13 +4,13 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT {
-    using Microsoft.Azure.IIoT.Serializer;
+    using Microsoft.Azure.IIoT.Serializers;
     using Autofac;
 
     /// <summary>
     /// All pluggable serializers
     /// </summary>
-    public class DefaultSerializers : Autofac.Module {
+    public class JsonSerializer : Autofac.Module {
 
         /// <inheritdoc/>
         protected override void Load(ContainerBuilder builder) {
@@ -18,6 +18,9 @@ namespace Microsoft.Azure.IIoT {
             builder.RegisterType<NewtonSoftJsonSerializer>()
                 .AsImplementedInterfaces().SingleInstance()
                 .IfNotRegistered(typeof(IJsonSerializer));
+            builder.RegisterType<NewtonSoftJsonConverters>()
+                .AsImplementedInterfaces().SingleInstance()
+                .IfNotRegistered(typeof(IJsonSerializerSettingsProvider));
 
             base.Load(builder);
         }

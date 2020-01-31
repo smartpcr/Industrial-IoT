@@ -5,7 +5,8 @@
 
 namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Models {
     using Microsoft.Azure.IIoT.OpcUa.Registry.Events.v2.Models;
-    using System;
+    using Microsoft.Azure.IIoT.OpcUa.Registry.Models;
+    using System.Linq;
 
     /// <summary>
     /// Publisher event extensions
@@ -23,7 +24,46 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Models {
                 EventType = (PublisherEventType)model.EventType,
                 Id = model.Id,
                 IsPatch = model.IsPatch,
-                Publisher = model.Publisher.Map<PublisherApiModel>()
+                Publisher = model.Publisher.ToApiModel()
+            };
+        }
+
+        /// <summary>
+        /// Create api model
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        private static PublisherApiModel ToApiModel(
+            this PublisherModel model) {
+            if (model == null) {
+                return null;
+            }
+            return new PublisherApiModel {
+                Id = model.Id,
+                SiteId = model.SiteId,
+                LogLevel = (TraceLogLevel?)model.LogLevel,
+                Configuration = model.Configuration.ToApiModel(),
+                OutOfSync = model.OutOfSync,
+                Connected = model.Connected
+            };
+        }
+
+        /// <summary>
+        /// Create api model
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        private static PublisherConfigApiModel ToApiModel(
+            this PublisherConfigModel model) {
+            if (model == null) {
+                return null;
+            }
+            return new PublisherConfigApiModel {
+                Capabilities = model.Capabilities?.ToDictionary(k => k.Key, v => v.Value),
+                HeartbeatInterval = model.HeartbeatInterval,
+                JobCheckInterval = model.JobCheckInterval,
+                JobOrchestratorUrl = model.JobOrchestratorUrl,
+                MaxWorkers = model.MaxWorkers
             };
         }
     }

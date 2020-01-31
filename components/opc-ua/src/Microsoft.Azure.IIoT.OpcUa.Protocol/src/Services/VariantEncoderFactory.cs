@@ -4,8 +4,8 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Services {
+    using Microsoft.Azure.IIoT.Exceptions;
     using Microsoft.Azure.IIoT.Utils;
-    using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
     using Opc.Ua;
     using Opc.Ua.Encoders;
@@ -63,8 +63,8 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Services {
                             true, out builtinType);
                         return token.SelectToken("value.Body");
                     }
-                    catch (JsonReaderException jre) {
-                        throw new FormatException($"Failed to parse '{json}'. " +
+                    catch (Newtonsoft.Json.JsonReaderException jre) {
+                        throw new SerializerException($"Failed to parse '{json}'. " +
                             "See inner exception for more details.", jre);
                     }
                 }
@@ -125,7 +125,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Services {
                 }
 
                 var asString = value.Type == JTokenType.String ?
-                    (string)value : value.ToString(Formatting.None);
+                    (string)value : value.ToString(Newtonsoft.Json.Formatting.None);
 
                 if (value is JValue val) {
                     if (value.Type != JTokenType.String) {

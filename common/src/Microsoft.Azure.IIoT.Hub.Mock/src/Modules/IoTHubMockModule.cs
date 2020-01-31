@@ -43,7 +43,7 @@ namespace Microsoft.Azure.IIoT.Hub.Mock {
                 .IfNotRegistered(typeof(ITaskScheduler));
 
             // Register default serializers...
-            builder.RegisterModule<DefaultSerializers>();
+            builder.RegisterModule<JsonSerializer>();
             base.Load(builder);
         }
     }

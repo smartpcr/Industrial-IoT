@@ -35,7 +35,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Publisher.Runtime {
                     .AsImplementedInterfaces();
 
                 // Register default serializers...
-                builder.RegisterModule<DefaultSerializers>();
+                builder.RegisterModule<JsonSerializer>();
 
                 // Register processing engine - trigger, transform, sink
                 builder.RegisterType<DataFlowProcessingEngine>()

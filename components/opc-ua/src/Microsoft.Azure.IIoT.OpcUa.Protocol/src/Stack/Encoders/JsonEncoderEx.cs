@@ -353,7 +353,7 @@ namespace Opc.Ua.Encoders {
                     _writer.WritePropertyName(property);
                 }
                 if (PerformXmlSerialization || UseAdvancedEncoding) {
-                    var json = JsonConvertEx.SerializeObject(value);
+                    var json = JsonConvert.SerializeObject(value);
                     _writer.WriteRawValue(json);
                 }
                 else {

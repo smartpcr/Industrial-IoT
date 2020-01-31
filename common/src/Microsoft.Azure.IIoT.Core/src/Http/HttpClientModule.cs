@@ -29,7 +29,7 @@ namespace Microsoft.Azure.IIoT.Http.Default {
                 .IfNotRegistered(typeof(System.Net.Http.IHttpClientFactory));
 
             // Register default serializers...
-            builder.RegisterModule<DefaultSerializers>();
+            builder.RegisterModule<JsonSerializer>();
 
             base.Load(builder);
         }

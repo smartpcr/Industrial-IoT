@@ -27,9 +27,8 @@ namespace Microsoft.Azure.IIoT.Api.Cli {
     using Microsoft.Azure.IIoT.Http.SignalR;
     using Microsoft.Azure.IIoT.Utils;
     using Microsoft.Azure.IIoT.Auth.Runtime;
-    using Microsoft.Azure.IIoT.Serializer;
+    using Microsoft.Azure.IIoT.Serializers;
     using Microsoft.Extensions.Configuration;
-    using Newtonsoft.Json;
     using Autofac;
     using System;
     using System.Collections.Generic;
@@ -2544,8 +2543,8 @@ namespace Microsoft.Azure.IIoT.Api.Cli {
         /// </summary>
         private void PrintResult<T>(CliOptions options, T status) {
             Console.WriteLine("==================");
-            Console.WriteLine(JsonConvert.SerializeObject(status,
-                options.GetValueOrDefault("-F", "--format", Formatting.Indented)));
+            Console.WriteLine(_serializer.Serialize(status,
+                options.GetValueOrDefault("-F", "--format", JsonFormat.Indented)));
             Console.WriteLine("==================");
         }
 
@@ -2632,7 +2631,7 @@ namespace Microsoft.Azure.IIoT.Api.Cli {
         /// Print event
         /// </summary>
         private Task PrintEvent(EndpointEventApiModel ev) {
-            Console.WriteLine(_serializer.SerializeObjectPretty(ev));
+            Console.WriteLine(_serializer.SerializePretty(ev));
             return Task.CompletedTask;
         }
 
@@ -2640,7 +2639,7 @@ namespace Microsoft.Azure.IIoT.Api.Cli {
         /// Print event
         /// </summary>
         private Task PrintEvent(ApplicationEventApiModel ev) {
-            Console.WriteLine(_serializer.SerializeObjectPretty(ev));
+            Console.WriteLine(_serializer.SerializePretty(ev));
             return Task.CompletedTask;
         }
 
@@ -2648,7 +2647,7 @@ namespace Microsoft.Azure.IIoT.Api.Cli {
         /// Print event
         /// </summary>
         private Task PrintEvent(SupervisorEventApiModel ev) {
-            Console.WriteLine(_serializer.SerializeObjectPretty(ev));
+            Console.WriteLine(_serializer.SerializePretty(ev));
             return Task.CompletedTask;
         }
 
@@ -2656,7 +2655,7 @@ namespace Microsoft.Azure.IIoT.Api.Cli {
         /// Print event
         /// </summary>
         private Task PrintEvent(GatewayEventApiModel ev) {
-            Console.WriteLine(_serializer.SerializeObjectPretty(ev));
+            Console.WriteLine(_serializer.SerializePretty(ev));
             return Task.CompletedTask;
         }
 
@@ -2664,7 +2663,7 @@ namespace Microsoft.Azure.IIoT.Api.Cli {
         /// Print event
         /// </summary>
         private Task PrintEvent(DiscovererEventApiModel ev) {
-            Console.WriteLine(_serializer.SerializeObjectPretty(ev));
+            Console.WriteLine(_serializer.SerializePretty(ev));
             return Task.CompletedTask;
         }
 
@@ -2672,7 +2671,7 @@ namespace Microsoft.Azure.IIoT.Api.Cli {
         /// Print event
         /// </summary>
         private Task PrintEvent(PublisherEventApiModel ev) {
-            Console.WriteLine(_serializer.SerializeObjectPretty(ev));
+            Console.WriteLine(_serializer.SerializePretty(ev));
             return Task.CompletedTask;
         }
 
@@ -2680,7 +2679,7 @@ namespace Microsoft.Azure.IIoT.Api.Cli {
         /// Print sample
         /// </summary>
         private Task PrintSample(MonitoredItemMessageApiModel samples) {
-            Console.WriteLine(_serializer.SerializeObject(samples));
+            Console.WriteLine(_serializer.Serialize(samples));
             return Task.CompletedTask;
         }
 

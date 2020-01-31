@@ -3,21 +3,12 @@
 //  Licensed under the MIT License (MIT). See License.txt in the repo root for license information.
 // ------------------------------------------------------------
 
-namespace Microsoft.Azure.IIoT.Serializer {
+namespace Microsoft.Azure.IIoT.Serializers {
+    using System.Collections.Generic;
 
     /// <summary>
-    /// Formatting option
+    /// Complex value interface
     /// </summary>
-    public enum JsonFormat {
-
-        /// <summary>
-        /// Compressed
-        /// </summary>
-        None,
-
-        /// <summary>
-        /// Pretty print
-        /// </summary>
-        Pretty
+    public interface IComplex : IValue, IDictionary<string, IValue> {
     }
 }

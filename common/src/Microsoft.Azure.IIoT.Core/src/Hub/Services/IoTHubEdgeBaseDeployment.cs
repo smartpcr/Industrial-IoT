@@ -5,7 +5,7 @@
 
 namespace Microsoft.Azure.IIoT.Hub.Services {
     using Microsoft.Azure.IIoT.Hub.Models;
-    using Microsoft.Azure.IIoT.Serializer;
+    using Microsoft.Azure.IIoT.Serializers;
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
@@ -50,7 +50,7 @@ namespace Microsoft.Azure.IIoT.Hub.Services {
         /// <param name="version"></param>
         /// <returns></returns>
         private IDictionary<string, IDictionary<string, object>> GetEdgeBase(string version = "1.0") {
-            return _serializer.DeserializeObject<IDictionary<string, IDictionary<string, object>>>(@"
+            return _serializer.Deserialize<IDictionary<string, IDictionary<string, object>>>(@"
 {
     ""$edgeAgent"": {
         ""properties.desired"": {

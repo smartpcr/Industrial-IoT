@@ -38,7 +38,7 @@ namespace Microsoft.Azure.IIoT.Hub {
                 .AsImplementedInterfaces().SingleInstance();
 
             // Register default serializers...
-            builder.RegisterModule<DefaultSerializers>();
+            builder.RegisterModule<JsonSerializer>();
 
             base.Load(builder);
         }

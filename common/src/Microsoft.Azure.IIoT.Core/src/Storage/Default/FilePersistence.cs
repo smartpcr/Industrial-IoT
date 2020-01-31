@@ -5,7 +5,7 @@
 
 namespace Microsoft.Azure.IIoT.Storage.Default {
     using Microsoft.Azure.IIoT.Exceptions;
-    using Microsoft.Azure.IIoT.Serializer;
+    using Microsoft.Azure.IIoT.Serializers;
     using Serilog;
     using System.Collections.Generic;
     using System.Threading.Tasks;
@@ -69,7 +69,7 @@ namespace Microsoft.Azure.IIoT.Storage.Default {
                 }
                 // Write all to file
                 var path = Path.Combine(Path.GetTempPath(), _fileName);
-                File.WriteAllText(path, _serializer.SerializeObjectPretty(_master));
+                File.WriteAllText(path, _serializer.SerializePretty(_master));
                 // Make sure we do not unnecesarily sync
                 _updated = true;
             }
@@ -108,7 +108,7 @@ namespace Microsoft.Azure.IIoT.Storage.Default {
             var path = Path.Combine(Path.GetTempPath(), _fileName);
             try {
                 if (File.Exists(path)) {
-                    return _serializer.DeserializeObject<Dictionary<string, dynamic>>(
+                    return _serializer.Deserialize<Dictionary<string, dynamic>>(
                         File.ReadAllText(path));
                 }
             }

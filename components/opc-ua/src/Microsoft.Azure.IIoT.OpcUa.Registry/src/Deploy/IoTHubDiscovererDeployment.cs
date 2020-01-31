@@ -7,7 +7,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Deploy {
     using Microsoft.Azure.IIoT.Deploy;
     using Microsoft.Azure.IIoT.Hub;
     using Microsoft.Azure.IIoT.Hub.Models;
-    using Microsoft.Azure.IIoT.Serializer;
+    using Microsoft.Azure.IIoT.Serializers;
     using Serilog;
     using System;
     using System.Collections.Generic;
@@ -87,7 +87,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Deploy {
             string createOptions;
             if (isLinux) {
                 // Linux
-                createOptions = _serializer.SerializeObject(new {
+                createOptions = _serializer.Serialize(new {
                     NetworkingConfig = new {
                         EndpointsConfig = new {
                             host = new {
@@ -102,7 +102,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Deploy {
             }
             else {
                 // Windows
-                createOptions = _serializer.SerializeObject(new {
+                createOptions = _serializer.Serialize(new {
                     HostConfig = new {
                         NetworkMode = "host"
                     }
@@ -139,7 +139,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Deploy {
                     ""properties.desired.routes.upstream"": ""FROM /messages/* INTO $upstream""
                 }
             }";
-            return _serializer.DeserializeObject<IDictionary<string, IDictionary<string, object>>>(content);
+            return _serializer.Deserialize<IDictionary<string, IDictionary<string, object>>>(content);
         }
 
         private const string kDefaultSchemaVersion = "1.0";

@@ -22,6 +22,9 @@ namespace Microsoft.Azure.IIoT.Messaging.SignalR.Runtime {
         /// <summary>SignalR Hubname</summary>
         public string SignalRHubName => null;
 
+        /// <summary> Use message pack </summary>
+        public bool UseMessagePackProtocol => false;
+
         /// <inheritdoc/>
         public SignalRClientConfig(IConfiguration configuration) :
             base(configuration) {

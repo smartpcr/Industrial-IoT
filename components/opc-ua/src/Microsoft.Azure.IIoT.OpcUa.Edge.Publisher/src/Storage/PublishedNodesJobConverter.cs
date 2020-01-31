@@ -8,8 +8,8 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Publisher.Models {
     using Microsoft.Azure.IIoT.OpcUa.Publisher;
     using Microsoft.Azure.IIoT.OpcUa.Core.Models;
     using Microsoft.Azure.IIoT.Module;
+    using Microsoft.Azure.IIoT.Serializers;
     using System.Runtime.Serialization;
-    using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
     using System;
     using System.Collections.Generic;
@@ -29,12 +29,14 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Publisher.Models {
         /// Create converter
         /// </summary>
         /// <param name="logger"></param>
+        /// <param name="serializer"></param>
         /// <param name="config"></param>
         /// <param name="cryptoProvider"></param>
-        public PublishedNodesJobConverter(ILogger logger,
+        public PublishedNodesJobConverter(ILogger logger, IJsonSerializer serializer,
             IEngineConfiguration config = null, ISecureElement cryptoProvider = null) {
             _config = config;
             _cryptoProvider = cryptoProvider;
+            _serializer = serializer ?? throw new ArgumentNullException(nameof(logger));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
@@ -44,20 +46,19 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Publisher.Models {
         /// <param name="publishedNodesFile"></param>
         /// <param name="legacyCliModel">The legacy command line arguments</param>
         /// <returns></returns>
-        public IEnumerable<WriterGroupJobModel> Read(TextReader publishedNodesFile, LegacyCliModel legacyCliModel) {
-            var jsonSerializer = JsonSerializer.CreateDefault();
+        public IEnumerable<WriterGroupJobModel> Read(TextReader publishedNodesFile, 
+            LegacyCliModel legacyCliModel) {
             var sw = Stopwatch.StartNew();
-            using (var reader = new JsonTextReader(publishedNodesFile)) {
-                _logger.Debug("Reading published nodes file ({elapsed}", sw.Elapsed);
-                var items = jsonSerializer.Deserialize<List<PublishedNodesEntryModel>>(reader);
-                _logger.Information(
-                    "Read {count} items from published nodes file in {elapsed}",
-                    items.Count, sw.Elapsed);
-                sw.Restart();
-                var jobs = ToWriterGroupJobs(items, legacyCliModel);
-                _logger.Information("Converted items to jobs in {elapsed}", sw.Elapsed);
-                return jobs;
-            }
+            _logger.Debug("Reading published nodes file ({elapsed}", sw.Elapsed);
+            var items = _serializer.Deserialize<List<PublishedNodesEntryModel>>(
+                publishedNodesFile);
+            _logger.Information(
+                "Read {count} items from published nodes file in {elapsed}",
+                items.Count, sw.Elapsed);
+            sw.Restart();
+            var jobs = ToWriterGroupJobs(items, legacyCliModel);
+            _logger.Information("Converted items to jobs in {elapsed}", sw.Elapsed);
+            return jobs;
         }
 
         /// <summary>
@@ -337,6 +338,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Publisher.Models {
 
         private readonly IEngineConfiguration _config;
         private readonly ISecureElement _cryptoProvider;
+        private readonly IJsonSerializer _serializer;
         private readonly ILogger _logger;
     }
 }

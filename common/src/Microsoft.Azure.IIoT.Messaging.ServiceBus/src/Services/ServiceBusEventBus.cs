@@ -5,9 +5,9 @@
 
 namespace Microsoft.Azure.IIoT.Messaging.ServiceBus.Services {
     using Microsoft.Azure.IIoT.Diagnostics;
+    using Microsoft.Azure.IIoT.Serializers;
     using Microsoft.Azure.IIoT.Utils;
     using Microsoft.Azure.ServiceBus;
-    using Newtonsoft.Json;
     using Serilog;
     using System;
     using System.Collections.Generic;
@@ -25,12 +25,14 @@ namespace Microsoft.Azure.IIoT.Messaging.ServiceBus.Services {
         /// Create service bus event bus
         /// </summary>
         /// <param name="factory"></param>
+        /// <param name="serializer"></param>
         /// <param name="logger"></param>
         /// <param name="process"></param>
-        public ServiceBusEventBus(IServiceBusClientFactory factory,
+        public ServiceBusEventBus(IServiceBusClientFactory factory, IJsonSerializer serializer,
             ILogger logger, IProcessIdentity process = null) {
 
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
             _factory = factory ?? throw new ArgumentNullException(nameof(factory));
 
             // TODO: If scaled out we need subscription ids for every instance!
@@ -45,7 +47,7 @@ namespace Microsoft.Azure.IIoT.Messaging.ServiceBus.Services {
         /// <inheritdoc/>
         public async Task PublishAsync<T>(T message) {
 
-            var jsonMessage = JsonConvert.SerializeObject(message);
+            var jsonMessage = _serializer.Serialize(message);
             var body = Encoding.UTF8.GetBytes(jsonMessage);
 
             var client = await _factory.CreateOrGetTopicClientAsync();
@@ -206,7 +208,7 @@ namespace Microsoft.Azure.IIoT.Messaging.ServiceBus.Services {
             }
             foreach (var handler in subscriptions) {
                 // Do for now every time to pass brand new objects
-                var evt = JsonConvert.DeserializeObject(messageData, handler.Type);
+                var evt = _serializer.Deserialize(messageData, handler.Type);
                 await handler.HandleAsync(evt);
             }
             // Complete the message so that it is not received again.
@@ -233,6 +235,7 @@ namespace Microsoft.Azure.IIoT.Messaging.ServiceBus.Services {
             new Dictionary<string, Dictionary<string, Subscription>>();
         private readonly SemaphoreSlim _lock = new SemaphoreSlim(1, 1);
         private readonly ILogger _logger;
+        private readonly IJsonSerializer _serializer;
         private readonly IServiceBusClientFactory _factory;
         private readonly ISubscriptionClient _subscriptionClient;
     }

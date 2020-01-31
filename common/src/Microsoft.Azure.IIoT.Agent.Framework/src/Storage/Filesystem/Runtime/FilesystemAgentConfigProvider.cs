@@ -4,9 +4,9 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.Agent.Framework.Storage.Filesystem {
-    using System.IO;
     using Microsoft.Azure.IIoT.Agent.Framework.Models;
-    using Newtonsoft.Json;
+    using Microsoft.Azure.IIoT.Serializers;
+    using System.IO;
 
     /// <summary>
     /// File system configuration provider
@@ -16,11 +16,13 @@ namespace Microsoft.Azure.IIoT.Agent.Framework.Storage.Filesystem {
         /// <summary>
         /// Create provider
         /// </summary>
-        /// <param name="filesystemAgentConfigProviderConfig"></param>
-        public FilesystemAgentConfigProvider(FilesystemAgentConfigProviderConfig filesystemAgentConfigProviderConfig) {
-            _configFilename = filesystemAgentConfigProviderConfig.ConfigFilename;
+        /// <param name="serializer"></param>
+        /// <param name="config"></param>
+        public FilesystemAgentConfigProvider(IJsonSerializer serializer,
+            FilesystemAgentConfigProviderConfig config) {
+            _configFilename = config.ConfigFilename;
             var json = File.ReadAllText(_configFilename);
-            Config = JsonConvert.DeserializeObject<AgentConfigModel>(json);
+            Config = serializer.Deserialize<AgentConfigModel>(json);
         }
 
         /// <inheritdoc/>

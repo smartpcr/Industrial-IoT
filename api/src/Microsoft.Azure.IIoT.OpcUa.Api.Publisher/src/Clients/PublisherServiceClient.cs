@@ -6,7 +6,7 @@
 namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Clients {
     using Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Models;
     using Microsoft.Azure.IIoT.Http;
-    using Microsoft.Azure.IIoT.Serializer;
+    using Microsoft.Azure.IIoT.Serializers;
     using System;
     using System.Threading.Tasks;
     using System.Threading;
@@ -23,8 +23,9 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Clients {
         /// <param name="config"></param>
         /// <param name="serializer"></param>
         public PublisherServiceClient(IHttpClient httpClient, IPublisherConfig config,
-            IJsonSerializer serializer = null) : this(httpClient,
-                config?.OpcUaPublisherServiceUrl, config?.OpcUaPublisherServiceResourceId, serializer) {
+            IJsonSerializer serializer) : this(httpClient,
+                config?.OpcUaPublisherServiceUrl, config?.OpcUaPublisherServiceResourceId,
+                serializer) {
         }
 
         /// <summary>
@@ -35,7 +36,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Clients {
         /// <param name="resourceId"></param>
         /// <param name="serializer"></param>
         public PublisherServiceClient(IHttpClient httpClient, string serviceUri, string resourceId,
-            IJsonSerializer serializer = null) {
+            IJsonSerializer serializer) {
             _serializer = serializer ?? new NewtonSoftJsonSerializer();
             _serviceUri = serviceUri ?? throw new ArgumentNullException(nameof(serviceUri),
                     "Please configure the Url of the endpoint micro service.");
@@ -66,7 +67,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Clients {
             }
             var request = _httpClient.NewRequest($"{_serviceUri}/v2/publish/{endpointId}/start",
                 _resourceId);
-            _serializer.SetContent(request, content);
+            _serializer.SerializeToRequest(request, content);
             var response = await _httpClient.PostAsync(request, ct).ConfigureAwait(false);
             response.Validate();
             return _serializer.DeserializeResponse<PublishStartResponseApiModel>(response);
@@ -80,7 +81,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Clients {
             }
             var request = _httpClient.NewRequest($"{_serviceUri}/v2/publish/{endpointId}",
                 _resourceId);
-            _serializer.SetContent(request, content);
+            _serializer.SerializeToRequest(request, content);
             var response = await _httpClient.PostAsync(request, ct).ConfigureAwait(false);
             response.Validate();
             return _serializer.DeserializeResponse<PublishedItemListResponseApiModel>(response);
@@ -97,7 +98,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Clients {
             }
             var request = _httpClient.NewRequest($"{_serviceUri}/v2/publish/{endpointId}/stop",
                 _resourceId);
-            _serializer.SetContent(request, content);
+            _serializer.SerializeToRequest(request, content);
             var response = await _httpClient.PostAsync(request, ct).ConfigureAwait(false);
             response.Validate();
             return _serializer.DeserializeResponse<PublishStopResponseApiModel>(response);
@@ -114,7 +115,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Clients {
             }
             var request = _httpClient.NewRequest(
                 $"{_serviceUri}/v2/monitor/{endpointId}/samples", _resourceId);
-            _serializer.SetContent(request,  userId);
+            _serializer.SerializeToRequest(request,  userId);
             var response = await _httpClient.PutAsync(request, ct).ConfigureAwait(false);
             response.Validate();
         }

@@ -7,10 +7,11 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry {
     using Microsoft.Azure.IIoT.OpcUa.Api.Registry.Models;
     using Microsoft.Azure.IIoT.OpcUa.Registry;
     using Microsoft.Azure.IIoT.OpcUa.Registry.Models;
+    using Microsoft.Azure.IIoT.OpcUa.Core.Models;
+    using Microsoft.Azure.IIoT.Serializers;
     using System;
     using System.Threading.Tasks;
     using System.Threading;
-    using Microsoft.Azure.IIoT.OpcUa.Core.Models;
 
     /// <summary>
     /// Registry services adapter to run dependent services outside of cloud.
@@ -22,7 +23,10 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry {
         /// Create registry services
         /// </summary>
         /// <param name="client"></param>
-        public RegistryServicesApiAdapter(IRegistryServiceApi client) {
+        /// <param name="serializer"></param>
+        public RegistryServicesApiAdapter(IRegistryServiceApi client, 
+            IJsonSerializer serializer) {
+            _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
             _client = client ?? throw new ArgumentNullException(nameof(client));
         }
 
@@ -31,7 +35,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry {
             bool onlyServerState, CancellationToken ct) {
             var result = await _client.GetEndpointAsync(id,
                 onlyServerState, ct);
-            return result.Map<EndpointInfoModel>();
+            return _serializer.Map<EndpointInfoModel>(result);
         }
 
         /// <inheritdoc/>
@@ -39,7 +43,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry {
             string continuation, bool onlyServerState, int? pageSize, CancellationToken ct) {
             var result = await _client.ListEndpointsAsync(continuation,
                 onlyServerState, pageSize, ct);
-            return result.Map<EndpointInfoListModel>();
+            return _serializer.Map<EndpointInfoListModel>(result);
         }
 
         /// <inheritdoc/>
@@ -47,16 +51,16 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry {
             EndpointRegistrationQueryModel query, bool onlyServerState,
             int? pageSize, CancellationToken ct) {
             var result = await _client.QueryEndpointsAsync(
-                query.Map<EndpointRegistrationQueryApiModel>(),
+                _serializer.Map<EndpointRegistrationQueryApiModel>(query),
                 onlyServerState, pageSize, ct);
-            return result.Map<EndpointInfoListModel>();
+            return _serializer.Map<EndpointInfoListModel>(result);
         }
 
         /// <inheritdoc/>
         public async Task<X509CertificateChainModel> GetEndpointCertificateAsync(
             string id, CancellationToken ct) {
             var result = await _client.GetEndpointCertificateAsync(id, ct);
-            return result.Map<X509CertificateChainModel>();
+            return _serializer.Map<X509CertificateChainModel>(result);
         }
 
         /// <inheritdoc/>
@@ -76,7 +80,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry {
             string continuation, bool onlyServerState, int? pageSize, CancellationToken ct) {
             var result = await _client.ListSupervisorsAsync(continuation,
                 onlyServerState, pageSize, ct);
-            return result.Map<SupervisorListModel>();
+            return _serializer.Map<SupervisorListModel>(result);
         }
 
         /// <inheritdoc/>
@@ -84,9 +88,9 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry {
             SupervisorQueryModel query, bool onlyServerState, int? pageSize,
             CancellationToken ct) {
             var result = await _client.QuerySupervisorsAsync(
-                query.Map<SupervisorQueryApiModel>(),
+                _serializer.Map<SupervisorQueryApiModel>(query),
                 onlyServerState, pageSize, ct);
-            return result.Map<SupervisorListModel>();
+            return _serializer.Map<SupervisorListModel>(result);
         }
 
         /// <inheritdoc/>
@@ -94,14 +98,14 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry {
             bool onlyServerState, CancellationToken ct) {
             var result = await _client.GetSupervisorAsync(id,
                 onlyServerState, ct);
-            return result.Map<SupervisorModel>();
+            return _serializer.Map<SupervisorModel>(result);
         }
 
         /// <inheritdoc/>
         public async Task<SupervisorStatusModel> GetSupervisorStatusAsync(string id,
             CancellationToken ct) {
             var result = await _client.GetSupervisorStatusAsync(id, ct);
-            return result.Map<SupervisorStatusModel>();
+            return _serializer.Map<SupervisorStatusModel>(result);
         }
 
         /// <inheritdoc/>
@@ -113,7 +117,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry {
         public Task UpdateSupervisorAsync(string supervisorId,
             SupervisorUpdateModel request, CancellationToken ct) {
             return _client.UpdateSupervisorAsync(supervisorId,
-                request.Map<SupervisorUpdateApiModel>(), ct);
+                _serializer.Map<SupervisorUpdateApiModel>(request), ct);
         }
 
         /// <inheritdoc/>
@@ -121,7 +125,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry {
             string continuation, bool onlyServerState, int? pageSize, CancellationToken ct) {
             var result = await _client.ListPublishersAsync(continuation,
                 onlyServerState, pageSize, ct);
-            return result.Map<PublisherListModel>();
+            return _serializer.Map<PublisherListModel>(result);
         }
 
         /// <inheritdoc/>
@@ -129,9 +133,9 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry {
             PublisherQueryModel query, bool onlyServerState, int? pageSize,
             CancellationToken ct) {
             var result = await _client.QueryPublishersAsync(
-                query.Map<PublisherQueryApiModel>(),
+                _serializer.Map<PublisherQueryApiModel>(query),
                 onlyServerState, pageSize, ct);
-            return result.Map<PublisherListModel>();
+            return _serializer.Map<PublisherListModel>(result);
         }
 
         /// <inheritdoc/>
@@ -139,22 +143,22 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry {
             bool onlyServerState, CancellationToken ct) {
             var result = await _client.GetPublisherAsync(id,
                 onlyServerState, ct);
-            return result.Map<PublisherModel>();
+            return _serializer.Map<PublisherModel>(result);
         }
 
         /// <inheritdoc/>
         public async Task UpdatePublisherAsync(string id, PublisherUpdateModel request,
             CancellationToken ct) {
             await _client.UpdatePublisherAsync(id,
-                request.Map<PublisherUpdateApiModel>(), ct);
+                _serializer.Map<PublisherUpdateApiModel>(request), ct);
         }
 
         /// <inheritdoc/>
         public async Task<ApplicationRegistrationResultModel> RegisterApplicationAsync(
             ApplicationRegistrationRequestModel request, CancellationToken ct) {
             var result = await _client.RegisterAsync(
-                request.Map<ApplicationRegistrationRequestApiModel>(), ct);
-            return result.Map<ApplicationRegistrationResultModel>();
+                _serializer.Map<ApplicationRegistrationRequestApiModel>(request), ct);
+            return _serializer.Map<ApplicationRegistrationResultModel>(result);
         }
 
         /// <inheritdoc/>
@@ -162,36 +166,36 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry {
             string applicationId, bool filterInactiveTwins, CancellationToken ct) {
             var result = await _client.GetApplicationAsync(applicationId
                 /* TODO ,filterInactiveTwins */, ct);
-            return result.Map<ApplicationRegistrationModel>();
+            return _serializer.Map<ApplicationRegistrationModel>(result);
         }
 
         /// <inheritdoc/>
         public Task UpdateApplicationAsync(string applicationId,
             ApplicationRegistrationUpdateModel request, CancellationToken ct) {
             return _client.UpdateApplicationAsync(applicationId,
-                request.Map<ApplicationRegistrationUpdateApiModel>(), ct);
+                _serializer.Map<ApplicationRegistrationUpdateApiModel>(request), ct);
         }
 
         /// <inheritdoc/>
         public async Task<ApplicationSiteListModel> ListSitesAsync(
             string continuation, int? pageSize, CancellationToken ct) {
             var result = await _client.ListSitesAsync(continuation, pageSize, ct);
-            return result.Map<ApplicationSiteListModel>();
+            return _serializer.Map<ApplicationSiteListModel>(result);
         }
 
         /// <inheritdoc/>
         public async Task<ApplicationInfoListModel> ListApplicationsAsync(
             string continuation, int? pageSize, CancellationToken ct) {
             var result = await _client.ListApplicationsAsync(continuation, pageSize, ct);
-            return result.Map<ApplicationInfoListModel>();
+            return _serializer.Map<ApplicationInfoListModel>(result);
         }
 
         /// <inheritdoc/>
         public async Task<ApplicationInfoListModel> QueryApplicationsAsync(
             ApplicationRegistrationQueryModel query, int? pageSize, CancellationToken ct) {
             var result = await _client.QueryApplicationsAsync(
-                query.Map<ApplicationRegistrationQueryApiModel>(), pageSize, ct);
-            return result.Map<ApplicationInfoListModel>();
+                _serializer.Map<ApplicationRegistrationQueryApiModel>(query), pageSize, ct);
+            return _serializer.Map<ApplicationInfoListModel>(result);
         }
 
         /// <inheritdoc/>
@@ -221,14 +225,17 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry {
         /// <inheritdoc/>
         public Task DiscoverAsync(DiscoveryRequestModel request,
             CancellationToken ct) {
-            return _client.DiscoverAsync(request.Map<DiscoveryRequestApiModel>(), ct);
+            return _client.DiscoverAsync(
+                _serializer.Map<DiscoveryRequestApiModel>(request), ct);
         }
 
         /// <inheritdoc/>
         public Task CancelAsync(DiscoveryCancelModel request, CancellationToken ct) {
-            return _client.CancelAsync(request.Map<DiscoveryCancelApiModel>(), ct);
+            return _client.CancelAsync(
+                _serializer.Map<DiscoveryCancelApiModel>(request), ct);
         }
 
+        private readonly IJsonSerializer _serializer;
         private readonly IRegistryServiceApi _client;
     }
 }

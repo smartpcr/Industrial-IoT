@@ -12,6 +12,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin.History.Controllers {
     using Microsoft.Azure.IIoT.OpcUa.Testing.Fixtures;
     using Microsoft.Azure.IIoT.OpcUa.Testing.Tests;
     using Microsoft.Azure.IIoT.Http.Default;
+    using Microsoft.Azure.IIoT.Serializers;
     using Serilog;
     using System.Net;
     using System.Threading.Tasks;
@@ -30,11 +31,12 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin.History.Controllers {
             var module = _factory.Resolve<ITestModule>();
             module.Endpoint = Endpoint;
             var log = _factory.Resolve<ILogger>();
+            var serializer = _factory.Resolve<IJsonSerializer>();
             return new HistoryReadValuesTests<string>(() => // Create an adapter over the api
                 new HistoricAccessAdapter<string>(
                     new HistoryRawAdapter(
-                        new HistoryServiceClient(
-                           new HttpClient(_factory, log), new TestConfig(client.BaseAddress))),
+                        new HistoryServiceClient(new HttpClient(_factory, log), 
+                            new TestConfig(client.BaseAddress), serializer), serializer),
                     new VariantEncoderFactory()), "fakeid");
         }
 

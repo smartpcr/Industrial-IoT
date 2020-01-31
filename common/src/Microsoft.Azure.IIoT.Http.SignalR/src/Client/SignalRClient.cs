@@ -7,6 +7,7 @@ namespace Microsoft.Azure.IIoT.Http.SignalR {
     using Microsoft.Azure.IIoT.Http.SignalR.Services;
     using Microsoft.Azure.IIoT.Messaging.SignalR;
     using Microsoft.Azure.IIoT.Messaging;
+    using Microsoft.Azure.IIoT.Serializers;
     using Serilog;
     using System;
     using System.Threading.Tasks;
@@ -24,7 +25,10 @@ namespace Microsoft.Azure.IIoT.Http.SignalR {
         /// </summary>
         /// <param name="config"></param>
         /// <param name="logger"></param>
-        public SignalRClient(ISignalRClientConfig config, ILogger logger) {
+        /// <param name="jsonSettings"></param>
+        public SignalRClient(ISignalRClientConfig config, ILogger logger,
+            IJsonSerializerSettingsProvider jsonSettings = null) {
+            _jsonSettings = jsonSettings;
             _config = config ?? throw new ArgumentNullException(nameof(config));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _clients = new Dictionary<string, SignalRClientRegistrar>();
@@ -47,8 +51,7 @@ namespace Microsoft.Azure.IIoT.Http.SignalR {
                 }
                 if (!_clients.TryGetValue(userId, out var client)) {
                     client = await SignalRClientRegistrar.CreateAsync(
-                        _config.SignalREndpointUrl, _config.SignalRHubName,
-                        userId, _logger);
+                        _config, userId, _logger, _jsonSettings);
                     _clients.Add(userId, client);
                 }
                 return client.GetHandle();
@@ -111,21 +114,24 @@ namespace Microsoft.Azure.IIoT.Http.SignalR {
             /// <summary>
             /// Create instance by creating client host and starting it.
             /// </summary>
-            /// <param name="endpointUrl"></param>
-            /// <param name="hubName"></param>
+            /// <param name="config"></param>
+            /// <param name="jsonSettings"></param>
             /// <param name="userId"></param>
             /// <param name="logger"></param>
             /// <returns></returns>
-            internal static async Task<SignalRClientRegistrar> CreateAsync(string endpointUrl,
-                string hubName, string userId, ILogger logger) {
-                if (string.IsNullOrEmpty(endpointUrl)) {
-                    throw new ArgumentException(nameof(endpointUrl));
+            internal static async Task<SignalRClientRegistrar> CreateAsync(
+                ISignalRClientConfig config, string userId, ILogger logger, 
+                IJsonSerializerSettingsProvider jsonSettings = null) {
+
+                if (string.IsNullOrEmpty(config?.SignalREndpointUrl)) {
+                    throw new ArgumentException(nameof(config.SignalREndpointUrl));
                 }
                 if (string.IsNullOrEmpty(userId)) {
                     throw new ArgumentException(nameof(userId));
                 }
-                var host = new SignalRClientHost(endpointUrl, hubName, userId,
-                    logger.ForContext<SignalRClientHost>());
+                var host = new SignalRClientHost(config.SignalREndpointUrl,
+                    config.SignalRHubName, userId, config.UseMessagePackProtocol,
+                    logger.ForContext<SignalRClientHost>(), jsonSettings);
                 await host.StartAsync().ConfigureAwait(false);
                 return new SignalRClientRegistrar(host);
             }
@@ -227,6 +233,7 @@ namespace Microsoft.Azure.IIoT.Http.SignalR {
             private readonly HashSet<SignalRRegistrarHandle> _handles;
         }
 
+        private readonly IJsonSerializerSettingsProvider _jsonSettings;
         private readonly ISignalRClientConfig _config;
         private readonly Dictionary<string, SignalRClientRegistrar> _clients;
         private readonly SemaphoreSlim _lock;
