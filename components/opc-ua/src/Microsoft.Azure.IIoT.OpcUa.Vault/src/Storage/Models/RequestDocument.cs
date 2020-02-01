@@ -85,7 +85,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Vault.Storage.Models {
         /// Private key handle
         /// </summary>
         [DataMember]
-        public JToken KeyHandle { get; set; }
+        public byte[] KeyHandle { get; set; }
 
         /// <summary>
         /// Error information

@@ -5,7 +5,6 @@
 
 namespace Microsoft.Azure.IIoT.OpcUa.Vault.Models {
     using Microsoft.Azure.IIoT.OpcUa.Core.Models;
-    using Newtonsoft.Json.Linq;
 
     /// <summary>
     /// Certificate request model
@@ -40,6 +39,6 @@ namespace Microsoft.Azure.IIoT.OpcUa.Vault.Models {
         /// <summary>
         /// Optional private key handle
         /// </summary>
-        public JToken KeyHandle { get; set; }
+        public byte[] KeyHandle { get; set; }
     }
 }

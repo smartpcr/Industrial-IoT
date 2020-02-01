@@ -25,7 +25,6 @@ namespace Microsoft.Azure.IIoT.Services.Common.Hub.Edgemanager {
     using Autofac;
     using Autofac.Extensions.DependencyInjection;
     using System;
-    using Newtonsoft.Json;
     using ILogger = Serilog.ILogger;
 
     /// <summary>

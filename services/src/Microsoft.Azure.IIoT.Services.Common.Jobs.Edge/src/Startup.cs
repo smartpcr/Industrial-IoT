@@ -28,7 +28,6 @@ namespace Microsoft.Azure.IIoT.Services.Common.Jobs.Edge {
     using Autofac.Extensions.DependencyInjection;
     using System;
     using ILogger = Serilog.ILogger;
-    using Newtonsoft.Json;
 
     /// <summary>
     /// Webservice startup

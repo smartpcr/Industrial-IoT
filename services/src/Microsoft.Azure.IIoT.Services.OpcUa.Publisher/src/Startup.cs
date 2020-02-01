@@ -32,7 +32,6 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Publisher {
     using Microsoft.OpenApi.Models;
     using Autofac;
     using Autofac.Extensions.DependencyInjection;
-    using Newtonsoft.Json;
     using System;
     using ILogger = Serilog.ILogger;
 

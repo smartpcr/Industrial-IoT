@@ -18,7 +18,6 @@ namespace Microsoft.Azure.IIoT.Services.Common.Configuration {
     using Autofac;
     using Autofac.Extensions.DependencyInjection;
     using System;
-    using Newtonsoft.Json;
 
     /// <summary>
     /// Webservice startup

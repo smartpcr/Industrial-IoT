@@ -5,7 +5,6 @@
 
 namespace Microsoft.Azure.IIoT.Crypto.Storage.Models {
     using Microsoft.Azure.IIoT.Crypto.Models;
-    using Newtonsoft.Json.Linq;
     using System;
     using System.Collections.Generic;
     using System.Runtime.Serialization;
@@ -116,7 +115,7 @@ namespace Microsoft.Azure.IIoT.Crypto.Storage.Models {
         /// Private key identifier
         /// </summary>
         [DataMember]
-        public JToken KeyHandle { get; set; }
+        public byte[] KeyHandle { get; set; }
 
         /// <summary>
         /// Raw certificate

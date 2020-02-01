@@ -6,7 +6,6 @@
 namespace Microsoft.Azure.IIoT.Serializers {
     using Microsoft.Azure.IIoT.Exceptions;
     using Newtonsoft.Json;
-    using Newtonsoft.Json.Linq;
     using System;
     using System.IO;
 

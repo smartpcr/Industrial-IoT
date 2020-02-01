@@ -34,7 +34,6 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Vault {
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.OpenApi.Models;
-    using Newtonsoft.Json;
     using Autofac;
     using Autofac.Extensions.DependencyInjection;
     using System;
