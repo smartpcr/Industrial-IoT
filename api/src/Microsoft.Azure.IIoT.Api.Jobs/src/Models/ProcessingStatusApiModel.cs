@@ -4,8 +4,8 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.Api.Jobs.Models {
+    using Microsoft.Azure.IIoT.Serializers;
     using System.Runtime.Serialization;
-    using Newtonsoft.Json.Linq;
     using System;
 
     /// <summary>
@@ -26,7 +26,7 @@ namespace Microsoft.Azure.IIoT.Api.Jobs.Models {
         /// </summary>
         [DataMember(Name = "lastKnownState",
             EmitDefaultValue = false)]
-        public JToken LastKnownState { get; set; }
+        public VariantValue LastKnownState { get; set; }
 
         /// <summary>
         /// Processing mode

@@ -4,8 +4,9 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.Hub.Models {
+    using Microsoft.Azure.IIoT.Serializers;
+    using System.Collections.Generic;
     using System.Runtime.Serialization;
-    using Newtonsoft.Json.Linq;
 
     /// <summary>
     /// List of device twins with continuation token
@@ -24,6 +25,6 @@ namespace Microsoft.Azure.IIoT.Hub.Models {
         /// Result returned
         /// </summary>
         [DataMember(Name = "result")]
-        public JArray Result { get; set; }
+        public IEnumerable<VariantValue> Result { get; set; }
     }
 }

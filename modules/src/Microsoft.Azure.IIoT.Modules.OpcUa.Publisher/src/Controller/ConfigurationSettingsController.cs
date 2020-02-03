@@ -35,7 +35,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.Controller {
         /// <summary>
         /// Job check interval
         /// </summary>
-        public JToken JobCheckInterval {
+        public IValue JobCheckInterval {
             set => _config.JobCheckInterval =
                 value?.ToObject<TimeSpan>();
             get => _config.JobCheckInterval;
@@ -44,7 +44,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.Controller {
         /// <summary>
         /// Heartbeat interval
         /// </summary>
-        public JToken HeartbeatInterval {
+        public IValue HeartbeatInterval {
             set => _config.HeartbeatInterval =
                 value?.ToObject<TimeSpan>();
             get => _config.HeartbeatInterval;
@@ -53,7 +53,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.Controller {
         /// <summary>
         /// Max number of workers
         /// </summary>
-        public JToken MaxWorkers {
+        public IValue MaxWorkers {
             set => _config.MaxWorkers =
                 value?.ToObject<int>();
             get => _config.MaxWorkers;
@@ -62,7 +62,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.Controller {
         /// <summary>
         /// Max number of workers
         /// </summary>
-        public JToken Capabilities {
+        public IValue Capabilities {
             set => _config.Capabilities =
                 value?.ToObject<Dictionary<string, string>>();
             get => _config.Capabilities == null ? null :

@@ -4,8 +4,8 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.Api.Jobs.Models {
+    using Microsoft.Azure.IIoT.Serializers;
     using System.Runtime.Serialization;
-    using Newtonsoft.Json.Linq;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
@@ -42,7 +42,7 @@ namespace Microsoft.Azure.IIoT.Api.Jobs.Models {
         /// </summary>
         [DataMember(Name = "jobConfiguration",
             EmitDefaultValue = false)]
-        public JToken JobConfiguration { get; set; }
+        public VariantValue JobConfiguration { get; set; }
 
         /// <summary>
         /// Demands

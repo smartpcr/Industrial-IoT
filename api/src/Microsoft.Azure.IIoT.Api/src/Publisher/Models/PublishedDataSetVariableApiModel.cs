@@ -5,8 +5,8 @@
 
 namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Models {
     using Microsoft.Azure.IIoT.OpcUa.Core.Models;
+    using Microsoft.Azure.IIoT.Serializers;
     using System.Runtime.Serialization;
-    using Newtonsoft.Json.Linq;
     using System;
     using System.Collections.Generic;
 
@@ -86,7 +86,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Models {
         /// </summary>
         [DataMember(Name = "substituteValue",
             EmitDefaultValue = false)]
-        public JToken SubstituteValue { get; set; }
+        public VariantValue SubstituteValue { get; set; }
 
         /// <summary>
         /// MetaData properties qualified names.

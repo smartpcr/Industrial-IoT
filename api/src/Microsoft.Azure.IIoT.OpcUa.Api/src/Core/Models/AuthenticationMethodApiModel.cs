@@ -4,8 +4,8 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Api.Core.Models {
+    using Microsoft.Azure.IIoT.Serializers;
     using System.Runtime.Serialization;
-    using Newtonsoft.Json.Linq;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
 
@@ -44,6 +44,6 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Core.Models {
         [DataMember(Name = "configuration",
             EmitDefaultValue = false)]
         [DefaultValue(null)]
-        public JToken Configuration { get; set; }
+        public VariantValue Configuration { get; set; }
     }
 }

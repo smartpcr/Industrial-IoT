@@ -38,6 +38,6 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Onboarding.Models {
         /// </summary>
         [DataMember(Name = "configuration",
             EmitDefaultValue = false)]
-        public JToken Configuration { get; set; }
+        public IValue Configuration { get; set; }
     }
 }

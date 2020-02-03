@@ -5,8 +5,8 @@
 
 namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Models {
     using Microsoft.Azure.IIoT.OpcUa.Api.Core.Models;
+    using Microsoft.Azure.IIoT.Serializers;
     using System.Runtime.Serialization;
-    using Newtonsoft.Json.Linq;
     using System;
 
     /// <summary>
@@ -20,7 +20,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Models {
         /// </summary>
         [DataMember(Name = "value",
             EmitDefaultValue = false)]
-        public JToken Value { get; set; }
+        public VariantValue Value { get; set; }
 
         /// <summary>
         /// Built in data type of the value read.

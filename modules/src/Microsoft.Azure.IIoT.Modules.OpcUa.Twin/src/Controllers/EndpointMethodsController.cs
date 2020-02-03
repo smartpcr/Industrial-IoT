@@ -205,8 +205,8 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Controllers {
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public async Task<HistoryReadResponseApiModel<JToken>> HistoryReadAsync(
-            HistoryReadRequestApiModel<JToken> request) {
+        public async Task<HistoryReadResponseApiModel<IValue>> HistoryReadAsync(
+            HistoryReadRequestApiModel<IValue> request) {
             if (request == null) {
                 throw new ArgumentNullException(nameof(request));
             }
@@ -220,7 +220,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Controllers {
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public async Task<HistoryReadNextResponseApiModel<JToken>> HistoryReadNextAsync(
+        public async Task<HistoryReadNextResponseApiModel<IValue>> HistoryReadNextAsync(
             HistoryReadNextRequestApiModel request) {
             if (request == null) {
                 throw new ArgumentNullException(nameof(request));
@@ -236,7 +236,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Controllers {
         /// <param name="request"></param>
         /// <returns></returns>
         public async Task<HistoryUpdateResponseApiModel> HistoryUpdateAsync(
-            HistoryUpdateRequestApiModel<JToken> request) {
+            HistoryUpdateRequestApiModel<IValue> request) {
             if (request == null) {
                 throw new ArgumentNullException(nameof(request));
             }

@@ -1285,7 +1285,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Gateway.Server {
                     if (nodesToRead[i].ContinuationPoint == null) {
                         // Call read first
                         var response = await _historian.HistoryReadAsync(endpointId,
-                            new HistoryReadRequestModel<JToken> {
+                            new HistoryReadRequestModel<IValue> {
                                 NodeId = nodesToRead[i].NodeId
                                     .AsString(context.Session.MessageContext),
                                 IndexRange = nodesToRead[i].IndexRange,
@@ -1366,7 +1366,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Gateway.Server {
                 try {
                     // Call service
                     var response = await _historian.HistoryUpdateAsync(endpointId,
-                        new HistoryUpdateRequestModel<JToken> {
+                        new HistoryUpdateRequestModel<IValue> {
                             Details = historyUpdateDetails == null ? null :
                                 codec.Encode(new Variant(historyUpdateDetails), out var tmp),
                             Header = new RequestHeaderModel {

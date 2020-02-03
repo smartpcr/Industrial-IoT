@@ -26,7 +26,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.Controller {
         /// <summary>
         /// Set and get the log level
         /// </summary>
-        public JToken LogLevel {
+        public IValue LogLevel {
             set {
                 if (value == null || value.Type == JTokenType.Null) {
                     // Set default

@@ -5,9 +5,9 @@
 
 namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Models {
     using Microsoft.Azure.IIoT.OpcUa.Api.Core.Models;
+    using Microsoft.Azure.IIoT.Serializers;
     using System.Runtime.Serialization;
     using System.ComponentModel.DataAnnotations;
-    using Newtonsoft.Json.Linq;
 
     /// <summary>
     /// Attribute and value to write to it
@@ -34,6 +34,6 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Models {
         /// </summary>
         [DataMember(Name = "value")]
         [Required]
-        public JToken Value { get; set; }
+        public VariantValue Value { get; set; }
     }
 }

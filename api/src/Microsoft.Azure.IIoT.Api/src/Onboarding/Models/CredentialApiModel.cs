@@ -25,6 +25,6 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Onboarding.Models {
         /// </summary>
         [DataMember(Name = "value",
             EmitDefaultValue = false)]
-        public JToken Value { get; set; }
+        public IValue Value { get; set; }
     }
 }

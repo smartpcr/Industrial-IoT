@@ -45,8 +45,8 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Clients {
         }
 
         /// <inheritdoc/>
-        public async Task<HistoryReadResponseApiModel<JToken>> HistoryReadRawAsync(
-            EndpointApiModel endpoint, HistoryReadRequestApiModel<JToken> request,
+        public async Task<HistoryReadResponseApiModel<VariantValue>> HistoryReadRawAsync(
+            EndpointApiModel endpoint, HistoryReadRequestApiModel<VariantValue> request,
             CancellationToken ct) {
             if (endpoint == null) {
                 throw new ArgumentNullException(nameof(endpoint));
@@ -65,11 +65,11 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Clients {
                     endpoint,
                     request
                 }), null, ct);
-            return _serializer.Deserialize<HistoryReadResponseApiModel<JToken>>(response);
+            return _serializer.Deserialize<HistoryReadResponseApiModel<VariantValue>>(response);
         }
 
         /// <inheritdoc/>
-        public async Task<HistoryReadNextResponseApiModel<JToken>> HistoryReadRawNextAsync(
+        public async Task<HistoryReadNextResponseApiModel<VariantValue>> HistoryReadRawNextAsync(
             EndpointApiModel endpoint, HistoryReadNextRequestApiModel request,
             CancellationToken ct) {
             if (endpoint == null) {
@@ -89,12 +89,12 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Clients {
                     endpoint,
                     request
                 }), null, ct);
-            return _serializer.Deserialize<HistoryReadNextResponseApiModel<JToken>>(response);
+            return _serializer.Deserialize<HistoryReadNextResponseApiModel<VariantValue>>(response);
         }
 
         /// <inheritdoc/>
         public async Task<HistoryUpdateResponseApiModel> HistoryUpdateRawAsync(
-            EndpointApiModel endpoint, HistoryUpdateRequestApiModel<JToken> request,
+            EndpointApiModel endpoint, HistoryUpdateRequestApiModel<VariantValue> request,
             CancellationToken ct) {
             if (endpoint == null) {
                 throw new ArgumentNullException(nameof(endpoint));

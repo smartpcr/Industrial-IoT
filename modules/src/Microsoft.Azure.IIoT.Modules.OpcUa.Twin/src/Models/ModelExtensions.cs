@@ -485,11 +485,11 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// Create from service model
         /// </summary>
         /// <param name="model"></param>
-        public static HistoryReadNextResponseApiModel<JToken> ToApiModel(this HistoryReadNextResultModel<JToken> model) {
+        public static HistoryReadNextResponseApiModel<IValue> ToApiModel(this HistoryReadNextResultModel<IValue> model) {
             if (model == null) {
                 return null;
             }
-            return new HistoryReadNextResponseApiModel<JToken> {
+            return new HistoryReadNextResponseApiModel<IValue> {
                 History = model.History,
                 ContinuationToken = model.ContinuationToken,
                 ErrorInfo = model.ErrorInfo.ToApiModel()
@@ -500,11 +500,11 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// Create from service model
         /// </summary>
         /// <param name="model"></param>
-        public static HistoryReadRequestApiModel<JToken> ToApiModel(this HistoryReadRequestModel<JToken> model) {
+        public static HistoryReadRequestApiModel<IValue> ToApiModel(this HistoryReadRequestModel<IValue> model) {
             if (model == null) {
                 return null;
             }
-            return new HistoryReadRequestApiModel<JToken> {
+            return new HistoryReadRequestApiModel<IValue> {
                 NodeId = model.NodeId,
                 BrowsePath = model.BrowsePath,
                 IndexRange = model.IndexRange,
@@ -517,11 +517,11 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// Convert back to service model
         /// </summary>
         /// <returns></returns>
-        public static HistoryReadRequestModel<JToken> ToServiceModel(this HistoryReadRequestApiModel<JToken> model) {
+        public static HistoryReadRequestModel<IValue> ToServiceModel(this HistoryReadRequestApiModel<IValue> model) {
             if (model == null) {
                 return null;
             }
-            return new HistoryReadRequestModel<JToken> {
+            return new HistoryReadRequestModel<IValue> {
                 NodeId = model.NodeId,
                 BrowsePath = model.BrowsePath,
                 IndexRange = model.IndexRange,
@@ -534,11 +534,11 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// Create from service model
         /// </summary>
         /// <param name="model"></param>
-        public static HistoryReadResponseApiModel<JToken> ToApiModel(this HistoryReadResultModel<JToken> model) {
+        public static HistoryReadResponseApiModel<IValue> ToApiModel(this HistoryReadResultModel<IValue> model) {
             if (model == null) {
                 return null;
             }
-            return new HistoryReadResponseApiModel<JToken> {
+            return new HistoryReadResponseApiModel<IValue> {
                 History = model.History,
                 ContinuationToken = model.ContinuationToken,
                 ErrorInfo = model.ErrorInfo.ToApiModel()
@@ -549,11 +549,11 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// Create from service model
         /// </summary>
         /// <param name="model"></param>
-        public static HistoryUpdateRequestApiModel<JToken> ToApiModel(this HistoryUpdateRequestModel<JToken> model) {
+        public static HistoryUpdateRequestApiModel<IValue> ToApiModel(this HistoryUpdateRequestModel<IValue> model) {
             if (model == null) {
                 return null;
             }
-            return new HistoryUpdateRequestApiModel<JToken> {
+            return new HistoryUpdateRequestApiModel<IValue> {
                 Details = model.Details,
                 NodeId = model.NodeId,
                 BrowsePath = model.BrowsePath,
@@ -565,11 +565,11 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// Convert back to service model
         /// </summary>
         /// <returns></returns>
-        public static HistoryUpdateRequestModel<JToken> ToServiceModel(this HistoryUpdateRequestApiModel<JToken> model) {
+        public static HistoryUpdateRequestModel<IValue> ToServiceModel(this HistoryUpdateRequestApiModel<IValue> model) {
             if (model == null) {
                 return null;
             }
-            return new HistoryUpdateRequestModel<JToken> {
+            return new HistoryUpdateRequestModel<IValue> {
                 Details = model.Details,
                 NodeId = model.NodeId,
                 BrowsePath = model.BrowsePath,

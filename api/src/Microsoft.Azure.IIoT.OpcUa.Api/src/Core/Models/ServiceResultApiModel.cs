@@ -4,8 +4,8 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Api.Core.Models {
+    using Microsoft.Azure.IIoT.Serializers;
     using System.Runtime.Serialization;
-    using Newtonsoft.Json.Linq;
     using System.ComponentModel;
 
     /// <summary>
@@ -36,6 +36,6 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Core.Models {
         [DataMember(Name = "diagnostics",
             EmitDefaultValue = false)]
         [DefaultValue(null)]
-        public JToken Diagnostics { get; set; }
+        public VariantValue Diagnostics { get; set; }
     }
 }

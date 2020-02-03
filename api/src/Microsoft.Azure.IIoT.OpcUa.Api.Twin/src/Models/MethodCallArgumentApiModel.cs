@@ -4,8 +4,8 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Models {
+    using Microsoft.Azure.IIoT.Serializers;
     using System.Runtime.Serialization;
-    using Newtonsoft.Json.Linq;
 
     /// <summary>
     /// method arg model
@@ -17,7 +17,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Models {
         /// Initial value or value to use
         /// </summary>
         [DataMember(Name = "value")]
-        public JToken Value { get; set; }
+        public VariantValue Value { get; set; }
 
         /// <summary>
         /// Data type Id of the value (from meta data)

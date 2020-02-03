@@ -33,7 +33,7 @@ namespace Microsoft.Azure.IIoT.Modules.Diagnostic.v2.Supervisor {
         /// <summary>
         /// Set and get the log level
         /// </summary>
-        public JToken LogLevel {
+        public IValue LogLevel {
             set {
                 if (value == null || value.Type == JTokenType.Null) {
                     // Set default
@@ -64,7 +64,7 @@ namespace Microsoft.Azure.IIoT.Modules.Diagnostic.v2.Supervisor {
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public JToken this[string key] {
+        public IValue this[string key] {
             set {
                 if (value == null || value.Type == JTokenType.Null) {
                     _tempState.AddOrUpdate(key, null);

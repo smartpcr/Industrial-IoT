@@ -44,7 +44,7 @@ namespace Microsoft.Azure.IIoT.Modules.Diagnostic.v2.Supervisor {
         /// Handle echo
         /// </summary>
         /// <returns></returns>
-        public Task<JToken> EchoAsync(JToken token) {
+        public Task<IValue> EchoAsync(JToken token) {
             _logger.Verbose("Processed ECHO: {token}", 
                 token.ToString(Newtonsoft.Json.Formatting.None));
             return Task.FromResult(token);

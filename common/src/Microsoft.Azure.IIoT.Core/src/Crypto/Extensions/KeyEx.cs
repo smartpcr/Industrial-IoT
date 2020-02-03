@@ -109,6 +109,7 @@ namespace Microsoft.Azure.IIoT.Crypto.Models {
                     throw new NotSupportedException("Algorithm not supported");
             }
         }
+
         /// <summary>
         /// Convert to key
         /// </summary>
@@ -137,15 +138,6 @@ namespace Microsoft.Azure.IIoT.Crypto.Models {
                 default:
                     throw new NotSupportedException("Algorithm not supported");
             }
-        }
-
-        /// <summary>
-        /// Key to json
-        /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
-        public static JToken ToJToken(this Key key) {
-            return JToken.FromObject(key);
         }
 
         /// <summary>

@@ -1,5 +1,5 @@
 ﻿
-namespace Microsoft.Azure.IIoT.Cdm.Models {    
+namespace Microsoft.Azure.IIoT.Cdm.Models {
     using System;
 
     /// <summary>
@@ -41,10 +41,10 @@ namespace Microsoft.Azure.IIoT.Cdm.Models {
         /// Source time stamp
         /// </summary>
         public DateTime? SourceTimestamp { get; set; }
-		
+
         /// <summary>
         /// Source time stamp picoseconds
-        /// </summary>		
+        /// </summary>
         public ushort? SourcePicoseconds { get; set; }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace Microsoft.Azure.IIoT.Cdm.Models {
 
         /// <summary>
         /// Server timestamp picoseconds
-        /// </summary>		
+        /// </summary>
         public ushort? ServerPicoseconds { get; set; }
     }
 }

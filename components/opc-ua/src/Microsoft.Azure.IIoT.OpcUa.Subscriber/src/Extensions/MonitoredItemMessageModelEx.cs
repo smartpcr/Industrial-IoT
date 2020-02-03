@@ -61,7 +61,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Subscriber.Models {
             var dataValue = sampleRoot;
             if (IsDataValue(value)) {
                 dataValue = value as JObject;
-                value = dataValue.GetValueOrDefault<JToken>("Value",
+                value = dataValue.GetValueOrDefault<IValue>("Value",
                     StringComparison.InvariantCultureIgnoreCase);
             }
 

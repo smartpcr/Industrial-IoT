@@ -21,7 +21,7 @@ namespace Microsoft.Azure.IIoT.Modules.Discovery.Controllers {
         /// <summary>
         /// Enable or disable discovery on supervisor
         /// </summary>
-        public JToken Discovery {
+        public IValue Discovery {
             set {
                 if (value == null) {
                     _discovery.Mode = DiscoveryMode.Off;
@@ -61,7 +61,7 @@ namespace Microsoft.Azure.IIoT.Modules.Discovery.Controllers {
         /// <summary>
         /// Network probe timeout.
         /// </summary>
-        public JToken NetworkProbeTimeout {
+        public IValue NetworkProbeTimeout {
             set => _discovery.Configuration.NetworkProbeTimeout =
                 value?.ToObject<TimeSpan>();
             get => _discovery.Configuration.NetworkProbeTimeout;
@@ -70,7 +70,7 @@ namespace Microsoft.Azure.IIoT.Modules.Discovery.Controllers {
         /// <summary>
         /// Max network probes that should ever run.
         /// </summary>
-        public JToken MaxNetworkProbes {
+        public IValue MaxNetworkProbes {
             set => _discovery.Configuration.MaxNetworkProbes =
                 value?.ToObject<int>();
             get => _discovery.Configuration.MaxNetworkProbes;
@@ -88,7 +88,7 @@ namespace Microsoft.Azure.IIoT.Modules.Discovery.Controllers {
         /// <summary>
         /// Port probe timeout
         /// </summary>
-        public JToken PortProbeTimeout {
+        public IValue PortProbeTimeout {
             set => _discovery.Configuration.PortProbeTimeout =
                 value?.ToObject<TimeSpan>();
             get => _discovery.Configuration.PortProbeTimeout;
@@ -97,7 +97,7 @@ namespace Microsoft.Azure.IIoT.Modules.Discovery.Controllers {
         /// <summary>
         /// Max port probes that should ever run.
         /// </summary>
-        public JToken MaxPortProbes {
+        public IValue MaxPortProbes {
             set => _discovery.Configuration.MaxPortProbes =
                 value?.ToObject<int>();
             get => _discovery.Configuration.MaxPortProbes;
@@ -106,7 +106,7 @@ namespace Microsoft.Azure.IIoT.Modules.Discovery.Controllers {
         /// <summary>
         /// Probes that must always be there as percent of max.
         /// </summary>
-        public JToken MinPortProbesPercent {
+        public IValue MinPortProbesPercent {
             set => _discovery.Configuration.MinPortProbesPercent =
                 value?.ToObject<int>();
             get => _discovery.Configuration.MinPortProbesPercent;
@@ -115,7 +115,7 @@ namespace Microsoft.Azure.IIoT.Modules.Discovery.Controllers {
         /// <summary>
         /// Delay time between discovery sweeps
         /// </summary>
-        public JToken IdleTimeBetweenScans {
+        public IValue IdleTimeBetweenScans {
             set => _discovery.Configuration.IdleTimeBetweenScans =
                 value?.ToObject<TimeSpan>();
             get => _discovery.Configuration.IdleTimeBetweenScans;

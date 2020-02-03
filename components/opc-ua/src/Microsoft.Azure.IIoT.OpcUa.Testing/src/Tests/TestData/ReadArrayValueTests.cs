@@ -7,7 +7,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Testing.Tests {
     using Microsoft.Azure.IIoT.OpcUa.Twin.Models;
     using Microsoft.Azure.IIoT.OpcUa.Core.Models;
     using Microsoft.Azure.IIoT.OpcUa.Twin;
-    using Newtonsoft.Json.Linq;
+    using Microsoft.Azure.IIoT.Serializers;
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
@@ -22,7 +22,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Testing.Tests {
         /// <param name="endpoint"></param>
         /// <param name="readExpected"></param>
         public ReadArrayValueTests(Func<INodeServices<T>> services, T endpoint,
-            Func<T, string, Task<JToken>> readExpected) {
+            Func<T, string, Task<VariantValue>> readExpected) {
             _services = services;
             _endpoint = endpoint;
             _readExpected = readExpected;
@@ -976,7 +976,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Testing.Tests {
         }
 
         private readonly T _endpoint;
-        private readonly Func<T, string, Task<JToken>> _readExpected;
+        private readonly Func<T, string, Task<VariantValue>> _readExpected;
         private readonly Func<INodeServices<T>> _services;
     }
 }

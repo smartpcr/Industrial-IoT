@@ -167,18 +167,18 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Clients {
         }
 
         /// <inheritdoc/>
-        public async Task<HistoryReadResultModel<JToken>> HistoryReadAsync(
-            string endpointId, HistoryReadRequestModel<JToken> request) {
+        public async Task<HistoryReadResultModel<VariantValue>> HistoryReadAsync(
+            string endpointId, HistoryReadRequestModel<VariantValue> request) {
             if (request == null) {
                 throw new ArgumentNullException(nameof(request));
             }
-            var result = await CallServiceOnTwinAsync<HistoryReadRequestModel<JToken>, HistoryReadResultModel<JToken>>(
+            var result = await CallServiceOnTwinAsync<HistoryReadRequestModel<VariantValue>, HistoryReadResultModel<VariantValue>>(
                 "HistoryRead_V2", endpointId, request);
             return result;
         }
 
         /// <inheritdoc/>
-        public async Task<HistoryReadNextResultModel<JToken>> HistoryReadNextAsync(
+        public async Task<HistoryReadNextResultModel<VariantValue>> HistoryReadNextAsync(
             string endpointId, HistoryReadNextRequestModel request) {
             if (request == null) {
                 throw new ArgumentNullException(nameof(request));
@@ -186,21 +186,21 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Clients {
             if (string.IsNullOrEmpty(request.ContinuationToken)) {
                 throw new ArgumentNullException(nameof(request.ContinuationToken));
             }
-            var result = await CallServiceOnTwinAsync<HistoryReadNextRequestModel, HistoryReadNextResultModel<JToken>>(
+            var result = await CallServiceOnTwinAsync<HistoryReadNextRequestModel, HistoryReadNextResultModel<VariantValue>>(
                 "HistoryReadNext_V2", endpointId, request);
             return result;
         }
 
         /// <inheritdoc/>
         public async Task<HistoryUpdateResultModel> HistoryUpdateAsync(
-            string endpointId, HistoryUpdateRequestModel<JToken> request) {
+            string endpointId, HistoryUpdateRequestModel<VariantValue> request) {
             if (request == null) {
                 throw new ArgumentNullException(nameof(request));
             }
             if (request.Details == null) {
                 throw new ArgumentNullException(nameof(request.Details));
             }
-            var result = await CallServiceOnTwinAsync<HistoryUpdateRequestModel<JToken>, HistoryUpdateResultModel>(
+            var result = await CallServiceOnTwinAsync<HistoryUpdateRequestModel<VariantValue>, HistoryUpdateResultModel>(
                 "HistoryUpdate_V2", endpointId, request);
             return result;
         }

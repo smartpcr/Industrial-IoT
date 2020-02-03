@@ -6,8 +6,8 @@
 namespace Microsoft.Azure.IIoT.OpcUa.Vault.Storage.Models {
     using Microsoft.Azure.IIoT.OpcUa.Core.Models;
     using Microsoft.Azure.IIoT.OpcUa.Vault.Models;
+    using Microsoft.Azure.IIoT.Serializers;
     using System.Runtime.Serialization;
-    using Newtonsoft.Json.Linq;
 
     /// <summary>
     /// Certificate request document in cosmos db
@@ -91,7 +91,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Vault.Storage.Models {
         /// Error information
         /// </summary>
         [DataMember]
-        public JToken ErrorInfo { get; set; }
+        public VariantValue ErrorInfo { get; set; }
 
         /// <summary>
         /// Request time

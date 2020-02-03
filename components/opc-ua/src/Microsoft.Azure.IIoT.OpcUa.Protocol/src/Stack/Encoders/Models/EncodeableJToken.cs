@@ -15,7 +15,7 @@ namespace Opc.Ua.Encoders {
         /// <summary>
         /// The encoded object
         /// </summary>
-        public JToken JToken { get; private set; }
+        public IValue JToken { get; private set; }
 
         /// <summary>
         /// Create encodeable token

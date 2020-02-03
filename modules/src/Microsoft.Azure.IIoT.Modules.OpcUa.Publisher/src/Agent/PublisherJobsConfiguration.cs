@@ -10,8 +10,8 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.Agent {
     using Microsoft.Azure.IIoT.OpcUa.Publisher.Models;
     using Microsoft.Azure.IIoT.Agent.Framework;
     using Microsoft.Azure.IIoT.Agent.Framework.Exceptions;
+    using Microsoft.Azure.IIoT.Serializers;
     using Autofac;
-    using Newtonsoft.Json.Linq;
 
     /// <summary>
     /// Publish jobs configuration module
@@ -23,8 +23,16 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.Agent {
         /// </summary>
         public sealed class PublisherJobSerializer : IJobSerializer {
 
+            /// <summary>
+            /// Cerate job serializer
+            /// </summary>
+            /// <param name="serializer"></param>
+            public PublisherJobSerializer(IJsonSerializer serializer) {
+                _serializer = serializer;
+            }
+
             /// <inheritdoc/>
-            public object DeserializeJobConfiguration(JToken model, string jobConfigurationType) {
+            public object DeserializeJobConfiguration(VariantValue model, string jobConfigurationType) {
                 switch (jobConfigurationType) {
                     case kDataSetWriterJobV2:
                         return model.ToObject<WriterGroupJobApiModel>().ToServiceModel();
@@ -34,15 +42,17 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.Agent {
             }
 
             /// <inheritdoc/>
-            public JToken SerializeJobConfiguration<T>(T jobConfig, out string jobConfigurationType) {
+            public VariantValue SerializeJobConfiguration<T>(T jobConfig, out string jobConfigurationType) {
                 switch (jobConfig) {
                     case WriterGroupJobModel pj:
                         jobConfigurationType = kDataSetWriterJobV2;
-                        return JObject.FromObject(pj.ToApiModel());
+                        return _serializer.FromObject(pj.ToApiModel());
                         // ... Add more if needed
                 }
                 throw new UnknownJobTypeException(typeof(T).Name);
             }
+
+            private readonly IJsonSerializer _serializer;
         }
 
         /// <inheritdoc/>

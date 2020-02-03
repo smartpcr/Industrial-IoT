@@ -4,8 +4,8 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Models {
+    using Microsoft.Azure.IIoT.Serializers;
     using System.Runtime.Serialization;
-    using Newtonsoft.Json.Linq;
     using System;
 
     /// <summary>
@@ -46,7 +46,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Models {
         /// </summary>
         [DataMember(Name = "value",
             EmitDefaultValue = false)]
-        public JToken Value { get; set; }
+        public VariantValue Value { get; set; }
 
         /// <summary>
         /// Type id

@@ -9,7 +9,6 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Clients {
     using Microsoft.Azure.IIoT.Serializers;
     using System;
     using System.Threading.Tasks;
-    using Newtonsoft.Json.Linq;
     using System.Threading;
 
     /// <summary>
@@ -25,7 +24,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Clients {
         /// <param name="serializer"></param>
         public HistoryServiceClient(IHttpClient httpClient, IHistoryConfig config,
             IJsonSerializer serializer) : this(httpClient,
-                config?.OpcUaHistoryServiceUrl, config?.OpcUaHistoryServiceResourceId, 
+                config?.OpcUaHistoryServiceUrl, config?.OpcUaHistoryServiceResourceId,
                 serializer) {
         }
 
@@ -58,8 +57,8 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Clients {
         }
 
         /// <inheritdoc/>
-        public async Task<HistoryReadResponseApiModel<JToken>> HistoryReadRawAsync(
-            string endpointId, HistoryReadRequestApiModel<JToken> content, CancellationToken ct) {
+        public async Task<HistoryReadResponseApiModel<VariantValue>> HistoryReadRawAsync(
+            string endpointId, HistoryReadRequestApiModel<VariantValue> content, CancellationToken ct) {
             if (string.IsNullOrEmpty(endpointId)) {
                 throw new ArgumentNullException(nameof(endpointId));
             }
@@ -74,11 +73,11 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Clients {
             _serializer.SerializeToRequest(request, content);
             var response = await _httpClient.PostAsync(request, ct).ConfigureAwait(false);
             response.Validate();
-            return _serializer.DeserializeResponse<HistoryReadResponseApiModel<JToken>>(response);
+            return _serializer.DeserializeResponse<HistoryReadResponseApiModel<VariantValue>>(response);
         }
 
         /// <inheritdoc/>
-        public async Task<HistoryReadNextResponseApiModel<JToken>> HistoryReadRawNextAsync(
+        public async Task<HistoryReadNextResponseApiModel<VariantValue>> HistoryReadRawNextAsync(
             string endpointId, HistoryReadNextRequestApiModel content, CancellationToken ct) {
             if (string.IsNullOrEmpty(endpointId)) {
                 throw new ArgumentNullException(nameof(endpointId));
@@ -94,12 +93,12 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Clients {
             _serializer.SerializeToRequest(request, content);
             var response = await _httpClient.PostAsync(request, ct).ConfigureAwait(false);
             response.Validate();
-            return _serializer.DeserializeResponse<HistoryReadNextResponseApiModel<JToken>>(response);
+            return _serializer.DeserializeResponse<HistoryReadNextResponseApiModel<VariantValue>>(response);
         }
 
         /// <inheritdoc/>
         public async Task<HistoryUpdateResponseApiModel> HistoryUpdateRawAsync(
-            string endpointId, HistoryUpdateRequestApiModel<JToken> content, CancellationToken ct) {
+            string endpointId, HistoryUpdateRequestApiModel<VariantValue> content, CancellationToken ct) {
             if (string.IsNullOrEmpty(endpointId)) {
                 throw new ArgumentNullException(nameof(endpointId));
             }

@@ -24,7 +24,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Testing.Tests {
         /// <param name="endpoint"></param>
         /// <param name="readExpected"></param>
         public WriteArrayValueTests(Func<INodeServices<T>> services, T endpoint,
-            Func<T, string, Task<JToken>> readExpected) {
+            Func<T, string, Task<IValue>> readExpected) {
             _services = services;
             _endpoint = endpoint;
             _readExpected = readExpected;
@@ -1424,7 +1424,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Testing.Tests {
         }
 
         private readonly T _endpoint;
-        private readonly Func<T, string, Task<JToken>> _readExpected;
+        private readonly Func<T, string, Task<IValue>> _readExpected;
         private readonly Func<INodeServices<T>> _services;
         private readonly Opc.Ua.Test.TestDataGenerator _generator =
             new Opc.Ua.Test.TestDataGenerator();

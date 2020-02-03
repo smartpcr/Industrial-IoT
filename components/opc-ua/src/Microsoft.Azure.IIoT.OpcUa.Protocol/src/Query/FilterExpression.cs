@@ -210,7 +210,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Parser {
         /// <param name="records"></param>
         /// <param name="context"></param>
         /// <returns></returns>
-        private IEnumerable<JToken> Project(IEnumerable<JToken> records,
+        private IEnumerable<IValue> Project(IEnumerable<IValue> records,
             FilterParser.ParseContext context) {
             if (context == null) {
                 throw new ArgumentNullException(nameof(context));

@@ -12,6 +12,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Control.Services {
     using Microsoft.Azure.IIoT.OpcUa.Protocol;
     using Microsoft.Azure.IIoT.OpcUa.Protocol.Models;
     using Microsoft.Azure.IIoT.Exceptions;
+    using Microsoft.Azure.IIoT.Serializers;
     using Serilog;
     using Opc.Ua;
     using Opc.Ua.Client;
@@ -628,8 +629,8 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Control.Services {
         }
 
         /// <inheritdoc/>
-        public Task<HistoryReadResultModel<JToken>> HistoryReadAsync(EndpointModel endpoint,
-            HistoryReadRequestModel<JToken> request) {
+        public Task<HistoryReadResultModel<VariantValue>> HistoryReadAsync(EndpointModel endpoint,
+            HistoryReadRequestModel<VariantValue> request) {
             if (request == null) {
                 throw new ArgumentNullException(nameof(request));
             }
@@ -670,7 +671,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Control.Services {
                     response.DiagnosticInfos, false);
                 SessionClientEx.Validate(response.Results, response.DiagnosticInfos);
 
-                return new HistoryReadResultModel<JToken> {
+                return new HistoryReadResultModel<VariantValue> {
                     ContinuationToken = response.Results[0].ContinuationPoint.ToBase64String(),
                     History = codec.Encode(new Variant(response.Results[0].HistoryData), out var tmp),
                     ErrorInfo = diagnostics.ToServiceModel(request.Header?.Diagnostics,
@@ -680,7 +681,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Control.Services {
         }
 
         /// <inheritdoc/>
-        public Task<HistoryReadNextResultModel<JToken>> HistoryReadNextAsync(EndpointModel endpoint,
+        public Task<HistoryReadNextResultModel<VariantValue>> HistoryReadNextAsync(EndpointModel endpoint,
             HistoryReadNextRequestModel request) {
             if (request == null) {
                 throw new ArgumentNullException(nameof(request));
@@ -704,7 +705,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Control.Services {
                         diagnostics, response.Results.Select(r => r.StatusCode),
                         response.DiagnosticInfos, false);
                     SessionClientEx.Validate(response.Results, response.DiagnosticInfos);
-                    return new HistoryReadNextResultModel<JToken> {
+                    return new HistoryReadNextResultModel<VariantValue> {
                         ContinuationToken = response.Results[0].ContinuationPoint.ToBase64String(),
                         History = codec.Encode(new Variant(response.Results[0].HistoryData),
                             out var tmp),
@@ -716,7 +717,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Control.Services {
 
         /// <inheritdoc/>
         public Task<HistoryUpdateResultModel> HistoryUpdateAsync(EndpointModel endpoint,
-            HistoryUpdateRequestModel<JToken> request) {
+            HistoryUpdateRequestModel<VariantValue> request) {
             if (request == null) {
                 throw new ArgumentNullException(nameof(request));
             }

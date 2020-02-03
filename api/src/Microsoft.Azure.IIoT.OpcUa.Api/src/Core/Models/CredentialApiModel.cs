@@ -4,8 +4,8 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Api.Core.Models {
+    using Microsoft.Azure.IIoT.Serializers;
     using System.Runtime.Serialization;
-    using Newtonsoft.Json.Linq;
 
     /// <summary>
     /// Credential model
@@ -25,6 +25,6 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Core.Models {
         /// </summary>
         [DataMember(Name = "value",
             EmitDefaultValue = false)]
-        public JToken Value { get; set; }
+        public VariantValue Value { get; set; }
     }
 }

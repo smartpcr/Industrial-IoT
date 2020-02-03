@@ -11,4 +11,7 @@
     <EmbeddedResource Remove="Hosting\**" />
     <None Remove="Hosting\**" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Serializers\Models\" />
+  </ItemGroup>
 </Project>

@@ -4,7 +4,7 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Protocol {
-    using Newtonsoft.Json.Linq;
+    using Microsoft.Azure.IIoT.Serializers;
     using Opc.Ua;
     using Opc.Ua.Extensions;
 
@@ -19,7 +19,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol {
         /// <param name="encoder"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static JToken Encode(this IVariantEncoder encoder, Variant value) {
+        public static VariantValue Encode(this IVariantEncoder encoder, Variant value) {
             return encoder.Encode(value, out var tmp);
         }
 
@@ -29,7 +29,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol {
         /// <param name="encoder"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static Variant Decode(this IVariantEncoder encoder, JToken value) {
+        public static Variant Decode(this IVariantEncoder encoder, VariantValue value) {
             return encoder.Decode(value, BuiltInType.Null);
         }
 
@@ -40,7 +40,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol {
         /// <param name="value"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        public static Variant Decode(this IVariantEncoder encoder, JToken value,
+        public static Variant Decode(this IVariantEncoder encoder, VariantValue value,
             string type) {
             return encoder.Decode(value, string.IsNullOrEmpty(type) ? BuiltInType.Null :
                 TypeInfo.GetBuiltInType(type.ToNodeId(encoder.Context)));

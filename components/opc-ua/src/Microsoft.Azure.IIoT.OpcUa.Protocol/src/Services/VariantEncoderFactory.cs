@@ -5,6 +5,7 @@
 
 namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Services {
     using Microsoft.Azure.IIoT.Exceptions;
+    using Microsoft.Azure.IIoT.Serializers;
     using Microsoft.Azure.IIoT.Utils;
     using Newtonsoft.Json.Linq;
     using Opc.Ua;
@@ -44,7 +45,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Services {
             }
 
             /// <inheritdoc/>
-            public JToken Encode(Variant value, out BuiltInType builtinType) {
+            public VariantValue Encode(Variant value, out BuiltInType builtinType) {
 
                 if (value == Variant.Null) {
                     builtinType = BuiltInType.Null;
@@ -71,7 +72,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Services {
             }
 
             /// <inheritdoc/>
-            public Variant Decode(JToken value, BuiltInType builtinType) {
+            public Variant Decode(VariantValue value, BuiltInType builtinType) {
 
                 //
                 // Sanitize json input from user

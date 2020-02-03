@@ -5,9 +5,9 @@
 
 namespace Microsoft.Azure.IIoT.Agent.Framework.Serializer {
     using Microsoft.Azure.IIoT.Agent.Framework.Exceptions;
+    using Microsoft.Azure.IIoT.Serializers;
     using System;
     using System.Linq;
-    using Newtonsoft.Json.Linq;
 
     /// <summary>
     /// Default job configuration serializer
@@ -17,19 +17,22 @@ namespace Microsoft.Azure.IIoT.Agent.Framework.Serializer {
         /// <summary>
         /// Create serializer
         /// </summary>
+        /// <param name="serializer"></param>
         /// <param name="knownJobConfigProvider"></param>
-        public DefaultJobSerializer(IKnownJobConfigProvider knownJobConfigProvider) {
+        public DefaultJobSerializer(IJsonSerializer serializer,
+            IKnownJobConfigProvider knownJobConfigProvider) {
+            _serializer = serializer;
             _knownJobConfigProvider = knownJobConfigProvider;
         }
 
         /// <inheritdoc/>
-        public JToken SerializeJobConfiguration<T>(T jobConfig, out string jobConfigurationType) {
+        public VariantValue SerializeJobConfiguration<T>(T jobConfig, out string jobConfigurationType) {
             jobConfigurationType = typeof(T).Name;
-            return JObject.FromObject(jobConfig);
+            return _serializer.FromObject(jobConfig);
         }
 
         /// <inheritdoc/>
-        public object DeserializeJobConfiguration(JToken model, string jobConfigurationType) {
+        public object DeserializeJobConfiguration(VariantValue model, string jobConfigurationType) {
             var type = _knownJobConfigProvider.KnownJobTypes
                 .SingleOrDefault(t => t.Name.Equals(jobConfigurationType, StringComparison.OrdinalIgnoreCase));
             if (type == null) {
@@ -38,6 +41,7 @@ namespace Microsoft.Azure.IIoT.Agent.Framework.Serializer {
             return model.ToObject(type);
         }
 
+        private readonly IJsonSerializer _serializer;
         private readonly IKnownJobConfigProvider _knownJobConfigProvider;
     }
 }

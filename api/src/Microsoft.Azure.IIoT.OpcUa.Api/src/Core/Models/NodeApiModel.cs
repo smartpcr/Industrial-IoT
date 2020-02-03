@@ -4,8 +4,8 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Api.Core.Models {
+    using Microsoft.Azure.IIoT.Serializers;
     using System.Runtime.Serialization;
-    using Newtonsoft.Json.Linq;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -126,7 +126,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Core.Models {
         /// </summary>
         [DataMember(Name = "dataTypeDefinition",
             EmitDefaultValue = false)]
-        public JToken DataTypeDefinition { get; set; }
+        public VariantValue DataTypeDefinition { get; set; }
 
         /// <summary>
         /// Default access level for variable node.
@@ -193,7 +193,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Core.Models {
         /// </summary>
         [DataMember(Name = "value",
             EmitDefaultValue = false)]
-        public JToken Value { get; set; }
+        public VariantValue Value { get; set; }
 
         /// <summary>
         /// Inverse name of the reference if the node is

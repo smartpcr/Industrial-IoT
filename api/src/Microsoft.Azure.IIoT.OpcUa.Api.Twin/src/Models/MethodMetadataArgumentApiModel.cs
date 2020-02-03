@@ -5,8 +5,8 @@
 
 namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Models {
     using Microsoft.Azure.IIoT.OpcUa.Api.Core.Models;
+    using Microsoft.Azure.IIoT.Serializers;
     using System.Runtime.Serialization;
-    using Newtonsoft.Json.Linq;
 
     /// <summary>
     /// Method argument metadata model
@@ -38,7 +38,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Models {
         /// </summary>
         [DataMember(Name = "defaultValue",
             EmitDefaultValue = false)]
-        public JToken DefaultValue { get; set; }
+        public VariantValue DefaultValue { get; set; }
 
         /// <summary>
         /// Optional, scalar if not set

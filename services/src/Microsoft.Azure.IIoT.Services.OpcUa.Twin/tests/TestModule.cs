@@ -102,20 +102,20 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin {
         }
 
         /// <inheritdoc/>
-        public Task<HistoryReadResultModel<JToken>> HistoryReadAsync(
-            string endpointId, HistoryReadRequestModel<JToken> request) {
+        public Task<HistoryReadResultModel<IValue>> HistoryReadAsync(
+            string endpointId, HistoryReadRequestModel<IValue> request) {
             return _history.HistoryReadAsync(Endpoint, request);
         }
 
         /// <inheritdoc/>
-        public Task<HistoryReadNextResultModel<JToken>> HistoryReadNextAsync(
+        public Task<HistoryReadNextResultModel<IValue>> HistoryReadNextAsync(
             string endpointId, HistoryReadNextRequestModel request) {
             return _history.HistoryReadNextAsync(Endpoint, request);
         }
 
         /// <inheritdoc/>
         public Task<HistoryUpdateResultModel> HistoryUpdateAsync(
-            string endpointId, HistoryUpdateRequestModel<JToken> request) {
+            string endpointId, HistoryUpdateRequestModel<IValue> request) {
             return _history.HistoryUpdateAsync(Endpoint, request);
         }
 

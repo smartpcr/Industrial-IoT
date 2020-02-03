@@ -4,8 +4,8 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Api.Onboarding.Models {
+    using Microsoft.Azure.IIoT.Serializers;
     using System.Runtime.Serialization;
-    using Newtonsoft.Json.Linq;
 
     /// <summary>
     /// Discovery result model
@@ -40,7 +40,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Onboarding.Models {
         /// </summary>
         [DataMember(Name = "diagnostics",
             EmitDefaultValue = false)]
-        public JToken Diagnostics { get; set; }
+        public VariantValue Diagnostics { get; set; }
 
         /// <summary>
         /// Operation audit context

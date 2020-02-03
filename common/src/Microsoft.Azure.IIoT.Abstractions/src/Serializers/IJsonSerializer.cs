@@ -36,13 +36,13 @@ namespace Microsoft.Azure.IIoT.Serializers {
         /// <param name="type"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        object ToObject(IValue token, Type type);
+        object ToObject(VariantValue token, Type type);
 
         /// <summary>
         /// Convert to token.
         /// </summary>
         /// <param name="o"></param>
         /// <returns></returns>
-        IValue FromObject(object o);
+        VariantValue FromObject(object o);
     }
 }

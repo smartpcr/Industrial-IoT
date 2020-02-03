@@ -36,7 +36,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Subscriber.Handlers {
         public async Task HandleAsync(string deviceId, string moduleId,
             byte[] payload, IDictionary<string, string> properties, Func<Task> checkpoint) {
             var json = Encoding.UTF8.GetString(payload);
-            IEnumerable<JToken> messages;
+            IEnumerable<IValue> messages;
             try {
                 var parsed = JToken.Parse(json);
                 if (parsed.Type == JTokenType.Array) {

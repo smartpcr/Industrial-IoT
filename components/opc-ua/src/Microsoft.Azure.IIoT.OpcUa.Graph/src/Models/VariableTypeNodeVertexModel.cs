@@ -4,10 +4,10 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Graph.Models {
-    using Gremlin.Net.CosmosDb.Structure;
     using Microsoft.Azure.IIoT.OpcUa.Core.Models;
+    using Microsoft.Azure.IIoT.Serializers;
+    using Gremlin.Net.CosmosDb.Structure;
     using System.Runtime.Serialization;
-    using Newtonsoft.Json.Linq;
     using Opc.Ua;
 
     /// <summary>
@@ -45,7 +45,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Graph.Models {
         /// </summary>
         [DataMember(Name = "value",
             EmitDefaultValue = false)]
-        public JToken Value { get; set; }
+        public VariantValue Value { get; set; }
 
         /// <summary>
         /// Built in type of the value.

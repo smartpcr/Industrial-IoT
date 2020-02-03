@@ -4,8 +4,8 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Models {
+    using Microsoft.Azure.IIoT.Serializers;
     using System.Runtime.Serialization;
-    using Newtonsoft.Json.Linq;
     using System.Collections.Generic;
 
     /// <summary>
@@ -19,6 +19,6 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Models {
         /// </summary>
         [DataMember(Name = "eventFields",
             EmitDefaultValue = false)]
-        public List<JToken> EventFields { get; set; }
+        public List<VariantValue> EventFields { get; set; }
     }
 }

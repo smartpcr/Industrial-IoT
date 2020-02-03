@@ -30,7 +30,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Controllers {
         /// <summary>
         /// Set and get the log level
         /// </summary>
-        public JToken LogLevel {
+        public IValue LogLevel {
             set {
                 if (value == null || value.Type == JTokenType.Null) {
                     // Set default
@@ -61,7 +61,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Controllers {
         /// </summary>
         /// <param name="endpointId"></param>
         /// <returns></returns>
-        public JToken this[string endpointId] {
+        public IValue this[string endpointId] {
             set {
                 if (value == null || value.Type == JTokenType.Null) {
                     _endpoints.AddOrUpdate(endpointId, null);

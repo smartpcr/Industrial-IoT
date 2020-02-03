@@ -47,6 +47,6 @@ namespace Microsoft.Azure.IIoT.Api.Jobs.Models {
         /// </summary>
         [DataMember(Name = "state",
             EmitDefaultValue = false)]
-        public JToken State { get; set; }
+        public IValue State { get; set; }
     }
 }

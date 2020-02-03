@@ -4,7 +4,7 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Subscriber.Models {
-    using Newtonsoft.Json.Linq;
+    using Microsoft.Azure.IIoT.Serializers;
     using System;
 
     /// <summary>
@@ -20,7 +20,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Subscriber.Models {
         /// <summary>
         /// Value
         /// </summary>
-        public JToken Value { get; set; }
+        public VariantValue Value { get; set; }
 
         /// <summary>
         /// Type id

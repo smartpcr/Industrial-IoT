@@ -6,6 +6,7 @@
 namespace Microsoft.Azure.IIoT.Hub {
     using Microsoft.Azure.IIoT.Exceptions;
     using Microsoft.Azure.IIoT.Hub.Models;
+    using Microsoft.Azure.IIoT.Serializers;
     using Microsoft.Azure.IIoT.Utils;
     using Newtonsoft.Json.Linq;
     using System.Collections.Generic;
@@ -162,9 +163,9 @@ namespace Microsoft.Azure.IIoT.Hub {
         /// <param name="query"></param>
         /// <param name="ct"></param>
         /// <returns></returns>
-        public static async Task<IEnumerable<JToken>> QueryAsync(
+        public static async Task<IEnumerable<VariantValue>> QueryAsync(
             this IIoTHubTwinServices service, string query, CancellationToken ct = default) {
-            var result = new List<JToken>();
+            var result = new List<VariantValue>();
             string continuation = null;
             do {
                 var response = await service.QueryAsync(query, continuation, null, ct);

@@ -5,6 +5,7 @@
 
 namespace Microsoft.Azure.IIoT.Hub.Mock.SqlParser {
     using Microsoft.Azure.IIoT.Hub.Models;
+    using Microsoft.Azure.IIoT.Serializers;
     using Antlr4.Runtime;
     using Antlr4.Runtime.Tree;
     using Newtonsoft.Json.Linq;

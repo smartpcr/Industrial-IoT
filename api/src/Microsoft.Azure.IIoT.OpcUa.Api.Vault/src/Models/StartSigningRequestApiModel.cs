@@ -3,10 +3,9 @@
 //  Licensed under the MIT License (MIT). See License.txt in the repo root for license information.
 // ------------------------------------------------------------
 
-
 namespace Microsoft.Azure.IIoT.OpcUa.Api.Vault.Models {
+    using Microsoft.Azure.IIoT.Serializers;
     using System.Runtime.Serialization;
-    using Newtonsoft.Json.Linq;
 
     /// <summary>
     /// Signing request
@@ -30,6 +29,6 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Vault.Models {
         /// Request
         /// </summary>
         [DataMember(Name = "certificateRequest")]
-        public JToken CertificateRequest { get; set; }
+        public VariantValue CertificateRequest { get; set; }
     }
 }

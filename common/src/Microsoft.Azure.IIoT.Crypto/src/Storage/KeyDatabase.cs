@@ -8,6 +8,7 @@ namespace Microsoft.Azure.IIoT.Crypto.Storage {
     using Microsoft.Azure.IIoT.Crypto.Storage.Models;
     using Microsoft.Azure.IIoT.Exceptions;
     using Microsoft.Azure.IIoT.Storage;
+    using Newtonsoft.Json.Linq;
     using System;
     using System.Threading;
     using System.Threading.Tasks;
@@ -38,7 +39,7 @@ namespace Microsoft.Azure.IIoT.Crypto.Storage {
             KeyStoreProperties store, CancellationToken ct) {
             var document = new KeyDocument {
                 Id = name,
-                KeyJson = key.ToJToken(),
+                KeyJson = JToken.FromObject(key),
                 IsDisabled = false,
                 IsExportable = store?.Exportable ?? false,
             };

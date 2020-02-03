@@ -4,7 +4,7 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Protocol {
-    using Newtonsoft.Json.Linq;
+    using Microsoft.Azure.IIoT.Serializers;
     using Opc.Ua;
 
     /// <summary>
@@ -23,7 +23,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol {
         /// <param name="value"></param>
         /// <param name="builtinType"></param>
         /// <returns></returns>
-        JToken Encode(Variant value, out BuiltInType builtinType);
+        VariantValue Encode(Variant value, out BuiltInType builtinType);
 
         /// <summary>
         /// Parse token to variant
@@ -31,6 +31,6 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol {
         /// <param name="value"></param>
         /// <param name="builtinType"></param>
         /// <returns></returns>
-        Variant Decode(JToken value, BuiltInType builtinType);
+        Variant Decode(VariantValue value, BuiltInType builtinType);
     }
 }

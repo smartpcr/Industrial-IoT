@@ -47,12 +47,12 @@ namespace Microsoft.Azure.IIoT.Serializers {
         }
 
         /// <inheritdoc/>
-        public object ToObject(IValue token, Type type) {
+        public object ToObject(VariantValue token, Type type) {
             throw new NotImplementedException();
         }
 
         /// <inheritdoc/>
-        public IValue FromObject(object o) {
+        public VariantValue FromObject(object o) {
             throw new NotImplementedException();
         }
 

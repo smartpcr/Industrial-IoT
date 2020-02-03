@@ -5,8 +5,8 @@
 
 namespace Microsoft.Azure.IIoT.Agent.Framework.Storage.Database {
     using Microsoft.Azure.IIoT.Agent.Framework.Models;
+    using Microsoft.Azure.IIoT.Serializers;
     using System.Runtime.Serialization;
-    using Newtonsoft.Json.Linq;
     using System;
 
     /// <summary>
@@ -51,7 +51,7 @@ namespace Microsoft.Azure.IIoT.Agent.Framework.Storage.Database {
         /// Last known state
         /// </summary>
         [DataMember]
-        public JToken LastKnownState { get; set; }
+        public VariantValue LastKnownState { get; set; }
 
         /// <summary>
         /// Processing mode

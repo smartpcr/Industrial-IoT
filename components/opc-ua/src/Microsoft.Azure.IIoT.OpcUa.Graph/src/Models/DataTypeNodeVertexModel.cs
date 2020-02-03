@@ -4,9 +4,9 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Graph.Models {
+    using Microsoft.Azure.IIoT.Serializers;
     using Gremlin.Net.CosmosDb.Structure;
     using System.Runtime.Serialization;
-    using Newtonsoft.Json.Linq;
     using Opc.Ua.Nodeset.Schema;
 
     /// <summary>
@@ -29,7 +29,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Graph.Models {
         /// </summary>
         [DataMember(Name = "dataTypeDefinition",
             EmitDefaultValue = false)]
-        public JToken DataTypeDefinition { get; set; }
+        public VariantValue DataTypeDefinition { get; set; }
 
         /// <summary>
         /// Data type purpose

@@ -49,7 +49,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Controllers {
         /// <summary>
         /// Security mode to use for communication
         /// </summary>
-        public JToken SecurityMode {
+        public IValue SecurityMode {
             get => JToken.FromObject(_securityMode);
             set => _securityMode = value?.ToObject<SecurityMode>();
         }
