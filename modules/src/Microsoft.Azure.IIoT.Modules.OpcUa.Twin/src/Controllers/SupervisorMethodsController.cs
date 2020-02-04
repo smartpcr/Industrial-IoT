@@ -18,7 +18,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Controllers {
     using Microsoft.Azure.IIoT.OpcUa.History;
     using System;
     using System.Threading.Tasks;
-    using Newtonsoft.Json.Linq;
+    using Microsoft.Azure.IIoT.Serializers;
 
     /// <summary>
     /// Supervisor method controller
@@ -238,8 +238,8 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Controllers {
         /// <param name="endpoint"></param>
         /// <param name="request"></param>
         /// <returns></returns>
-        public async Task<HistoryReadResponseApiModel<IValue>> HistoryReadAsync(
-            EndpointApiModel endpoint, HistoryReadRequestApiModel<IValue> request) {
+        public async Task<HistoryReadResponseApiModel<VariantValue>> HistoryReadAsync(
+            EndpointApiModel endpoint, HistoryReadRequestApiModel<VariantValue> request) {
             if (request == null) {
                 throw new ArgumentNullException(nameof(request));
             }
@@ -254,7 +254,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Controllers {
         /// <param name="endpoint"></param>
         /// <param name="request"></param>
         /// <returns></returns>
-        public async Task<HistoryReadNextResponseApiModel<IValue>> HistoryReadNextAsync(
+        public async Task<HistoryReadNextResponseApiModel<VariantValue>> HistoryReadNextAsync(
             EndpointApiModel endpoint, HistoryReadNextRequestApiModel request) {
             if (request == null) {
                 throw new ArgumentNullException(nameof(request));
@@ -271,7 +271,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Controllers {
         /// <param name="request"></param>
         /// <returns></returns>
         public async Task<HistoryUpdateResponseApiModel> HistoryUpdateAsync(
-            EndpointApiModel endpoint, HistoryUpdateRequestApiModel<IValue> request) {
+            EndpointApiModel endpoint, HistoryUpdateRequestApiModel<VariantValue> request) {
             if (request == null) {
                 throw new ArgumentNullException(nameof(request));
             }

@@ -4,55 +4,59 @@
 // ------------------------------------------------------------
 
 namespace Opc.Ua.Encoders {
-    using Newtonsoft.Json.Linq;
+    using Microsoft.Azure.IIoT.Serializers;
     using System;
 
     /// <summary>
     /// Encodeable wrapper for Json tokens
     /// </summary>
-    public sealed class EncodeableJToken : IEncodeable {
+    public sealed class EncodeableVariantValue : IEncodeable {
 
         /// <summary>
         /// The encoded object
         /// </summary>
-        public JToken JToken { get; private set; }
+        public VariantValue Value { get; private set; }
 
         /// <summary>
         /// Create encodeable token
         /// </summary>
-        /// <param name="jToken"></param>
-        public EncodeableJToken(JToken jToken) {
-            JToken = jToken ?? throw new ArgumentNullException(nameof(jToken));
+        /// <param name="serializer"></param>
+        /// <param name="value"></param>
+        public EncodeableVariantValue(IJsonSerializer serializer, VariantValue value = null) {
+            _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
+            Value = value;
         }
 
         /// <inheritdoc/>
         public ExpandedNodeId TypeId =>
-            nameof(EncodeableJToken);
+            nameof(EncodeableVariantValue);
 
         /// <inheritdoc/>
         public ExpandedNodeId BinaryEncodingId =>
-            nameof(EncodeableJToken) + "_Encoding_DefaultBinary";
+            nameof(EncodeableVariantValue) + "_Encoding_DefaultBinary";
 
         /// <inheritdoc/>
         public ExpandedNodeId XmlEncodingId =>
-            nameof(EncodeableJToken) + "_Encoding_DefaultXml";
+            nameof(EncodeableVariantValue) + "_Encoding_DefaultXml";
 
         /// <inheritdoc/>
         public void Decode(IDecoder decoder) {
-            JToken = JToken.Parse(decoder.ReadString(nameof(JToken)));
+            Value = _serializer.Parse(decoder.ReadString(nameof(Value)));
         }
 
         /// <inheritdoc/>
         public void Encode(IEncoder encoder) {
-            encoder.WriteString(nameof(JToken), JToken.ToString());
+            encoder.WriteString(nameof(Value), _serializer.Serialize(Value));
         }
 
         /// <inheritdoc/>
         public bool IsEqual(IEncodeable encodeable) {
-            if (encodeable is EncodeableJToken wrapper) {
-                return JToken.EqualityComparer.Equals(wrapper.JToken, JToken);
+            if (encodeable is EncodeableVariantValue wrapper) {
+                return wrapper.Value == Value;
             }
             return false;
         }
+
+        private readonly IJsonSerializer _serializer;
     }
 }

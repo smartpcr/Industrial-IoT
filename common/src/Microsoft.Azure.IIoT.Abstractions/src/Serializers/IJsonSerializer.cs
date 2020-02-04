@@ -20,7 +20,7 @@ namespace Microsoft.Azure.IIoT.Serializers {
         /// <param name="format"></param>
         /// <returns></returns>
         void Serialize(TextWriter writer, object o,
-            JsonFormat format = JsonFormat.None);
+            Formatting format = Formatting.None);
 
         /// <summary>
         /// Serialize to string
@@ -29,6 +29,13 @@ namespace Microsoft.Azure.IIoT.Serializers {
         /// <param name="reader"></param>
         /// <returns></returns>
         object Deserialize(TextReader reader, Type type);
+
+        /// <summary>
+        /// Deserialize to variant value
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <returns></returns>
+        VariantValue Parse(TextReader reader);
 
         /// <summary>
         /// Bind token to object of type.

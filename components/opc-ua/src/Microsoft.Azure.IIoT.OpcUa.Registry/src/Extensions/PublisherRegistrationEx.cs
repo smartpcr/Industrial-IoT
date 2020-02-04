@@ -6,7 +6,7 @@
 namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
     using Microsoft.Azure.IIoT.Hub;
     using Microsoft.Azure.IIoT.Hub.Models;
-    using Newtonsoft.Json.Linq;
+    using Microsoft.Azure.IIoT.Serializers;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -21,9 +21,11 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
         /// Create device twin
         /// </summary>
         /// <param name="registration"></param>
+        /// <param name="serializer"></param>
         /// <returns></returns>
-        public static DeviceTwinModel ToDeviceTwin(this PublisherRegistration registration) {
-            return Patch(null, registration);
+        public static DeviceTwinModel ToDeviceTwin(
+            this PublisherRegistration registration, IJsonSerializer serializer) {
+            return Patch(null, registration, serializer);
         }
 
         /// <summary>
@@ -31,14 +33,15 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
         /// </summary>
         /// <param name="existing"></param>
         /// <param name="update"></param>
+        /// <param name="serializer"></param>
         public static DeviceTwinModel Patch(this PublisherRegistration existing,
-            PublisherRegistration update) {
+            PublisherRegistration update, IJsonSerializer serializer) {
 
             var twin = new DeviceTwinModel {
                 Etag = existing?.Etag,
-                Tags = new Dictionary<string, JToken>(),
+                Tags = new Dictionary<string, VariantValue>(),
                 Properties = new TwinPropertiesModel {
-                    Desired = new Dictionary<string, JToken>()
+                    Desired = new Dictionary<string, VariantValue>()
                 }
             };
 
@@ -64,7 +67,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
             if (!(capsUpdate ?? true)) {
                 twin.Properties.Desired.Add(nameof(PublisherRegistration.Capabilities),
                     update?.Capabilities == null ?
-                    null : JToken.FromObject(update.Capabilities));
+                    null : serializer.FromObject(update.Capabilities));
             }
 
             if (update?.JobOrchestratorUrl != existing?.JobOrchestratorUrl) {
@@ -74,7 +77,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
             if (update?.LogLevel != existing?.LogLevel) {
                 twin.Properties.Desired.Add(nameof(PublisherRegistration.LogLevel),
                     update?.LogLevel == null ?
-                    null : JToken.FromObject(update.LogLevel.ToString()));
+                    null : serializer.FromObject(update.LogLevel.ToString()));
             }
 
 
@@ -112,12 +115,12 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
         /// <param name="properties"></param>
         /// <returns></returns>
         public static PublisherRegistration ToPublisherRegistration(this DeviceTwinModel twin,
-            Dictionary<string, JToken> properties) {
+            Dictionary<string, VariantValue> properties) {
             if (twin == null) {
                 return null;
             }
 
-            var tags = twin.Tags ?? new Dictionary<string, JToken>();
+            var tags = twin.Tags ?? new Dictionary<string, VariantValue>();
             var connected = twin.IsConnected();
 
             var registration = new PublisherRegistration {
@@ -190,7 +193,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
                 return null;
             }
             if (twin.Tags == null) {
-                twin.Tags = new Dictionary<string, JToken>();
+                twin.Tags = new Dictionary<string, VariantValue>();
             }
 
             var consolidated =

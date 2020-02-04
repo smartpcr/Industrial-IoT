@@ -8,6 +8,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Supervisor {
     using Microsoft.Azure.IIoT.OpcUa.Registry;
     using Microsoft.Azure.IIoT.OpcUa.Registry.Models;
     using Microsoft.Azure.IIoT.OpcUa.Core.Models;
+    using Microsoft.Azure.IIoT.Serializers;
     using Microsoft.Azure.IIoT.Hub;
     using Autofac;
     using System.Linq;
@@ -92,7 +93,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Supervisor {
                             SupervisorId = supervisorId
                         },
                         ApplicationId = "ua326029342304923"
-                    }.ToEndpointRegistration().ToDeviceTwin();
+                    }.ToEndpointRegistration(_serializer).ToDeviceTwin(_serializer);
                     await hub.CreateAsync(twin);
                     var registry = services.Resolve<IEndpointRegistry>();
                     var endpoints = await registry.ListAllEndpointsAsync();
@@ -122,7 +123,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Supervisor {
         }
 
         [Fact]
-        public async Task TestActivateDeactivateEndpoint() {
+        public async Task TestActivateDeactivateEndpointAsync() {
             using (var harness = new TwinModuleFixture()) {
                 await harness.RunTestAsync(async (device, module, services) => {
 
@@ -138,7 +139,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Supervisor {
                             SupervisorId = supervisorId
                         },
                         ApplicationId = "ua326029342304923"
-                    }.ToEndpointRegistration().ToDeviceTwin();
+                    }.ToEndpointRegistration(_serializer).ToDeviceTwin(_serializer);
 
                     await hub.CreateAsync(twin);
                     var registry = services.Resolve<IEndpointRegistry>();
@@ -168,7 +169,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Supervisor {
         }
 
         [Fact]
-        public async Task TestActivateDeactivateEndpoint20Times() {
+        public async Task TestActivateDeactivateEndpoint20TimesAsync() {
             using (var harness = new TwinModuleFixture()) {
                 await harness.RunTestAsync(async (device, module, services) => {
 
@@ -184,7 +185,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Supervisor {
                             SupervisorId = supervisorId
                         },
                         ApplicationId = "ua326029342304923"
-                    }.ToEndpointRegistration().ToDeviceTwin();
+                    }.ToEndpointRegistration(_serializer).ToDeviceTwin(_serializer);
 
                     await hub.CreateAsync(twin);
                     var registry = services.Resolve<IEndpointRegistry>();
@@ -215,7 +216,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Supervisor {
         }
 
         [Fact]
-        public async Task TestActivateDeactivate20Endpoints5TimesMultiThreaded() {
+        public async Task TestActivateDeactivate20Endpoints5TimesMultiThreadedAsync() {
             using (var harness = new TwinModuleFixture()) {
                 await harness.RunTestAsync(async (device, module, services) => {
 
@@ -233,7 +234,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Supervisor {
                                 SupervisorId = supervisorId
                             },
                             ApplicationId = "uas" + i
-                        }.ToEndpointRegistration().ToDeviceTwin();
+                        }.ToEndpointRegistration(_serializer).ToDeviceTwin(_serializer);
                         await hub.CreateAsync(twin);
                     }
 
@@ -259,5 +260,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Supervisor {
                 });
             }
         }
+
+        private readonly IJsonSerializer _serializer = new NewtonSoftJsonSerializer();
     }
 }

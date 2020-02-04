@@ -12,7 +12,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
     using Autofac.Extras.Moq;
     using AutoFixture;
     using AutoFixture.Kernel;
-    using Newtonsoft.Json.Linq;
+    using Microsoft.Azure.IIoT.Serializers;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -129,11 +129,11 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
         /// <param name="site"></param>
         /// <param name="supervisors"></param>
         /// <param name="modules"></param>
-        private static void CreateSupervisorFixtures(out string site,
+        private void CreateSupervisorFixtures(out string site,
             out List<SupervisorModel> supervisors, out List<(DeviceTwinModel, DeviceModel)> modules,
             bool noSite = false) {
             var fix = new Fixture();
-            fix.Customizations.Add(new TypeRelay(typeof(JToken), typeof(JObject)));
+            fix.Customizations.Add(new TypeRelay(typeof(VariantValue), typeof(VariantValue)));
             var sitex = site = noSite ? null : fix.Create<string>();
             supervisors = fix
                 .Build<SupervisorModel>()
@@ -146,9 +146,9 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
 
             modules = supervisors
                 .Select(a => a.ToSupervisorRegistration())
-                .Select(a => a.ToDeviceTwin())
+                .Select(a => a.ToDeviceTwin(_serializer))
                 .Select(t => {
-                    t.Properties.Reported = new Dictionary<string, JToken> {
+                    t.Properties.Reported = new Dictionary<string, VariantValue> {
                         [TwinProperty.Type] = IdentityType.Supervisor
                     };
                     return t;
@@ -156,5 +156,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
                 .Select(t => (t, new DeviceModel { Id = t.Id, ModuleId = t.ModuleId }))
                 .ToList();
         }
+
+        private readonly IJsonSerializer _serializer = new NewtonSoftJsonSerializer();
     }
 }

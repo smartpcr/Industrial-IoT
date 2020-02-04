@@ -5,7 +5,7 @@
 
 namespace Microsoft.Azure.IIoT.Agent.Framework.Storage.Database {
     using System.Runtime.Serialization;
-    using Newtonsoft.Json.Linq;
+    using Microsoft.Azure.IIoT.Serializers;
 
     /// <summary>
     /// Job model
@@ -43,6 +43,6 @@ namespace Microsoft.Azure.IIoT.Agent.Framework.Storage.Database {
         /// Job description
         /// </summary>
         [DataMember]
-        public JObject Job { get; set; }
+        public VariantValue Job { get; set; }
     }
 }

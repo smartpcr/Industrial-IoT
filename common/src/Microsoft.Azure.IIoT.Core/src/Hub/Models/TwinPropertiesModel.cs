@@ -6,7 +6,7 @@
 namespace Microsoft.Azure.IIoT.Hub.Models {
     using System.Collections.Generic;
     using System.Runtime.Serialization;
-    using Newtonsoft.Json.Linq;
+    using Microsoft.Azure.IIoT.Serializers;
 
     /// <summary>
     /// Twin properties
@@ -19,13 +19,13 @@ namespace Microsoft.Azure.IIoT.Hub.Models {
         /// </summary>
         [DataMember(Name = "reported",
             EmitDefaultValue = false)]
-        public Dictionary<string, JToken> Reported { get; set; }
+        public Dictionary<string, VariantValue> Reported { get; set; }
 
         /// <summary>
         /// Desired settings
         /// </summary>
         [DataMember(Name = "desired",
             EmitDefaultValue = false)]
-        public Dictionary<string, JToken> Desired { get; set; }
+        public Dictionary<string, VariantValue> Desired { get; set; }
     }
 }

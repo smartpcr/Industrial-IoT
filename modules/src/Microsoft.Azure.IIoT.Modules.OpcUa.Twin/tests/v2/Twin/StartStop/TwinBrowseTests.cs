@@ -10,6 +10,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Twin.StartStop {
     using Microsoft.Azure.IIoT.OpcUa.Testing.Fixtures;
     using Microsoft.Azure.IIoT.OpcUa.Testing.Tests;
     using Microsoft.Azure.IIoT.OpcUa.Twin;
+    using Microsoft.Azure.IIoT.Serializers;
     using System.Net;
     using System.Threading.Tasks;
     using Xunit;
@@ -30,7 +31,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Twin.StartStop {
 
         private BrowseServicesTests<string> GetTests(EndpointRegistrationModel endpoint,
             IContainer services) {
-            return new BrowseServicesTests<string>(
+            return new BrowseServicesTests<string>(new NewtonSoftJsonSerializer(),
                 () => services.Resolve<IBrowseServices<string>>(), endpoint.Id);
         }
 

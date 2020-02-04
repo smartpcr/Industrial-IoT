@@ -6,6 +6,7 @@
 namespace Microsoft.Azure.IIoT.Modules.Diagnostic.v2.Supervisor {
     using Microsoft.Azure.IIoT.Modules.Diagnostic.Services;
     using Microsoft.Azure.IIoT.Diagnostics;
+    using Microsoft.Azure.IIoT.Serializers;
     using Microsoft.Azure.IIoT.Module.Framework;
     using Serilog;
     using Serilog.Events;
@@ -13,7 +14,6 @@ namespace Microsoft.Azure.IIoT.Modules.Diagnostic.v2.Supervisor {
     using System.Threading.Tasks;
     using System.Collections.Generic;
     using System.Linq;
-    using Newtonsoft.Json.Linq;
 
     /// <summary>
     /// Diagnostic settings controller
@@ -33,16 +33,16 @@ namespace Microsoft.Azure.IIoT.Modules.Diagnostic.v2.Supervisor {
         /// <summary>
         /// Set and get the log level
         /// </summary>
-        public IValue LogLevel {
+        public string LogLevel {
             set {
-                if (value == null || value.Type == JTokenType.Null) {
+                if (value == null) {
                     // Set default
                     LogControl.Level.MinimumLevel = LogEventLevel.Information;
                     _logger.Information("Setting log level to default level.");
                 }
-                else if (value.Type == JTokenType.String) {
-                    // The enum values are the same as in serilog
-                    if (!Enum.TryParse<LogEventLevel>((string)value, true,
+                else {
+                    // The enum values are the same as the ones defined for serilog
+                    if (!Enum.TryParse<LogEventLevel>(value, true,
                         out var level)) {
                         throw new ArgumentException(
                             $"Bad log level value {value} passed.");
@@ -50,33 +50,27 @@ namespace Microsoft.Azure.IIoT.Modules.Diagnostic.v2.Supervisor {
                     _logger.Information("Setting log level to {level}", level);
                     LogControl.Level.MinimumLevel = level;
                 }
-                else {
-                    throw new NotSupportedException(
-                        $"Bad log level value type {value.Type}");
-                }
             }
             // The enum values are the same as in serilog
-            get => JToken.FromObject(LogControl.Level.MinimumLevel.ToString());
+            get => LogControl.Level.MinimumLevel.ToString();
         }
 
         /// <summary>
-        /// Other test settings
+        /// Test settings
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public IValue this[string key] {
+        public VariantValue this[string key] {
             set {
-                if (value == null || value.Type == JTokenType.Null) {
+                if (value == null || value.Type == VariantValueType.Null) {
                     _tempState.AddOrUpdate(key, null);
                     return;
                 }
-                _tempState.AddOrUpdate(key, value.ToString());
+                _tempState.AddOrUpdate(key, value);
             }
             get {
-                if (!_tempState.TryGetValue(key, out var result)) {
-                    result = null;
-                }
-                return result != null ? JToken.FromObject(result) : JValue.CreateNull();
+                _tempState.TryGetValue(key, out var result);
+                return result;
             }
         }
 
@@ -88,7 +82,7 @@ namespace Microsoft.Azure.IIoT.Modules.Diagnostic.v2.Supervisor {
         public DiagnosticSettingsController(ITelemetrySender publisher, ILogger logger) {
             _publisher = publisher ?? throw new ArgumentNullException(nameof(publisher));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _tempState = new Dictionary<string, string>();
+            _tempState = new Dictionary<string, VariantValue>();
         }
 
         /// <summary>
@@ -97,7 +91,7 @@ namespace Microsoft.Azure.IIoT.Modules.Diagnostic.v2.Supervisor {
         /// <returns></returns>
         public Task ApplyAsync() {
             foreach (var item in _tempState.ToList()) {
-                if (string.IsNullOrEmpty(item.Value)) {
+                if (item.Value == null) {
                     _logger.Information("Removed {Key}", item.Key);
                 }
                 else {
@@ -108,7 +102,7 @@ namespace Microsoft.Azure.IIoT.Modules.Diagnostic.v2.Supervisor {
             return Task.CompletedTask;
         }
 
-        private readonly Dictionary<string, string> _tempState;
+        private readonly Dictionary<string, VariantValue> _tempState;
         private readonly ITelemetrySender _publisher;
         private readonly ILogger _logger;
     }

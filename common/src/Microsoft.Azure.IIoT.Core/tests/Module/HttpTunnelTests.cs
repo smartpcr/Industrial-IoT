@@ -20,7 +20,6 @@ namespace Microsoft.Azure.IIoT.Module.Default {
     using System.Net.Http;
 
     public class HttpTunnelTests {
-        private readonly IJsonSerializer _serializer = new NewtonSoftJsonSerializer();
 
         [Fact]
         public async Task TestGetWebAsync() {
@@ -32,7 +31,7 @@ namespace Microsoft.Azure.IIoT.Module.Default {
             var client = new HttpClientFactory(factory, logger).CreateClient("msft");
 
             var adapter = new MethodHandlerAdapter(factory.YieldReturn());
-            var chunkServer = new TestChunkServer(100, (method, buffer, type) => {
+            var chunkServer = new TestChunkServer(_serializer, 100, (method, buffer, type) => {
                 Assert.Equal(MethodNames.Response, method);
                 return adapter.InvokeAsync(method, buffer, type).Result;
             });
@@ -69,7 +68,7 @@ namespace Microsoft.Azure.IIoT.Module.Default {
             var client = new HttpClientFactory(factory, logger).CreateClient("msft");
 
             var adapter = new MethodHandlerAdapter(factory.YieldReturn());
-            var chunkServer = new TestChunkServer(1000, (method, buffer, type) => {
+            var chunkServer = new TestChunkServer(_serializer, 1000, (method, buffer, type) => {
                 Assert.Equal(MethodNames.Response, method);
                 return adapter.InvokeAsync(method, buffer, type).Result;
             });
@@ -123,7 +122,7 @@ namespace Microsoft.Azure.IIoT.Module.Default {
             var client = new HttpClientFactory(factory, logger).CreateClient("msft");
 
             var adapter = new MethodHandlerAdapter(factory.YieldReturn());
-            var chunkServer = new TestChunkServer(100000, (method, buffer, type) => {
+            var chunkServer = new TestChunkServer(_serializer, 100000, (method, buffer, type) => {
                 Assert.Equal(MethodNames.Response, method);
                 return adapter.InvokeAsync(method, buffer, type).Result;
             });
@@ -184,7 +183,7 @@ namespace Microsoft.Azure.IIoT.Module.Default {
             var client = new HttpClientFactory(factory, logger).CreateClient("msft");
 
             var adapter = new MethodHandlerAdapter(factory.YieldReturn());
-            var chunkServer = new TestChunkServer(128 * 1024, (method, buffer, type) => {
+            var chunkServer = new TestChunkServer(_serializer, 128 * 1024, (method, buffer, type) => {
                 Assert.Equal(MethodNames.Response, method);
                 return adapter.InvokeAsync(method, buffer, type).Result;
             });
@@ -233,7 +232,7 @@ namespace Microsoft.Azure.IIoT.Module.Default {
             var client = new HttpClientFactory(factory, logger).CreateClient("msft");
 
             var adapter = new MethodHandlerAdapter(factory.YieldReturn());
-            var chunkServer = new TestChunkServer(128 * 1024, (method, buffer, type) => {
+            var chunkServer = new TestChunkServer(_serializer, 128 * 1024, (method, buffer, type) => {
                 Assert.Equal(MethodNames.Response, method);
                 return adapter.InvokeAsync(method, buffer, type).Result;
             });
@@ -270,9 +269,6 @@ namespace Microsoft.Azure.IIoT.Module.Default {
             Assert.Empty(result.Headers);
         }
 
-
-
-
         public class EventBridge : IEventClient {
 
             /// <summary>
@@ -292,5 +288,7 @@ namespace Microsoft.Azure.IIoT.Module.Default {
                 throw new NotImplementedException();
             }
         }
+
+        private readonly IJsonSerializer _serializer = new NewtonSoftJsonSerializer();
     }
 }

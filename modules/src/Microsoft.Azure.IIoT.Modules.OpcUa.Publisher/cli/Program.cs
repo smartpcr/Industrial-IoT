@@ -24,7 +24,6 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.Cli {
     using System.Runtime.InteropServices;
     using System.Threading;
     using System.Threading.Tasks;
-    using Newtonsoft.Json.Linq;
 
     /// <summary>
     /// Publisher module host process
@@ -209,7 +208,7 @@ Options:
             var registry = CreateClient(config, logger);
             await registry.CreateAsync(new DeviceTwinModel {
                 Id = deviceId,
-                Tags = new Dictionary<string, JToken> {
+                Tags = new Dictionary<string, VariantValue> {
                     [TwinProperty.Type] = IdentityType.Gateway
                 },
                 Capabilities = new DeviceCapabilitiesModel {

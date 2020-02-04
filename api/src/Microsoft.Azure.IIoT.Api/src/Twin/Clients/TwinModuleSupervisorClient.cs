@@ -12,7 +12,6 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Clients {
     using Microsoft.Azure.IIoT.Module;
     using Microsoft.Azure.IIoT.Serializers;
     using Serilog;
-    using Newtonsoft.Json.Linq;
     using System;
     using System.Threading.Tasks;
     using System.Diagnostics;

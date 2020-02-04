@@ -11,6 +11,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Supervisor.StartStop {
     using Microsoft.Azure.IIoT.OpcUa.Testing.Fixtures;
     using Microsoft.Azure.IIoT.OpcUa.Testing.Tests;
     using Microsoft.Azure.IIoT.OpcUa.Twin;
+    using Microsoft.Azure.IIoT.Serializers;
     using System.Net;
     using System.Threading.Tasks;
     using Xunit;
@@ -26,7 +27,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Supervisor.StartStop {
 
         private ReadArrayValueTests<EndpointRegistrationModel> GetTests(
             string deviceId, string moduleId, IContainer services) {
-            return new ReadArrayValueTests<EndpointRegistrationModel>(
+            return new ReadArrayValueTests<EndpointRegistrationModel>(new NewtonSoftJsonSerializer(),
                 () => services.Resolve<INodeServices<EndpointRegistrationModel>>(),
                 new EndpointRegistrationModel {
                     Endpoint = new EndpointModel {

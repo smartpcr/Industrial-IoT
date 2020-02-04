@@ -11,7 +11,6 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Clients {
     using System;
     using System.Threading.Tasks;
     using System.Threading;
-    using Newtonsoft.Json.Linq;
 
     /// <summary>
     /// Implementation of supervisor module history api.

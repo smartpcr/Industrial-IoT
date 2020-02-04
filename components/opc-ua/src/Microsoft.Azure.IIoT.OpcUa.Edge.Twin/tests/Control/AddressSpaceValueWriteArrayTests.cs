@@ -10,6 +10,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Control.Services {
     using Microsoft.Azure.IIoT.OpcUa.Protocol.Services;
     using Microsoft.Azure.IIoT.OpcUa.Testing.Fixtures;
     using Microsoft.Azure.IIoT.OpcUa.Testing.Tests;
+    using Microsoft.Azure.IIoT.Serializers;
     using System.Net;
     using System.Threading.Tasks;
     using Xunit;
@@ -22,7 +23,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Control.Services {
         }
 
         private WriteArrayValueTests<EndpointModel> GetTests() {
-            return new WriteArrayValueTests<EndpointModel>(
+            return new WriteArrayValueTests<EndpointModel>(new NewtonSoftJsonSerializer(),
                 () => new AddressSpaceServices(_server.Client,
                     new VariantEncoderFactory(), _server.Logger),
                 new EndpointModel {

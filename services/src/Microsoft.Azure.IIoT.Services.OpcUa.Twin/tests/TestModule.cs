@@ -9,7 +9,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin {
     using Microsoft.Azure.IIoT.OpcUa.Twin;
     using Microsoft.Azure.IIoT.OpcUa.Twin.Models;
     using Microsoft.Azure.IIoT.OpcUa.Core.Models;
-    using Newtonsoft.Json.Linq;
+    using Microsoft.Azure.IIoT.Serializers;
     using System;
     using System.Threading.Tasks;
 
@@ -102,20 +102,20 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin {
         }
 
         /// <inheritdoc/>
-        public Task<HistoryReadResultModel<IValue>> HistoryReadAsync(
-            string endpointId, HistoryReadRequestModel<IValue> request) {
+        public Task<HistoryReadResultModel<VariantValue>> HistoryReadAsync(
+            string endpointId, HistoryReadRequestModel<VariantValue> request) {
             return _history.HistoryReadAsync(Endpoint, request);
         }
 
         /// <inheritdoc/>
-        public Task<HistoryReadNextResultModel<IValue>> HistoryReadNextAsync(
+        public Task<HistoryReadNextResultModel<VariantValue>> HistoryReadNextAsync(
             string endpointId, HistoryReadNextRequestModel request) {
             return _history.HistoryReadNextAsync(Endpoint, request);
         }
 
         /// <inheritdoc/>
         public Task<HistoryUpdateResultModel> HistoryUpdateAsync(
-            string endpointId, HistoryUpdateRequestModel<IValue> request) {
+            string endpointId, HistoryUpdateRequestModel<VariantValue> request) {
             return _history.HistoryUpdateAsync(Endpoint, request);
         }
 

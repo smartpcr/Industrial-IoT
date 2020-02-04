@@ -14,12 +14,12 @@ namespace Microsoft.Azure.IIoT.Module {
     using System.Text;
 
     public class TestChunkServer : IJsonMethodClient, IMethodHandler {
-        private readonly IJsonSerializer _serializer = new NewtonSoftJsonSerializer();
 
-        public TestChunkServer(int size,
-            Func<string, byte[], string, byte[]> handler) {
+        public TestChunkServer(IJsonSerializer serializer,
+            int size, Func<string, byte[], string, byte[]> handler) {
             MaxMethodPayloadCharacterCount = size;
             _handler = handler;
+            _serializer = serializer;
             _server = new ChunkMethodServer(_serializer, TraceLogger.Create());
         }
 
@@ -43,6 +43,7 @@ namespace Microsoft.Azure.IIoT.Module {
         }
 
         private readonly ChunkMethodServer _server;
+        private readonly IJsonSerializer _serializer;
         private readonly Func<string, byte[], string, byte[]> _handler;
     }
 }

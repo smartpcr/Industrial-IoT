@@ -8,7 +8,7 @@ namespace Microsoft.Azure.IIoT.Crypto.Storage {
     using Microsoft.Azure.IIoT.Crypto.Storage.Models;
     using Microsoft.Azure.IIoT.Exceptions;
     using Microsoft.Azure.IIoT.Storage;
-    using Newtonsoft.Json.Linq;
+    using Microsoft.Azure.IIoT.Serializers;
     using System;
     using System.Threading;
     using System.Threading.Tasks;
@@ -24,8 +24,10 @@ namespace Microsoft.Azure.IIoT.Crypto.Storage {
         /// Create database
         /// </summary>
         /// <param name="container"></param>
-        public KeyDatabase(IItemContainerFactory container) {
+        /// <param name="serializer"></param>
+        public KeyDatabase(IItemContainerFactory container, IJsonSerializer serializer) {
             _keys = container.OpenAsync("keystore").Result.AsDocuments();
+            _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
         }
 
         /// <inheritdoc/>
@@ -39,7 +41,7 @@ namespace Microsoft.Azure.IIoT.Crypto.Storage {
             KeyStoreProperties store, CancellationToken ct) {
             var document = new KeyDocument {
                 Id = name,
-                KeyJson = JToken.FromObject(key),
+                KeyJson = _serializer.FromObject(key),
                 IsDisabled = false,
                 IsExportable = store?.Exportable ?? false,
             };
@@ -156,6 +158,7 @@ namespace Microsoft.Azure.IIoT.Crypto.Storage {
         }
 
         private readonly IDocuments _keys;
+        private readonly IJsonSerializer _serializer;
     }
 }
 

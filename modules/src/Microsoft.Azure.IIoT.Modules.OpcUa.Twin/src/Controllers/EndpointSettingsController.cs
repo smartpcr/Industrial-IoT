@@ -13,7 +13,6 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Controllers {
     using System.Threading.Tasks;
     using System.Collections.Generic;
     using System.Linq;
-    using Newtonsoft.Json.Linq;
 
     /// <summary>
     /// Endpoint settings controller
@@ -49,9 +48,9 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Controllers {
         /// <summary>
         /// Security mode to use for communication
         /// </summary>
-        public IValue SecurityMode {
-            get => JToken.FromObject(_securityMode);
-            set => _securityMode = value?.ToObject<SecurityMode>();
+        public SecurityMode? SecurityMode {
+            get => _securityMode;
+            set => _securityMode = value;
         }
 
         /// <summary>
@@ -100,10 +99,10 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Controllers {
 
         private string _endpointUrl;
         private string _securityPolicy;
-        private SecurityMode? _securityMode;
         private byte[] _certificate;
         private string _thumbprint;
 #pragma warning disable IDE0032 // Use auto property
+        private SecurityMode? _securityMode;
         private Dictionary<string, string> _alternativeUrls;
 #pragma warning restore IDE0032 // Use auto property
         private readonly ITwinServices _twin;

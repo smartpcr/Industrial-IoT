@@ -8,7 +8,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
     using Microsoft.Azure.IIoT.Hub;
     using Microsoft.Azure.IIoT.Hub.Models;
     using Newtonsoft.Json;
-    using Newtonsoft.Json.Linq;
+    using Microsoft.Azure.IIoT.Serializers;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -28,9 +28,11 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
         /// Create device twin
         /// </summary>
         /// <param name="registration"></param>
+        /// <param name="serializer"></param>
         /// <returns></returns>
-        public static DeviceTwinModel ToDeviceTwin(this EndpointRegistration registration) {
-            return Patch(null, registration);
+        public static DeviceTwinModel ToDeviceTwin(this EndpointRegistration registration,
+            IJsonSerializer serializer) {
+            return Patch(null, registration, serializer);
         }
 
         /// <summary>
@@ -38,14 +40,15 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
         /// </summary>
         /// <param name="existing"></param>
         /// <param name="update"></param>
+        /// <param name="serializer"></param>
         public static DeviceTwinModel Patch(this EndpointRegistration existing,
-            EndpointRegistration update) {
+            EndpointRegistration update, IJsonSerializer serializer) {
 
             var twin = new DeviceTwinModel {
                 Etag = existing?.Etag,
-                Tags = new Dictionary<string, JToken>(),
+                Tags = new Dictionary<string, VariantValue>(),
                 Properties = new TwinPropertiesModel {
-                    Desired = new Dictionary<string, JToken>()
+                    Desired = new Dictionary<string, VariantValue>()
                 }
             };
 
@@ -92,7 +95,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
 
             if (update?.SecurityLevel != existing?.SecurityLevel) {
                 twin.Tags.Add(nameof(EndpointRegistration.SecurityLevel), update?.SecurityLevel == null ?
-                    null : JToken.FromObject(update.SecurityLevel.ToString()));
+                    null : serializer.FromObject(update.SecurityLevel.ToString()));
             }
 
             if (update?.Activated != null &&
@@ -101,12 +104,11 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
             }
 
             var methodEqual = update?.AuthenticationMethods.DecodeAsList().SetEqualsSafe(
-                existing?.AuthenticationMethods?.DecodeAsList(), JToken.DeepEquals);
+                existing?.AuthenticationMethods?.DecodeAsList(), VariantValue.DeepEquals);
             if (!(methodEqual ?? true)) {
                 twin.Tags.Add(nameof(EndpointRegistration.AuthenticationMethods),
                     update?.AuthenticationMethods == null ?
-                    null : JToken.FromObject(update.AuthenticationMethods,
-                        new JsonSerializer { NullValueHandling = NullValueHandling.Ignore }));
+                    null : serializer.FromObject(update.AuthenticationMethods));
             }
 
             // Endpoint Property
@@ -122,14 +124,14 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
             if (!(urlsEqual ?? true)) {
                 twin.Properties.Desired.Add(nameof(EndpointRegistration.AlternativeUrls),
                     update?.AlternativeUrls == null ?
-                    null : JToken.FromObject(update.AlternativeUrls));
+                    null : serializer.FromObject(update.AlternativeUrls));
             }
 
             if (update?.SecurityMode != null &&
                 update.SecurityMode != existing?.SecurityMode) {
                 twin.Properties.Desired.Add(nameof(EndpointRegistration.SecurityMode),
                     update?.SecurityMode == null ?
-                        null : JToken.FromObject(update.SecurityMode.ToString()));
+                        null : serializer.FromObject(update.SecurityMode.ToString()));
             }
 
             if (update?.SecurityPolicy != null &&
@@ -183,12 +185,12 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
         /// <param name="properties"></param>
         /// <returns></returns>
         public static EndpointRegistration ToEndpointRegistration(this DeviceTwinModel twin,
-            Dictionary<string, JToken> properties) {
+            Dictionary<string, VariantValue> properties) {
             if (twin == null) {
                 return null;
             }
 
-            var tags = twin.Tags ?? new Dictionary<string, JToken>();
+            var tags = twin.Tags ?? new Dictionary<string, VariantValue>();
             var connected = twin.IsConnected();
 
             var registration = new EndpointRegistration {
@@ -215,7 +217,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
                 SecurityLevel =
                     tags.GetValueOrDefault<int>(nameof(EndpointRegistration.SecurityLevel), null),
                 AuthenticationMethods =
-                    tags.GetValueOrDefault<Dictionary<string, JToken>>(nameof(EndpointRegistration.AuthenticationMethods), null),
+                    tags.GetValueOrDefault<Dictionary<string, VariantValue>>(nameof(EndpointRegistration.AuthenticationMethods), null),
                 EndpointRegistrationUrl =
                     tags.GetValueOrDefault<string>(nameof(EndpointRegistration.EndpointRegistrationUrl), null),
 
@@ -262,7 +264,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
                 return null;
             }
             if (twin.Tags == null) {
-                twin.Tags = new Dictionary<string, JToken>();
+                twin.Tags = new Dictionary<string, VariantValue>();
             }
 
             var consolidated =
@@ -330,12 +332,14 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
         /// Decode tags and property into registration object
         /// </summary>
         /// <param name="model"></param>
+        /// <param name="serializer"></param>
         /// <param name="disabled"></param>
         /// <param name="discoverId"></param>
         /// <param name="supervisorId"></param>
         /// <returns></returns>
         public static EndpointRegistration ToEndpointRegistration(this EndpointInfoModel model,
-            bool? disabled = null, string discoverId = null, string supervisorId = null) {
+            IJsonSerializer serializer, bool? disabled = null, string discoverId = null,
+            string supervisorId = null) {
             if (model == null) {
                 throw new ArgumentNullException(nameof(model));
             }
@@ -353,7 +357,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
                 AlternativeUrls = model.Registration?.Endpoint.AlternativeUrls?.ToList()?
                     .EncodeAsDictionary(),
                 AuthenticationMethods = model.Registration?.AuthenticationMethods?
-                    .EncodeAsDictionary(JToken.FromObject),
+                    .EncodeAsDictionary(serializer.FromObject),
                 SecurityMode = model.Registration?.Endpoint.SecurityMode ??
                     SecurityMode.Best,
                 SecurityPolicy = model.Registration?.Endpoint.SecurityPolicy,

@@ -12,12 +12,13 @@ namespace Microsoft.Azure.IIoT.OpcUa.Security.Services {
     using Microsoft.Azure.IIoT.Hub.Models;
     using Microsoft.Azure.IIoT.Diagnostics;
     using Newtonsoft.Json;
-    using Newtonsoft.Json.Linq;
+    using Microsoft.Azure.IIoT.Serializers;
     using Serilog;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using Newtonsoft.Json.Linq;
 
     /// <summary>
     /// Sending security notifications for unsecure endpoints
@@ -30,10 +31,12 @@ namespace Microsoft.Azure.IIoT.OpcUa.Security.Services {
         /// </summary>
         /// <param name="client"></param>
         /// <param name="metrics"></param>
+        /// <param name="serializer"></param>
         /// <param name="logger"></param>
         public EndpointSecurityAlerter(IIoTHubTelemetryServices client,
-            IMetricsLogger metrics, ILogger logger) {
+            IMetricsLogger metrics, IJsonSerializer serializer, ILogger logger) {
             _client = client ?? throw new ArgumentNullException(nameof(client));
+            _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _metrics = metrics ?? throw new ArgumentNullException(nameof(metrics));
         }
@@ -289,7 +292,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Security.Services {
                         [SystemProperties.InterfaceId] =
                             "http://security.azureiot.com/SecurityAgent/1.0.0"
                     },
-                    Payload = JToken.FromObject(alert)
+                    Payload = _serializer.FromObject(alert)
                 });
             _logger.Verbose("Security Agent Message {@alert} sent.", alert);
         }
@@ -304,10 +307,10 @@ namespace Microsoft.Azure.IIoT.OpcUa.Security.Services {
                 NullValueHandling = NullValueHandling.Ignore
             };
             var jsonObject = JObject.FromObject(model, JsonSerializer.Create(settings));
-            var jTokens = jsonObject.Descendants().Where(p => p.Count() == 0);
-            var results = jTokens.Aggregate(new Dictionary<string, string>(),
-                (properties, jToken) => {
-                    properties.Add(jToken.Path, jToken.ToString());
+            var values = jsonObject.Descendants().Where(p => p.Count() == 0);
+            var results = values.Aggregate(new Dictionary<string, string>(),
+                (properties, values) => {
+                    properties.Add(values.Path, values.ToString());
                     return properties;
                 });
             return results;
@@ -315,6 +318,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Security.Services {
 
         private readonly IIoTHubTelemetryServices _client;
         private readonly ILogger _logger;
+        private readonly IJsonSerializer _serializer;
         private readonly IMetricsLogger _metrics;
     }
 }

@@ -11,7 +11,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Security.Services {
     using Autofac.Extras.Moq;
     using AutoFixture;
     using AutoFixture.Kernel;
-    using Newtonsoft.Json.Linq;
+    using Microsoft.Azure.IIoT.Serializers;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -174,7 +174,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Security.Services {
         /// <param name="endpoints"></param>
         private static void CreateEndpointFixtures(SecurityMode mode, string policy, byte[] certificate, out List<EndpointInfoModel> endpoints) {
             var fix = new Fixture();
-            fix.Customizations.Add(new TypeRelay(typeof(JToken), typeof(JObject)));
+            fix.Customizations.Add(new TypeRelay(typeof(VariantValue), typeof(VariantValue)));
             var superx = fix.Create<string>();
             endpoints = fix
                 .Build<EndpointInfoModel>()

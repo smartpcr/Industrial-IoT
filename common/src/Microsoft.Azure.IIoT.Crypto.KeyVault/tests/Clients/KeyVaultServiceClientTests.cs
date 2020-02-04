@@ -10,12 +10,12 @@ namespace Microsoft.Azure.IIoT.Crypto.KeyVault.Clients {
     using Microsoft.Azure.IIoT.Crypto.Storage;
     using Microsoft.Azure.IIoT.Storage;
     using Microsoft.Azure.IIoT.Storage.Default;
+    using Microsoft.Azure.IIoT.Serializers;
     using Microsoft.Azure.KeyVault;
     using Microsoft.Azure.KeyVault.Models;
     using Microsoft.Rest.Azure;
     using Autofac.Extras.Moq;
     using Moq;
-    using Newtonsoft.Json.Linq;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -24,7 +24,6 @@ namespace Microsoft.Azure.IIoT.Crypto.KeyVault.Clients {
     using System.Threading.Tasks;
     using Xunit;
     using Xunit.Sdk;
-    using Microsoft.Azure.IIoT.Serializers;
 
     /// <summary>
     /// Certificate Issuer tests
@@ -519,8 +518,8 @@ namespace Microsoft.Azure.IIoT.Crypto.KeyVault.Clients {
         /// <param name="mock"></param>
         /// <param name="provider"></param>
         private static (ICertificateIssuer, Mock<IKeyVaultClient>) Setup(AutoMock mock,
-            Func<IEnumerable<IDocumentInfo<JObject>>,
-            string, IEnumerable<IDocumentInfo<JObject>>> provider) {
+            Func<IEnumerable<IDocumentInfo<VariantValue>>,
+            string, IEnumerable<IDocumentInfo<VariantValue>>> provider) {
             mock.Provide<IQueryEngine>(new QueryEngineAdapter(provider));
             mock.Provide<IDatabaseServer, MemoryDatabase>();
             mock.Provide<IJsonSerializer, NewtonSoftJsonSerializer>();
@@ -535,7 +534,7 @@ namespace Microsoft.Azure.IIoT.Crypto.KeyVault.Clients {
                     mock.Provide<ICertificateRepository, CertificateDatabase>(),
                     mock.Provide<ICertificateFactory, CertificateFactory>(),
                     config.Object,
-                    mock.Provide<IJsonSerializer, NewtonSoftJsonSerializer>(), 
+                    mock.Provide<IJsonSerializer, NewtonSoftJsonSerializer>(),
                     client.Object)), client);
         }
         private const string kTestVaultUri = "http://test.vault.com:80";

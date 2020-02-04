@@ -6,13 +6,13 @@
 namespace Microsoft.Azure.IIoT.OpcUa.Subscriber.Handlers {
     using Microsoft.Azure.IIoT.OpcUa.Subscriber.Models;
     using Microsoft.Azure.IIoT.Hub;
+    using Microsoft.Azure.IIoT.Serializers;
     using Serilog;
     using System;
     using System.Text;
     using System.Threading.Tasks;
     using System.Collections.Generic;
     using System.Linq;
-    using Newtonsoft.Json.Linq;
 
     /// <summary>
     /// Publisher message handling
@@ -26,9 +26,12 @@ namespace Microsoft.Azure.IIoT.OpcUa.Subscriber.Handlers {
         /// Create handler
         /// </summary>
         /// <param name="handlers"></param>
+        /// <param name="serializer"></param>
         /// <param name="logger"></param>
-        public MonitoredItemSampleHandler(IEnumerable<IMonitoredItemSampleProcessor> handlers, ILogger logger) {
+        public MonitoredItemSampleHandler(IEnumerable<IMonitoredItemSampleProcessor> handlers,
+            IJsonSerializer serializer, ILogger logger) {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
             _handlers = handlers?.ToList() ?? throw new ArgumentNullException(nameof(handlers));
         }
 
@@ -36,11 +39,11 @@ namespace Microsoft.Azure.IIoT.OpcUa.Subscriber.Handlers {
         public async Task HandleAsync(string deviceId, string moduleId,
             byte[] payload, IDictionary<string, string> properties, Func<Task> checkpoint) {
             var json = Encoding.UTF8.GetString(payload);
-            IEnumerable<IValue> messages;
+            IEnumerable<VariantValue> messages;
             try {
-                var parsed = JToken.Parse(json);
-                if (parsed.Type == JTokenType.Array) {
-                    messages = parsed as JArray;
+                var parsed = _serializer.Parse(json);
+                if (parsed.Type == VariantValueType.Array) {
+                    messages = parsed;
                 }
                 else {
                     messages = parsed.YieldReturn();
@@ -72,6 +75,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Subscriber.Handlers {
         }
 
         private readonly ILogger _logger;
+        private readonly IJsonSerializer _serializer;
         private readonly List<IMonitoredItemSampleProcessor> _handlers;
     }
 }

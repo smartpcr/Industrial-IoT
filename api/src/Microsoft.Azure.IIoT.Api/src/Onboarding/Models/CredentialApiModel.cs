@@ -5,7 +5,7 @@
 
 namespace Microsoft.Azure.IIoT.OpcUa.Api.Onboarding.Models {
     using System.Runtime.Serialization;
-    using Newtonsoft.Json.Linq;
+    using Microsoft.Azure.IIoT.Serializers;
 
     /// <summary>
     /// Credential model
@@ -25,6 +25,6 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Onboarding.Models {
         /// </summary>
         [DataMember(Name = "value",
             EmitDefaultValue = false)]
-        public IValue Value { get; set; }
+        public VariantValue Value { get; set; }
     }
 }

@@ -13,6 +13,11 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol {
     public interface IVariantEncoder {
 
         /// <summary>
+        /// Get serializer in use
+        /// </summary>
+        IJsonSerializer Serializer { get; }
+
+        /// <summary>
         /// Get context
         /// </summary>
         ServiceMessageContext Context { get; }

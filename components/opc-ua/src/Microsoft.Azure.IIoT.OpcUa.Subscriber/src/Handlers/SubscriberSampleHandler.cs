@@ -6,7 +6,7 @@
 namespace Microsoft.Azure.IIoT.OpcUa.Subscriber.Handlers {
     using Microsoft.Azure.IIoT.OpcUa.Subscriber.Models;
     using Microsoft.Azure.IIoT.Hub;
-    using Newtonsoft.Json.Linq;
+    using Microsoft.Azure.IIoT.Serializers;
     using Serilog;
     using System;
     using System.Collections.Generic;
@@ -26,9 +26,12 @@ namespace Microsoft.Azure.IIoT.OpcUa.Subscriber.Handlers {
         /// Create handler
         /// </summary>
         /// <param name="handlers"></param>
+        /// <param name="serializer"></param>
         /// <param name="logger"></param>
-        public SubscriberCdmSampleHandler(IEnumerable<ISubscriberSampleProcessor> handlers, ILogger logger) {
+        public SubscriberCdmSampleHandler(IEnumerable<ISubscriberSampleProcessor> handlers,
+            IJsonSerializer serializer, ILogger logger) {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
             _handlers = handlers?.ToList() ?? throw new ArgumentNullException(nameof(handlers));
         }
 
@@ -36,11 +39,11 @@ namespace Microsoft.Azure.IIoT.OpcUa.Subscriber.Handlers {
         public async Task HandleAsync(string deviceId, string moduleId,
             byte[] payload, IDictionary<string, string> properties, Func<Task> checkpoint) {
             var json = Encoding.UTF8.GetString(payload);
-            IEnumerable<IValue> messages;
+            IEnumerable<VariantValue> messages;
             try {
-                var parsed = JToken.Parse(json);
-                if (parsed.Type == JTokenType.Array) {
-                    messages = parsed as JArray;
+                var parsed = _serializer.Parse(json);
+                if (parsed.Type == VariantValueType.Array) {
+                    messages = parsed;
                 }
                 else {
                     messages = parsed.YieldReturn();
@@ -73,6 +76,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Subscriber.Handlers {
         }
 
         private readonly ILogger _logger;
+        private readonly IJsonSerializer _serializer;
         private readonly List<ISubscriberSampleProcessor> _handlers;
     }
 }

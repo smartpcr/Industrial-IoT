@@ -4,9 +4,9 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Subscriber.Models {
+    using Microsoft.Azure.IIoT.Serializers;
     using System;
     using System.Linq;
-    using Newtonsoft.Json.Linq;
 
     /// <summary>
     /// Publisher sample model extensions
@@ -42,15 +42,13 @@ namespace Microsoft.Azure.IIoT.OpcUa.Subscriber.Models {
         /// </summary>
         /// <param name="message"></param>
         /// <returns></returns>
-        internal static MonitoredItemSampleModel ToServiceModel(this JToken message) {
-            if (message.Type != JTokenType.Object || !(message is JObject sampleRoot)) {
+        internal static MonitoredItemSampleModel ToServiceModel(this VariantValue message) {
+            if (message.Type != VariantValueType.Object) {
                 // Not a publisher sample object - not accepted
                 return null;
             }
 
-            var value = sampleRoot.Property("Value", StringComparison.InvariantCultureIgnoreCase)?
-                .Value;
-            if (value == null) {
+            if (!message.TryGetValue("Value", out var value)) {
                 // No value
                 return null;
             }
@@ -58,29 +56,29 @@ namespace Microsoft.Azure.IIoT.OpcUa.Subscriber.Models {
             //
             // Check if the value is a data value or if the value was flattened into the root.
             //
-            var dataValue = sampleRoot;
+            var dataValue = message;
             if (IsDataValue(value)) {
-                dataValue = value as JObject;
-                value = dataValue.GetValueOrDefault<IValue>("Value",
+                dataValue = value;
+                value = dataValue.GetValueOrDefault<VariantValue>("Value",
                     StringComparison.InvariantCultureIgnoreCase);
             }
 
             return new MonitoredItemSampleModel {
                 Value = GetValue(value, out var typeId),
                 TypeId = typeId?.ToString(),
-                DataSetId = sampleRoot.GetValueOrDefault<string>(
+                DataSetId = message.GetValueOrDefault<string>(
                     nameof(MonitoredItemSampleModel.DataSetId),
                         StringComparison.InvariantCultureIgnoreCase),
-                Timestamp = sampleRoot.GetValueOrDefault<DateTime?>(
+                Timestamp = message.GetValueOrDefault<DateTime?>(
                     nameof(MonitoredItemSampleModel.Timestamp),
                         StringComparison.InvariantCultureIgnoreCase),
-                SubscriptionId = sampleRoot.GetValueOrDefault<string>(
+                SubscriptionId = message.GetValueOrDefault<string>(
                     nameof(MonitoredItemSampleModel.SubscriptionId),
                         StringComparison.InvariantCultureIgnoreCase),
-                EndpointId = sampleRoot.GetValueOrDefault<string>(
+                EndpointId = message.GetValueOrDefault<string>(
                     nameof(MonitoredItemSampleModel.EndpointId),
                         StringComparison.InvariantCultureIgnoreCase),
-                NodeId = sampleRoot.GetValueOrDefault<string>(
+                NodeId = message.GetValueOrDefault<string>(
                     nameof(MonitoredItemSampleModel.NodeId),
                         StringComparison.InvariantCultureIgnoreCase),
                 SourcePicoseconds = dataValue.GetValueOrDefault<ushort?>(
@@ -104,15 +102,13 @@ namespace Microsoft.Azure.IIoT.OpcUa.Subscriber.Models {
         /// <param name="token"></param>
         /// <param name="typeId"></param>
         /// <returns></returns>
-        private static JToken GetValue(JToken token, out JToken typeId) {
-            if (token.Type != JTokenType.Object || !(token is JObject variant)) {
+        private static VariantValue GetValue(VariantValue token, out VariantValue typeId) {
+            if (token.Type != VariantValueType.Object) {
                 typeId = null;
             }
-            else if (variant.TryGetValue("Type",
-                    StringComparison.InvariantCultureIgnoreCase, out typeId)) {
-
-                variant.TryGetValue("Body",
-                    StringComparison.InvariantCultureIgnoreCase, out token);
+            else if (
+                token.TryGetValue("Type", out typeId)) {
+                token.TryGetValue("Body", out token);
             }
             return token;
         }
@@ -122,16 +118,16 @@ namespace Microsoft.Azure.IIoT.OpcUa.Subscriber.Models {
         /// </summary>
         /// <param name="token"></param>
         /// <returns></returns>
-        private static bool IsDataValue(this JToken token) {
+        private static bool IsDataValue(this VariantValue token) {
             var properties = new[] {
                 "SourcePicoseconds", "ServerPicoseconds",
                 "ServerTimestamp", "SourceTimestamp",
             };
-            if (token.Type != JTokenType.Object || !(token is JObject dataValue)) {
+            if (token.Type != VariantValueType.Object) {
                 // Not a publisher sample object - not accepted
                 return false;
             }
-            return dataValue.Properties().Any(p => p.Name.AnyOf(properties, true));
+            return token.Keys.Any(p => p.AnyOf(properties, true));
         }
     }
 }

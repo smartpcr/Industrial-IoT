@@ -12,7 +12,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
     using Microsoft.Azure.IIoT.OpcUa.History.Models;
     using Microsoft.Azure.IIoT.OpcUa.Registry.Models;
     using Microsoft.Azure.IIoT.OpcUa.Twin.Models;
-    using Newtonsoft.Json.Linq;
+    using Microsoft.Azure.IIoT.Serializers;
     using System.Linq;
 
     /// <summary>
@@ -485,11 +485,11 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// Create from service model
         /// </summary>
         /// <param name="model"></param>
-        public static HistoryReadNextResponseApiModel<IValue> ToApiModel(this HistoryReadNextResultModel<IValue> model) {
+        public static HistoryReadNextResponseApiModel<VariantValue> ToApiModel(this HistoryReadNextResultModel<VariantValue> model) {
             if (model == null) {
                 return null;
             }
-            return new HistoryReadNextResponseApiModel<IValue> {
+            return new HistoryReadNextResponseApiModel<VariantValue> {
                 History = model.History,
                 ContinuationToken = model.ContinuationToken,
                 ErrorInfo = model.ErrorInfo.ToApiModel()
@@ -500,11 +500,11 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// Create from service model
         /// </summary>
         /// <param name="model"></param>
-        public static HistoryReadRequestApiModel<IValue> ToApiModel(this HistoryReadRequestModel<IValue> model) {
+        public static HistoryReadRequestApiModel<VariantValue> ToApiModel(this HistoryReadRequestModel<VariantValue> model) {
             if (model == null) {
                 return null;
             }
-            return new HistoryReadRequestApiModel<IValue> {
+            return new HistoryReadRequestApiModel<VariantValue> {
                 NodeId = model.NodeId,
                 BrowsePath = model.BrowsePath,
                 IndexRange = model.IndexRange,
@@ -517,11 +517,11 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// Convert back to service model
         /// </summary>
         /// <returns></returns>
-        public static HistoryReadRequestModel<IValue> ToServiceModel(this HistoryReadRequestApiModel<IValue> model) {
+        public static HistoryReadRequestModel<VariantValue> ToServiceModel(this HistoryReadRequestApiModel<VariantValue> model) {
             if (model == null) {
                 return null;
             }
-            return new HistoryReadRequestModel<IValue> {
+            return new HistoryReadRequestModel<VariantValue> {
                 NodeId = model.NodeId,
                 BrowsePath = model.BrowsePath,
                 IndexRange = model.IndexRange,
@@ -534,11 +534,11 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// Create from service model
         /// </summary>
         /// <param name="model"></param>
-        public static HistoryReadResponseApiModel<IValue> ToApiModel(this HistoryReadResultModel<IValue> model) {
+        public static HistoryReadResponseApiModel<VariantValue> ToApiModel(this HistoryReadResultModel<VariantValue> model) {
             if (model == null) {
                 return null;
             }
-            return new HistoryReadResponseApiModel<IValue> {
+            return new HistoryReadResponseApiModel<VariantValue> {
                 History = model.History,
                 ContinuationToken = model.ContinuationToken,
                 ErrorInfo = model.ErrorInfo.ToApiModel()
@@ -549,11 +549,11 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// Create from service model
         /// </summary>
         /// <param name="model"></param>
-        public static HistoryUpdateRequestApiModel<IValue> ToApiModel(this HistoryUpdateRequestModel<IValue> model) {
+        public static HistoryUpdateRequestApiModel<VariantValue> ToApiModel(this HistoryUpdateRequestModel<VariantValue> model) {
             if (model == null) {
                 return null;
             }
-            return new HistoryUpdateRequestApiModel<IValue> {
+            return new HistoryUpdateRequestApiModel<VariantValue> {
                 Details = model.Details,
                 NodeId = model.NodeId,
                 BrowsePath = model.BrowsePath,
@@ -565,11 +565,11 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// Convert back to service model
         /// </summary>
         /// <returns></returns>
-        public static HistoryUpdateRequestModel<IValue> ToServiceModel(this HistoryUpdateRequestApiModel<IValue> model) {
+        public static HistoryUpdateRequestModel<VariantValue> ToServiceModel(this HistoryUpdateRequestApiModel<VariantValue> model) {
             if (model == null) {
                 return null;
             }
-            return new HistoryUpdateRequestModel<IValue> {
+            return new HistoryUpdateRequestModel<VariantValue> {
                 Details = model.Details,
                 NodeId = model.NodeId,
                 BrowsePath = model.BrowsePath,

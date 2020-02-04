@@ -4,9 +4,9 @@
 // ------------------------------------------------------------
 
 namespace Newtonsoft.Json {
-    using Microsoft.Azure.IIoT.Utils;
     using Newtonsoft.Json.Linq;
     using Newtonsoft.Json.Serialization;
+    using Microsoft.Azure.IIoT.Utils;
     using System;
     using System.Collections.Generic;
     using System.Linq;

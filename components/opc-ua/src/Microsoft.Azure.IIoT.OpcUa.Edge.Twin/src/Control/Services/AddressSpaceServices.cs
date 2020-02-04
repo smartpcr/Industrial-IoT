@@ -22,7 +22,6 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Control.Services {
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using Newtonsoft.Json.Linq;
 
     /// <summary>
     /// This class provides access to a servers address space providing node
@@ -94,8 +93,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Control.Services {
                 result.Node = await ReadNodeModelAsync(session, codec,
                     (request.Header?.Diagnostics).ToStackModel(), rootId, null, true, rawMode,
                     !excludeReferences ? result.References.Count != 0 : (bool?)null, diagnostics, true);
-                result.ErrorInfo = diagnostics.ToServiceModel(request.Header?.Diagnostics,
-                    session.MessageContext);
+                result.ErrorInfo = codec.Encode(diagnostics, request.Header?.Diagnostics);
                 return result;
             });
         }
@@ -128,8 +126,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Control.Services {
                     request.ReadVariableValues ?? false, request.NodeIdsOnly ?? false,
                     result.References, diagnostics, response.Results[0].ContinuationPoint,
                     response.Results[0].References);
-                result.ErrorInfo = diagnostics.ToServiceModel(request.Header?.Diagnostics,
-                    session.MessageContext);
+                result.ErrorInfo = codec.Encode(diagnostics, request.Header?.Diagnostics);
                 return result;
             });
         }
@@ -171,8 +168,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Control.Services {
                         result.Targets, diagnostics, response.Results[index].Targets,
                         request.BrowsePaths[index]);
                 }
-                result.ErrorInfo = diagnostics.ToServiceModel(request.Header?.Diagnostics,
-                    session.MessageContext);
+                result.ErrorInfo = codec.Encode(diagnostics, request.Header?.Diagnostics);
                 return result;
             });
         }
@@ -261,8 +257,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Control.Services {
                         result.OutputArguments = argList;
                     }
                 }
-                result.ErrorInfo = diagnostics.ToServiceModel(request.Header?.Diagnostics,
-                    session.MessageContext);
+                result.ErrorInfo = codec.Encode(diagnostics, request.Header?.Diagnostics);
                 return result;
             });
         }
@@ -420,8 +415,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Control.Services {
                             null : type.ToString();
                     }
                 }
-                result.ErrorInfo = diagnostics.ToServiceModel(request.Header?.Diagnostics,
-                    session.MessageContext);
+                result.ErrorInfo = codec.Encode(diagnostics, request.Header?.Diagnostics);
                 return result;
             });
         }
@@ -483,8 +477,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Control.Services {
                     result.Value = codec.Encode(values[0].WrappedValue, out var type);
                     result.DataType = type == BuiltInType.Null ? null : type.ToString();
                 }
-                result.ErrorInfo = diagnostics.ToServiceModel(request.Header?.Diagnostics,
-                    session.MessageContext);
+                result.ErrorInfo = codec.Encode(diagnostics, request.Header?.Diagnostics);
                 return result;
             });
         }
@@ -540,8 +533,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Control.Services {
                 OperationResultEx.Validate("WriteValue_" + writeNode, diagnostics, response.Results,
                     response.DiagnosticInfos, false);
                 SessionClientEx.Validate(response.Results, response.DiagnosticInfos);
-                result.ErrorInfo = diagnostics.ToServiceModel(request.Header?.Diagnostics,
-                    session.MessageContext);
+                result.ErrorInfo = codec.Encode(diagnostics, request.Header?.Diagnostics);
                 return result;
             });
         }
@@ -578,9 +570,8 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Control.Services {
                                     response.DiagnosticInfos[index];
                                 return new AttributeReadResultModel {
                                     Value = codec.Encode(value.WrappedValue, out var wellKnown),
-                                    ErrorInfo = diagnostics.ToServiceModel(
-                                        value.StatusCode, "NodeRead", request.Header?.Diagnostics,
-                                        session.MessageContext)
+                                    ErrorInfo = codec.Encode(diagnostics,
+                                        value.StatusCode, "NodeRead", request.Header?.Diagnostics)
                                 };
                             }).ToList()
                     };
@@ -619,9 +610,8 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Control.Services {
                                             response.DiagnosticInfos.Count == 0 ? null :
                                     response.DiagnosticInfos[index];
                                 return new AttributeWriteResultModel {
-                                    ErrorInfo = diagnostics.ToServiceModel(
-                                        value, "NodeWrite", request.Header?.Diagnostics,
-                                        session.MessageContext)
+                                    ErrorInfo = codec.Encode(diagnostics,
+                                        value, "NodeWrite", request.Header?.Diagnostics)
                                 };
                             }).ToList()
                     };
@@ -674,8 +664,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Control.Services {
                 return new HistoryReadResultModel<VariantValue> {
                     ContinuationToken = response.Results[0].ContinuationPoint.ToBase64String(),
                     History = codec.Encode(new Variant(response.Results[0].HistoryData), out var tmp),
-                    ErrorInfo = diagnostics.ToServiceModel(request.Header?.Diagnostics,
-                        session.MessageContext)
+                    ErrorInfo = codec.Encode(diagnostics, request.Header?.Diagnostics)
                 };
             });
         }
@@ -709,8 +698,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Control.Services {
                         ContinuationToken = response.Results[0].ContinuationPoint.ToBase64String(),
                         History = codec.Encode(new Variant(response.Results[0].HistoryData),
                             out var tmp),
-                        ErrorInfo = diagnostics.ToServiceModel(request.Header?.Diagnostics,
-                            session.MessageContext)
+                        ErrorInfo = codec.Encode(diagnostics, request.Header?.Diagnostics)
                     };
                 });
         }
@@ -760,8 +748,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Control.Services {
                         ErrorMessage = StatusCode.LookupSymbolicId(s.CodeBits),
                         Diagnostics = null
                     }).ToList(),
-                    ErrorInfo = diagnostics.ToServiceModel(request.Header?.Diagnostics,
-                        session.MessageContext)
+                    ErrorInfo = codec.Encode(diagnostics, request.Header?.Diagnostics)
                 };
             });
         }

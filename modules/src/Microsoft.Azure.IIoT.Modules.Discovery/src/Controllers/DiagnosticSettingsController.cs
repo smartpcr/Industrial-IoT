@@ -9,7 +9,6 @@ namespace Microsoft.Azure.IIoT.Modules.Discovery.Controllers {
     using Serilog;
     using Serilog.Events;
     using System;
-    using Newtonsoft.Json.Linq;
 
     /// <summary>
     /// Diagnostic settings controller
@@ -26,16 +25,16 @@ namespace Microsoft.Azure.IIoT.Modules.Discovery.Controllers {
         /// <summary>
         /// Set and get the log level
         /// </summary>
-        public IValue LogLevel {
+        public string LogLevel {
             set {
-                if (value == null || value.Type == JTokenType.Null) {
+                if (value == null) {
                     // Set default
                     LogControl.Level.MinimumLevel = LogEventLevel.Information;
                     _logger.Information("Setting log level to default level.");
                 }
-                else if (value.Type == JTokenType.String) {
-                    // The enum values are the same as in serilog
-                    if (!Enum.TryParse<LogEventLevel>((string)value, true,
+                else {
+                    // The enum values are the same as the ones defined for serilog
+                    if (!Enum.TryParse<LogEventLevel>(value, true,
                         out var level)) {
                         throw new ArgumentException(
                             $"Bad log level value {value} passed.");
@@ -43,13 +42,9 @@ namespace Microsoft.Azure.IIoT.Modules.Discovery.Controllers {
                     _logger.Information("Setting log level to {level}", level);
                     LogControl.Level.MinimumLevel = level;
                 }
-                else {
-                    throw new NotSupportedException(
-                        $"Bad log level value type {value.Type}");
-                }
             }
             // The enum values are the same as in serilog
-            get => JToken.FromObject(LogControl.Level.MinimumLevel.ToString());
+            get => LogControl.Level.MinimumLevel.ToString();
         }
 
         /// <summary>

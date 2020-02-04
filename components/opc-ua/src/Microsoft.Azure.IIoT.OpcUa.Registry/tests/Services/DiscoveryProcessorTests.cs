@@ -8,7 +8,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
     using Microsoft.Azure.IIoT.Hub;
     using Microsoft.Azure.IIoT.Hub.Mock;
     using Microsoft.Azure.IIoT.Hub.Models;
-    using Newtonsoft.Json.Linq;
+    using Microsoft.Azure.IIoT.Serializers;
     using Autofac.Extras.Moq;
     using AutoFixture;
     using AutoFixture.Kernel;
@@ -33,19 +33,19 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
             var discoverer = DiscovererModelEx.CreateDiscovererId(gateway, module);
             var Discoverer = (new DiscovererModel {
                 Id = discoverer
-            }.ToDiscovererRegistration().ToDeviceTwin(),
+            }.ToDiscovererRegistration().ToDeviceTwin(_serializer),
                     new DeviceModel { Id = gateway, ModuleId = module });
             module = fix.Create<string>();
             var supervisor = SupervisorModelEx.CreateSupervisorId(gateway, module);
             var Supervisor = (new SupervisorModel {
                 Id = supervisor
-            }.ToSupervisorRegistration().ToDeviceTwin(),
+            }.ToSupervisorRegistration().ToDeviceTwin(_serializer),
                     new DeviceModel { Id = gateway, ModuleId = module });
             module = fix.Create<string>();
             var publisher = PublisherModelEx.CreatePublisherId(gateway, module);
             var Publisher = (new PublisherModel {
                 Id = publisher
-            }.ToPublisherRegistration().ToDeviceTwin(),
+            }.ToPublisherRegistration().ToDeviceTwin(_serializer),
                     new DeviceModel { Id = gateway, ModuleId = module });
 
             var registry = IoTHubServices.Create(Gateway.YieldReturn() // Single device
@@ -431,7 +431,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
         /// <param name="countDevices"></param>
         /// <param name="fixup"></param>
         /// <param name="disable"></param>
-        private static void CreateFixtures(out string site, out string discoverer,
+        private void CreateFixtures(out string site, out string discoverer,
             out string supervisor, out string publisher, out string gateway,
             out List<ApplicationRegistrationModel> existing, out List<DiscoveryEventModel> found,
             out IoTHubServices registry, int countDevices = -1,
@@ -440,7 +440,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
             var fix = new Fixture();
 
             // Create template applications and endpoints
-            fix.Customizations.Add(new TypeRelay(typeof(JToken), typeof(JObject)));
+            fix.Customizations.Add(new TypeRelay(typeof(VariantValue), typeof(VariantValue)));
             var sitex = site = fix.Create<string>();
 
             gateway = fix.Create<string>();
@@ -454,21 +454,21 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
             var Discoverer = (new DiscovererModel {
                 SiteId = site,
                 Id = discovererx
-            }.ToDiscovererRegistration().ToDeviceTwin(),
+            }.ToDiscovererRegistration().ToDeviceTwin(_serializer),
                     new DeviceModel { Id = gateway, ModuleId = module });
             module = fix.Create<string>();
             var supervisorx = supervisor = SupervisorModelEx.CreateSupervisorId(gateway, module);
             var Supervisor = (new SupervisorModel {
                 SiteId = site,
                 Id = supervisorx
-            }.ToSupervisorRegistration().ToDeviceTwin(),
+            }.ToSupervisorRegistration().ToDeviceTwin(_serializer),
                     new DeviceModel { Id = gateway, ModuleId = module });
             module = fix.Create<string>();
             var publisherx = publisher = PublisherModelEx.CreatePublisherId(gateway, module);
             var Publisher = (new PublisherModel {
                 SiteId = site,
                 Id = publisherx
-            }.ToPublisherRegistration().ToDeviceTwin(),
+            }.ToPublisherRegistration().ToDeviceTwin(_serializer),
                     new DeviceModel { Id = gateway, ModuleId = module });
 
             var template = fix
@@ -515,7 +515,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
             // and fill registry with them...
             var appdevices = existing
                 .Select(a => a.Application.ToApplicationRegistration(disable))
-                .Select(a => a.ToDeviceTwin())
+                .Select(a => a.ToDeviceTwin(_serializer))
                 .Select(d => (d, new DeviceModel { Id = d.Id }));
             var epdevices = existing
                 .SelectMany(a => a.Endpoints
@@ -523,8 +523,8 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
                         new EndpointInfoModel {
                             ApplicationId = a.Application.ApplicationId,
                             Registration = e
-                        }.ToEndpointRegistration(disable))
-                .Select(e => e.ToDeviceTwin()))
+                        }.ToEndpointRegistration(_serializer, disable))
+                .Select(e => e.ToDeviceTwin(_serializer)))
                 .Select(d => (d, new DeviceModel { Id = d.Id }));
             appdevices = appdevices.Concat(epdevices);
             if (countDevices != -1) {
@@ -536,5 +536,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
                 .Concat(Supervisor.YieldReturn())
                 .Concat(Publisher.YieldReturn()));
         }
+
+        private readonly IJsonSerializer _serializer = new NewtonSoftJsonSerializer();
     }
 }

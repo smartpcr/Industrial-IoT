@@ -9,7 +9,7 @@ namespace Microsoft.Azure.IIoT.Hub.Client {
     using Microsoft.Azure.Devices.Shared;
     using Microsoft.Azure.IIoT.Hub.Models;
     using Microsoft.Azure.IIoT.Utils;
-    using Newtonsoft.Json.Linq;
+    using Microsoft.Azure.IIoT.Serializers;
     using Serilog;
     using System;
     using System.Collections.Generic;
@@ -32,14 +32,16 @@ namespace Microsoft.Azure.IIoT.Hub.Client {
         /// Create service client
         /// </summary>
         /// <param name="config"></param>
+        /// <param name="serializer"></param>
         /// <param name="logger"></param>
-        public IoTHubServiceClient(IIoTHubConfig config, ILogger logger) {
+        public IoTHubServiceClient(IIoTHubConfig config, IJsonSerializer serializer,
+            ILogger logger) {
             if (string.IsNullOrEmpty(config?.IoTHubConnString)) {
                 throw new ArgumentNullException(nameof(config.IoTHubConnString));
             }
 
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-
+            _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
             _client = ServiceClient.CreateFromConnectionString(config.IoTHubConnString);
             _registry = RegistryManager.CreateFromConnectionString(config.IoTHubConnString);
             _jobs = JobClient.CreateFromConnectionString(config.IoTHubConnString);
@@ -100,7 +102,7 @@ namespace Microsoft.Azure.IIoT.Hub.Client {
                     update = await _registry.UpdateTwinAsync(twin.Id,
                         twin.ToTwin(true), etag, ct);
                 }
-                return update.ToModel();
+                return _serializer.DeserializeTwin(update);
             }
             catch (Exception e) {
                 _logger.Verbose(e, "Create or update failed ");
@@ -130,7 +132,7 @@ namespace Microsoft.Azure.IIoT.Hub.Client {
 
         /// <inheritdoc/>
         public async Task UpdatePropertiesAsync(string deviceId, string moduleId,
-            Dictionary<string, JToken> properties, string etag, CancellationToken ct) {
+            Dictionary<string, VariantValue> properties, string etag, CancellationToken ct) {
             try {
                 var result = await (string.IsNullOrEmpty(moduleId) ?
                     _registry.UpdateTwinAsync(deviceId, properties.ToTwin(), etag, ct) :
@@ -166,7 +168,7 @@ namespace Microsoft.Azure.IIoT.Hub.Client {
                 else {
                     twin = await _registry.GetTwinAsync(deviceId, moduleId, ct);
                 }
-                return twin.ToModel();
+                return _serializer.DeserializeTwin(twin);
             }
             catch (Exception e) {
                 _logger.Verbose(e, "Get twin failed ");
@@ -200,7 +202,7 @@ namespace Microsoft.Azure.IIoT.Hub.Client {
                 var result = await statement.GetNextAsJsonAsync(options);
                 return new QueryResultModel {
                     ContinuationToken = result.ContinuationToken,
-                    Result = new JArray(result.Select(JToken.Parse))
+                    Result = result.Select(s => _serializer.Parse(s))
                 };
             }
             catch (Exception e) {
@@ -308,6 +310,7 @@ namespace Microsoft.Azure.IIoT.Hub.Client {
 
         private readonly ServiceClient _client;
         private readonly RegistryManager _registry;
+        private readonly IJsonSerializer _serializer;
         private readonly JobClient _jobs;
         private readonly ILogger _logger;
     }

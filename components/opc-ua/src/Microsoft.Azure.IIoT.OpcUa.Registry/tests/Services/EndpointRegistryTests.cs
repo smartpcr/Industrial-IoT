@@ -10,10 +10,10 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
     using Microsoft.Azure.IIoT.Hub;
     using Microsoft.Azure.IIoT.Hub.Mock;
     using Microsoft.Azure.IIoT.Hub.Models;
+    using Microsoft.Azure.IIoT.Serializers;
     using Autofac.Extras.Moq;
     using AutoFixture;
     using AutoFixture.Kernel;
-    using Newtonsoft.Json.Linq;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -247,11 +247,11 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
         /// <param name="super"></param>
         /// <param name="endpoints"></param>
         /// <param name="devices"></param>
-        private static void CreateEndpointFixtures(out string site, out string super,
+        private void CreateEndpointFixtures(out string site, out string super,
             out List<EndpointInfoModel> endpoints, out List<(DeviceTwinModel, DeviceModel)> devices,
             bool noSite = false) {
             var fix = new Fixture();
-            fix.Customizations.Add(new TypeRelay(typeof(JToken), typeof(JObject)));
+            fix.Customizations.Add(new TypeRelay(typeof(VariantValue), typeof(VariantValue)));
             var sitex = site = noSite ? null : fix.Create<string>();
             var superx = super = fix.Create<string>();
             endpoints = fix
@@ -268,9 +268,9 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
             devices = endpoints
                 .Select(a => {
                     a.Registration.EndpointUrl = a.Registration.Endpoint.Url;
-                    var r = a.ToEndpointRegistration();
-                    var t = r.ToDeviceTwin();
-                    t.Properties.Reported = new Dictionary<string, JToken> {
+                    var r = a.ToEndpointRegistration(_serializer);
+                    var t = r.ToDeviceTwin(_serializer);
+                    t.Properties.Reported = new Dictionary<string, VariantValue> {
                         [TwinProperty.Type] = "Twin"
                     };
                     if (a.Registration.SiteId != null) {
@@ -285,5 +285,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
                 .Select(t => (t, new DeviceModel { Id = t.Id }))
                 .ToList();
         }
+
+        private readonly IJsonSerializer _serializer = new NewtonSoftJsonSerializer();
     }
 }

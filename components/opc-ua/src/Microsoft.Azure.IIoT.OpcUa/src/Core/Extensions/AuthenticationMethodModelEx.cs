@@ -6,7 +6,7 @@
 namespace Microsoft.Azure.IIoT.OpcUa.Core.Models {
     using System.Collections.Generic;
     using System.Linq;
-    using Newtonsoft.Json.Linq;
+    using Microsoft.Azure.IIoT.Serializers;
 
     /// <summary>
     /// Authentication method model extensions
@@ -48,7 +48,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Core.Models {
                 return false;
             }
             if (model.Configuration != null && that.Configuration != null) {
-                if (!JToken.DeepEquals(model.Configuration, that.Configuration)) {
+                if (!VariantValue.DeepEquals(model.Configuration, that.Configuration)) {
                     return false;
                 }
             }

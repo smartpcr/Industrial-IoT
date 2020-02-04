@@ -7,6 +7,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
     using Microsoft.Azure.IIoT.OpcUa.Registry.Models;
     using Microsoft.Azure.IIoT.OpcUa.Registry;
     using Microsoft.Azure.IIoT.OpcUa.Core.Models;
+    using Microsoft.Azure.IIoT.Serializers;
     using Microsoft.Azure.IIoT.Exceptions;
     using Microsoft.Azure.IIoT.Hub;
     using Serilog;
@@ -26,9 +27,12 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
         /// </summary>
         /// <param name="iothub"></param>
         /// <param name="broker"></param>
+        /// <param name="serializer"></param>
         /// <param name="logger"></param>
         public DiscovererRegistry(IIoTHubTwinServices iothub,
-            IRegistryEventBroker<IDiscovererRegistryListener> broker, ILogger logger) {
+            IRegistryEventBroker<IDiscovererRegistryListener> broker,
+            IJsonSerializer serializer, ILogger logger) {
+            _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
             _iothub = iothub ?? throw new ArgumentNullException(nameof(iothub));
             _broker = broker ?? throw new ArgumentNullException(nameof(broker));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -150,7 +154,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
                     }
                     // Patch
                     twin = await _iothub.PatchAsync(registration.Patch(
-                        patched.ToDiscovererRegistration()), false, ct);
+                        patched.ToDiscovererRegistration(), _serializer), false, ct);
 
                     // Send update to through broker
                     registration = twin.ToEntityRegistration(true) as DiscovererRegistration;
@@ -222,6 +226,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
         }
 
         private readonly IIoTHubTwinServices _iothub;
+        private readonly IJsonSerializer _serializer;
         private readonly IRegistryEventBroker<IDiscovererRegistryListener> _broker;
         private readonly ILogger _logger;
     }

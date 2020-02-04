@@ -13,9 +13,9 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Controllers {
     using Microsoft.Azure.IIoT.OpcUa.Edge;
     using Microsoft.Azure.IIoT.OpcUa.Twin;
     using Microsoft.Azure.IIoT.OpcUa.History;
+    using Microsoft.Azure.IIoT.Serializers;
     using System;
     using System.Threading.Tasks;
-    using Newtonsoft.Json.Linq;
 
     /// <summary>
     /// Endpoint methods controller
@@ -205,8 +205,8 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Controllers {
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public async Task<HistoryReadResponseApiModel<IValue>> HistoryReadAsync(
-            HistoryReadRequestApiModel<IValue> request) {
+        public async Task<HistoryReadResponseApiModel<VariantValue>> HistoryReadAsync(
+            HistoryReadRequestApiModel<VariantValue> request) {
             if (request == null) {
                 throw new ArgumentNullException(nameof(request));
             }
@@ -220,7 +220,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Controllers {
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public async Task<HistoryReadNextResponseApiModel<IValue>> HistoryReadNextAsync(
+        public async Task<HistoryReadNextResponseApiModel<VariantValue>> HistoryReadNextAsync(
             HistoryReadNextRequestApiModel request) {
             if (request == null) {
                 throw new ArgumentNullException(nameof(request));
@@ -236,7 +236,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Controllers {
         /// <param name="request"></param>
         /// <returns></returns>
         public async Task<HistoryUpdateResponseApiModel> HistoryUpdateAsync(
-            HistoryUpdateRequestApiModel<IValue> request) {
+            HistoryUpdateRequestApiModel<VariantValue> request) {
             if (request == null) {
                 throw new ArgumentNullException(nameof(request));
             }

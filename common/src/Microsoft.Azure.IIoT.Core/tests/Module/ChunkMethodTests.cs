@@ -21,19 +21,18 @@ namespace Microsoft.Azure.IIoT.Module {
         [InlineData(0)]
         public void SendReceiveJsonTestWithVariousChunkSizes(int chunkSize) {
             var fixture = new Fixture();
-            var serializer = new NewtonSoftJsonSerializer();
 
             var expectedMethod = fixture.Create<string>();
             var expectedContentType = fixture.Create<string>();
-            var expectedRequest = serializer.Serialize(new {
+            var expectedRequest = _serializer.Serialize(new {
                 test1 = fixture.Create<string>(),
                 test2 = fixture.Create<long>()
             });
-            var expectedResponse = serializer.Serialize(new {
+            var expectedResponse = _serializer.Serialize(new {
                 test1 = fixture.Create<byte[]>(),
                 test2 = fixture.Create<string>()
             });
-            var server = new TestChunkServer(chunkSize, (method, buffer, type) => {
+            var server = new TestChunkServer(_serializer, chunkSize, (method, buffer, type) => {
                 Assert.Equal(expectedMethod, method);
                 Assert.Equal(expectedContentType, type);
                 Assert.Equal(expectedRequest, Encoding.UTF8.GetString(buffer));
@@ -67,7 +66,7 @@ namespace Microsoft.Azure.IIoT.Module {
             var expectedResponse = new byte[300000];
             kR.NextBytes(expectedResponse);
 
-            var server = new TestChunkServer(chunkSize, (method, buffer, type) => {
+            var server = new TestChunkServer(_serializer, chunkSize, (method, buffer, type) => {
                 Assert.Equal(expectedMethod, method);
                 Assert.Equal(expectedContentType, type);
                 Assert.Equal(expectedRequest, buffer);
@@ -80,5 +79,6 @@ namespace Microsoft.Azure.IIoT.Module {
         }
 
         private static readonly Random kR = new Random();
+        private readonly IJsonSerializer _serializer = new NewtonSoftJsonSerializer();
     }
 }

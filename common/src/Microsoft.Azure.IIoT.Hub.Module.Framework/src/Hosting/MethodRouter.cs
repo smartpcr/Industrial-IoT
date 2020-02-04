@@ -9,7 +9,6 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
     using Microsoft.Azure.IIoT.Exceptions;
     using Microsoft.Azure.IIoT.Serializers;
     using Microsoft.Azure.Devices.Client;
-    using Newtonsoft.Json.Linq;
     using Serilog;
     using System;
     using System.Collections.Generic;
@@ -260,10 +259,10 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
                         inputs = new[] { data };
                     }
                     else {
-                        var data = (JObject)JToken.Parse(Encoding.UTF8.GetString(payload));
+                        var data = _serializer.Parse(Encoding.UTF8.GetString(payload));
                         inputs = _methodParams.Select(param => {
                             if (data.TryGetValue(param.Name,
-                                StringComparison.InvariantCultureIgnoreCase, out var value)) {
+                                out var value, StringComparison.InvariantCultureIgnoreCase)) {
                                 return value.ToObject(param.ParameterType);
                             }
                             return param.HasDefaultValue ? param.DefaultValue : null;

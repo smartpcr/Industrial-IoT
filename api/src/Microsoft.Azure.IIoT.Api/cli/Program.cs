@@ -747,7 +747,7 @@ namespace Microsoft.Azure.IIoT.Api.Cli {
                 new ValueWriteRequestApiModel {
                     NodeId = GetNodeId(options),
                     DataType = options.GetValueOrDefault<string>("-t", "--datatype", null),
-                    Value = options.GetValue<string>("-v", "--value")
+                    Value = _serializer.FromObject(options.GetValue<string>("-v", "--value"))
                 });
             PrintResult(options, result);
         }
@@ -2442,7 +2442,8 @@ namespace Microsoft.Azure.IIoT.Api.Cli {
             }
             else {
                 var result = await _vault.StartSigningRequestAsync(new StartSigningRequestApiModel {
-                    CertificateRequest = options.GetValue<byte[]>("-c", "--csr"),
+                    CertificateRequest = _serializer.FromObject(
+                        options.GetValue<byte[]>("-c", "--csr")),
                     EntityId = options.GetValue<string>("-e", "--entityId"),
                     GroupId = options.GetValue<string>("-g", "--groupId")
                 });
@@ -2544,7 +2545,7 @@ namespace Microsoft.Azure.IIoT.Api.Cli {
         private void PrintResult<T>(CliOptions options, T status) {
             Console.WriteLine("==================");
             Console.WriteLine(_serializer.Serialize(status,
-                options.GetValueOrDefault("-F", "--format", JsonFormat.Indented)));
+                options.GetValueOrDefault("-F", "--format", Formatting.Indented)));
             Console.WriteLine("==================");
         }
 

@@ -10,7 +10,6 @@ namespace Microsoft.Azure.IIoT.Hub.Client {
     using Microsoft.Azure.IIoT.Utils;
     using Microsoft.Azure.IIoT.Serializers;
     using Microsoft.Extensions.Diagnostics.HealthChecks;
-    using Newtonsoft.Json.Linq;
     using Serilog;
     using System;
     using System.Collections.Generic;
@@ -129,9 +128,9 @@ namespace Microsoft.Azure.IIoT.Hub.Client {
                     _serializer.SerializeToRequest(patch, new {
                         deviceId = twin.Id,
                         moduleId = twin.ModuleId,
-                        tags = twin.Tags ?? new Dictionary<string, JToken>(),
+                        tags = twin.Tags ?? new Dictionary<string, VariantValue>(),
                         properties = new {
-                            desired = twin.Properties?.Desired ?? new Dictionary<string, JToken>()
+                            desired = twin.Properties?.Desired ?? new Dictionary<string, VariantValue>()
                         }
                     });
                 }
@@ -139,9 +138,9 @@ namespace Microsoft.Azure.IIoT.Hub.Client {
                     // Patch device
                     _serializer.SerializeToRequest(patch, new {
                         deviceId = twin.Id,
-                        tags = twin.Tags ?? new Dictionary<string, JToken>(),
+                        tags = twin.Tags ?? new Dictionary<string, VariantValue>(),
                         properties = new {
-                            desired = twin.Properties?.Desired ?? new Dictionary<string, JToken>()
+                            desired = twin.Properties?.Desired ?? new Dictionary<string, VariantValue>()
                         }
                     });
                 }
@@ -176,20 +175,20 @@ namespace Microsoft.Azure.IIoT.Hub.Client {
                 methodName = parameters.Name,
                 // TODO: Add timeouts...
                 // responseTimeoutInSeconds = ...
-                payload = JToken.Parse(parameters.JsonPayload)
+                payload = _serializer.Parse(parameters.JsonPayload)
             });
             var response = await _httpClient.PostAsync(request, ct);
             response.Validate();
-            dynamic result = JToken.Parse(response.GetContentAsString());
+            var result = _serializer.ParseResponse(response);
             return new MethodResultModel {
-                JsonPayload = ((JToken)result.payload).ToString(),
-                Status = result.status
+                JsonPayload = result["payload"].ToString(),
+                Status = (int)result["status"]
             };
         }
 
         /// <inheritdoc/>
         public Task UpdatePropertiesAsync(string deviceId, string moduleId,
-            Dictionary<string, JToken> properties, string etag, CancellationToken ct) {
+            Dictionary<string, VariantValue> properties, string etag, CancellationToken ct) {
             if (string.IsNullOrEmpty(deviceId)) {
                 throw new ArgumentNullException(nameof(deviceId));
             }
@@ -199,7 +198,7 @@ namespace Microsoft.Azure.IIoT.Hub.Client {
                 _serializer.SerializeToRequest(request, new {
                     deviceId,
                     properties = new {
-                        desired = properties ?? new Dictionary<string, JToken>()
+                        desired = properties ?? new Dictionary<string, VariantValue>()
                     }
                 });
                 request.Headers.Add("If-Match",
@@ -253,7 +252,7 @@ namespace Microsoft.Azure.IIoT.Hub.Client {
                     $"/devices/{ToResourceId(deviceId, moduleId)}");
                 var response = await _httpClient.GetAsync(request, ct);
                 response.Validate();
-                return ToDeviceRegistrationModel(JToken.Parse(response.GetContentAsString()));
+                return ToDeviceRegistrationModel(_serializer.ParseResponse(response));
             }, kMaxRetryCount);
         }
 
@@ -278,9 +277,10 @@ namespace Microsoft.Azure.IIoT.Hub.Client {
             if (response.Headers.TryGetValues(HttpHeader.ContinuationToken, out var values)) {
                 continuation = values.First();
             }
+            var results = _serializer.ParseResponse(response);
             return new QueryResultModel {
                 ContinuationToken = continuation,
-                Result = JArray.Parse(response.GetContentAsString())
+                Result = results
             };
         }
 
@@ -306,14 +306,14 @@ namespace Microsoft.Azure.IIoT.Hub.Client {
         /// </summary>
         /// <param name="result"></param>
         /// <returns></returns>
-        private static DeviceModel ToDeviceRegistrationModel(dynamic result) {
+        private static DeviceModel ToDeviceRegistrationModel(VariantValue result) {
             return new DeviceModel {
-                Etag = result.etag,
-                Id = result.deviceId,
-                ModuleId = result.moduleId,
+                Etag = (string)result["etag"],
+                Id = (string)result["deviceId"],
+                ModuleId = (string)result["moduleId"],
                 Authentication = new DeviceAuthenticationModel {
-                    PrimaryKey = result.authentication.symmetricKey.primaryKey,
-                    SecondaryKey = result.authentication.symmetricKey.secondaryKey
+                    PrimaryKey = (string)result["authentication"]["symmetricKey"]["primaryKey"],
+                    SecondaryKey = (string)result["authentication"]["symmetricKey"]["secondaryKey"]
                 }
             };
         }

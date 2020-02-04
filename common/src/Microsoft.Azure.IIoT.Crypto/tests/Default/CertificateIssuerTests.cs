@@ -8,7 +8,7 @@ namespace Microsoft.Azure.IIoT.Crypto.Default {
     using Microsoft.Azure.IIoT.Crypto.Storage;
     using Microsoft.Azure.IIoT.Storage;
     using Microsoft.Azure.IIoT.Storage.Default;
-    using Newtonsoft.Json.Linq;
+    using Microsoft.Azure.IIoT.Serializers;
     using Autofac.Extras.Moq;
     using System;
     using System.Collections.Generic;
@@ -16,9 +16,9 @@ namespace Microsoft.Azure.IIoT.Crypto.Default {
     using System.Security.Cryptography;
     using System.Security.Cryptography.X509Certificates;
     using System.Threading.Tasks;
+    using System.Runtime.InteropServices;
     using Xunit;
     using Xunit.Sdk;
-    using System.Runtime.InteropServices;
 
     /// <summary>
     /// Certificate Issuer tests
@@ -1044,8 +1044,8 @@ namespace Microsoft.Azure.IIoT.Crypto.Default {
         /// </summary>
         /// <param name="mock"></param>
         /// <param name="provider"></param>
-        private static void Setup(AutoMock mock, Func<IEnumerable<IDocumentInfo<JObject>>,
-            string, IEnumerable<IDocumentInfo<JObject>>> provider) {
+        private static void Setup(AutoMock mock, Func<IEnumerable<IDocumentInfo<VariantValue>>,
+            string, IEnumerable<IDocumentInfo<VariantValue>>> provider) {
             mock.Provide<IQueryEngine>(new QueryEngineAdapter(provider));
             mock.Provide<IDatabaseServer, MemoryDatabase>();
             mock.Provide<IItemContainerFactory, ItemContainerFactory>();

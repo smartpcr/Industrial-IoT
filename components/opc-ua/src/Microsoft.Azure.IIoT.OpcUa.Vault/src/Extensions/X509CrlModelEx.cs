@@ -5,7 +5,7 @@
 
 namespace Microsoft.Azure.IIoT.OpcUa.Vault.Models {
     using Microsoft.Azure.IIoT.Crypto.Models;
-    using Newtonsoft.Json.Linq;
+    using Microsoft.Azure.IIoT.Serializers;
     using System;
 
     /// <summary>
@@ -43,9 +43,9 @@ namespace Microsoft.Azure.IIoT.OpcUa.Vault.Models {
                 throw new ArgumentNullException(nameof(model.Crl));
             }
             switch (model.Crl.Type) {
-                case JTokenType.Bytes:
+                case VariantValueType.Bytes:
                     return (byte[])model.Crl;
-                case JTokenType.String:
+                case VariantValueType.String:
                     var request = (string)model.Crl;
                     if (request.Contains(certPemHeader,
                         StringComparison.OrdinalIgnoreCase)) {

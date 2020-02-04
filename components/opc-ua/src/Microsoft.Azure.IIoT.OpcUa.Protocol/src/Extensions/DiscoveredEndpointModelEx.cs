@@ -7,6 +7,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Models {
     using Microsoft.Azure.IIoT.OpcUa.Registry.Models;
     using Microsoft.Azure.IIoT.OpcUa.Core.Models;
     using System.Collections.Generic;
+    using Microsoft.Azure.IIoT.Serializers;
 
     /// <summary>
     /// Discovered Endpoint Model extensions
@@ -21,9 +22,11 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Models {
         /// <param name="siteId"></param>
         /// <param name="gatewayId"></param>
         /// <param name="moduleId"></param>
+        /// <param name="serializer"></param>
         /// <returns></returns>
         public static ApplicationRegistrationModel ToServiceModel(this DiscoveredEndpointModel result,
-            string hostAddress, string siteId, string gatewayId, string moduleId) {
+            string hostAddress, string siteId, string gatewayId, string moduleId,
+            IJsonSerializer serializer) {
             var type = result.Description.Server.ApplicationType.ToServiceType() ??
                 ApplicationType.Server;
             var discovererId = DiscovererModelEx.CreateDiscovererId(gatewayId, moduleId);
@@ -55,7 +58,8 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Models {
                         SupervisorId = null,
                         Id = null,
                         SecurityLevel = result.Description.SecurityLevel,
-                        AuthenticationMethods = result.Description.UserIdentityTokens.ToServiceModel(),
+                        AuthenticationMethods = result.Description.UserIdentityTokens
+                            .ToServiceModel(serializer),
                         EndpointUrl = result.Description.EndpointUrl, // Reported
                         Endpoint = new EndpointModel {
                             Url = result.AccessibleEndpointUrl, // Accessible

@@ -13,7 +13,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
     using Autofac.Extras.Moq;
     using AutoFixture;
     using AutoFixture.Kernel;
-    using Newtonsoft.Json.Linq;
+    using Microsoft.Azure.IIoT.Serializers;
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
@@ -375,11 +375,11 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
         /// <param name="super"></param>
         /// <param name="apps"></param>
         /// <param name="devices"></param>
-        private static void CreateAppFixtures(out string site, out string super,
+        private void CreateAppFixtures(out string site, out string super,
             out List<ApplicationInfoModel> apps, out List<(DeviceTwinModel, DeviceModel)> devices,
             bool noSite = false) {
             var fix = new Fixture();
-            fix.Customizations.Add(new TypeRelay(typeof(JToken), typeof(JObject)));
+            fix.Customizations.Add(new TypeRelay(typeof(VariantValue), typeof(VariantValue)));
             var sitex = site = noSite ? null : fix.Create<string>();
             var superx = super = fix.Create<string>();
             apps = fix
@@ -393,9 +393,11 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
                  sitex, x.ApplicationUri, x.ApplicationType));
             devices = apps
                 .Select(a => a.ToApplicationRegistration())
-                .Select(a => a.ToDeviceTwin())
+                .Select(a => a.ToDeviceTwin(_serializer))
                 .Select(t => (t, new DeviceModel { Id = t.Id }))
                 .ToList();
         }
+
+        private readonly IJsonSerializer _serializer = new NewtonSoftJsonSerializer();
     }
 }

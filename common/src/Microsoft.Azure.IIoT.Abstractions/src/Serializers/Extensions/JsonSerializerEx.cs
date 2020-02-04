@@ -22,12 +22,22 @@ namespace Microsoft.Azure.IIoT.Serializers {
         /// <param name="o"></param>
         /// <param name="format"></param>
         public static string Serialize(this IJsonSerializer serializer,
-            object o, JsonFormat format = JsonFormat.None) {
+            object o, Formatting format = Formatting.None) {
             var sb = new StringBuilder(256);
             using (var writer = new StringWriter(sb, CultureInfo.InvariantCulture)) {
                 serializer.Serialize(writer, o, format);
                 return sb.ToString();
             }
+        }
+
+        /// <summary>
+        /// Serialize to string
+        /// </summary>
+        /// <param name="serializer"></param>
+        /// <param name="a"></param>
+        public static string SerializeArray(this IJsonSerializer serializer,
+            params object[] a) {
+            return serializer.Serialize(a);
         }
 
         /// <summary>
@@ -40,7 +50,7 @@ namespace Microsoft.Azure.IIoT.Serializers {
         /// <param name="format"></param>
         /// <param name="bufferSize"></param>
         public static void Serialize(this IJsonSerializer serializer,
-            object o, Stream stream, JsonFormat format = JsonFormat.None,
+            object o, Stream stream, Formatting format = Formatting.None,
             Encoding encoding = null, int bufferSize = 512) {
             if (stream == null) {
                 throw new ArgumentNullException(nameof(stream));
@@ -67,6 +77,18 @@ namespace Microsoft.Azure.IIoT.Serializers {
         }
 
         /// <summary>
+        /// Serialize to request
+        /// </summary>
+        /// <param name="serializer"></param>
+        /// <param name="request"></param>
+        /// <param name="a"></param>
+        /// <returns></returns>
+        public static void SerializeArrayToRequest(this IJsonSerializer serializer,
+            IHttpRequest request, params object[] a) {
+            serializer.SerializeToRequest(request, a);
+        }
+
+        /// <summary>
         /// Serialize into indented string
         /// </summary>
         /// <param name="serializer"></param>
@@ -74,29 +96,18 @@ namespace Microsoft.Azure.IIoT.Serializers {
         /// <returns></returns>
         public static string SerializePretty(
             this IJsonSerializer serializer, object o) {
-            return serializer.Serialize(o, JsonFormat.Indented);
+            return serializer.Serialize(o, Formatting.Indented);
         }
 
         /// <summary>
-        /// Deserialize from reader
+        /// Serialize into indented string
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         /// <param name="serializer"></param>
-        /// <param name="reader"></param>
+        /// <param name="a"></param>
         /// <returns></returns>
-        public static T Deserialize<T>(this IJsonSerializer serializer, TextReader reader) {
-            return (T)serializer.Deserialize(reader, typeof(T));
-        }
-
-        /// <summary>
-        /// Deserialize from response
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="serializer"></param>
-        /// <param name="response"></param>
-        /// <returns></returns>
-        public static T DeserializeResponse<T>(this IJsonSerializer serializer, IHttpResponse response) {
-            return (T)serializer.Deserialize(response.GetContentAsString(), typeof(T));
+        public static string SerializeArrayPretty(
+            this IJsonSerializer serializer, params object[] a) {
+            return serializer.Serialize(a, Formatting.Indented);
         }
 
         /// <summary>
@@ -106,26 +117,14 @@ namespace Microsoft.Azure.IIoT.Serializers {
         /// <param name="json"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        public static object Deserialize(this IJsonSerializer serializer,
-            string json, Type type) {
+        public static object Deserialize(this IJsonSerializer serializer, string json, Type type) {
             using (var reader = new StringReader(json)) {
                 return serializer.Deserialize(reader, type);
             }
         }
 
         /// <summary>
-        /// Deserialize from string
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="serializer"></param>
-        /// <param name="json"></param>
-        /// <returns></returns>
-        public static T Deserialize<T>(this IJsonSerializer serializer, string json) {
-            return (T)serializer.Deserialize(json, typeof(T));
-        }
-
-        /// <summary>
-        /// Deserialize from string
+        /// Deserialize from stream
         /// </summary>
         /// <param name="serializer"></param>
         /// <param name="type"></param>
@@ -144,7 +143,40 @@ namespace Microsoft.Azure.IIoT.Serializers {
         }
 
         /// <summary>
+        /// Deserialize from reader
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="serializer"></param>
+        /// <param name="reader"></param>
+        /// <returns></returns>
+        public static T Deserialize<T>(this IJsonSerializer serializer, TextReader reader) {
+            return (T)serializer.Deserialize(reader, typeof(T));
+        }
+
+        /// <summary>
         /// Deserialize from string
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="serializer"></param>
+        /// <param name="json"></param>
+        /// <returns></returns>
+        public static T Deserialize<T>(this IJsonSerializer serializer, string json) {
+            return (T)serializer.Deserialize(json, typeof(T));
+        }
+
+        /// <summary>
+        /// Deserialize from response
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="serializer"></param>
+        /// <param name="response"></param>
+        /// <returns></returns>
+        public static T DeserializeResponse<T>(this IJsonSerializer serializer, IHttpResponse response) {
+            return (T)serializer.Deserialize(response.GetContentAsString(), typeof(T));
+        }
+
+        /// <summary>
+        /// Deserialize from stream
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="serializer"></param>
@@ -158,6 +190,55 @@ namespace Microsoft.Azure.IIoT.Serializers {
             int bufferSize = 512, bool detectEncoding = false) {
             return (T)serializer.Deserialize(typeof(T), stream, encoding,
                 bufferSize, detectEncoding);
+        }
+
+        /// <summary>
+        /// Convert to token.
+        /// </summary>
+        /// <param name="serializer"></param>
+        /// <param name="a"></param>
+        /// <returns></returns>
+        public static VariantValue FromArray(this IJsonSerializer serializer, params object[] a) {
+            return serializer.FromObject(a);
+        }
+
+        /// <summary>
+        /// Parse string
+        /// </summary>
+        /// <param name="serializer"></param>
+        /// <param name="json"></param>
+        /// <returns></returns>
+        public static VariantValue Parse(this IJsonSerializer serializer, string json) {
+            using (var reader = new StringReader(json)) {
+                return serializer.Parse(reader);
+            }
+        }
+
+        /// <summary>
+        /// Parse response
+        /// </summary>
+        /// <param name="serializer"></param>
+        /// <param name="response"></param>
+        /// <returns></returns>
+        public static VariantValue ParseResponse(this IJsonSerializer serializer, IHttpResponse response) {
+            return serializer.Parse(response.GetContentAsString());
+        }
+
+        /// <summary>
+        /// Parse from stream
+        /// </summary>
+        /// <param name="serializer"></param>
+        /// <param name="stream"></param>
+        /// <param name="encoding"></param>
+        /// <param name="bufferSize"></param>
+        /// <param name="detectEncoding"></param>
+        /// <returns></returns>
+        public static VariantValue Parse(this IJsonSerializer serializer, Stream stream,
+            Encoding encoding = null, int bufferSize = 512, bool detectEncoding = false) {
+            using (var reader = new StreamReader(stream, encoding ?? Encoding.UTF8,
+                detectEncoding, bufferSize, true)) {
+                return serializer.Parse(reader);
+            }
         }
 
         /// <summary>

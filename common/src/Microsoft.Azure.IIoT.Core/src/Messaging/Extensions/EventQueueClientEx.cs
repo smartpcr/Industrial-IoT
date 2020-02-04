@@ -5,7 +5,7 @@
 
 namespace Microsoft.Azure.IIoT.Messaging {
     using Microsoft.Azure.IIoT.Hub;
-    using Newtonsoft.Json.Linq;
+    using Microsoft.Azure.IIoT.Serializers;
     using System.Collections.Generic;
     using System.Text;
     using System.Threading.Tasks;
@@ -22,7 +22,7 @@ namespace Microsoft.Azure.IIoT.Messaging {
         /// <param name="payload"></param>
         /// <param name="contentType"></param>
         /// <param name="partitionKey"></param>
-        public static Task SendAsync(this IEventQueueClient client, JToken payload,
+        public static Task SendAsync(this IEventQueueClient client, VariantValue payload,
             string contentType, string partitionKey) {
             return client.SendAsync(payload,
                 new Dictionary<string, string> {
@@ -37,7 +37,7 @@ namespace Microsoft.Azure.IIoT.Messaging {
         /// <param name="payload"></param>
         /// <param name="properties"></param>
         /// <param name="partitionKey"></param>
-        public static Task SendAsync(this IEventQueueClient client, JToken payload,
+        public static Task SendAsync(this IEventQueueClient client, VariantValue payload,
             IDictionary<string, string> properties, string partitionKey = null) {
             return client.SendAsync(Encoding.UTF8.GetBytes(payload.ToString()),
                 properties, partitionKey);

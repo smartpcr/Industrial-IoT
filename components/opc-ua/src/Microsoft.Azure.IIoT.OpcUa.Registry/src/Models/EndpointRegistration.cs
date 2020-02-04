@@ -7,7 +7,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
     using Microsoft.Azure.IIoT.OpcUa.Core.Models;
     using Microsoft.Azure.IIoT.Hub;
     using System.Runtime.Serialization;
-    using Newtonsoft.Json.Linq;
+    using Microsoft.Azure.IIoT.Serializers;
     using System.Collections.Generic;
 
     /// <summary>
@@ -80,7 +80,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
         /// The credential policies supported by the registered endpoint
         /// </summary>
         [DataMember]
-        public Dictionary<string, JToken> AuthenticationMethods { get; set; }
+        public Dictionary<string, VariantValue> AuthenticationMethods { get; set; }
 
         /// <summary>
         /// Endoint url for direct server access
@@ -188,7 +188,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
                 return false;
             }
             if (!AuthenticationMethods.DecodeAsList().SetEqualsSafe(
-                    AuthenticationMethods.DecodeAsList(), JToken.DeepEquals)) {
+                    AuthenticationMethods.DecodeAsList(), VariantValue.DeepEquals)) {
                 return false;
             }
             return true;

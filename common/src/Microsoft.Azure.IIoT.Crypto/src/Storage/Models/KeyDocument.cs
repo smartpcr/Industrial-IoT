@@ -6,7 +6,7 @@
 namespace Microsoft.Azure.IIoT.Crypto.Storage.Models {
     using Microsoft.Azure.IIoT.Crypto.Models;
     using System.Runtime.Serialization;
-    using Newtonsoft.Json.Linq;
+    using Microsoft.Azure.IIoT.Serializers;
 
     /// <summary>
     /// Key document
@@ -36,7 +36,7 @@ namespace Microsoft.Azure.IIoT.Crypto.Storage.Models {
         /// Key itself in json format
         /// </summary>
         [DataMember]
-        public JToken KeyJson { get; set; }
+        public VariantValue KeyJson { get; set; }
 
         /// <summary>
         /// Type

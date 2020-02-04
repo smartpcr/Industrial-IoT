@@ -33,6 +33,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Tests {
     using System.Text;
     using System.Threading.Tasks;
     using Xunit;
+    using Microsoft.Azure.IIoT.Serializers;
 
     /// <summary>
     /// Harness for opc twin module
@@ -200,7 +201,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Tests {
                 new EndpointInfoModel {
                     Registration = endpoint,
                     ApplicationId = "uas" + Guid.NewGuid().ToString()
-                }.ToEndpointRegistration().ToDeviceTwin();
+                }.ToEndpointRegistration(_serializer).ToDeviceTwin(_serializer);
             var result = _hub.CreateAsync(twin).Result;
             var registry = HubContainer.Resolve<IEndpointRegistry>();
             var endpoints = registry.ListAllEndpointsAsync().Result;
@@ -324,5 +325,6 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Tests {
         private bool _running;
         private readonly ModuleProcess _module;
         private readonly Task<int> _process;
+        private readonly IJsonSerializer _serializer = new NewtonSoftJsonSerializer();
     }
 }

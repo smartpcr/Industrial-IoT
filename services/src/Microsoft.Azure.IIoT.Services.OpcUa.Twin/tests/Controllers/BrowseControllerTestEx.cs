@@ -30,7 +30,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin.Controllers {
             module.Endpoint = Endpoint;
             var log = _factory.Resolve<ILogger>();
             var serializer = _factory.Resolve<IJsonSerializer>();
-            return new BrowseServicesTests<string>(() => // Create an adapter over the api
+            return new BrowseServicesTests<string>(serializer, () => // Create an adapter over the api
                 new TwinServicesApiAdapter(
                     new ControllerTestClient(
                        new HttpClient(_factory, log), new TestConfig(client.BaseAddress),

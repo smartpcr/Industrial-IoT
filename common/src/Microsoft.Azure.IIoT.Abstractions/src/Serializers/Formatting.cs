@@ -8,7 +8,7 @@ namespace Microsoft.Azure.IIoT.Serializers {
     /// <summary>
     /// Formatting option
     /// </summary>
-    public enum JsonFormat {
+    public enum Formatting {
 
         /// <summary>
         /// Compressed

@@ -9,7 +9,6 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.Controller {
     using Microsoft.Azure.IIoT.Hub;
     using Microsoft.Azure.IIoT.Module;
     using Microsoft.Azure.IIoT.Module.Framework;
-    using Newtonsoft.Json.Linq;
     using Serilog;
     using System;
     using System.Collections.Generic;
@@ -35,38 +34,33 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.Controller {
         /// <summary>
         /// Job check interval
         /// </summary>
-        public IValue JobCheckInterval {
-            set => _config.JobCheckInterval =
-                value?.ToObject<TimeSpan>();
+        public TimeSpan? JobCheckInterval {
+            set => _config.JobCheckInterval = value;
             get => _config.JobCheckInterval;
         }
 
         /// <summary>
         /// Heartbeat interval
         /// </summary>
-        public IValue HeartbeatInterval {
-            set => _config.HeartbeatInterval =
-                value?.ToObject<TimeSpan>();
+        public TimeSpan? HeartbeatInterval {
+            set => _config.HeartbeatInterval = value;
             get => _config.HeartbeatInterval;
         }
 
         /// <summary>
         /// Max number of workers
         /// </summary>
-        public IValue MaxWorkers {
-            set => _config.MaxWorkers =
-                value?.ToObject<int>();
+        public int? MaxWorkers {
+            set => _config.MaxWorkers = value;
             get => _config.MaxWorkers;
         }
 
         /// <summary>
         /// Max number of workers
         /// </summary>
-        public IValue Capabilities {
-            set => _config.Capabilities =
-                value?.ToObject<Dictionary<string, string>>();
-            get => _config.Capabilities == null ? null :
-                JToken.FromObject(_config.Capabilities);
+        public Dictionary<string, string> Capabilities {
+            set => _config.Capabilities = value;
+            get => _config.Capabilities;
         }
 
         /// <inheritdoc/>

@@ -8,7 +8,7 @@ namespace Microsoft.Azure.IIoT.Crypto.Default {
     using Microsoft.Azure.IIoT.Crypto.Storage;
     using Microsoft.Azure.IIoT.Storage;
     using Microsoft.Azure.IIoT.Storage.Default;
-    using Newtonsoft.Json.Linq;
+    using Microsoft.Azure.IIoT.Serializers;
     using Autofac.Extras.Moq;
     using System;
     using System.Collections.Generic;
@@ -237,8 +237,8 @@ namespace Microsoft.Azure.IIoT.Crypto.Default {
         /// <param name="v"></param>
         /// <param name="q"></param>
         /// <returns></returns>
-        private IEnumerable<IDocumentInfo<JObject>> HandleQuery(
-            IEnumerable<IDocumentInfo<JObject>> v, string q) {
+        private IEnumerable<IDocumentInfo<VariantValue>> HandleQuery(
+            IEnumerable<IDocumentInfo<VariantValue>> v, string q) {
             var expected = "SELECT TOP 1 * FROM Certificates c " +
                 "WHERE c.Type = 'Certificate' " +
                     "AND c.CertificateName = 'intca' " +
@@ -351,8 +351,8 @@ namespace Microsoft.Azure.IIoT.Crypto.Default {
         /// </summary>
         /// <param name="mock"></param>
         /// <param name="provider"></param>
-        private static void Setup(AutoMock mock, Func<IEnumerable<IDocumentInfo<JObject>>,
-            string, IEnumerable<IDocumentInfo<JObject>>> provider) {
+        private static void Setup(AutoMock mock, Func<IEnumerable<IDocumentInfo<VariantValue>>,
+            string, IEnumerable<IDocumentInfo<VariantValue>>> provider) {
             mock.Provide<IQueryEngine>(new QueryEngineAdapter(provider));
             mock.Provide<IDatabaseServer, MemoryDatabase>();
             mock.Provide<IItemContainerFactory, ItemContainerFactory>();

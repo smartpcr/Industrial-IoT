@@ -10,7 +10,6 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Publisher.Models {
     using Microsoft.Azure.IIoT.Module;
     using Microsoft.Azure.IIoT.Serializers;
     using System.Runtime.Serialization;
-    using Newtonsoft.Json.Linq;
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -46,7 +45,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Publisher.Models {
         /// <param name="publishedNodesFile"></param>
         /// <param name="legacyCliModel">The legacy command line arguments</param>
         /// <returns></returns>
-        public IEnumerable<WriterGroupJobModel> Read(TextReader publishedNodesFile, 
+        public IEnumerable<WriterGroupJobModel> Read(TextReader publishedNodesFile,
             LegacyCliModel legacyCliModel) {
             var sw = Stopwatch.StartNew();
             _logger.Debug("Reading published nodes file ({elapsed}", sw.Elapsed);
@@ -198,7 +197,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Publisher.Models {
             }
             return new CredentialModel {
                 Type = CredentialType.UserName,
-                Value = JToken.FromObject(new { user, password })
+                Value = _serializer.FromObject(new { user, password })
             };
         }
 

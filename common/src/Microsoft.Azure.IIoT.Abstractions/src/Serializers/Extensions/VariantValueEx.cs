@@ -2,16 +2,28 @@
 //  Copyright (c) Microsoft Corporation.  All rights reserved.
 //  Licensed under the MIT License (MIT). See License.txt in the repo root for license information.
 // ------------------------------------------------------------
-#if FALSE
 
 namespace Microsoft.Azure.IIoT.Serializers {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
-    /// Json value extensions
+    /// Variant extensions
     /// </summary>
-    public static class JsonValueEx {
+    public static class VariantValueEx {
+
+        /// <summary>
+        /// Test for null
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static bool IsNull(this VariantValue value) {
+            return value == null ||
+                value.Type == VariantValueType.Null ||
+                value.Type == VariantValueType.Undefined;
+        }
+
         /// <summary>
         /// Helper to get values from token dictionary
         /// </summary>
@@ -20,7 +32,7 @@ namespace Microsoft.Azure.IIoT.Serializers {
         /// <param name="key"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public static T GetValueOrDefault<T>(this Dictionary<string, IJsonValue> dict,
+        public static T GetValueOrDefault<T>(this Dictionary<string, VariantValue> dict,
             string key, T defaultValue) {
             if (dict != null && dict.TryGetValue(key, out var token)) {
                 try {
@@ -41,13 +53,13 @@ namespace Microsoft.Azure.IIoT.Serializers {
         /// <param name="key"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public static T? GetValueOrDefault<T>(this Dictionary<string, IJsonValue> dict,
+        public static T? GetValueOrDefault<T>(this Dictionary<string, VariantValue> dict,
             string key, T? defaultValue) where T : struct {
             if (dict != null && dict.TryGetValue(key, out var token)) {
                 try {
                     // Handle enumerations serialized as string
                     if (typeof(T).IsEnum &&
-                        token.Type == JTokenType.String &&
+                        token.Type == VariantValueType.String &&
                         Enum.TryParse<T>((string)token, out var result)) {
                         return result;
                     }
@@ -69,7 +81,7 @@ namespace Microsoft.Azure.IIoT.Serializers {
         /// <param name="defaultValue"></param>
         /// <param name="compare"></param>
         /// <returns></returns>
-        public static T GetValueOrDefault<T>(this IJsonValue t, string key, T defaultValue,
+        public static T GetValueOrDefault<T>(this VariantValue t, string key, T defaultValue,
             StringComparison compare = StringComparison.Ordinal) {
             return GetValueOrDefault(t, key, () => defaultValue, compare);
         }
@@ -82,7 +94,7 @@ namespace Microsoft.Azure.IIoT.Serializers {
         /// <param name="key"></param>
         /// <param name="compare"></param>
         /// <returns></returns>
-        public static T GetValueOrDefault<T>(this IJsonValue t, string key,
+        public static T GetValueOrDefault<T>(this VariantValue t, string key,
             StringComparison compare = StringComparison.Ordinal) {
             return GetValueOrDefault(t, key, () => default(T), compare);
         }
@@ -96,15 +108,14 @@ namespace Microsoft.Azure.IIoT.Serializers {
         /// <param name="defaultValue"></param>
         /// <param name="compare"></param>
         /// <returns></returns>
-        public static T GetValueOrDefault<T>(this IJsonValue t,
+        public static T GetValueOrDefault<T>(this VariantValue t,
             string key, Func<T> defaultValue,
             StringComparison compare = StringComparison.Ordinal) {
-            if (t is JObject o) {
+            if (t.Type == VariantValueType.Object &&
+                t.TryGetValue(key, out var value, compare) &&
+                !(value is null)) {
                 try {
-                    var value = o.Property(key, compare)?.Value;
-                    if (value != null) {
-                        return value.ToObject<T>();
-                    }
+                    return value.ToObject<T>();
                 }
                 catch {
                     return defaultValue();
@@ -122,7 +133,7 @@ namespace Microsoft.Azure.IIoT.Serializers {
         /// <param name="defaultValue"></param>
         /// <param name="compare"></param>
         /// <returns></returns>
-        public static T? GetValueOrDefault<T>(this IJsonValue t,
+        public static T? GetValueOrDefault<T>(this VariantValue t,
             string key, T? defaultValue,
             StringComparison compare = StringComparison.Ordinal) where T : struct {
             return GetValueOrDefault(t, key, () => defaultValue, compare);
@@ -137,22 +148,20 @@ namespace Microsoft.Azure.IIoT.Serializers {
         /// <param name="defaultValue"></param>
         /// <param name="compare"></param>
         /// <returns></returns>
-        public static T? GetValueOrDefault<T>(this IJsonValue t,
+        public static T? GetValueOrDefault<T>(this VariantValue t,
             string key, Func<T?> defaultValue,
             StringComparison compare = StringComparison.Ordinal) where T : struct {
-
-            if (t is JObject o) {
+            if (t.Type == VariantValueType.Object &&
+                t.TryGetValue(key, out var value, compare) &&
+                !(value is null)) {
                 try {
-                    var value = o.Property(key, compare)?.Value;
-                    if (value != null) {
-                        // Handle enumerations serialized as string
-                        if (typeof(T).IsEnum &&
-                            value.Type == JTokenType.String &&
-                            Enum.TryParse<T>((string)value, out var result)) {
-                            return result;
-                        }
-                        return value.ToObject<T>();
+                    // Handle enumerations serialized as string
+                    if (typeof(T).IsEnum &&
+                        value.Type == VariantValueType.String &&
+                        Enum.TryParse<T>((string)value, out var result)) {
+                        return result;
                     }
+                    return value.ToObject<T>();
                 }
                 catch {
                     return defaultValue();
@@ -181,16 +190,17 @@ namespace Microsoft.Azure.IIoT.Serializers {
         /// <param name="array"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        public static int[] GetDimensions(this JArray array, out JTokenType type) {
+        public static int[] GetDimensions(this VariantValue array, out VariantValueType type) {
             var dimensions = new List<int>();
-            type = JTokenType.Undefined;
-            while (true) {
-                if (array == null || array.Count == 0) {
+            type = VariantValueType.Null;
+            while (array?.Type == VariantValueType.Array) {
+                var len = array.Count();
+                if (len == 0) {
                     break;
                 }
-                dimensions.Add(array.Count);
-                type = array[0].Type;
-                array = array[0] as JArray;
+                dimensions.Add(len);
+                array = array[0];
+                type = array.Type;
             }
             return dimensions.ToArray();
         }
@@ -200,11 +210,11 @@ namespace Microsoft.Azure.IIoT.Serializers {
         /// </summary>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static bool IsFloatValue(this IJsonValue token) {
-            if (token?.Type == JTokenType.Float) {
+        public static bool IsFloatValue(this VariantValue token) {
+            if (token?.Type == VariantValueType.Float) {
                 return true;
             }
-            if (token?.Type == JTokenType.String) {
+            if (token?.Type == VariantValueType.String) {
                 var val = (string)token;
                 if (val == "NaN" || val == "Infinity" || val == "-Infinity") {
                     return true;
@@ -214,4 +224,3 @@ namespace Microsoft.Azure.IIoT.Serializers {
         }
     }
 }
-#endif

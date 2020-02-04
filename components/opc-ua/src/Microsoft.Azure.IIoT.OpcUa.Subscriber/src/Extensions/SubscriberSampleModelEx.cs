@@ -4,7 +4,7 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Subscriber.Models {
-    using Newtonsoft.Json.Linq;
+    using Microsoft.Azure.IIoT.Serializers;
     using System;
     using System.Linq;
 
@@ -38,15 +38,13 @@ namespace Microsoft.Azure.IIoT.OpcUa.Subscriber.Models {
         /// </summary>
         /// <param name="message"></param>
         /// <returns></returns>
-        internal static SubscriberSampleModel ToSubscriberSampleModel(this JToken message) {
-            if (message.Type != JTokenType.Object || !(message is JObject sampleRoot)) {
+        internal static SubscriberSampleModel ToSubscriberSampleModel(this VariantValue message) {
+            if (message.Type != VariantValueType.Object) {
                 // Not a publisher sample object - not accepted
                 return null;
             }
 
-            var value = sampleRoot.Property("Value", StringComparison.InvariantCultureIgnoreCase)?
-                .Value;
-            if (value == null) {
+            if (!message.TryGetValue("Value", out var value)) {
                 // No value
                 return null;
             }
@@ -56,31 +54,31 @@ namespace Microsoft.Azure.IIoT.OpcUa.Subscriber.Models {
             };
 
             // check if value comes from the legacy publisher:
-            var applicationUri = sampleRoot.GetValueOrDefault<string>("ApplicationUri",
+            var applicationUri = message.GetValueOrDefault<string>("ApplicationUri",
                 StringComparison.InvariantCultureIgnoreCase);
             if (applicationUri == null || applicationUri == string.Empty) {
-                result.EndpointId = sampleRoot.GetValueOrDefault<string>("EndpointId",
+                result.EndpointId = message.GetValueOrDefault<string>("EndpointId",
                     StringComparison.InvariantCultureIgnoreCase);
-                result.SubscriptionId = sampleRoot.GetValueOrDefault<string>("SubscriptionId",
+                result.SubscriptionId = message.GetValueOrDefault<string>("SubscriptionId",
                     StringComparison.InvariantCultureIgnoreCase);
-                result.DataSetId = sampleRoot.GetValueOrDefault<string>("DataSetId",
+                result.DataSetId = message.GetValueOrDefault<string>("DataSetId",
                     StringComparison.InvariantCultureIgnoreCase);
             }
             else {
                 result.EndpointId = applicationUri;
                 result.SubscriptionId = "LegacyPublisher";
-                result.DataSetId = sampleRoot.GetValueOrDefault<string>("DisplayName",
+                result.DataSetId = message.GetValueOrDefault<string>("DisplayName",
                     StringComparison.InvariantCultureIgnoreCase);
             }
 
-            result.NodeId = sampleRoot.GetValueOrDefault<string>("NodeId",
+            result.NodeId = message.GetValueOrDefault<string>("NodeId",
                 StringComparison.InvariantCultureIgnoreCase);
 
             // Check if the value is a data value or if the value was flattened into the root.
-            var dataValue = sampleRoot;
+            var dataValue = message;
             if (IsDataValue(value)) {
-                dataValue = value as JObject;
-                result.Value = dataValue.GetValueOrDefault<IValue>("Value",
+                dataValue = value;
+                result.Value = value.GetValueOrDefault<VariantValue>("Value",
                     StringComparison.InvariantCultureIgnoreCase);
             }
             else {
@@ -103,16 +101,16 @@ namespace Microsoft.Azure.IIoT.OpcUa.Subscriber.Models {
         /// </summary>
         /// <param name="token"></param>
         /// <returns></returns>
-        private static bool IsDataValue(this JToken token) {
+        private static bool IsDataValue(this VariantValue token) {
             var properties = new[] {
                 "SourcePicoseconds", "ServerPicoseconds",
                 "ServerTimestamp", "SourceTimestamp",
             };
-            if (token.Type != JTokenType.Object || !(token is JObject dataValue)) {
+            if (token.Type != VariantValueType.Object) {
                 // Not a publisher sample object - not accepted
                 return false;
             }
-            return dataValue.Properties().Any(p => p.Name.AnyOf(properties, true));
+            return token.Keys.Any(p => p.AnyOf(properties, true));
         }
     }
 }

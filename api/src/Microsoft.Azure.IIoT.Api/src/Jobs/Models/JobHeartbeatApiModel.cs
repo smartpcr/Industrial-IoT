@@ -5,7 +5,7 @@
 
 namespace Microsoft.Azure.IIoT.Api.Jobs.Models {
     using System.Runtime.Serialization;
-    using Newtonsoft.Json.Linq;
+    using Microsoft.Azure.IIoT.Serializers;
     using System.ComponentModel.DataAnnotations;
 
     /// <summary>
@@ -47,6 +47,6 @@ namespace Microsoft.Azure.IIoT.Api.Jobs.Models {
         /// </summary>
         [DataMember(Name = "state",
             EmitDefaultValue = false)]
-        public IValue State { get; set; }
+        public VariantValue State { get; set; }
     }
 }

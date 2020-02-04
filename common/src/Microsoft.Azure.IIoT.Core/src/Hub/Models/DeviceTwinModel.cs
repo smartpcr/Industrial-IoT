@@ -7,7 +7,7 @@ namespace Microsoft.Azure.IIoT.Hub.Models {
     using System;
     using System.Collections.Generic;
     using System.Runtime.Serialization;
-    using Newtonsoft.Json.Linq;
+    using Microsoft.Azure.IIoT.Serializers;
 
     /// <summary>
     /// Model of device registry / twin document
@@ -40,7 +40,7 @@ namespace Microsoft.Azure.IIoT.Hub.Models {
         /// </summary>
         [DataMember(Name = "tags",
             EmitDefaultValue = false)]
-        public Dictionary<string, JToken> Tags { get; set; }
+        public Dictionary<string, VariantValue> Tags { get; set; }
 
         /// <summary>
         /// Settings

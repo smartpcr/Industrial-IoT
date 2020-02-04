@@ -7,13 +7,13 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Controllers {
     using Microsoft.Azure.IIoT.OpcUa.Registry;
     using Microsoft.Azure.IIoT.Module.Framework;
     using Microsoft.Azure.IIoT.Diagnostics;
+    using Microsoft.Azure.IIoT.Serializers;
     using Serilog;
     using Serilog.Events;
     using System;
     using System.Threading.Tasks;
     using System.Collections.Generic;
     using System.Linq;
-    using Newtonsoft.Json.Linq;
 
     /// <summary>
     /// Supervisor settings controller
@@ -30,16 +30,16 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Controllers {
         /// <summary>
         /// Set and get the log level
         /// </summary>
-        public IValue LogLevel {
+        public string LogLevel {
             set {
-                if (value == null || value.Type == JTokenType.Null) {
+                if (value == null) {
                     // Set default
                     LogControl.Level.MinimumLevel = LogEventLevel.Information;
                     _logger.Information("Setting log level to default level.");
                 }
-                else if (value.Type == JTokenType.String) {
-                    // The enum values are the same as in serilog
-                    if (!Enum.TryParse<LogEventLevel>((string)value, true,
+                else {
+                    // The enum values are the same as the ones defined for serilog
+                    if (!Enum.TryParse<LogEventLevel>(value, true,
                         out var level)) {
                         throw new ArgumentException(
                             $"Bad log level value {value} passed.");
@@ -47,13 +47,9 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Controllers {
                     _logger.Information("Setting log level to {level}", level);
                     LogControl.Level.MinimumLevel = level;
                 }
-                else {
-                    throw new NotSupportedException(
-                        $"Bad log level value type {value.Type}");
-                }
             }
             // The enum values are the same as in serilog
-            get => JToken.FromObject(LogControl.Level.MinimumLevel.ToString());
+            get => LogControl.Level.MinimumLevel.ToString();
         }
 
         /// <summary>
@@ -61,23 +57,23 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Controllers {
         /// </summary>
         /// <param name="endpointId"></param>
         /// <returns></returns>
-        public IValue this[string endpointId] {
+        public VariantValue this[string endpointId] {
             set {
-                if (value == null || value.Type == JTokenType.Null) {
+                if (value == null || value.Type == VariantValueType.Null) {
                     _endpoints.AddOrUpdate(endpointId, null);
                     return;
                 }
-                if (value.Type != JTokenType.String ||
+                if (value.Type != VariantValueType.String ||
                     !value.ToString().IsBase64()) {
                     return;
                 }
-                _endpoints.AddOrUpdate(endpointId, value.ToString());
+                _endpoints.AddOrUpdate(endpointId, value);
             }
             get {
                 if (!_endpoints.TryGetValue(endpointId, out var result)) {
                     result = null;
                 }
-                return result != null ? JToken.FromObject(result) : JValue.CreateNull();
+                return result;
             }
         }
 
@@ -90,7 +86,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Controllers {
             ILogger logger) {
             _activator = activator ?? throw new ArgumentNullException(nameof(activator));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _endpoints = new Dictionary<string, string>();
+            _endpoints = new Dictionary<string, VariantValue>();
         }
 
         /// <summary>
@@ -99,7 +95,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Controllers {
         /// <returns></returns>
         public async Task ApplyAsync() {
             foreach (var item in _endpoints.ToList()) {
-                if (string.IsNullOrEmpty(item.Value)) {
+                if (string.IsNullOrEmpty((string)item.Value)) {
                     try {
                         await _activator.DeactivateEndpointAsync(item.Key);
                     }
@@ -109,7 +105,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Controllers {
                 }
                 else {
                     try {
-                        await _activator.ActivateEndpointAsync(item.Key, item.Value);
+                        await _activator.ActivateEndpointAsync(item.Key, (string)item.Value);
                     }
                     catch (Exception ex) {
                         _logger.Error(ex, "Error starting twin {Key}", item.Key);
@@ -119,7 +115,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Controllers {
             }
         }
 
-        private readonly Dictionary<string, string> _endpoints;
+        private readonly Dictionary<string, VariantValue> _endpoints;
         private readonly IActivationServices<string> _activator;
         private readonly ILogger _logger;
     }

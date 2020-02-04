@@ -14,6 +14,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Supervisor.Api {
     using System.Threading.Tasks;
     using Xunit;
     using Autofac;
+    using Microsoft.Azure.IIoT.Serializers;
 
     [Collection(WriteCollection.Name)]
     public class SupervisorValueCallArrayTests : IClassFixture<TwinModuleFixture> {
@@ -24,7 +25,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Supervisor.Api {
         }
 
         private CallArrayMethodTests<EndpointApiModel> GetTests() {
-            return new CallArrayMethodTests<EndpointApiModel>(
+            return new CallArrayMethodTests<EndpointApiModel>(new NewtonSoftJsonSerializer(),
                 () => _module.HubContainer.Resolve<INodeServices<EndpointApiModel>>(),
                 new EndpointApiModel {
                     Url = $"opc.tcp://{Dns.GetHostName()}:{_server.Port}/UA/SampleServer",

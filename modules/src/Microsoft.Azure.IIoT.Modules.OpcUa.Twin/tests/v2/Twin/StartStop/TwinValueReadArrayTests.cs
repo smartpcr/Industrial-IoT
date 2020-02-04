@@ -11,6 +11,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Twin.StartStop {
     using Microsoft.Azure.IIoT.OpcUa.Testing.Fixtures;
     using Microsoft.Azure.IIoT.OpcUa.Testing.Tests;
     using Microsoft.Azure.IIoT.OpcUa.Twin;
+    using Microsoft.Azure.IIoT.Serializers;
     using System;
     using System.Net;
     using System.Threading.Tasks;
@@ -30,7 +31,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Twin.StartStop {
         };
 
         private ReadArrayValueTests<string> GetTests(EndpointRegistrationModel endpoint, IContainer services) {
-            return new ReadArrayValueTests<string>(
+            return new ReadArrayValueTests<string>(new NewtonSoftJsonSerializer(),
                 () => services.Resolve<INodeServices<string>>(), endpoint.Id,
                 (ep, n) => _server.Client.ReadValueAsync(endpoint.Endpoint, n));
         }

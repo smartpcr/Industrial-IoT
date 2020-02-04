@@ -7,10 +7,10 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Services {
     using Microsoft.Azure.IIoT.Exceptions;
     using Microsoft.Azure.IIoT.Serializers;
     using Microsoft.Azure.IIoT.Utils;
-    using Newtonsoft.Json.Linq;
     using Opc.Ua;
     using Opc.Ua.Encoders;
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Text;
@@ -20,12 +20,21 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Services {
     /// </summary>
     public class VariantEncoderFactory : IVariantEncoderFactory {
 
+        /// <summary>
+        /// Create encoder
+        /// </summary>
+        /// <param name="serializer"></param>
+        public VariantEncoderFactory(IJsonSerializer serializer = null) {
+            _serializer = serializer ?? new NewtonSoftJsonSerializer();
+        }
+
         /// <inheritdoc/>
-        public IVariantEncoder Default => new JsonVariantEncoder(new ServiceMessageContext());
+        public IVariantEncoder Default =>
+            new JsonVariantEncoder(new ServiceMessageContext(), _serializer);
 
         /// <inheritdoc/>
         public IVariantEncoder Create(ServiceMessageContext context) {
-            return new JsonVariantEncoder(context);
+            return new JsonVariantEncoder(context, _serializer);
         }
 
         /// <summary>
@@ -36,12 +45,17 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Services {
             /// <inheritdoc/>
             public ServiceMessageContext Context { get; }
 
+            /// <inheritdoc/>
+            public IJsonSerializer Serializer { get; }
+
             /// <summary>
             /// Create encoder
             /// </summary>
             /// <param name="context"></param>
-            internal JsonVariantEncoder(ServiceMessageContext context) {
+            /// <param name="serializer"></param>
+            internal JsonVariantEncoder(ServiceMessageContext context, IJsonSerializer serializer) {
                 Context = context ?? throw new ArgumentNullException(nameof(context));
+                Serializer = serializer ?? new NewtonSoftJsonSerializer();
             }
 
             /// <inheritdoc/>
@@ -49,7 +63,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Services {
 
                 if (value == Variant.Null) {
                     builtinType = BuiltInType.Null;
-                    return JValue.CreateNull();
+                    return Serializer.FromObject(null);
                 }
                 using (var stream = new MemoryStream()) {
                     using (var encoder = new JsonEncoderEx(stream, Context) {
@@ -59,14 +73,14 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Services {
                     }
                     var json = Encoding.UTF8.GetString(stream.ToArray());
                     try {
-                        var token = JToken.Parse(json);
+                        var token = Serializer.Parse(json);
                         Enum.TryParse((string)token.SelectToken("value.Type"),
                             true, out builtinType);
                         return token.SelectToken("value.Body");
                     }
-                    catch (Newtonsoft.Json.JsonReaderException jre) {
+                    catch (SerializerException se) {
                         throw new SerializerException($"Failed to parse '{json}'. " +
-                            "See inner exception for more details.", jre);
+                            "See inner exception for more details.", se);
                     }
                 }
             }
@@ -79,33 +93,33 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Services {
                 //
                 value = Sanitize(value, builtinType == BuiltInType.String);
 
-                JObject json;
+                VariantValue json;
                 if (builtinType == BuiltInType.Null ||
-                    (builtinType == BuiltInType.Variant && value is JObject)) {
-                        //
-                        // Let the decoder try and decode the json variant.
-                        //
-                        json = new JObject {
-                        { nameof(value), value }
-                    };
+                    (builtinType == BuiltInType.Variant &&
+                        value.Type == VariantValueType.Object)) {
+                    //
+                    // Let the decoder try and decode the json variant.
+                    //
+                    json = Serializer.FromObject(new { value });
                 }
                 else {
                     //
                     // Give decoder a hint as to the type to use to decode.
                     //
-                    json = new JObject {
-                        { nameof(value), new JObject {
-                                { "Body", value },
-                                { "Type", (byte)builtinType }
-                            }
+                    json = Serializer.FromObject(new {
+                        value = new {
+                            Body = value,
+                            Type = (byte)builtinType
                         }
-                    };
+                    });
                 }
 
                 //
                 // Decode json to a real variant
                 //
-                using (var decoder = new JsonDecoderEx(json, Context)) {
+                using (var text = new StringReader(json.ToString()))
+                using (var reader = new Newtonsoft.Json.JsonTextReader(text))
+                using (var decoder = new JsonDecoderEx(reader, Context)) {
                     return decoder.ReadVariant(nameof(value));
                 }
             }
@@ -120,21 +134,21 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Services {
             /// <param name="value"></param>
             /// <param name="isString"></param>
             /// <returns></returns>
-            internal static JToken Sanitize(JToken value, bool isString) {
-                if (value == null || value.Type == JTokenType.Null) {
+            internal VariantValue Sanitize(VariantValue value, bool isString) {
+                if (value == null || value.Type == VariantValueType.Null) {
                     return value;
                 }
 
-                var asString = value.Type == JTokenType.String ?
-                    (string)value : value.ToString(Newtonsoft.Json.Formatting.None);
+                var asString = value.Type == VariantValueType.String ?
+                    (string)value : value.ToString(Formatting.None);
 
-                if (value is JValue val) {
-                    if (value.Type != JTokenType.String) {
-                        //
-                        // If this should be a string - return as such
-                        //
-                        return isString ? new JValue(asString) : value;
-                    }
+                if (value.Type != VariantValueType.Object &&
+                    value.Type != VariantValueType.Array &&
+                    value.Type != VariantValueType.String) {
+                    //
+                    // If this should be a string - return as such
+                    //
+                    return isString ? asString : value;
                 }
 
                 if (string.IsNullOrWhiteSpace(asString)) {
@@ -144,15 +158,15 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Services {
                 //
                 // Try to parse string as json
                 //
-                if (value.Type != JTokenType.String) {
+                if (value.Type != VariantValueType.String) {
                     asString = asString.Replace("\\\"", "\"");
                 }
-                var token = Try.Op(() => JToken.Parse(asString));
+                var token = Try.Op(() => Serializer.Parse(asString));
                 if (token != null) {
                     value = token;
                 }
 
-                if (value.Type == JTokenType.String) {
+                if (value.Type == VariantValueType.String) {
 
                     //
                     // try to split the string as comma seperated list
@@ -164,7 +178,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Services {
                         // string array
                         //
                         if (elements.Length > 1) {
-                            var array = new JArray();
+                            var array = new List<string>();
                             foreach (var element in elements) {
                                 var trimmed = element.Trim().TrimQuotes();
                                 if (trimmed == element) {
@@ -173,7 +187,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Services {
                                 }
                                 array.Add(trimmed);
                             }
-                            return array; // No need to sanitize contents
+                            return Serializer.FromObject(array); // No need to sanitize contents
                         }
                     }
                     else {
@@ -184,7 +198,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Services {
                             //
                             // Parse all contained elements and return as array
                             //
-                            value = new JArray(elements
+                            value = Serializer.FromObject(elements
                                 .Select(s => s.Trim()));
                         }
                         else {
@@ -199,14 +213,17 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Services {
                     }
                 }
 
-                if (value is JArray arr) {
+                if (value.Type == VariantValueType.Array) {
                     //
                     // Sanitize each element accordingly
                     //
-                    return new JArray(arr.Select(t => Sanitize(t, isString)));
+                    return Serializer.FromObject(value
+                        .Select(t => Sanitize(t, isString)));
                 }
                 return value;
             }
         }
+
+        private readonly IJsonSerializer _serializer;
     }
 }

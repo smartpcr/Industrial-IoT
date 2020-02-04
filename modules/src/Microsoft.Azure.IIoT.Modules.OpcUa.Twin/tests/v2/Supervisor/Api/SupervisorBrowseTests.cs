@@ -14,6 +14,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Supervisor.Api {
     using System.Threading.Tasks;
     using Xunit;
     using Autofac;
+    using Microsoft.Azure.IIoT.Serializers;
 
     [Collection(ReadCollection.Name)]
     public class SupervisorBrowseTests : IClassFixture<TwinModuleFixture> {
@@ -24,7 +25,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Supervisor.Api {
         }
 
         private BrowseServicesTests<EndpointApiModel> GetTests() {
-            return new BrowseServicesTests<EndpointApiModel>(
+            return new BrowseServicesTests<EndpointApiModel>(new NewtonSoftJsonSerializer(),
                 () => _module.HubContainer.Resolve<IBrowseServices<EndpointApiModel>>(),
                 new EndpointApiModel {
                     Url = $"opc.tcp://{Dns.GetHostName()}:{_server.Port}/UA/SampleServer",
@@ -155,6 +156,5 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Supervisor.Api {
         public async Task NodeBrowseDiagnosticsVerboseTestAsync() {
             await GetTests().NodeBrowseDiagnosticsVerboseTestAsync();
         }
-
     }
 }

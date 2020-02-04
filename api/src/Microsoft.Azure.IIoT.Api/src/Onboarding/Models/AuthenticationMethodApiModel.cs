@@ -5,7 +5,7 @@
 
 namespace Microsoft.Azure.IIoT.OpcUa.Api.Onboarding.Models {
     using System.Runtime.Serialization;
-    using Newtonsoft.Json.Linq;
+    using Microsoft.Azure.IIoT.Serializers;
 
     /// <summary>
     /// Authentication Method model
@@ -38,6 +38,6 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Onboarding.Models {
         /// </summary>
         [DataMember(Name = "configuration",
             EmitDefaultValue = false)]
-        public IValue Configuration { get; set; }
+        public VariantValue Configuration { get; set; }
     }
 }

@@ -8,10 +8,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Hosting\**" />
+    <Compile Remove="Serializers\Models\**" />
     <EmbeddedResource Remove="Hosting\**" />
+    <EmbeddedResource Remove="Serializers\Models\**" />
     <None Remove="Hosting\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Serializers\Models\" />
+    <None Remove="Serializers\Models\**" />
   </ItemGroup>
 </Project>

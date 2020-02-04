@@ -10,7 +10,7 @@ namespace Microsoft.Azure.IIoT.Modules.Diagnostic.v2.Supervisor {
     using Serilog;
     using System;
     using System.Threading.Tasks;
-    using Newtonsoft.Json.Linq;
+    using Microsoft.Azure.IIoT.Serializers;
 
     /// <summary>
     /// Diagnostic methods controller
@@ -44,9 +44,9 @@ namespace Microsoft.Azure.IIoT.Modules.Diagnostic.v2.Supervisor {
         /// Handle echo
         /// </summary>
         /// <returns></returns>
-        public Task<IValue> EchoAsync(JToken token) {
+        public Task<VariantValue> EchoAsync(VariantValue token) {
             _logger.Verbose("Processed ECHO: {token}", 
-                token.ToString(Newtonsoft.Json.Formatting.None));
+                token.ToString(Formatting.None));
             return Task.FromResult(token);
         }
 

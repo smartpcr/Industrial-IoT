@@ -5,9 +5,9 @@
 
 namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
     using Microsoft.Azure.IIoT.Module.Framework.Services;
+    using Microsoft.Azure.IIoT.Serializers;
     using Microsoft.Azure.Devices.Shared;
     using Serilog;
-    using Newtonsoft.Json.Linq;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -36,10 +36,12 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
         /// Create router
         /// </summary>
         /// <param name="logger"></param>
-        public SettingsRouter(ILogger logger) {
+        /// <param name="serializer"></param>
+        public SettingsRouter(IJsonSerializer serializer, ILogger logger) {
+            _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _calltable = new Dictionary<string, CascadingInvoker>();
-            _cache = new Dictionary<string, JToken>();
+            _cache = new Dictionary<string, VariantValue>();
             _lock = new SemaphoreSlim(1, 1);
         }
 
@@ -88,7 +90,7 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
                             if (!invoker.Get(setting.Key, out var value)) {
                                 value = setting.Value; // No getter, echo back desired value.
                             }
-                            _cache[setting.Key] = JToken.FromObject(value);
+                            _cache[setting.Key] = _serializer.FromObject(value);
                             reported[setting.Key] = value;
                             continue;
                         }
@@ -152,14 +154,14 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
                     if (!handler.Value.Get(key, out var value)) {
                         continue;
                     }
-                    var obj = value == null ? null : JToken.FromObject(value);
+                    var obj = _serializer.FromObject(value);
                     _cache.TryGetValue(key.ToLowerInvariant(), out var cached);
                     if (cached == null && value == null) {
                         // Do not report - both are null and thus equal
                         continue;
                     }
                     if (cached != null && value != null &&
-                        JToken.DeepEquals(cached, obj)) {
+                        VariantValue.DeepEquals(cached, obj)) {
                         // Value is equal - do not report
                         continue;
                     }
@@ -222,7 +224,7 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
                         invoker = new CascadingInvoker(_logger);
                         _calltable.Add(name, invoker);
                     }
-                    invoker.Add(controller, propInfo, indexed);
+                    invoker.Add(controller, propInfo, _serializer, indexed);
                 }
             }
         }
@@ -313,11 +315,12 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
             /// </summary>
             /// <param name="controller"></param>
             /// <param name="controllerProp"></param>
+            /// <param name="serializer"></param>
             /// <param name="indexed"></param>
             public void Add(Controller controller, PropertyInfo controllerProp,
-                bool indexed) {
+                IJsonSerializer serializer, bool indexed) {
                 _invokers.Add(controller.Version, new PropertyInvoker(controller,
-                    controllerProp, indexed, _logger));
+                    controllerProp, indexed, serializer, _logger));
             }
 
             /// <summary>
@@ -387,9 +390,11 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
             /// <param name="controller"></param>
             /// <param name="property"></param>
             /// <param name="indexed"></param>
+            /// <param name="serializer"></param>
             /// <param name="logger"></param>
             public PropertyInvoker(Controller controller, PropertyInfo property,
-                bool indexed, ILogger logger) {
+                bool indexed, IJsonSerializer serializer, ILogger logger) {
+                _serializer = serializer;
                 _logger = logger;
                 _controller = controller;
                 _indexed = indexed;
@@ -461,28 +466,30 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
                 if (value == null) {
                     return null;
                 }
-                JToken val;
+                VariantValue val;
                 try {
-                    val = (JToken)value;
+                    val = (VariantValue)value;
                 }
                 catch {
-                    val = JToken.FromObject(value);
+                    val = _serializer.FromObject(value);
                 }
-                if (type == typeof(JToken)) {
+                if (type == typeof(VariantValue)) {
                     return val;
                 }
                 return val.ToObject(type);
             }
 
             private readonly ILogger _logger;
+            private readonly IJsonSerializer _serializer;
             private readonly Controller _controller;
             private readonly PropertyInfo _property;
             private readonly bool _indexed;
         }
 
         private const string kDefaultProp = "@default";
+        private readonly IJsonSerializer _serializer;
         private readonly ILogger _logger;
-        private readonly Dictionary<string, JToken> _cache;
+        private readonly Dictionary<string, VariantValue> _cache;
         private readonly Dictionary<string, CascadingInvoker> _calltable;
         private readonly SemaphoreSlim _lock;
     }

@@ -13,7 +13,6 @@ namespace Microsoft.Azure.IIoT.Modules.Diagnostic.Cli {
     using Microsoft.Azure.IIoT.Serializers;
     using Microsoft.Azure.IIoT.Utils;
     using Microsoft.Extensions.Configuration;
-    using Newtonsoft.Json.Linq;
     using Serilog;
     using Serilog.Core;
     using Serilog.Events;
@@ -212,6 +211,7 @@ Arguments:
             var client = new IoTHubTwinMethodClient(CreateClient(config, logger), logger);
             logger.Information("Starting echo thread");
             var found = false;
+
             for (var index = 0; !ct.IsCancellationRequested; index++) {
                 try {
                     var message = serializer.SerializePretty(new {
@@ -223,9 +223,9 @@ Arguments:
                         "Echo_V1", message, null, ct);
                     found = true;
                     try {
-                        var returned = (dynamic)JToken.Parse(result);
+                        var returned = serializer.Parse(result);
                         logger.Debug("... received back ECHO {Index} - took {Passed}.",
-                            returned.Index, DateTime.UtcNow - ((DateTime)returned.Started));
+                            returned["Index"], DateTime.UtcNow - ((DateTime)returned["Started"]));
                     }
                     catch (Exception e) {
                         logger.Error(e, "Bad result for ECHO {Index}: {result} ",
@@ -311,7 +311,7 @@ Arguments:
             var registry = CreateClient(config, logger);
             await registry.CreateAsync(new DeviceTwinModel {
                 Id = deviceId,
-                Tags = new Dictionary<string, JToken> {
+                Tags = new Dictionary<string, VariantValue> {
                     [TwinProperty.Type] = IdentityType.Gateway
                 },
                 Capabilities = new DeviceCapabilitiesModel {

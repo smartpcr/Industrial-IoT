@@ -9,7 +9,7 @@ namespace Microsoft.Azure.CosmosDB.BulkExecutor.Graph {
     using Microsoft.Azure.IIoT.Storage;
     using Microsoft.Azure.IIoT.Storage.Annotations;
     using Gremlin.Net.CosmosDb.Structure;
-    using Newtonsoft.Json.Linq;
+    using Microsoft.Azure.IIoT.Serializers;
     using System;
     using System.Collections.Concurrent;
     using System.Reflection;

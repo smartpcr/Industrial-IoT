@@ -7,7 +7,6 @@ namespace Microsoft.Azure.IIoT.Modules.Discovery.Controllers {
     using Microsoft.Azure.IIoT.Module.Framework;
     using Microsoft.Azure.IIoT.OpcUa.Edge;
     using Microsoft.Azure.IIoT.OpcUa.Registry.Models;
-    using Newtonsoft.Json.Linq;
     using System;
     using System.Threading.Tasks;
 
@@ -21,32 +20,9 @@ namespace Microsoft.Azure.IIoT.Modules.Discovery.Controllers {
         /// <summary>
         /// Enable or disable discovery on supervisor
         /// </summary>
-        public IValue Discovery {
-            set {
-                if (value == null) {
-                    _discovery.Mode = DiscoveryMode.Off;
-                    return;
-                }
-                switch (value.Type) {
-                    case JTokenType.Null:
-                        _discovery.Mode = DiscoveryMode.Off;
-                        break;
-                    case JTokenType.Boolean:
-                        _discovery.Mode = (bool)value ?
-                            DiscoveryMode.Local : DiscoveryMode.Off;
-                        break;
-                    case JTokenType.String:
-                        DiscoveryMode mode;
-                        if (Enum.TryParse((string)value, true, out mode)) {
-                            _discovery.Mode = mode;
-                            break;
-                        }
-                        throw new ArgumentException("bad mode value");
-                    default:
-                        throw new NotSupportedException("bad key value");
-                }
-            }
-            get => JToken.FromObject(_discovery.Mode);
+        public DiscoveryMode? Discovery {
+            set => _discovery.Mode = value ?? DiscoveryMode.Off;
+            get => _discovery.Mode;
         }
 
         /// <summary>
@@ -61,18 +37,18 @@ namespace Microsoft.Azure.IIoT.Modules.Discovery.Controllers {
         /// <summary>
         /// Network probe timeout.
         /// </summary>
-        public IValue NetworkProbeTimeout {
+        public TimeSpan? NetworkProbeTimeout {
             set => _discovery.Configuration.NetworkProbeTimeout =
-                value?.ToObject<TimeSpan>();
+                value;
             get => _discovery.Configuration.NetworkProbeTimeout;
         }
 
         /// <summary>
         /// Max network probes that should ever run.
         /// </summary>
-        public IValue MaxNetworkProbes {
-            set => _discovery.Configuration.MaxNetworkProbes =
-                value?.ToObject<int>();
+        public int? MaxNetworkProbes {
+            set => _discovery.Configuration.MaxNetworkProbes = 
+                value;
             get => _discovery.Configuration.MaxNetworkProbes;
         }
 
@@ -88,36 +64,36 @@ namespace Microsoft.Azure.IIoT.Modules.Discovery.Controllers {
         /// <summary>
         /// Port probe timeout
         /// </summary>
-        public IValue PortProbeTimeout {
+        public TimeSpan? PortProbeTimeout {
             set => _discovery.Configuration.PortProbeTimeout =
-                value?.ToObject<TimeSpan>();
+                value;
             get => _discovery.Configuration.PortProbeTimeout;
         }
 
         /// <summary>
         /// Max port probes that should ever run.
         /// </summary>
-        public IValue MaxPortProbes {
+        public int? MaxPortProbes {
             set => _discovery.Configuration.MaxPortProbes =
-                value?.ToObject<int>();
+                value;
             get => _discovery.Configuration.MaxPortProbes;
         }
 
         /// <summary>
         /// Probes that must always be there as percent of max.
         /// </summary>
-        public IValue MinPortProbesPercent {
+        public int? MinPortProbesPercent {
             set => _discovery.Configuration.MinPortProbesPercent =
-                value?.ToObject<int>();
+                value;
             get => _discovery.Configuration.MinPortProbesPercent;
         }
 
         /// <summary>
         /// Delay time between discovery sweeps
         /// </summary>
-        public IValue IdleTimeBetweenScans {
+        public TimeSpan? IdleTimeBetweenScans {
             set => _discovery.Configuration.IdleTimeBetweenScans =
-                value?.ToObject<TimeSpan>();
+                value;
             get => _discovery.Configuration.IdleTimeBetweenScans;
         }
 
@@ -126,7 +102,8 @@ namespace Microsoft.Azure.IIoT.Modules.Discovery.Controllers {
         /// </summary>
         /// <param name="discovery"></param>
         public DiscoverySettingsController(IScannerServices discovery) {
-            _discovery = discovery ?? throw new ArgumentNullException(nameof(discovery));
+            _discovery = discovery ?? 
+                throw new ArgumentNullException(nameof(discovery));
         }
 
         /// <summary>

@@ -4,7 +4,7 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Vault.Models {
-    using Newtonsoft.Json.Linq;
+    using Microsoft.Azure.IIoT.Serializers;
     using System;
 
     /// <summary>
@@ -23,9 +23,9 @@ namespace Microsoft.Azure.IIoT.OpcUa.Vault.Models {
                 throw new ArgumentNullException(nameof(model.CertificateRequest));
             }
             switch (model.CertificateRequest.Type) {
-                case JTokenType.Bytes:
+                case VariantValueType.Bytes:
                     return (byte[])model.CertificateRequest;
-                case JTokenType.String:
+                case VariantValueType.String:
                     var request = (string)model.CertificateRequest;
                     if (request.Contains(certRequestPemHeader,
                         StringComparison.OrdinalIgnoreCase)) {

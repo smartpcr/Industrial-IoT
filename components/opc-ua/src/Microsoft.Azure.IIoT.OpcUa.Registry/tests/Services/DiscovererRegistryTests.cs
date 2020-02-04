@@ -12,7 +12,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
     using Autofac.Extras.Moq;
     using AutoFixture;
     using AutoFixture.Kernel;
-    using Newtonsoft.Json.Linq;
+    using Microsoft.Azure.IIoT.Serializers;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -147,11 +147,11 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
         /// <param name="site"></param>
         /// <param name="discoverers"></param>
         /// <param name="modules"></param>
-        private static void CreateDiscovererFixtures(out string site,
+        private void CreateDiscovererFixtures(out string site,
             out List<DiscovererModel> discoverers, out List<(DeviceTwinModel, DeviceModel)> modules,
             bool noSite = false) {
             var fix = new Fixture();
-            fix.Customizations.Add(new TypeRelay(typeof(JToken), typeof(JObject)));
+            fix.Customizations.Add(new TypeRelay(typeof(VariantValue), typeof(VariantValue)));
             var sitex = site = noSite ? null : fix.Create<string>();
             discoverers = fix
                 .Build<DiscovererModel>()
@@ -164,9 +164,9 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
 
             modules = discoverers
                 .Select(a => a.ToDiscovererRegistration())
-                .Select(a => a.ToDeviceTwin())
+                .Select(a => a.ToDeviceTwin(_serializer))
                 .Select(t => {
-                    t.Properties.Reported = new Dictionary<string, JToken> {
+                    t.Properties.Reported = new Dictionary<string, VariantValue> {
                         [TwinProperty.Type] = IdentityType.Discoverer
                     };
                     return t;
@@ -174,5 +174,6 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
                 .Select(t => (t, new DeviceModel { Id = t.Id, ModuleId = t.ModuleId }))
                 .ToList();
         }
+        private readonly IJsonSerializer _serializer = new NewtonSoftJsonSerializer();
     }
 }
