@@ -27,22 +27,27 @@ namespace Microsoft.Azure.IIoT.Crypto.KeyVault.Models {
         [DataMember]
         public string KeyIdentifier { get; internal set; }
 
+
         /// <summary>
         /// Create key handle
         /// </summary>
         /// <param name="keyIdentifier"></param>
         /// <param name="secretIdentifier"></param>
-        internal KeyVaultKeyHandle(string keyIdentifier, string secretIdentifier) {
-            KeyIdentifier = keyIdentifier;
-            SecretIdentifier = secretIdentifier;
+        internal static KeyVaultKeyHandle Create(string keyIdentifier,
+            string secretIdentifier) {
+            return new KeyVaultKeyHandle {
+                KeyIdentifier = keyIdentifier,
+                SecretIdentifier = secretIdentifier
+            };
         }
 
         /// <summary>
         /// Create key handle
         /// </summary>
         /// <param name="bundle"></param>
-        internal KeyVaultKeyHandle(CertificateBundle bundle) :
-            this(bundle.KeyIdentifier?.Identifier, bundle.SecretIdentifier?.Identifier) {
+        internal static KeyVaultKeyHandle Create(CertificateBundle bundle) {
+            return Create(bundle.KeyIdentifier?.Identifier,
+                bundle.SecretIdentifier?.Identifier);
         }
 
         /// <summary>
@@ -50,8 +55,10 @@ namespace Microsoft.Azure.IIoT.Crypto.KeyVault.Models {
         /// </summary>
         /// <param name="bundle"></param>
         /// <param name="secret"></param>
-        internal KeyVaultKeyHandle(KeyBundle bundle, SecretBundle secret = null) :
-            this(bundle.KeyIdentifier?.Identifier, secret.SecretIdentifier?.Identifier) {
+        internal static KeyVaultKeyHandle Create(KeyBundle bundle,
+            SecretBundle secret = null) {
+            return Create(bundle.KeyIdentifier?.Identifier,
+                secret.SecretIdentifier?.Identifier);
         }
 
         /// <summary>

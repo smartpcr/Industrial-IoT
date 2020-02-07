@@ -35,8 +35,7 @@ namespace Microsoft.Azure.IIoT.Serializers {
         /// </summary>
         /// <param name="serializer"></param>
         /// <param name="a"></param>
-        public static string SerializeArray(this IJsonSerializer serializer,
-            params object[] a) {
+        public static string SerializeArray(this IJsonSerializer serializer, params object[] a) {
             return serializer.Serialize(a);
         }
 

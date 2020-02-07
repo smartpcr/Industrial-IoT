@@ -33,8 +33,11 @@ namespace Microsoft.Azure.IIoT.Crypto.KeyVault.Clients {
 
         /// <inheritdoc/>
         public KeyHandle DeserializeHandle(byte[] token) {
-           return _serializer.Deserialize<KeyVaultKeyHandle>(
-               Encoding.UTF8.GetString(token));
+            if (token == null) {
+                return null;
+            }
+            return _serializer.Deserialize<KeyVaultKeyHandle>(
+                Encoding.UTF8.GetString(token));
         }
 
         private readonly IJsonSerializer _serializer;

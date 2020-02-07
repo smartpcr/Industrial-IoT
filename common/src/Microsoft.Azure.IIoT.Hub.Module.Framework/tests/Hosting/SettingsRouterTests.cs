@@ -30,7 +30,7 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
 
                     // Assert
                     Assert.True(controller._applyCalled);
-                    Assert.Equal("test", controller.TestSetting1);
+                    Assert.Equal("test4", controller.TestSetting1);
                     Assert.Equal(test, twin.Properties.Reported[nameof(TestController1.TestSetting1)]);
                     Assert.True((bool)twin.Properties.Reported[TwinProperty.Connected]);
                 });

@@ -238,7 +238,7 @@ namespace Microsoft.Azure.IIoT.Hub.Mock {
 
                 return Task.FromResult(new QueryResultModel {
                     ContinuationToken = count >= result.Count ? null : count.ToString(),
-                    Result = _serializer.FromObject(result.Skip(index).Take(count).ToList())
+                    Result = _serializer.FromObject(result.Skip(index).Take(count)).Values.ToList()
                 });
             }
         }

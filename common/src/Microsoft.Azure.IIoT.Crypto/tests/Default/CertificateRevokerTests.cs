@@ -24,7 +24,7 @@ namespace Microsoft.Azure.IIoT.Crypto.Default {
     public class CertificateRevokerTests {
 
         [Fact]
-        public async Task RevokeRSAIssuerAndRSAIssuersTest() {
+        public async Task RevokeRSAIssuerAndRSAIssuersTestAsync() {
 
             using (var mock = AutoMock.GetLoose()) {
                 // Setup
@@ -73,7 +73,7 @@ namespace Microsoft.Azure.IIoT.Crypto.Default {
         }
 
         [Fact]
-        public async Task RevokeECCIssuerAndECCIssuersTest() {
+        public async Task RevokeECCIssuerAndECCIssuersTestAsync() {
 
             using (var mock = AutoMock.GetLoose()) {
                 // Setup
@@ -124,7 +124,7 @@ namespace Microsoft.Azure.IIoT.Crypto.Default {
         }
 
         [Fact]
-        public async Task RevokeRSAIssuersTest() {
+        public async Task RevokeRSAIssuersTestAsync() {
 
             using (var mock = AutoMock.GetLoose()) {
                 // Setup
@@ -180,7 +180,7 @@ namespace Microsoft.Azure.IIoT.Crypto.Default {
         }
 
         [Fact]
-        public async Task RevokeECCIssuersTest() {
+        public async Task RevokeECCIssuersTestAsync() {
 
             using (var mock = AutoMock.GetLoose()) {
                 // Setup
@@ -245,9 +245,9 @@ namespace Microsoft.Azure.IIoT.Crypto.Default {
                 "ORDER BY c.Version DESC";
             if (q == expected) {
                 return v
-                    .Where(o => ((dynamic)o.Value).Type == "Certificate")
-                    .Where(o => ((dynamic)o.Value).CertificateName == "intca")
-                    .OrderByDescending(o => ((dynamic)o.Value).Version)
+                    .Where(o => o.Value["Type"] == "Certificate")
+                    .Where(o => o.Value["CertificateName"] == "intca")
+                    .OrderByDescending(o => o.Value["Version"])
                     .Take(1);
             }
             expected = "SELECT TOP 1 * FROM Certificates c " +
@@ -256,9 +256,9 @@ namespace Microsoft.Azure.IIoT.Crypto.Default {
                 "ORDER BY c.Version DESC";
             if (q == expected) {
                 return v
-                    .Where(o => ((dynamic)o.Value).Type == "Certificate")
-                    .Where(o => ((dynamic)o.Value).CertificateName == "footca1")
-                    .OrderByDescending(o => ((dynamic)o.Value).Version)
+                    .Where(o => o.Value["Type"] == "Certificate")
+                    .Where(o => o.Value["CertificateName"] == "footca1")
+                    .OrderByDescending(o => o.Value["Version"])
                     .Take(1);
             }
             expected = "SELECT TOP 1 * FROM Certificates c " +
@@ -267,9 +267,9 @@ namespace Microsoft.Azure.IIoT.Crypto.Default {
                 "ORDER BY c.Version DESC";
             if (q == expected) {
                 return v
-                    .Where(o => ((dynamic)o.Value).Type == "Certificate")
-                    .Where(o => ((dynamic)o.Value).CertificateName == "footca2")
-                    .OrderByDescending(o => ((dynamic)o.Value).Version)
+                    .Where(o => o.Value["Type"] == "Certificate")
+                    .Where(o => o.Value["CertificateName"] == "footca2")
+                    .OrderByDescending(o => o.Value["Version"])
                     .Take(1);
             }
             expected = "SELECT TOP 1 * FROM Certificates c " +
@@ -278,9 +278,9 @@ namespace Microsoft.Azure.IIoT.Crypto.Default {
                 "ORDER BY c.Version DESC";
             if (q == expected) {
                 return v
-                    .Where(o => ((dynamic)o.Value).Type == "Certificate")
-                    .Where(o => ((dynamic)o.Value).CertificateName == "rootca")
-                    .OrderByDescending(o => ((dynamic)o.Value).Version);
+                    .Where(o => o.Value["Type"] == "Certificate")
+                    .Where(o => o.Value["CertificateName"] == "rootca")
+                    .OrderByDescending(o => o.Value["Version"]);
             }
             expected = "SELECT TOP 1 * FROM Certificates c " +
                 "WHERE c.Type = 'Certificate' " +
@@ -288,9 +288,9 @@ namespace Microsoft.Azure.IIoT.Crypto.Default {
                 "ORDER BY c.Version DESC";
             if (q == expected) {
                 return v
-                    .Where(o => ((dynamic)o.Value).Type == "Certificate")
-                    .Where(o => ((dynamic)o.Value).CertificateName == "intca")
-                    .OrderByDescending(o => ((dynamic)o.Value).Version)
+                    .Where(o => o.Value["Type"] == "Certificate")
+                    .Where(o => o.Value["CertificateName"] == "intca")
+                    .OrderByDescending(o => o.Value["Version"])
                     .Take(1);
             }
             expected = "SELECT TOP 1 * FROM Certificates c " +
@@ -299,9 +299,9 @@ namespace Microsoft.Azure.IIoT.Crypto.Default {
                 "ORDER BY c.Version DESC";
             if (q == expected) {
                 return v
-                    .Where(o => ((dynamic)o.Value).Type == "Certificate")
-                    .Where(o => ((dynamic)o.Value).CertificateName == "footca1")
-                    .OrderByDescending(o => ((dynamic)o.Value).Version)
+                    .Where(o => o.Value["Type"] == "Certificate")
+                    .Where(o => o.Value["CertificateName"] == "footca1")
+                    .OrderByDescending(o => o.Value["Version"])
                     .Take(1);
             }
             expected = "SELECT TOP 1 * FROM Certificates c " +
@@ -310,9 +310,9 @@ namespace Microsoft.Azure.IIoT.Crypto.Default {
                 "ORDER BY c.Version DESC";
             if (q == expected) {
                 return v
-                    .Where(o => ((dynamic)o.Value).Type == "Certificate")
-                    .Where(o => ((dynamic)o.Value).CertificateName == "footca2")
-                    .OrderByDescending(o => ((dynamic)o.Value).Version)
+                    .Where(o => o.Value["Type"] == "Certificate")
+                    .Where(o => o.Value["CertificateName"] == "footca2")
+                    .OrderByDescending(o => o.Value["Version"])
                     .Take(1);
             }
             expected = "SELECT TOP 1 * FROM Certificates c " +
@@ -321,29 +321,29 @@ namespace Microsoft.Azure.IIoT.Crypto.Default {
                 "ORDER BY c.Version DESC";
             if (q == expected) {
                 return v
-                    .Where(o => ((dynamic)o.Value).Type == "Certificate")
-                    .Where(o => ((dynamic)o.Value).CertificateName == "rootca")
-                    .OrderByDescending(o => ((dynamic)o.Value).Version)
+                    .Where(o => o.Value["Type"] == "Certificate")
+                    .Where(o => o.Value["CertificateName"] == "rootca")
+                    .OrderByDescending(o => o.Value["Version"])
                     .Take(1);
             }
 
-            var results = v.Where(o => ((dynamic)o.Value).Type == "Certificate");
+            var results = v.Where(o => o.Value["Type"] == "Certificate");
             if (q.Contains("c.Issuer = 'CN=rootca'")) {
-                results = results.Where(o => ((dynamic)o.Value).Issuer == "CN=rootca");
+                results = results.Where(o => o.Value["Issuer"] == "CN=rootca");
             }
             if (q.Contains("c.Issuer = 'CN=intca'")) {
-                results = results.Where(o => ((dynamic)o.Value).Issuer == "CN=intca");
+                results = results.Where(o => o.Value["Issuer"] == "CN=intca");
             }
             if (q.Contains("c.Issuer = 'CN=footca'")) {
-                results = results.Where(o => ((dynamic)o.Value).Issuer == "CN=footca");
+                results = results.Where(o => o.Value["Issuer"] == "CN=footca");
             }
             if (q.Contains("AND NOT IS_DEFINED(c.DisabledSince)")) {
-                results = results.Where(o => ((dynamic)o.Value).DisabledSince == null);
+                results = results.Where(o => o.Value["DisabledSince"] == null);
             }
             else if (q.Contains("AND IS_DEFINED(c.DisabledSince)")) {
-                results = results.Where(o => ((dynamic)o.Value).DisabledSince != null);
+                results = results.Where(o => o.Value["DisabledSince"] != null);
             }
-            return results.OrderByDescending(o => ((dynamic)o.Value).Version);
+            return results.OrderByDescending(o => o.Value["Version"]);
         }
 
         /// <summary>
@@ -353,6 +353,8 @@ namespace Microsoft.Azure.IIoT.Crypto.Default {
         /// <param name="provider"></param>
         private static void Setup(AutoMock mock, Func<IEnumerable<IDocumentInfo<VariantValue>>,
             string, IEnumerable<IDocumentInfo<VariantValue>>> provider) {
+            mock.Provide<IJsonSerializerSettingsProvider, NewtonSoftJsonConverters>();
+            mock.Provide<IJsonSerializer, NewtonSoftJsonSerializer>();
             mock.Provide<IQueryEngine>(new QueryEngineAdapter(provider));
             mock.Provide<IDatabaseServer, MemoryDatabase>();
             mock.Provide<IItemContainerFactory, ItemContainerFactory>();

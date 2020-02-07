@@ -38,14 +38,6 @@ namespace Microsoft.Azure.IIoT.Serializers {
         VariantValue Parse(TextReader reader);
 
         /// <summary>
-        /// Bind token to object of type.
-        /// </summary>
-        /// <param name="type"></param>
-        /// <param name="token"></param>
-        /// <returns></returns>
-        object ToObject(VariantValue token, Type type);
-
-        /// <summary>
         /// Convert to token.
         /// </summary>
         /// <param name="o"></param>

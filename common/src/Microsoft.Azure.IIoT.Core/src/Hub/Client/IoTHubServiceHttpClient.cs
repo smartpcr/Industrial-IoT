@@ -280,7 +280,7 @@ namespace Microsoft.Azure.IIoT.Hub.Client {
             var results = _serializer.ParseResponse(response);
             return new QueryResultModel {
                 ContinuationToken = continuation,
-                Result = results
+                Result = results.Values
             };
         }
 

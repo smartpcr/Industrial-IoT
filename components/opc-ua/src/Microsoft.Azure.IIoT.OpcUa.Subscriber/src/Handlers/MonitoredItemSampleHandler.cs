@@ -43,7 +43,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Subscriber.Handlers {
             try {
                 var parsed = _serializer.Parse(json);
                 if (parsed.Type == VariantValueType.Array) {
-                    messages = parsed;
+                    messages = parsed.Values;
                 }
                 else {
                     messages = parsed.YieldReturn();

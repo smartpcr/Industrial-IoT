@@ -194,7 +194,7 @@ namespace Microsoft.Azure.IIoT.Serializers {
             var dimensions = new List<int>();
             type = VariantValueType.Null;
             while (array?.Type == VariantValueType.Array) {
-                var len = array.Count();
+                var len = array.Count;
                 if (len == 0) {
                     break;
                 }

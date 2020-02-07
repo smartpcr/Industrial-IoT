@@ -7,14 +7,11 @@ namespace Microsoft.Azure.IIoT.Serializers {
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    using System.Dynamic;
-    using System.Linq.Expressions;
 
     /// <summary>
     /// Represents primitive or structurally complex value
     /// </summary>
-    public abstract class VariantValue : ICloneable,
-        IEnumerable<VariantValue>, IConvertible, IDynamicMetaObjectProvider {
+    public abstract class VariantValue : ICloneable, IConvertible {
 
         /// <summary>
         /// Get type of value
@@ -23,14 +20,19 @@ namespace Microsoft.Azure.IIoT.Serializers {
         public abstract VariantValueType Type { get; }
 
         /// <summary>
-        /// Provide raw value or null
-        /// </summary>
-        public abstract object Value { get; }
-
-        /// <summary>
         /// Property names of object
         /// </summary>
         public abstract IEnumerable<string> Keys { get; }
+
+        /// <summary>
+        /// Values of array
+        /// </summary>
+        public abstract IEnumerable<VariantValue> Values { get; }
+
+        /// <summary>
+        /// Provide raw value or null
+        /// </summary>
+        public abstract object Value { get; }
 
         /// <inheritdoc/>
         public VariantValue this[string key] {
@@ -147,6 +149,23 @@ namespace Microsoft.Azure.IIoT.Serializers {
         }
         /// <inheritdoc/>
         public static implicit operator VariantValue(DateTime? value) {
+            return new PrimitiveValue(value);
+        }
+
+        /// <inheritdoc/>
+        public static explicit operator DateTimeOffset(VariantValue value) {
+            return value.ToObject<DateTimeOffset>();
+        }
+        /// <inheritdoc/>
+        public static explicit operator DateTimeOffset?(VariantValue value) {
+            return value.IsNull() ? (DateTimeOffset?)null : value.ToObject<DateTimeOffset>();
+        }
+        /// <inheritdoc/>
+        public static implicit operator VariantValue(DateTimeOffset value) {
+            return new PrimitiveValue(value);
+        }
+        /// <inheritdoc/>
+        public static implicit operator VariantValue(DateTimeOffset? value) {
             return new PrimitiveValue(value);
         }
 
@@ -447,11 +466,9 @@ namespace Microsoft.Azure.IIoT.Serializers {
                 if (this.IsNull() && v.IsNull()) {
                     return true;
                 }
-                if (v.Type != Type) {
-                    return false;
-                }
+                return v.DeepEquals(this);
             }
-            return DeepEquals(o);
+            return ValueEquals(o);
         }
 
         /// <inheritdoc/>
@@ -468,17 +485,6 @@ namespace Microsoft.Azure.IIoT.Serializers {
         public object Clone() {
             return Copy();
         }
-
-        /// <inheritdoc/>
-        public abstract IEnumerator<VariantValue> GetEnumerator();
-
-        /// <inheritdoc/>
-        IEnumerator IEnumerable.GetEnumerator() {
-            return GetEnumerator();
-        }
-
-        /// <inheritdoc/>
-        public abstract DynamicMetaObject GetMetaObject(Expression parameter);
 
         /// <summary>
         /// Clone this item or entire tree
@@ -567,7 +573,14 @@ namespace Microsoft.Azure.IIoT.Serializers {
         /// </summary>
         /// <param name="o"></param>
         /// <returns></returns>
-        protected abstract bool DeepEquals(object o);
+        protected abstract bool ValueEquals(object o);
+
+        /// <summary>
+        /// Compare to variant
+        /// </summary>
+        /// <param name="o"></param>
+        /// <returns></returns>
+        protected abstract bool DeepEquals(VariantValue o);
 
 
         /// <summary>
@@ -582,14 +595,16 @@ namespace Microsoft.Azure.IIoT.Serializers {
             public override object Value { get; }
 
             /// <inheritdoc/>
-            public override IEnumerable<string> Keys {
-                get => throw new NotSupportedException("Not an object");
-            }
+            public override IEnumerable<string> Keys =>
+                throw new NotSupportedException("Not an object");
 
             /// <inheritdoc/>
-            public override int Count {
-                get => throw new NotSupportedException("Not an array");
-            }
+            public override IEnumerable<VariantValue> Values =>
+                throw new NotSupportedException("Not an array");
+
+            /// <inheritdoc/>
+            public override int Count =>
+                throw new NotSupportedException("Not an array");
 
             /// <summary>
             /// Clone
@@ -698,6 +713,12 @@ namespace Microsoft.Azure.IIoT.Serializers {
             }
 
             /// <inheritdoc/>
+            public PrimitiveValue(DateTimeOffset value) {
+                Value = value;
+                Type = VariantValueType.Date;
+            }
+
+            /// <inheritdoc/>
             public PrimitiveValue(TimeSpan value) {
                 Value = value;
                 Type = VariantValueType.Date;
@@ -788,6 +809,12 @@ namespace Microsoft.Azure.IIoT.Serializers {
             }
 
             /// <inheritdoc/>
+            public PrimitiveValue(DateTimeOffset? value) {
+                Value = value;
+                Type = value == null ? VariantValueType.Null : VariantValueType.Date;
+            }
+
+            /// <inheritdoc/>
             public PrimitiveValue(TimeSpan? value) {
                 Value = value;
                 Type = value == null ? VariantValueType.Null : VariantValueType.Date;
@@ -799,26 +826,41 @@ namespace Microsoft.Azure.IIoT.Serializers {
             }
 
             /// <inheritdoc/>
-            public override IEnumerator<VariantValue> GetEnumerator() {
-                throw new NotSupportedException("Not an array");
-            }
-
-            /// <inheritdoc/>
-            public override DynamicMetaObject GetMetaObject(Expression parameter) {
-                return new DynamicMetaObject(parameter, BindingRestrictions.Empty, this);
-            }
-
-            /// <inheritdoc/>
             public override string ToString(Formatting format) {
-                return Value.ToString();
+                switch (Value) {
+                    case null:
+                        return "null";
+                    case byte[] b:
+                        return Convert.ToBase64String(b);
+                    default:
+                        return Value.ToString();
+                }
             }
 
             /// <inheritdoc/>
-            protected override bool DeepEquals(object o) {
-                if (Type == VariantValueType.Bytes) {
-                    return EqualityComparer<byte[]>.Default.Equals((byte[])Value, (byte[])o);
+            protected override bool ValueEquals(object o) {
+                if (ReferenceEquals(Value, o)) {
+                    return true;
                 }
-                return Value == o;
+
+                if (o is byte[] b1 && Value is byte[] b2) {
+                    return b1.AsSpan().SequenceEqual(b2);
+                }
+
+                // ...
+
+                // Default to generic comparison
+                return o.Equals(Value);
+            }
+
+            /// <inheritdoc/>
+            protected override bool DeepEquals(VariantValue v) {
+                if (ReferenceEquals(this, v)) {
+                    return true;
+                }
+
+                // Compare to our primitive value
+                return v.ValueEquals(Value);
             }
 
             /// <inheritdoc/>

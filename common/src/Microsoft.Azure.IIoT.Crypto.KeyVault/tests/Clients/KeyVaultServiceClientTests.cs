@@ -31,7 +31,7 @@ namespace Microsoft.Azure.IIoT.Crypto.KeyVault.Clients {
     public class KeyVaultServiceClientTests {
 
         [Fact]
-        public async Task ImportCertificateWithoutKeyTest() {
+        public async Task ImportCertificateWithoutKeyTestAsync() {
 
             using (var mock = AutoMock.GetLoose()) {
                 // Setup
@@ -42,9 +42,9 @@ namespace Microsoft.Azure.IIoT.Crypto.KeyVault.Clients {
                         "ORDER BY c.Version DESC";
                     if (q == expected) {
                         return v
-                            .Where(o => ((dynamic)o.Value).Type == "Certificate")
-                            .Where(o => ((dynamic)o.Value).CertificateName == "rootca")
-                            .OrderByDescending(o => ((dynamic)o.Value).Version);
+                            .Where(o => o.Value["Type"] == "Certificate")
+                            .Where(o => o.Value["CertificateName"] == "rootca")
+                            .OrderByDescending(o => o.Value["Version"]);
                     }
                     throw new AssertActualExpectedException(expected, q, "Query");
                 });
@@ -91,7 +91,7 @@ namespace Microsoft.Azure.IIoT.Crypto.KeyVault.Clients {
         }
 
         [Fact]
-        public async Task ImportCertificateWithKeyTest() {
+        public async Task ImportCertificateWithKeyTestAsync() {
 
             using (var mock = AutoMock.GetLoose()) {
                 // Setup
@@ -102,9 +102,9 @@ namespace Microsoft.Azure.IIoT.Crypto.KeyVault.Clients {
                         "ORDER BY c.Version DESC";
                     if (q == expected) {
                         return v
-                            .Where(o => ((dynamic)o.Value).Type == "Certificate")
-                            .Where(o => ((dynamic)o.Value).CertificateName == "rootca")
-                            .OrderByDescending(o => ((dynamic)o.Value).Version);
+                            .Where(o => o.Value["Type"] == "Certificate")
+                            .Where(o => o.Value["CertificateName"] == "rootca")
+                            .OrderByDescending(o => o.Value["Version"]);
                     }
                     throw new AssertActualExpectedException(expected, q, "Query");
                 });
@@ -174,7 +174,7 @@ namespace Microsoft.Azure.IIoT.Crypto.KeyVault.Clients {
         }
 
         [Fact]
-        public async Task NewRootCertificateTest() {
+        public async Task NewRootCertificateTestAsync() {
 
             using (var mock = AutoMock.GetLoose()) {
                 // Setup
@@ -185,9 +185,9 @@ namespace Microsoft.Azure.IIoT.Crypto.KeyVault.Clients {
                         "ORDER BY c.Version DESC";
                     if (q == expected) {
                         return v
-                            .Where(o => ((dynamic)o.Value).Type == "Certificate")
-                            .Where(o => ((dynamic)o.Value).CertificateName == "rootca")
-                            .OrderByDescending(o => ((dynamic)o.Value).Version);
+                            .Where(o => o.Value["Type"] == "Certificate")
+                            .Where(o => o.Value["CertificateName"] == "rootca")
+                            .OrderByDescending(o => o.Value["Version"]);
                     }
                     throw new AssertActualExpectedException(expected, q, "Query");
                 });
@@ -323,7 +323,7 @@ namespace Microsoft.Azure.IIoT.Crypto.KeyVault.Clients {
         }
 
         [Fact]
-        public async Task CreateRSARootAndRSAIssuerTest() {
+        public async Task CreateRSARootAndRSAIssuerTestAsync() {
 
             using (var mock = AutoMock.GetLoose()) {
                 // Setup
@@ -334,9 +334,9 @@ namespace Microsoft.Azure.IIoT.Crypto.KeyVault.Clients {
                         "ORDER BY c.Version DESC";
                     if (q == expected) {
                         return v
-                            .Where(o => ((dynamic)o.Value).Type == "Certificate")
-                            .Where(o => ((dynamic)o.Value).CertificateName == "footca")
-                            .OrderByDescending(o => ((dynamic)o.Value).Version);
+                            .Where(o => o.Value["Type"] == "Certificate")
+                            .Where(o => o.Value["CertificateName"] == "footca")
+                            .OrderByDescending(o => o.Value["Version"]);
                     }
                     expected = "SELECT TOP 1 * FROM Certificates c " +
                         "WHERE c.Type = 'Certificate' " +
@@ -344,9 +344,9 @@ namespace Microsoft.Azure.IIoT.Crypto.KeyVault.Clients {
                         "ORDER BY c.Version DESC";
                     if (q == expected) {
                         return v
-                            .Where(o => ((dynamic)o.Value).Type == "Certificate")
-                            .Where(o => ((dynamic)o.Value).CertificateName == "rootca")
-                            .OrderByDescending(o => ((dynamic)o.Value).Version);
+                            .Where(o => o.Value["Type"] == "Certificate")
+                            .Where(o => o.Value["CertificateName"] == "rootca")
+                            .OrderByDescending(o => o.Value["Version"]);
                     }
                     expected = "SELECT TOP 1 * FROM Certificates c " +
                         "WHERE c.Type = 'Certificate' " +
@@ -354,9 +354,9 @@ namespace Microsoft.Azure.IIoT.Crypto.KeyVault.Clients {
                         "ORDER BY c.Version DESC";
                     if (q == expected) {
                         return v
-                            .Where(o => ((dynamic)o.Value).Type == "Certificate")
-                            .Where(o => ((dynamic)o.Value).CertificateName == "rootca")
-                            .OrderByDescending(o => ((dynamic)o.Value).Version);
+                            .Where(o => o.Value["Type"] == "Certificate")
+                            .Where(o => o.Value["CertificateName"] == "rootca")
+                            .OrderByDescending(o => o.Value["Version"]);
                     }
                     throw new AssertActualExpectedException(expected, q, "Query");
                 });
@@ -375,7 +375,7 @@ namespace Microsoft.Azure.IIoT.Crypto.KeyVault.Clients {
                             SignatureType = SignatureType.RS256,
                             IssuedLifetime = TimeSpan.FromHours(3)
                         },
-                        new KeyVaultKeyHandle(kTestVaultUri + "/keys/rkid", null)),
+                        KeyVaultKeyHandle.Create(kTestVaultUri + "/keys/rkid", null)),
                         kTestVaultUri + "/certificates/rootca");
 
                     client.Setup(o => o.GetCertificateWithHttpMessagesAsync(
@@ -520,9 +520,10 @@ namespace Microsoft.Azure.IIoT.Crypto.KeyVault.Clients {
         private static (ICertificateIssuer, Mock<IKeyVaultClient>) Setup(AutoMock mock,
             Func<IEnumerable<IDocumentInfo<VariantValue>>,
             string, IEnumerable<IDocumentInfo<VariantValue>>> provider) {
+            mock.Provide<IJsonSerializerSettingsProvider, NewtonSoftJsonConverters>();
+            mock.Provide<IJsonSerializer, NewtonSoftJsonSerializer>();
             mock.Provide<IQueryEngine>(new QueryEngineAdapter(provider));
             mock.Provide<IDatabaseServer, MemoryDatabase>();
-            mock.Provide<IJsonSerializer, NewtonSoftJsonSerializer>();
             mock.Provide<IItemContainerFactory, ItemContainerFactory>();
             mock.Provide<IKeyHandleSerializer, KeyVaultKeyHandleSerializer>();
             var client = mock.Mock<IKeyVaultClient>();

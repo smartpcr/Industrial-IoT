@@ -21,7 +21,6 @@ namespace Newtonsoft.Json.Converters {
                 converters = new List<JsonConverter>();
             }
             converters.Add(new ExceptionConverter(permissive));
-            converters.Add(new IsoDateTimeConverter());
             converters.Add(new PhysicalAddressConverter());
             converters.Add(new IPAddressConverter());
             converters.Add(new StringEnumConverter());

@@ -43,10 +43,10 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Services {
             //
             // TODO: See if we can preserve float precision even though we are passing null!
             //
-            var expected = new Variant(Convert.ToDouble(str.Value));
+            var expected = new Variant(Convert.ToDouble(str));
             var encoded = codec.Encode(variant);
             Assert.Equal(expected, variant);
-            Assert.Equal(_serializer.FromObject(Convert.ToDouble(str.Value)).ToString(Formatting.Indented),
+            Assert.Equal(_serializer.FromObject(Convert.ToDouble(str)).ToString(Formatting.Indented),
                 encoded.ToString(Formatting.Indented));
         }
 

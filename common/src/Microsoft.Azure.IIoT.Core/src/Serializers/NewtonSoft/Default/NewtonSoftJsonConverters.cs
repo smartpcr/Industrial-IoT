@@ -29,7 +29,11 @@ namespace Microsoft.Azure.IIoT.Serializers {
                 Converters = new List<JsonConverter>().AddDefault(),
                 TypeNameHandling = TypeNameHandling.None,
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-                MaxDepth = 20
+                FloatFormatHandling = FloatFormatHandling.String,
+                FloatParseHandling = FloatParseHandling.Double,
+                DateParseHandling = DateParseHandling.DateTime,
+                DateTimeZoneHandling = DateTimeZoneHandling.Utc,
+                MaxDepth = 20,
             };
             defaultSettings.Converters.AddDefault(_permissive);
             if (!_permissive) {

@@ -217,7 +217,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Services {
                     //
                     // Sanitize each element accordingly
                     //
-                    return Serializer.FromObject(value
+                    return Serializer.FromObject(value.Values
                         .Select(t => Sanitize(t, isString)));
                 }
                 return value;

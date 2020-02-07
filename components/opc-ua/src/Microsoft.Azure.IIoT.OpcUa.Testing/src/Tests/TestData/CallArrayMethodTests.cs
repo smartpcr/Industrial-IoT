@@ -704,28 +704,28 @@ namespace Microsoft.Azure.IIoT.OpcUa.Testing.Tests {
                         arg.Value.ToString(Serializers.Formatting.None));
                 },
                 arg => {
-                    Assert.Empty(arg.Value);
+                    Assert.Empty(arg.Value.Values);
                 },
                 arg => {
-                    Assert.Empty(arg.Value);
+                    Assert.Empty(arg.Value.Values);
                 },
                 arg => {
-                    Assert.Empty(arg.Value);
+                    Assert.Empty(arg.Value.Values);
                 },
                 arg => {
-                    Assert.Empty(arg.Value);
+                    Assert.Empty(arg.Value.Values);
                 },
                 arg => {
-                    Assert.Empty(arg.Value);
+                    Assert.Empty(arg.Value.Values);
                 },
                 arg => {
-                    Assert.Empty(arg.Value);
+                    Assert.Empty(arg.Value.Values);
                 },
                 arg => {
-                    Assert.Empty(arg.Value);
+                    Assert.Empty(arg.Value.Values);
                 },
                 arg => {
-                    Assert.Empty(arg.Value);
+                    Assert.Empty(arg.Value.Values);
                 });
             Assert.All(result.Results.Where(arg => arg.DataType != "ByteString"),
                 arg => Assert.Equal(VariantValueType.Array, arg.Value.Type));
@@ -751,7 +751,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Testing.Tests {
                 "Int32", "UInt32", "Int64", "UInt64", "Float", "Double"
             }, result.Results.Select(arg => arg.DataType));
             Assert.All(result.Results.Where(arg => arg.DataType != "ByteString"),
-                arg => Assert.Empty(arg.Value));
+                arg => Assert.Empty(arg.Value.Values));
             Assert.All(result.Results.Where(arg => arg.DataType != "ByteString"),
                 arg => Assert.Equal(VariantValueType.Array, arg.Value.Type));
         }
@@ -821,25 +821,25 @@ namespace Microsoft.Azure.IIoT.OpcUa.Testing.Tests {
                         arg.Value);
                 },
                 arg => {
-                    Assert.Empty(arg.Value);
+                    Assert.Empty(arg.Value.Values);
                 },
                 arg => {
-                    Assert.Empty(arg.Value);
+                    Assert.Empty(arg.Value.Values);
                 },
                 arg => {
-                    Assert.Empty(arg.Value);
+                    Assert.Empty(arg.Value.Values);
                 },
                 arg => {
-                    Assert.Empty(arg.Value);
+                    Assert.Empty(arg.Value.Values);
                 },
                 arg => {
-                    Assert.Empty(arg.Value);
+                    Assert.Empty(arg.Value.Values);
                 },
                 arg => {
-                    Assert.Empty(arg.Value);
+                    Assert.Empty(arg.Value.Values);
                 },
                 arg => {
-                    Assert.Empty(arg.Value);
+                    Assert.Empty(arg.Value.Values);
                 },
                 arg => {
                     Assert.Equal(input[10].Value.ToString(Serializers.Formatting.None),
@@ -919,34 +919,34 @@ namespace Microsoft.Azure.IIoT.OpcUa.Testing.Tests {
                 arg => Assert.Equal(VariantValueType.Array, arg.Value.Type));
             Assert.Collection(result.Results,
                 arg => {
-                    Assert.Empty(arg.Value);
+                    Assert.Empty(arg.Value.Values);
                 },
                 arg => {
-                    Assert.Empty(arg.Value);
+                    Assert.Empty(arg.Value.Values);
                 },
                 arg => {
                     Assert.Equal(VariantValueType.Null, arg.Value.Type);
                 },
                 arg => {
-                    Assert.Empty(arg.Value);
+                    Assert.Empty(arg.Value.Values);
                 },
                 arg => {
-                    Assert.Empty(arg.Value);
+                    Assert.Empty(arg.Value.Values);
                 },
                 arg => {
-                    Assert.Empty(arg.Value);
+                    Assert.Empty(arg.Value.Values);
                 },
                 arg => {
-                    Assert.Empty(arg.Value);
+                    Assert.Empty(arg.Value.Values);
                 },
                 arg => {
-                    Assert.Empty(arg.Value);
+                    Assert.Empty(arg.Value.Values);
                 },
                 arg => {
-                    Assert.Empty(arg.Value);
+                    Assert.Empty(arg.Value.Values);
                 },
                 arg => {
-                    Assert.Empty(arg.Value);
+                    Assert.Empty(arg.Value.Values);
                 },
                 arg => {
                     Assert.Equal(input[10].Value.ToString(Serializers.Formatting.None),
@@ -1150,7 +1150,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Testing.Tests {
                 "QualifiedName","LocalizedText","StatusCode" },
                 result.Results.Select(arg => arg.DataType));
             Assert.All(result.Results, arg => Assert.Equal(VariantValueType.Array, arg.Value.Type));
-            Assert.All(result.Results, arg => Assert.Empty(arg.Value));
+            Assert.All(result.Results, arg => Assert.Empty(arg.Value.Values));
         }
 
 
@@ -1265,7 +1265,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Testing.Tests {
                 result.Results.Select(arg => arg.Value.ToString(Serializers.Formatting.None)),
                 StringComparer.InvariantCulture);
             Assert.All(result.Results, arg => Assert.Equal(VariantValueType.Array, arg.Value.Type));
-            Assert.All(result.Results, arg => Assert.Empty(arg.Value));
+            Assert.All(result.Results, arg => Assert.Empty(arg.Value.Values));
         }
 
 
@@ -1395,7 +1395,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Testing.Tests {
                 "Variant", "Int32", "ExtensionObject"
             }, result.Results.Select(arg => arg.DataType));
             Assert.All(result.Results, arg => Assert.Equal(VariantValueType.Array, arg.Value.Type));
-            Assert.All(result.Results, arg => Assert.Empty(arg.Value));
+            Assert.All(result.Results, arg => Assert.Empty(arg.Value.Values));
         }
 
         private readonly T _endpoint;

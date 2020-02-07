@@ -98,8 +98,8 @@ namespace Microsoft.Azure.IIoT.Storage.Default {
             /// <inheritdoc/>
             public Task<IDocumentInfo<T>> AddAsync<T>(T newItem,
                 CancellationToken ct, string id, OperationOptions options) {
-                var newDoc = new Document<T>(id, _outer._serializer.FromObject(newItem),
-                    options?.PartitionKey);
+                var item = _outer._serializer.FromObject(newItem);
+                var newDoc = new Document<T>(id, item, options?.PartitionKey);
                 lock (_data) {
                     if (_data.TryGetValue(newDoc.Id, out var existing)) {
                         return Task.FromException<IDocumentInfo<T>>(
@@ -171,8 +171,8 @@ namespace Microsoft.Azure.IIoT.Storage.Default {
                 if (existing == null) {
                     throw new ArgumentNullException(nameof(existing));
                 }
-                var newDoc = new Document<T>(existing.Id, _outer._serializer.FromObject(value),
-                    existing.PartitionKey);
+                var item = _outer._serializer.FromObject(value);
+                var newDoc = new Document<T>(existing.Id, item, existing.PartitionKey);
                 lock (_data) {
                     if (_data.TryGetValue(newDoc.Id, out var doc)) {
                         if (!string.IsNullOrEmpty(existing.Etag) && doc.Etag != existing.Etag) {
@@ -193,8 +193,8 @@ namespace Microsoft.Azure.IIoT.Storage.Default {
             /// <inheritdoc/>
             public Task<IDocumentInfo<T>> UpsertAsync<T>(T newItem, CancellationToken ct,
                 string id, OperationOptions options, string etag) {
-                var newDoc = new Document<T>(id, _outer._serializer.FromObject(newItem),
-                    options?.PartitionKey);
+                var item = _outer._serializer.FromObject(newItem);
+                var newDoc = new Document<T>(id, item, options?.PartitionKey);
                 lock (_data) {
                     if (_data.TryGetValue(newDoc.Id, out var doc)) {
                         if (!string.IsNullOrEmpty(etag) && doc.Etag != etag) {

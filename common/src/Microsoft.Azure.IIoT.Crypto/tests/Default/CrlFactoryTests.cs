@@ -7,6 +7,7 @@ namespace Microsoft.Azure.IIoT.Crypto.Default {
     using Autofac.Extras.Moq;
     using Microsoft.Azure.IIoT.Crypto.Models;
     using Microsoft.Azure.IIoT.Crypto.Storage;
+    using Microsoft.Azure.IIoT.Serializers;
     using Microsoft.Azure.IIoT.Storage;
     using Microsoft.Azure.IIoT.Storage.Default;
     using System;
@@ -168,6 +169,8 @@ namespace Microsoft.Azure.IIoT.Crypto.Default {
         /// </summary>
         /// <param name="mock"></param>
         private static void Setup(AutoMock mock) {
+            mock.Provide<IJsonSerializerSettingsProvider, NewtonSoftJsonConverters>();
+            mock.Provide<IJsonSerializer, NewtonSoftJsonSerializer>();
             mock.Provide<IDatabaseServer, MemoryDatabase>();
             mock.Provide<IItemContainerFactory, ItemContainerFactory>();
             mock.Provide<IKeyStore, KeyDatabase>();

@@ -33,6 +33,9 @@ namespace Microsoft.Azure.IIoT.Crypto.Storage {
 
         /// <inheritdoc/>
         public KeyHandle DeserializeHandle(byte[] token) {
+            if (token == null) {
+                return null;
+            }
             return _serializer.Deserialize<KeyId>(
                 Encoding.UTF8.GetString(token));
         }
