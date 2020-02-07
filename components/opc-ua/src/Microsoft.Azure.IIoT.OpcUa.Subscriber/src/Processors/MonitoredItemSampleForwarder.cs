@@ -3,7 +3,7 @@
 //  Licensed under the MIT License (MIT). See License.txt in the repo root for license information.
 // ------------------------------------------------------------
 
-namespace Microsoft.Azure.IIoT.OpcUa.Subscriber.Handlers {
+namespace Microsoft.Azure.IIoT.OpcUa.Subscriber.Processors {
     using Microsoft.Azure.IIoT.OpcUa.Subscriber.Models;
     using Microsoft.Azure.IIoT.Messaging;
     using Microsoft.Azure.IIoT.Serializers;
@@ -36,7 +36,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Subscriber.Handlers {
         public Task HandleSampleAsync(MonitoredItemSampleModel sample) {
             sample = sample.Clone();
             // Set timestamp as source timestamp
-            // TODO: Make configurablew
+            // TODO: Make configurable
             sample.Timestamp = sample.SourceTimestamp;
             return _client.SendAsync(Encoding.UTF8.GetBytes(
                 _serializer.Serialize(sample)));
