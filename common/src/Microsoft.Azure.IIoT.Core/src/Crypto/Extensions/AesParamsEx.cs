@@ -54,7 +54,7 @@ namespace Microsoft.Azure.IIoT.Crypto.Models {
         /// <param name="parameters"></param>
         /// <returns></returns>
         public static AesParams Clone(this AesParams parameters) {
-            if (parameters == null) {
+            if (parameters is null) {
                 return null;
             }
             return new AesParams {
@@ -70,10 +70,10 @@ namespace Microsoft.Azure.IIoT.Crypto.Models {
         /// <param name="other"></param>
         /// <returns></returns>
         public static bool SameAs(this AesParams parameters, AesParams other) {
-            if (parameters == null) {
-                return other == null;
+            if (parameters is null) {
+                return other is null;
             }
-            if (other == null) {
+            if (other is null) {
                 return false;
             }
             if (!KeyEx.SameNoLeadingZeros(other.K, parameters.K)) {

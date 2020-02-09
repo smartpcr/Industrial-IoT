@@ -23,7 +23,7 @@ namespace System {
         /// <returns></returns>
         public static ArraySegment<byte> GetManifestResource(this Assembly assembly,
             string resourceId) {
-            if (assembly == null) {
+            if (assembly is null) {
                 throw new ArgumentNullException(nameof(assembly));
             }
             if (string.IsNullOrEmpty(resourceId)) {
@@ -45,11 +45,11 @@ namespace System {
             this Assembly assembly, string extension = null) {
             return assembly?
                 .GetManifestResourceNames()
-                .Where(r => extension == null ||
+                .Where(r => extension is null ||
                 r.EndsWith(extension, StringComparison.Ordinal))
                 .Select(r => {
                     using (var stream = assembly.GetManifestResourceStream(r)) {
-                        if (stream == null) {
+                        if (stream is null) {
                             throw new FileNotFoundException(r + " not found");
                         }
                         return Tuple.Create(r.Replace($"{assembly.GetName().Name}.", ""),
@@ -62,11 +62,11 @@ namespace System {
         /// Get assembly version
         /// </summary>
         public static Version GetReleaseVersion(this Assembly assembly) {
-            if (assembly == null) {
+            if (assembly is null) {
                 throw new ArgumentNullException(nameof(assembly));
             }
             var ver = assembly.GetCustomAttribute<AssemblyFileVersionAttribute>()?.Version;
-            if (ver == null || !Version.TryParse(ver, out var assemblyVersion)) {
+            if (ver is null || !Version.TryParse(ver, out var assemblyVersion)) {
                 throw new KeyNotFoundException("Version attribute not found");
             }
             return assemblyVersion;
@@ -76,7 +76,7 @@ namespace System {
         /// Get assembly info version
         /// </summary>
         public static string GetInformationalVersion(this Assembly assembly) {
-            if (assembly == null) {
+            if (assembly is null) {
                 throw new ArgumentNullException(nameof(assembly));
             }
             return assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?
@@ -87,7 +87,7 @@ namespace System {
         /// Get assembly info version
         /// </summary>
         public static JObject GetVersionInfoObject(this Assembly assembly) {
-            if (assembly == null) {
+            if (assembly is null) {
                 throw new ArgumentNullException(nameof(assembly));
             }
             var o = new JObject();

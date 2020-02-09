@@ -57,7 +57,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Controllers {
         [Authorize(Policy = Policies.CanManage)]
         public async Task RegisterServerAsync(
             [FromBody] [Required] ServerRegistrationRequestApiModel request) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             await _onboarding.RegisterAsync(request.ToServiceModel());
@@ -104,7 +104,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Controllers {
         [Authorize(Policy = Policies.CanManage)]
         public async Task DiscoverServerAsync(
             [FromBody] [Required] DiscoveryRequestApiModel request) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             await _onboarding.DiscoverAsync(request.ToServiceModel());
@@ -145,7 +145,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Controllers {
         [Authorize(Policy = Policies.CanManage)]
         public async Task<ApplicationRegistrationResponseApiModel> CreateApplicationAsync(
             [FromBody] [Required] ApplicationRegistrationRequestApiModel request) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             var model = request.ToServiceModel();
@@ -180,7 +180,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Controllers {
         [Authorize(Policy = Policies.CanChange)]
         public async Task UpdateApplicationRegistrationAsync(string applicationId,
             [FromBody] [Required] ApplicationRegistrationUpdateApiModel request) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             var model = request.ToServiceModel();
@@ -303,7 +303,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Controllers {
             [FromBody] [Required] ApplicationRegistrationQueryApiModel query,
             [FromQuery] int? pageSize) {
 
-            if (query == null) {
+            if (query is null) {
                 throw new ArgumentNullException(nameof(query));
             }
             if (Request.Headers.ContainsKey(HttpHeader.MaxItemCount)) {
@@ -334,7 +334,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Controllers {
             [FromBody] [Required] ApplicationRegistrationQueryApiModel query,
             [FromQuery] int? pageSize) {
 
-            if (query == null) {
+            if (query is null) {
                 throw new ArgumentNullException(nameof(query));
             }
             if (Request.Headers.ContainsKey(HttpHeader.MaxItemCount)) {

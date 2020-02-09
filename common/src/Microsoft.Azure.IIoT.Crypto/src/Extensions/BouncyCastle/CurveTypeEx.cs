@@ -96,7 +96,7 @@ namespace Microsoft.Azure.IIoT.Crypto.BouncyCastle {
         /// <returns></returns>
         internal static CurveType ToCurveType(this ECDomainParameters ecParameterSpec) {
             var name = ToCurveName(ecParameterSpec);
-            if (name == null) {
+            if (name is null) {
                 throw new ArgumentException(
                     "Failed to find name from parameter spec - unknown curve.");
             }

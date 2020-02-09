@@ -48,7 +48,7 @@ namespace Microsoft.Azure.IIoT.Crypto.Default {
 
             // Get CA certificate
             var caCertificate = await _store.GetLatestCertificateAsync(rootCertificate, ct);
-            if (caCertificate.IssuerPolicies == null) {
+            if (caCertificate.IssuerPolicies is null) {
                 throw new ArgumentException("root certificate is not an issuer");
             }
 
@@ -136,13 +136,13 @@ namespace Microsoft.Azure.IIoT.Crypto.Default {
             if (string.IsNullOrEmpty(certificateName)) {
                 throw new ArgumentNullException(nameof(certificateName));
             }
-            if (publicKey == null) {
+            if (publicKey is null) {
                 throw new ArgumentNullException(nameof(publicKey));
             }
 
             // Get CA certificate
             var caCertificate = await _store.GetLatestCertificateAsync(rootCertificate, ct);
-            if (caCertificate.IssuerPolicies == null) {
+            if (caCertificate.IssuerPolicies is null) {
                 throw new ArgumentException("Specified isseur certificate is not an issuer");
             }
 
@@ -171,7 +171,7 @@ namespace Microsoft.Azure.IIoT.Crypto.Default {
 
             // Get CA certificate
             var caCertificate = await _store.GetLatestCertificateAsync(rootCertificate, ct);
-            if (caCertificate.IssuerPolicies == null) {
+            if (caCertificate.IssuerPolicies is null) {
                 throw new ArgumentException("Specified issuer certificate is not an issuer");
             }
 
@@ -209,7 +209,7 @@ namespace Microsoft.Azure.IIoT.Crypto.Default {
         public async Task<Certificate> ImportCertificateAsync(string certificateName,
             Certificate certificate, Key privateKey, CancellationToken ct) {
 
-            if (certificate == null) {
+            if (certificate is null) {
                 throw new ArgumentException(nameof(certificate));
             }
             certificate = certificate.Clone();
@@ -243,7 +243,7 @@ namespace Microsoft.Azure.IIoT.Crypto.Default {
             var id = await _repo.DisableCertificateAsync(certificate, ct);
             try {
                 var cert = await _repo.FindCertificateAsync(id);
-                if (cert == null) {
+                if (cert is null) {
                     return;
                 }
                 await _keys.DisableKeyAsync(cert.KeyHandle, ct);

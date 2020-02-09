@@ -142,7 +142,7 @@ namespace Opc.Ua.Design {
                 if (node is InstanceDesign instance) {
                     if (instance.TypeDefinition != null &&
                         instance.TypeDefinition.Name == "DataTypeEncodingType") {
-                        isInAddressSpace = instance.Parent == null || !instance.Parent.NotInAddressSpace;
+                        isInAddressSpace = instance.Parent is null || !instance.Parent.NotInAddressSpace;
                     }
                 }
                 if (node is MethodDesign methodDesign) {
@@ -184,7 +184,7 @@ namespace Opc.Ua.Design {
 
         /// <inheritdoc/>
         public NodeDesign TryResolve(Namespace ns, XmlQualifiedName symbolicId) {
-            if (ns == null) {
+            if (ns is null) {
                 throw new ArgumentNullException(nameof(ns));
             }
             if (symbolicId.IsNullOrEmpty()) {
@@ -195,7 +195,7 @@ namespace Opc.Ua.Design {
             // Otherwise we try looking through our dependencies.
             //
             if (_model.TargetNamespace == ns.Value &&
-               (_model.TargetVersion == null ||
+               (_model.TargetVersion is null ||
                 _model.TargetVersion == ns.Version)) {
 
                 // This will also look into our dependencies for the id
@@ -232,7 +232,7 @@ namespace Opc.Ua.Design {
                 throw new ArgumentNullException(nameof(symbolicId));
             }
             var target = FindNode(symbolicId);
-            if (target == null) {
+            if (target is null) {
                 throw new FormatException(
                     $"Node {symbolicId.Name} was not found for {sourceName}.");
             }
@@ -257,7 +257,7 @@ namespace Opc.Ua.Design {
                 return false;
             }
             var node = FindNode(type.BaseType);
-            if (node == null) {
+            if (node is null) {
                 return false;
             }
             return IsTypeOf(node as TypeDesign, superType);
@@ -303,7 +303,7 @@ namespace Opc.Ua.Design {
         private object AssignIdToNode(NodeDesign node) {
             // assign identifier if one has not already been assigned.
             var id = _assigner?.TryAssignId(_model.TargetNamespaceInfo, node.SymbolicId);
-            if (id == null) {
+            if (id is null) {
                 id = node.SymbolicId.Name;
             }
             node.SetIdentifier(id);
@@ -320,7 +320,7 @@ namespace Opc.Ua.Design {
             foreach (var node in model.Items) {
                 // assign identifier if one has not already been assigned.
                 var id = AssignIdToNode(node);
-                if (node.Hierarchy == null) {
+                if (node.Hierarchy is null) {
                     continue;
                 }
                 foreach (var current in node.Hierarchy.NodeList) {
@@ -397,7 +397,7 @@ namespace Opc.Ua.Design {
         /// <param name="node"></param>
         /// <param name="parent"></param>
         private void FixupNode(NodeDesign node, NodeDesign parent) {
-            if (node == null) {
+            if (node is null) {
                 return;
             }
             if (node is InstanceDesign instance) {
@@ -406,7 +406,7 @@ namespace Opc.Ua.Design {
                     // Find declaration
                     var declaration = (InstanceDesign)FindNode(instance.Declaration,
                         typeof(InstanceDesign), instance.Declaration.Name);
-                    if (declaration == null) {
+                    if (declaration is null) {
                         // TODO: Try find in the current model but not yet imported
                     }
                     if (declaration != null) {
@@ -457,7 +457,7 @@ namespace Opc.Ua.Design {
             ValidateAssignedNumericId(node);
 
             // add a display name.
-            if (node.DisplayName == null) {
+            if (node.DisplayName is null) {
                 node.DisplayName = new LocalizedText {
                     Value = node.BrowseName,
                     Key = $"{node.SymbolicId.Name}_DisplayName",
@@ -506,7 +506,7 @@ namespace Opc.Ua.Design {
                     if (objectType.SymbolicId == Constants.BaseObjectType) {
                         objectType.ClassName = "ObjectSource";
                     }
-                    else if (type.BaseType == null) {
+                    else if (type.BaseType is null) {
                         type.BaseType = Constants.BaseObjectType;
                     }
                     if (objectType.SymbolicName != Constants.BaseObjectType) {
@@ -521,7 +521,7 @@ namespace Opc.Ua.Design {
                     if (variableType.SymbolicId == Constants.BaseDataVariableType) {
                         variableType.ClassName = "DataVariable";
                     }
-                    else if (type.BaseType == null) {
+                    else if (type.BaseType is null) {
                         if (type.SymbolicId != Constants.BaseVariableType) {
                             type.BaseType = Constants.BaseDataVariableType;
                         }
@@ -531,7 +531,7 @@ namespace Opc.Ua.Design {
                             typeof(VariableTypeDesign), variableType.SymbolicId.Name);
 
                         if (variableType.BaseTypeNode != null &&
-                            (variableType.DataType == null ||
+                            (variableType.DataType is null ||
                              variableType.DataType == Constants.BaseDataType)) {
                             var baseType = (VariableTypeDesign)variableType.BaseTypeNode;
                             variableType.DataType = baseType.DataType;
@@ -542,7 +542,7 @@ namespace Opc.Ua.Design {
                             }
                         }
                     }
-                    if (variableType.DataType == null) {
+                    if (variableType.DataType is null) {
                         variableType.DataType = Constants.BaseDataType;
                     }
                     if (!variableType.ValueRankSpecified) {
@@ -562,7 +562,7 @@ namespace Opc.Ua.Design {
                     if (dataType.SymbolicId == Constants.Structure) {
                         dataType.ClassName = "IEncodeable";
                     }
-                    else if (type.BaseType == null) {
+                    else if (type.BaseType is null) {
                         if (dataType.SymbolicId != Constants.BaseDataType) {
                             type.BaseType = Constants.BaseDataType;
                         }
@@ -578,13 +578,13 @@ namespace Opc.Ua.Design {
                     dataType.HasEncodings = ImportEncodings(dataType);
                     break;
                 case ReferenceTypeDesign referenceType:
-                    if (referenceType.BaseType == null) {
+                    if (referenceType.BaseType is null) {
                         if (referenceType.SymbolicId != Constants.References) {
                             referenceType.BaseType = Constants.References;
                         }
                     }
                     // add an inverse name.
-                    if (referenceType.InverseName == null) {
+                    if (referenceType.InverseName is null) {
                         referenceType.InverseName = new LocalizedText {
                             Value = referenceType.DisplayName.Value,
                             IsAutogenerated = true
@@ -607,7 +607,7 @@ namespace Opc.Ua.Design {
         /// <param name="dataType"></param>
         /// <returns></returns>
         private bool ImportEncodings(DataTypeDesign dataType) {
-            if (dataType.Encodings == null || dataType.Encodings.Length == 0) {
+            if (dataType.Encodings is null || dataType.Encodings.Length == 0) {
                 return false;
             }
             foreach (var encoding in dataType.Encodings) {
@@ -625,7 +625,7 @@ namespace Opc.Ua.Design {
                 encoding.BrowseName = encoding.SymbolicName.Name;
 
                 // add a display name.
-                if (encoding.DisplayName == null || string.IsNullOrEmpty(encoding.DisplayName.Value)) {
+                if (encoding.DisplayName is null || string.IsNullOrEmpty(encoding.DisplayName.Value)) {
                     encoding.DisplayName = new LocalizedText {
                         Value = encoding.BrowseName,
                         IsAutogenerated = true
@@ -655,7 +655,7 @@ namespace Opc.Ua.Design {
         /// <returns></returns>
         private void ImportInstance(InstanceDesign instance) {
             // set the reference type.
-            if (instance.ReferenceType == null) {
+            if (instance.ReferenceType is null) {
                 if (instance is PropertyDesign) {
                     instance.ReferenceType = Constants.HasProperty;
                 }
@@ -665,7 +665,7 @@ namespace Opc.Ua.Design {
             }
 
             // set the type definition.
-            if (instance.TypeDefinition == null) {
+            if (instance.TypeDefinition is null) {
                 if (instance is PropertyDesign) {
                     instance.TypeDefinition = Constants.PropertyType;
                 }
@@ -689,7 +689,7 @@ namespace Opc.Ua.Design {
 
                     break;
                 case VariableDesign variable:
-                    if (variable.DataType == null) {
+                    if (variable.DataType is null) {
                         variable.DataType = Constants.BaseDataType;
                     }
                     if (!variable.ValueRankSpecified) {
@@ -770,7 +770,7 @@ namespace Opc.Ua.Design {
         /// Imports a list of parameters.
         /// </summary>
         private bool ImportParameters(NodeDesign node, Parameter[] parameters, string parameterType) {
-            if (parameters == null || parameters.Length == 0) {
+            if (parameters is null || parameters.Length == 0) {
                 return false;
             }
 
@@ -821,7 +821,7 @@ namespace Opc.Ua.Design {
                 }
 
                 // add a description.
-                if (parameter.Description == null) {
+                if (parameter.Description is null) {
                     parameter.Description = new LocalizedText {
                         Value = string.Format("A description for the {0} {1}.",
                         parameter.Name, parameterType.ToLower()),
@@ -1015,7 +1015,7 @@ namespace Opc.Ua.Design {
         /// <param name="dataType"></param>
         /// <returns></returns>
         private static BasicDataType GetBasicDataType(DataTypeDesign dataType) {
-            if (dataType == null) {
+            if (dataType is null) {
                 return BasicDataType.BaseDataType;
             }
             // check if it is a built in data type.
@@ -1072,14 +1072,14 @@ namespace Opc.Ua.Design {
                 typeof(ObjectTypeDesign), encoding.SymbolicId.Name);
 
             // add a display name.
-            if (encoding.DisplayName == null || string.IsNullOrEmpty(encoding.DisplayName.Value)) {
+            if (encoding.DisplayName is null || string.IsNullOrEmpty(encoding.DisplayName.Value)) {
                 encoding.DisplayName = new LocalizedText {
                     Value = encoding.BrowseName,
                     IsAutogenerated = true
                 };
             }
             // add a description name.
-            if (encoding.Description == null || string.IsNullOrEmpty(encoding.Description.Value)) {
+            if (encoding.Description is null || string.IsNullOrEmpty(encoding.Description.Value)) {
                 encoding.Description = new LocalizedText {
                     Value = $"The {encoding.SymbolicName.Name} Encoding for " +
                         $"the {dataType.SymbolicName.Name} data type.",
@@ -1095,7 +1095,7 @@ namespace Opc.Ua.Design {
         /// </summary>
         private void ValidateInstance(InstanceDesign instance) {
             // set the reference type. /// TODO
-            if (instance.ReferenceType == null) {
+            if (instance.ReferenceType is null) {
                 if (instance.Parent != null) {
                     var referenceType = (ReferenceTypeDesign)FindNode(instance.ReferenceType,
                         typeof(ReferenceTypeDesign), instance.SymbolicId.Name);
@@ -1117,7 +1117,7 @@ namespace Opc.Ua.Design {
                     variable.TypeDefinitionNode = (TypeDesign)FindNode(instance.TypeDefinition,
                         typeof(VariableTypeDesign), instance.SymbolicId.Name);
                     if (variable.TypeDefinitionNode != null) {
-                        if (variable.DataType == null ||
+                        if (variable.DataType is null ||
                             variable.DataType == Constants.BaseDataType) {
                             variable.DataType = ((VariableTypeDesign)variable.TypeDefinitionNode).DataType;
 
@@ -1155,7 +1155,7 @@ namespace Opc.Ua.Design {
 
                     ValidateParameters(method, method.InputArguments);
                     ValidateParameters(method, method.OutputArguments);
-                    if (method.Parent == null) {
+                    if (method.Parent is null) {
                         break; // Global method
                     }
                     var children = new List<InstanceDesign>();
@@ -1182,7 +1182,7 @@ namespace Opc.Ua.Design {
         /// Validates a list of parameters
         /// </summary>
         private void ValidateParameters(NodeDesign node, Parameter[] parameters) {
-            if (parameters == null) {
+            if (parameters is null) {
                 return;
             }
             foreach (var parameter in parameters) {
@@ -1271,7 +1271,7 @@ namespace Opc.Ua.Design {
             if (dataType.Children != null && dataType.Children.Items != null) {
                 children.AddRange(dataType.Children.Items);
             }
-            if (!dataType.IsEnumeration || dataType.Fields == null || dataType.Fields.Length == 0) {
+            if (!dataType.IsEnumeration || dataType.Fields is null || dataType.Fields.Length == 0) {
                 return;
             }
             if (dataType.IsOptionSet) {
@@ -1739,7 +1739,7 @@ namespace Opc.Ua.Design {
             // add root node.
             var instance = root as InstanceDesign;
 
-            if (instance == null) {
+            if (instance is null) {
                 rootId = new XmlQualifiedName(root.SymbolicId.Name + "Instance",
                     root.SymbolicId.Namespace);
             }
@@ -1748,7 +1748,7 @@ namespace Opc.Ua.Design {
                 RelativePath = string.Empty
             };
 
-            if (instance == null || instance.TypeDefinitionNode == null) {
+            if (instance is null || instance.TypeDefinitionNode is null) {
                 rootNode.Instance = CreateMergedInstance(root, rootId, string.Empty);
             }
             else {
@@ -1792,7 +1792,7 @@ namespace Opc.Ua.Design {
                     ((InstanceDesign)mergedNode.Instance).MergeIn(node.Instance);
                 }
 
-                if (mergedNode.OverriddenNodes == null) {
+                if (mergedNode.OverriddenNodes is null) {
                     mergedNode.OverriddenNodes = new List<NodeDesign>();
                 }
                 mergedNode.OverriddenNodes.Add(node.Instance);
@@ -1812,7 +1812,7 @@ namespace Opc.Ua.Design {
         /// <param name="namespaceUris"></param>
         /// <returns></returns>
         private NodeId CreateNodeId(XmlQualifiedName nodeId, NamespaceTable namespaceUris) {
-            if (nodeId == null) {
+            if (nodeId is null) {
                 return NodeId.Null;
             }
             var node = FindNode(nodeId);
@@ -1840,7 +1840,7 @@ namespace Opc.Ua.Design {
                 return source;
             }
             var mergedInstance = CreateInstance(source, rootId);
-            if (mergedInstance == null) {
+            if (mergedInstance is null) {
                 return null;
             }
 
@@ -2125,7 +2125,7 @@ namespace Opc.Ua.Design {
         private void TranslateReferences(string currentPath, NodeDesign source,
             List<HierarchyReference> references, bool suppressInverseHierarchicalAtTypeLevel,
             bool inherited) {
-            if (source.References == null || source.References.Length == 0) {
+            if (source.References is null || source.References.Length == 0) {
                 return;
             }
 
@@ -2171,7 +2171,7 @@ namespace Opc.Ua.Design {
         /// <returns></returns>
         private HierarchyReference TranslateReference(string currentPath, XmlQualifiedName sourceId,
             Reference reference) {
-            if (currentPath == null) {
+            if (currentPath is null) {
                 currentPath = string.Empty;
             }
 
@@ -2182,7 +2182,7 @@ namespace Opc.Ua.Design {
                 TargetId = reference.TargetId
             };
 
-            if (reference.TargetId == null || sourceId.Namespace != reference.TargetId.Namespace) {
+            if (reference.TargetId is null || sourceId.Namespace != reference.TargetId.Namespace) {
                 return mergedReference;
             }
 
@@ -2216,7 +2216,7 @@ namespace Opc.Ua.Design {
             }
 
             // no common root.
-            if (sourcePath == null) {
+            if (sourcePath is null) {
                 sourcePath = new string[0];
                 targetPath = new string[targetIdParts.Length - sourceIdParts.Length];
                 Array.Copy(targetIdParts, sourceIdParts.Length, targetPath, 0, targetPath.Length);
@@ -2238,7 +2238,7 @@ namespace Opc.Ua.Design {
             }
 
             // no common root.
-            if (targetRoot == null && currentPathParts.Length > sourcePath.Length) {
+            if (targetRoot is null && currentPathParts.Length > sourcePath.Length) {
                 targetRoot = new string[currentPathParts.Length - sourcePath.Length];
                 Array.Copy(currentPathParts, 0, targetRoot, 0, targetRoot.Length);
             }
@@ -2360,7 +2360,7 @@ namespace Opc.Ua.Design {
                     method.TypeDefinitionId = design.MethodDeclarationNode.GetNodeId(namespaceUris);
                 }
             }
-            if (hierarchy == null) {
+            if (hierarchy is null) {
                 return nodeModel;
             }
 
@@ -2528,7 +2528,7 @@ namespace Opc.Ua.Design {
                         instance.Instance is VariableDesign mergedInstance) {
                         var (valueRank, dimensions) = mergedInstance.ValueRank.ToStackValue(
                             mergedInstance.ArrayDimensions);
-                        variableNode.Value = mergedInstance.DecodedValue == null ? (Variant?)null :
+                        variableNode.Value = mergedInstance.DecodedValue is null ? (Variant?)null :
                             new Variant(mergedInstance.DecodedValue);
                         variableNode.DataType = mergedInstance.DataTypeNode.GetNodeId(namespaceUris);
                         variableNode.ValueRank = valueRank;
@@ -2537,7 +2537,7 @@ namespace Opc.Ua.Design {
                     else {
                         var (valueRank, dimensions) = variableTypeDesign.ValueRank.ToStackValue(
                             variableTypeDesign.ArrayDimensions);
-                        variableNode.Value = variableTypeDesign.DecodedValue == null ? (Variant?)null :
+                        variableNode.Value = variableTypeDesign.DecodedValue is null ? (Variant?)null :
                             new Variant(variableTypeDesign.DecodedValue);
                         variableNode.DataType = variableTypeDesign.DataTypeNode.GetNodeId(namespaceUris);
                         variableNode.ValueRank = valueRank;
@@ -2668,7 +2668,7 @@ namespace Opc.Ua.Design {
                     }
                     break;
             }
-            if (value == null) {
+            if (value is null) {
                 return null;
             }
             return new Variant(value);

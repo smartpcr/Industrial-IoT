@@ -18,7 +18,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Core.Models {
         /// <param name="cert"></param>
         /// <returns></returns>
         public static X509CertificateModel ToServiceModel(this X509Certificate2 cert) {
-            if (cert == null) {
+            if (cert is null) {
                 return null;
             }
             return new X509CertificateModel {

@@ -32,10 +32,10 @@ namespace Microsoft.Azure.IIoT.Crypto {
         /// <returns></returns>
         public static bool SameAs(this CreateKeyParams keyParams, CreateKeyParams other) {
 
-            if (keyParams == null) {
-                return other == null;
+            if (keyParams is null) {
+                return other is null;
             }
-            if (other == null) {
+            if (other is null) {
                 return false;
             }
             if (keyParams.Type != other.Type) {

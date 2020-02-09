@@ -22,7 +22,7 @@ namespace Microsoft.Azure.IIoT.AspNetCore.OpenApi {
             if (versionParameter != null) {
                 operation.Parameters.Remove(versionParameter);
             }
-            if (operation.OperationId == null) {
+            if (operation.OperationId is null) {
                 operation.OperationId = context.MethodInfo.Name;
                 if (operation.OperationId.EndsWith("Async", StringComparison.InvariantCultureIgnoreCase)) {
                     var name = operation.OperationId;

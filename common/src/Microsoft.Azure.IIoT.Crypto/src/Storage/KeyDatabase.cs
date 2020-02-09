@@ -66,7 +66,7 @@ namespace Microsoft.Azure.IIoT.Crypto.Storage {
             while (true) {
                 try {
                     var document = await _keys.FindAsync<KeyDocument>(keyId, ct);
-                    if (document == null) {
+                    if (document is null) {
                         throw new ResourceNotFoundException($"{keyId} not found");
                     }
                     if (!document.Value.IsDisabled) {
@@ -113,7 +113,7 @@ namespace Microsoft.Azure.IIoT.Crypto.Storage {
                 throw new InvalidOperationException("Key is disabled");
             }
             var key = document.Value.KeyJson.ToKey();
-            if (key == null) {
+            if (key is null) {
                 throw new ResourceNotFoundException("Key not found");
             }
             switch (key.Type) {
@@ -139,7 +139,7 @@ namespace Microsoft.Azure.IIoT.Crypto.Storage {
                 throw new InvalidOperationException("Key is disabled");
             }
             var key = document.Value.KeyJson.ToKey();
-            if (key == null) {
+            if (key is null) {
                 throw new ResourceNotFoundException("Key not found");
             }
             switch (key.Type) {

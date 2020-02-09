@@ -23,7 +23,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Models {
         /// <returns></returns>
         public static ApplicationInfoApiModel ToApiModel(
             this ApplicationInfoModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new ApplicationInfoApiModel {
@@ -54,7 +54,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Models {
         /// <returns></returns>
         public static ApplicationInfoListApiModel ToApiModel(
             this ApplicationInfoListModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new ApplicationInfoListApiModel {
@@ -72,7 +72,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Models {
         /// <returns></returns>
         public static ApplicationRegistrationApiModel ToApiModel(
             this ApplicationRegistrationModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new ApplicationRegistrationApiModel {
@@ -91,7 +91,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Models {
         /// <returns></returns>
         public static ApplicationRegistrationQueryModel ToServiceModel(
             this ApplicationRegistrationQueryApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new ApplicationRegistrationQueryModel {
@@ -116,7 +116,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Models {
         /// <returns></returns>
         public static ApplicationRegistrationRequestModel ToServiceModel(
             this ApplicationRegistrationRequestApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new ApplicationRegistrationRequestModel {
@@ -142,7 +142,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Models {
         /// <returns></returns>
         public static ApplicationRegistrationResponseApiModel ToApiModel(
             this ApplicationRegistrationResultModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new ApplicationRegistrationResponseApiModel {
@@ -157,7 +157,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Models {
         /// <returns></returns>
         public static ApplicationRegistrationUpdateModel ToServiceModel(
             this ApplicationRegistrationUpdateApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new ApplicationRegistrationUpdateModel {
@@ -180,7 +180,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Models {
         /// <returns></returns>
         public static ApplicationSiteListApiModel ToApiModel(
             this ApplicationSiteListModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new ApplicationSiteListApiModel {
@@ -196,7 +196,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Models {
         /// <returns></returns>
         public static AuthenticationMethodApiModel ToApiModel(
             this AuthenticationMethodModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new AuthenticationMethodApiModel {
@@ -215,7 +215,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Models {
         /// <returns></returns>
         public static DiscovererApiModel ToApiModel(
             this DiscovererModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new DiscovererApiModel {
@@ -236,7 +236,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Models {
         /// <returns></returns>
         public static DiscovererListApiModel ToApiModel(
             this DiscovererListModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new DiscovererListApiModel {
@@ -253,7 +253,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Models {
         /// <returns></returns>
         public static DiscovererQueryModel ToServiceModel(
             this DiscovererQueryApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new DiscovererQueryModel {
@@ -269,7 +269,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Models {
         /// <returns></returns>
         public static DiscovererUpdateModel ToServiceModel(
             this DiscovererUpdateApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new DiscovererUpdateModel {
@@ -287,7 +287,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Models {
         /// <returns></returns>
         public static DiscoveryConfigApiModel ToApiModel(
             this DiscoveryConfigModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new DiscoveryConfigApiModel {
@@ -311,7 +311,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Models {
         /// <returns></returns>
         public static DiscoveryConfigModel ToServiceModel(
             this DiscoveryConfigApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new DiscoveryConfigModel {
@@ -335,7 +335,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Models {
         /// <returns></returns>
         public static DiscoveryRequestModel ToServiceModel(
             this DiscoveryRequestApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new DiscoveryRequestModel {
@@ -352,7 +352,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Models {
         /// <returns></returns>
         public static EndpointActivationFilterApiModel ToApiModel(
             this EndpointActivationFilterModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new EndpointActivationFilterApiModel {
@@ -368,7 +368,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Models {
         /// <returns></returns>
         public static EndpointActivationFilterModel ToServiceModel(
             this EndpointActivationFilterApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new EndpointActivationFilterModel {
@@ -385,7 +385,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Models {
         /// <returns></returns>
         public static EndpointActivationStatusApiModel ToApiModel(
             this EndpointActivationStatusModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new EndpointActivationStatusApiModel {
@@ -401,7 +401,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Models {
         /// <returns></returns>
         public static EndpointApiModel ToApiModel(
             this EndpointModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new EndpointApiModel {
@@ -420,7 +420,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Models {
         /// <returns></returns>
         public static EndpointInfoApiModel ToApiModel(
             this EndpointInfoModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new EndpointInfoApiModel {
@@ -440,7 +440,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Models {
         /// <returns></returns>
         public static EndpointInfoListApiModel ToApiModel(
             this EndpointInfoListModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new EndpointInfoListApiModel {
@@ -458,7 +458,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Models {
         /// <returns></returns>
         public static EndpointRegistrationApiModel ToApiModel(
             this EndpointRegistrationModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new EndpointRegistrationApiModel {
@@ -482,7 +482,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Models {
         /// <returns></returns>
         public static EndpointRegistrationQueryModel ToServiceModel(
             this EndpointRegistrationQueryApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new EndpointRegistrationQueryModel {
@@ -508,7 +508,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Models {
         /// <returns></returns>
         public static GatewayApiModel ToApiModel(
             this GatewayModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new GatewayApiModel {
@@ -525,7 +525,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Models {
         /// <returns></returns>
         public static GatewayInfoApiModel ToApiModel(
             this GatewayInfoModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new GatewayInfoApiModel {
@@ -541,7 +541,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Models {
         /// <returns></returns>
         public static GatewayModulesApiModel ToApiModel(
             this GatewayModulesModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new GatewayModulesApiModel {
@@ -558,7 +558,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Models {
         /// <returns></returns>
         public static GatewayListApiModel ToApiModel(
             this GatewayListModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new GatewayListApiModel {
@@ -576,7 +576,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Models {
         /// <returns></returns>
         public static GatewayQueryModel ToServiceModel(
             this GatewayQueryApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new GatewayQueryModel {
@@ -592,7 +592,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Models {
         /// <returns></returns>
         public static GatewayUpdateModel ToServiceModel(
             this GatewayUpdateApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new GatewayUpdateModel {
@@ -607,7 +607,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Models {
         /// <returns></returns>
         public static PublisherApiModel ToApiModel(
             this PublisherModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new PublisherApiModel {
@@ -627,7 +627,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Models {
         /// <returns></returns>
         public static PublisherConfigApiModel ToApiModel(
             this PublisherConfigModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new PublisherConfigApiModel {
@@ -646,7 +646,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Models {
         /// <returns></returns>
         public static PublisherConfigModel ToServiceModel(
             this PublisherConfigApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new PublisherConfigModel {
@@ -665,7 +665,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Models {
         /// <returns></returns>
         public static PublisherListApiModel ToApiModel(
             this PublisherListModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new PublisherListApiModel {
@@ -683,7 +683,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Models {
         /// <returns></returns>
         public static PublisherQueryModel ToServiceModel(
             this PublisherQueryApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new PublisherQueryModel {
@@ -699,7 +699,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Models {
         /// <returns></returns>
         public static PublisherUpdateModel ToServiceModel(
             this PublisherUpdateApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new PublisherUpdateModel {
@@ -716,7 +716,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Models {
         /// <returns></returns>
         public static RegistryOperationApiModel ToApiModel(
             this RegistryOperationContextModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new RegistryOperationApiModel {
@@ -732,7 +732,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Models {
         /// <returns></returns>
         public static ServerRegistrationRequestModel ToServiceModel(
             this ServerRegistrationRequestApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new ServerRegistrationRequestModel {
@@ -749,7 +749,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Models {
         /// <returns></returns>
         public static SupervisorApiModel ToApiModel(
             this SupervisorModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new SupervisorApiModel {
@@ -768,7 +768,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Models {
         /// <returns></returns>
         public static SupervisorListApiModel ToApiModel(
             this SupervisorListModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new SupervisorListApiModel {
@@ -786,7 +786,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Models {
         /// <returns></returns>
         public static SupervisorQueryModel ToServiceModel(
             this SupervisorQueryApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new SupervisorQueryModel {
@@ -802,7 +802,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Models {
         /// <returns></returns>
         public static SupervisorStatusApiModel ToApiModel(
             this SupervisorStatusModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new SupervisorStatusApiModel {
@@ -822,7 +822,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Models {
         /// <returns></returns>
         public static SupervisorUpdateModel ToServiceModel(
             this SupervisorUpdateApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new SupervisorUpdateModel {
@@ -837,7 +837,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Models {
         /// <param name="model"></param>
         public static X509CertificateApiModel ToApiModel(
             this X509CertificateModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new X509CertificateApiModel {
@@ -857,7 +857,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Models {
         /// <param name="model"></param>
         public static X509CertificateChainApiModel ToApiModel(
             this X509CertificateChainModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new X509CertificateChainApiModel {

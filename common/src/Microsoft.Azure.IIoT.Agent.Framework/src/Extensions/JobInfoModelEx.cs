@@ -18,7 +18,7 @@ namespace Microsoft.Azure.IIoT.Agent.Framework.Models {
         /// </summary>
         /// <returns></returns>
         public static string GetHashSafe(this JobInfoModel model) {
-            if (model == null) {
+            if (model is null) {
                 return "null";
             }
             return model.JobConfiguration.ToString().ToSha1Hash();
@@ -30,7 +30,7 @@ namespace Microsoft.Azure.IIoT.Agent.Framework.Models {
         /// <param name="model"></param>
         /// <returns></returns>
         public static JobInfoModel Clone(this JobInfoModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new JobInfoModel {

@@ -45,7 +45,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Vault.Services {
             StartNewKeyPairRequestModel request, VaultOperationContextModel context,
             CancellationToken ct) {
 
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             if (string.IsNullOrEmpty(request.EntityId)) {
@@ -59,13 +59,13 @@ namespace Microsoft.Azure.IIoT.OpcUa.Vault.Services {
             }
             // Get entity
             var entity = await _entities.FindEntityAsync(request.EntityId);
-            if (entity == null) {
+            if (entity is null) {
                 throw new ResourceNotFoundException("Entity not found");
             }
 
             // Validate subject name
             var subjectList = Opc.Ua.Utils.ParseDistinguishedName(request.SubjectName);
-            if (subjectList == null ||
+            if (subjectList is null ||
                 subjectList.Count == 0) {
                 throw new ArgumentException("Invalid Subject", nameof(request.SubjectName));
             }
@@ -77,7 +77,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Vault.Services {
 
             // Add domain names
             if (request.DomainNames != null) {
-                if (entity.Addresses == null) {
+                if (entity.Addresses is null) {
                     entity.Addresses = request.DomainNames;
                 }
                 else {
@@ -110,7 +110,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Vault.Services {
                 throw new ArgumentNullException(nameof(requestId));
             }
             var request = await _repo.FindAsync(requestId, ct);
-            if (request == null) {
+            if (request is null) {
                 throw new ResourceNotFoundException("Request not found");
             }
             try {

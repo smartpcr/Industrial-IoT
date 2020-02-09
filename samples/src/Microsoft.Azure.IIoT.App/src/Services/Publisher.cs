@@ -78,7 +78,7 @@ namespace Microsoft.Azure.IIoT.App.Services {
                 };
 
                 var resultApiModel = await _publisherService.NodePublishStartAsync(endpointId, requestApiModel);
-                return resultApiModel.ErrorInfo == null;
+                return resultApiModel.ErrorInfo is null;
             }
             catch(Exception e) {
                 var errorMessage = string.Concat(e.Message, e.InnerException?.Message ?? "--", e?.StackTrace ?? "--");
@@ -99,7 +99,7 @@ namespace Microsoft.Azure.IIoT.App.Services {
                         NodeId = nodeId,
                 };
                 var resultApiModel = await _publisherService.NodePublishStopAsync(endpointId, requestApiModel);
-                return resultApiModel.ErrorInfo == null;
+                return resultApiModel.ErrorInfo is null;
             }
             catch (Exception e) {
                 var errorMessage = string.Concat(e.Message, e.InnerException?.Message ?? "--", e?.StackTrace ?? "--");

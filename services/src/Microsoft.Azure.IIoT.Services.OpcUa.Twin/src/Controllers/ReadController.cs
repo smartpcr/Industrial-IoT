@@ -47,7 +47,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin.Controllers {
         [HttpPost("{endpointId}")]
         public async Task<ValueReadResponseApiModel> ReadValueAsync(
             string endpointId, [FromBody] [Required] ValueReadRequestApiModel request) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             var readresult = await _nodes.NodeValueReadAsync(
@@ -69,7 +69,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin.Controllers {
         [HttpPost("{endpointId}/attributes")]
         public async Task<ReadResponseApiModel> ReadAttributesAsync(
             string endpointId, [FromBody] [Required] ReadRequestApiModel request) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             var readresult = await _nodes.NodeReadAsync(

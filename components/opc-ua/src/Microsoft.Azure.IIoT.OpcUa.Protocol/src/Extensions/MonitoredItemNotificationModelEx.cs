@@ -27,15 +27,15 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Models {
             for (var i = 0; i < notification.MonitoredItems.Count; i++) {
                 var monitoredItem = monitoredItems.SingleOrDefault(
                         m => m.ClientHandle == notification.MonitoredItems[i].ClientHandle);
-                if (monitoredItem == null) {
+                if (monitoredItem is null) {
                     continue;
                 }
                 var message = notification.MonitoredItems[i].ToMonitoredItemNotification(
                     monitoredItem);
-                if (message == null) {
+                if (message is null) {
                     continue;
                 }
-                if (message.DiagnosticInfo == null && notification.DiagnosticInfos != null &&
+                if (message.DiagnosticInfo is null && notification.DiagnosticInfos != null &&
                     i < notification.DiagnosticInfos.Count) {
                     message.DiagnosticInfo = notification.DiagnosticInfos[i];
                 }
@@ -53,7 +53,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Models {
         public static MonitoredItemNotificationModel ToMonitoredItemNotification(
             this IEncodeable notification, MonitoredItem monitoredItem,
             Func<MonitoredItemNotificationModel> defaultValue = null) {
-            if (notification == null || monitoredItem == null) {
+            if (notification is null || monitoredItem is null) {
                 return defaultValue?.Invoke();
             }
             if (notification is MonitoredItemNotification m) {
@@ -73,7 +73,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Models {
         /// <returns></returns>
         public static MonitoredItemNotificationModel ToMonitoredItemNotification(
            this MonitoredItemNotification notification, MonitoredItem monitoredItem) {
-            if (notification == null || monitoredItem == null) {
+            if (notification is null || monitoredItem is null) {
                 return null;
             }
             return new MonitoredItemNotificationModel {
@@ -84,16 +84,16 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Models {
                 ClientHandle = notification.ClientHandle,
                 Value = notification.Value,
                 Overflow = notification.Value?.StatusCode.Overflow,
-                NotificationData = notification.Message == null ||
+                NotificationData = notification.Message is null ||
                                     notification.Message.IsEmpty ? null :
                     notification.Message.NotificationData.ToList(),
-                PublishTime = notification.Message == null ||
+                PublishTime = notification.Message is null ||
                                     notification.Message.IsEmpty ? (DateTime?)null :
                     notification.Message.PublishTime,
-                SequenceNumber = notification.Message == null ||
+                SequenceNumber = notification.Message is null ||
                                     notification.Message.IsEmpty ? (uint?)null :
                     notification.Message.SequenceNumber,
-                StringTable = notification.Message == null ||
+                StringTable = notification.Message is null ||
                                     notification.Message.IsEmpty ? null :
                     notification.Message.StringTable,
                 DiagnosticInfo = notification.DiagnosticInfo
@@ -108,7 +108,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Models {
         /// <returns></returns>
         public static MonitoredItemNotificationModel ToMonitoredItemNotification(
            this EventFieldList eventFieldList, MonitoredItem monitoredItem) {
-            if (eventFieldList == null || monitoredItem == null) {
+            if (eventFieldList is null || monitoredItem is null) {
                 return null;
             }
             return new MonitoredItemNotificationModel {
@@ -118,16 +118,16 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Models {
                 AttributeId = monitoredItem.AttributeId,
                 ClientHandle = eventFieldList.ClientHandle,
                 Value = ToDataValue(eventFieldList, monitoredItem),
-                NotificationData = eventFieldList.Message == null ||
+                NotificationData = eventFieldList.Message is null ||
                                     eventFieldList.Message.IsEmpty ? null :
                     eventFieldList.Message.NotificationData.ToList(),
-                PublishTime = eventFieldList.Message == null ||
+                PublishTime = eventFieldList.Message is null ||
                                     eventFieldList.Message.IsEmpty ? (DateTime?)null :
                     eventFieldList.Message.PublishTime,
-                SequenceNumber = eventFieldList.Message == null ||
+                SequenceNumber = eventFieldList.Message is null ||
                                     eventFieldList.Message.IsEmpty ? (uint?)null :
                     eventFieldList.Message.SequenceNumber,
-                StringTable = eventFieldList.Message == null ||
+                StringTable = eventFieldList.Message is null ||
                                     eventFieldList.Message.IsEmpty ? null :
                     eventFieldList.Message.StringTable
             };
@@ -141,7 +141,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Models {
         /// <returns></returns>
         public static DataValue ToDataValue(this EventFieldList eventFields,
             MonitoredItem monitoredItem) {
-            if (eventFields == null) {
+            if (eventFields is null) {
                 return new DataValue(StatusCodes.BadNoData);
             }
             return new DataValue {

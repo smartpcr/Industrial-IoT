@@ -73,7 +73,7 @@ namespace TestData {
         public int MonitoredNodeCount {
             get {
                 lock (_lock) {
-                    if (_monitoredNodes == null) {
+                    if (_monitoredNodes is null) {
                         return 0;
                     }
 
@@ -103,7 +103,7 @@ namespace TestData {
         /// Creates an archive for the variable.
         /// </summary>
         public void EnableHistoryArchiving(BaseVariableState variable) {
-            if (variable == null) {
+            if (variable is null) {
                 return;
             }
 
@@ -116,7 +116,7 @@ namespace TestData {
         /// Returns the history file for the variable.
         /// </summary>
         public IHistoryDataSource GetHistoryFile(BaseVariableState variable) {
-            if (variable == null) {
+            if (variable is null) {
                 return null;
             }
 
@@ -454,7 +454,7 @@ namespace TestData {
 
         public void StartMonitoringValue(uint monitoredItemId, double samplingInterval, BaseVariableState variable) {
             lock (_lock) {
-                if (_monitoredNodes == null) {
+                if (_monitoredNodes is null) {
                     _monitoredNodes = new Dictionary<uint, BaseVariableState>();
                 }
                 _monitoredNodes[monitoredItemId] = variable;
@@ -500,7 +500,7 @@ namespace TestData {
             var samples = new Queue<Sample>();
 
             lock (_lock) {
-                if (_monitoredNodes == null) {
+                if (_monitoredNodes is null) {
                     return;
                 }
 
@@ -529,7 +529,7 @@ namespace TestData {
 
         public void StopMonitoringValue(uint monitoredItemId) {
             lock (_lock) {
-                if (_monitoredNodes == null) {
+                if (_monitoredNodes is null) {
                     return;
                 }
 

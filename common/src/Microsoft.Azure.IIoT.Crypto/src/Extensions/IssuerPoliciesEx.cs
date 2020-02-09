@@ -21,14 +21,14 @@ namespace Microsoft.Azure.IIoT.Crypto {
         /// <returns></returns>
         public static IssuerPolicies Validate(this IssuerPolicies policies,
             IssuerPolicies parent = null, CreateKeyParams keyParams = null) {
-            if (policies == null) {
+            if (policies is null) {
                 policies = new IssuerPolicies();
             }
-            if (policies.IssuedLifetime == null) {
+            if (policies.IssuedLifetime is null) {
                 policies.IssuedLifetime = parent?.IssuedLifetime != null ?
                     parent.IssuedLifetime.Value / 2 : TimeSpan.FromDays(1);
             }
-            if (policies.SignatureType == null) {
+            if (policies.SignatureType is null) {
                 policies.SignatureType = keyParams.Type == KeyType.RSA ?
                     SignatureType.RS256 : SignatureType.ES256;
             }

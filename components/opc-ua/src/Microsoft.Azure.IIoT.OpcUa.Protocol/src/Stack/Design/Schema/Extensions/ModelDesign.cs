@@ -43,7 +43,7 @@ namespace Opc.Ua.Design.Schema {
                 // build table of namespaces.
                 var targetNamespaceInfo = Namespaces?
                     .FirstOrDefault(ns => ns.Value == TargetNamespace);
-                if (targetNamespaceInfo == null) {
+                if (targetNamespaceInfo is null) {
                     targetNamespaceInfo = new Namespace {
                         Value = TargetNamespace,
                         XmlNamespace = TargetNamespace,

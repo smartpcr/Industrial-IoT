@@ -63,7 +63,7 @@ namespace Opc.Ua.Design {
             //
             // We can only try and assign if we own the namespace.
             //
-            if (Namespace == ns.Value && (Version == null || Version == ns.Version)) {
+            if (Namespace == ns.Value && (Version is null || Version == ns.Version)) {
                 if (_identifiers.TryGetValue(symbolicId.Name, out var id)) {
                     return id;
                 }

@@ -40,7 +40,7 @@ namespace Microsoft.Azure.IIoT.Http.Default {
 
         /// <inheritdoc/>
         public System.Net.Http.HttpClient CreateClient(string resourceId) {
-            if (resourceId == null) {
+            if (resourceId is null) {
                 throw new ArgumentNullException(nameof(resourceId));
             }
             // Get handler entry for client

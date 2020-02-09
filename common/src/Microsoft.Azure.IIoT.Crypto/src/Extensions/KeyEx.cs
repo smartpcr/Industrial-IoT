@@ -35,7 +35,7 @@ namespace Microsoft.Azure.IIoT.Crypto {
         /// <param name="publicKey"></param>
         /// <returns></returns>
         public static Key ToKey(this PublicKey publicKey) {
-            if (publicKey == null) {
+            if (publicKey is null) {
                 return null;
             }
             if (publicKey.Oid.Value == Oids.Rsa) {

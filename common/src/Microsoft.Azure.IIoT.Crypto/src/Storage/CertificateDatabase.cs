@@ -64,14 +64,14 @@ namespace Microsoft.Azure.IIoT.Crypto.Storage {
         /// <inheritdoc/>
         public async Task<string> DisableCertificateAsync(Certificate certificate,
             CancellationToken ct) {
-            if (certificate?.RawData == null) {
+            if (certificate?.RawData is null) {
                 throw new ArgumentNullException(nameof(certificate));
             }
             var now = DateTime.UtcNow;
             while (true) {
                 var document = await _certificates.FindAsync<CertificateDocument>(
                     certificate.GetSerialNumberAsString(), ct);
-                if (document == null) {
+                if (document is null) {
                     throw new ResourceNotFoundException("Certificate was not found");
                 }
                 if (document.Value?.DisabledSince != null) {
@@ -206,7 +206,7 @@ namespace Microsoft.Azure.IIoT.Crypto.Storage {
         /// <inheritdoc/>
         public async Task<CertificateCollection> ListCertificateChainAsync(
             Certificate certificate, CancellationToken ct) {
-            if (certificate?.RawData == null) {
+            if (certificate?.RawData is null) {
                 throw new ArgumentNullException(nameof(certificate));
             }
             var chain = await ListChainAsync(certificate, ct);
@@ -300,7 +300,7 @@ namespace Microsoft.Azure.IIoT.Crypto.Storage {
             }
             while (!certificate.IsSelfSigned()) {
                 certificate = await GetCertificateAsync(certificate.IssuerSerialNumber, ct);
-                if (certificate?.RawData == null) {
+                if (certificate?.RawData is null) {
                     throw new ResourceNotFoundException("Incomplete chain");
                 }
                 chain.Add(certificate);
@@ -322,7 +322,7 @@ namespace Microsoft.Azure.IIoT.Crypto.Storage {
             // Compare subject and issuer names
             while (!certificate.IsSelfSigned()) {
                 certificate = await GetCertificateBySubjectAsync(certificate.Issuer, ct);
-                if (certificate?.RawData == null) {
+                if (certificate?.RawData is null) {
                     throw new ResourceNotFoundException("Incomplete chain");
                 }
                 chain.Add(certificate);
@@ -349,14 +349,14 @@ namespace Microsoft.Azure.IIoT.Crypto.Storage {
         /// <param name="document"></param>
         /// <returns></returns>
         private Certificate DocumentToCertificate(CertificateDocument document) {
-            if (document == null) {
+            if (document is null) {
                 return null;
             }
             var keyHandle = _keys.DeserializeHandle(document.KeyHandle);
             return CertificateEx.Create(document.RawData,
                 keyHandle,
                 document.IsserPolicies,
-                document.DisabledSince == null ? null : new RevocationInfo {
+                document.DisabledSince is null ? null : new RevocationInfo {
                     Date = document.DisabledSince,
                     // ...
                 });

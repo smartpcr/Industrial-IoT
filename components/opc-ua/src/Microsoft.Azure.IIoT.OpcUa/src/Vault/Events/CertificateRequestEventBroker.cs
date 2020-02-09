@@ -42,7 +42,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Vault.Events {
         public Task NotifyAllAsync(Func<ICertificateRequestListener, Task> evt) {
             Task task() => Task
                 .WhenAll(_listeners.Values.Select(l => evt(l)).ToArray());
-            if (_processor == null || !_processor.TrySchedule(task)) {
+            if (_processor is null || !_processor.TrySchedule(task)) {
                 return task().ContinueWith(t => Task.CompletedTask);
             }
             return Task.CompletedTask;

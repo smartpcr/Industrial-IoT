@@ -49,7 +49,7 @@ namespace Microsoft.Azure.IIoT.Hub {
             this IIoTHubTwinServices service, string deviceId, bool primary = true,
             CancellationToken ct = default) {
             var model = await service.GetRegistrationAsync(deviceId, null, ct);
-            if (model == null) {
+            if (model is null) {
                 throw new ResourceNotFoundException("Could not find " + deviceId);
             }
             return ConnectionString.CreateDeviceConnectionString(service.HostName,
@@ -70,7 +70,7 @@ namespace Microsoft.Azure.IIoT.Hub {
             this IIoTHubTwinServices service, string deviceId, string moduleId,
             bool primary = true, CancellationToken ct = default) {
             var model = await service.GetRegistrationAsync(deviceId, moduleId, ct);
-            if (model == null) {
+            if (model is null) {
                 throw new ResourceNotFoundException("Could not find " + moduleId);
             }
             return ConnectionString.CreateModuleConnectionString(service.HostName,
@@ -90,7 +90,7 @@ namespace Microsoft.Azure.IIoT.Hub {
             this IIoTHubTwinServices service, string deviceId, string moduleId = null,
             CancellationToken ct = default) {
             var model = await service.GetRegistrationAsync(deviceId, moduleId, ct);
-            if (model == null) {
+            if (model is null) {
                 throw new ResourceNotFoundException("Could not find " + deviceId);
             }
             return model.Authentication.PrimaryKey;
@@ -108,7 +108,7 @@ namespace Microsoft.Azure.IIoT.Hub {
             this IIoTHubTwinServices service, string deviceId, string moduleId = null,
             CancellationToken ct = default) {
             var model = await service.GetRegistrationAsync(deviceId, moduleId, ct);
-            if (model == null) {
+            if (model is null) {
                 throw new ResourceNotFoundException("Could not find " + deviceId);
             }
             return model.Authentication.SecondaryKey;

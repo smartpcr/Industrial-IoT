@@ -131,7 +131,7 @@ namespace SimpleEvents {
 
             CycleStepDataType value = encodeable as CycleStepDataType;
 
-            if (value == null) {
+            if (value is null) {
                 return false;
             }
 

@@ -79,13 +79,13 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Services {
         /// </summary>
         private static void EncodeBinaryMessage(IEncodeable message, Stream stream,
             ServiceMessageContext context) {
-            if (message == null) {
+            if (message is null) {
                 throw new ArgumentNullException(nameof(message));
             }
-            if (stream == null) {
+            if (stream is null) {
                 throw new ArgumentNullException(nameof(stream));
             }
-            if (context == null) {
+            if (context is null) {
                 throw new ArgumentNullException(nameof(context));
             }
             MemoryStream buffer = null;
@@ -118,10 +118,10 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Services {
         /// </summary>
         private static IEncodeable DecodeBinaryMessage(Stream stream,
             ServiceMessageContext context) {
-            if (stream == null) {
+            if (stream is null) {
                 throw new ArgumentNullException(nameof(stream));
             }
-            if (context == null) {
+            if (context is null) {
                 throw new ArgumentNullException(nameof(context));
             }
             MemoryStream buffer = null;
@@ -144,7 +144,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Services {
                         context.NamespaceUris);
                     // lookup message type.
                     var actualType = context.Factory.GetSystemType(absoluteId);
-                    if (actualType == null) {
+                    if (actualType is null) {
                         throw new ServiceResultException(StatusCodes.BadEncodingError,
                             $"Cannot decode message with type id: {absoluteId}.");
                     }

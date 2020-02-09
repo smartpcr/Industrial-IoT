@@ -183,7 +183,7 @@ namespace System.Security.Cryptography.Asn1 {
                         throw new CryptographicException(SR.Cryptography_Der_Invalid_Encoding);
                     }
                 }
-                else if (length == null) {
+                else if (length is null) {
                     // T-REC-X.690-201508 sec 8.1.3.2 says primitive encodings must use a definite form.
                     throw new CryptographicException(SR.Cryptography_Der_Invalid_Encoding);
                 }
@@ -237,7 +237,7 @@ namespace System.Security.Cryptography.Asn1 {
 
                 // We found another indefinite length, that means we need to find another
                 // EndOfContents marker to balance it out.
-                if (length == null) {
+                if (length is null) {
                     depth++;
                     tmpReader._data = tmpReader._data.Slice(bytesRead);
                     totalLen += bytesRead;
@@ -269,7 +269,7 @@ namespace System.Security.Cryptography.Asn1 {
         public ReadOnlyMemory<byte> PeekEncodedValue() {
             var tag = ReadTagAndLength(out var length, out var bytesRead);
 
-            if (length == null) {
+            if (length is null) {
                 var contentsLength = SeekEndOfContents(_data.Slice(bytesRead));
                 return Slice(_data, 0, bytesRead + contentsLength + kEndOfContentsEncodedLength);
             }
@@ -290,7 +290,7 @@ namespace System.Security.Cryptography.Asn1 {
         public ReadOnlyMemory<byte> PeekContentBytes() {
             var tag = ReadTagAndLength(out var length, out var bytesRead);
 
-            if (length == null) {
+            if (length is null) {
                 return Slice(_data, bytesRead, SeekEndOfContents(_data.Slice(bytesRead)));
             }
 
@@ -776,7 +776,7 @@ namespace System.Security.Cryptography.Asn1 {
                             throw new CryptographicException(SR.Cryptography_Der_Invalid_Encoding);
                         }
 
-                        if (readerStack == null) {
+                        if (readerStack is null) {
                             readerStack = new Stack<(AsnReader, bool, int)>();
                         }
 
@@ -787,7 +787,7 @@ namespace System.Security.Cryptography.Asn1 {
                             _ruleSet);
 
                         bytesRead = headerLength;
-                        isIndefinite = length == null;
+                        isIndefinite = length is null;
                     }
                     else {
                         // T-REC-X.690-201508 sec 8.6.4.1 (in particular, Note 2)
@@ -984,7 +984,7 @@ namespace System.Security.Cryptography.Asn1 {
             var read = TryCopyConstructedBitStringValue(
                 Slice(_data, headerLength, contentsLength),
                 destination,
-                contentsLength == null,
+                contentsLength is null,
                 out unusedBitCount,
                 out var bytesRead,
                 out bytesWritten);
@@ -1351,7 +1351,7 @@ namespace System.Security.Cryptography.Asn1 {
                             throw new CryptographicException(SR.Cryptography_Der_Invalid_Encoding);
                         }
 
-                        if (readerStack == null) {
+                        if (readerStack is null) {
                             readerStack = new Stack<(AsnReader, bool, int)>();
                         }
 
@@ -1362,7 +1362,7 @@ namespace System.Security.Cryptography.Asn1 {
                             _ruleSet);
 
                         bytesRead = headerLength;
-                        isIndefinite = length == null;
+                        isIndefinite = length is null;
                     }
                     else {
                         // T-REC-X.690-201508 sec 8.6.4.1 (in particular, Note 2)
@@ -1447,7 +1447,7 @@ namespace System.Security.Cryptography.Asn1 {
             var copied = TryCopyConstructedOctetStringContents(
                 Slice(_data, headerLength, contentLength),
                 destination,
-                contentLength == null,
+                contentLength is null,
                 out var bytesRead,
                 out bytesWritten);
 
@@ -1659,7 +1659,7 @@ namespace System.Security.Cryptography.Asn1 {
             while (!contents.IsEmpty) {
                 ReadSubIdentifier(contents, out bytesRead, out smallValue, out largeValue);
                 // Exactly one should be non-null.
-                Debug.Assert(smallValue == null != (largeValue == null));
+                Debug.Assert(smallValue is null != (largeValue is null));
 
                 builder.Append('.');
 
@@ -1736,7 +1736,7 @@ namespace System.Security.Cryptography.Asn1 {
             var copied = TryCopyConstructedOctetStringContents(
                 Slice(_data, headerLength, contentLength),
                 destination,
-                contentLength == null,
+                contentLength is null,
                 out var contentBytesRead,
                 out bytesWritten);
 
@@ -1989,7 +1989,7 @@ namespace System.Security.Cryptography.Asn1 {
 
             var suffix = 0;
 
-            if (length == null) {
+            if (length is null) {
                 length = SeekEndOfContents(_data.Slice(headerLength));
                 suffix = kEndOfContentsEncodedLength;
             }
@@ -2025,7 +2025,7 @@ namespace System.Security.Cryptography.Asn1 {
 
             var suffix = 0;
 
-            if (length == null) {
+            if (length is null) {
                 length = SeekEndOfContents(_data.Slice(headerLength));
                 suffix = kEndOfContentsEncodedLength;
             }
@@ -2322,11 +2322,11 @@ namespace System.Security.Cryptography.Asn1 {
             while (state == HmsState && contents.Length != 0) {
                 var nextState = GetNextState(contents[0]);
 
-                if (nextState == null) {
-                    if (minute == null) {
+                if (nextState is null) {
+                    if (minute is null) {
                         minute = ParseNonNegativeIntAndSlice(ref contents, 2);
                     }
-                    else if (second == null) {
+                    else if (second is null) {
                         second = ParseNonNegativeIntAndSlice(ref contents, 2);
                     }
                     else {
@@ -2396,7 +2396,7 @@ namespace System.Security.Cryptography.Asn1 {
                 if (contents.Length != 0) {
                     var nextState = GetNextState(contents[0]);
 
-                    if (nextState == null) {
+                    if (nextState is null) {
                         throw new CryptographicException(SR.Cryptography_Der_Invalid_Encoding);
                     }
 
@@ -2501,7 +2501,7 @@ namespace System.Security.Cryptography.Asn1 {
             DateTimeOffset value;
 
             try {
-                if (timeOffset == null) {
+                if (timeOffset is null) {
                     // Use the local timezone offset since there's no information in the contents.
                     // T-REC-X.680-201510 sec 46.2(a).
                     value = new DateTimeOffset(new DateTime(year, month, day, hour, minute.Value, second.Value));
@@ -2549,7 +2549,7 @@ namespace System.Security.Cryptography.Asn1 {
             out int bytesRead,
             ref byte[] rented,
             Span<byte> tmpSpace = default) {
-            Debug.Assert(rented == null);
+            Debug.Assert(rented is null);
 
             if (TryGetPrimitiveOctetStringBytes(
                 expectedTag,
@@ -2565,7 +2565,7 @@ namespace System.Security.Cryptography.Asn1 {
             Debug.Assert(actualTag.IsConstructed);
 
             var source = Slice(_data, headerLength, contentLength);
-            var isIndefinite = contentLength == null;
+            var isIndefinite = contentLength is null;
             var octetStringLength = CountConstructedOctetString(source, isIndefinite);
 
             if (tmpSpace.Length < octetStringLength) {
@@ -2598,7 +2598,7 @@ namespace System.Security.Cryptography.Asn1 {
         private static ReadOnlyMemory<byte> Slice(ReadOnlyMemory<byte> source, int offset, int? length) {
             Debug.Assert(offset >= 0);
 
-            if (length == null) {
+            if (length is null) {
                 return source.Slice(offset);
             }
 

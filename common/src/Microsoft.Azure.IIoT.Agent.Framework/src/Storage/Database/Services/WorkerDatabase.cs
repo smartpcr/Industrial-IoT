@@ -32,7 +32,7 @@ namespace Microsoft.Azure.IIoT.Agent.Framework.Storage.Database {
         /// <inheritdoc/>
         public async Task AddOrUpdate(WorkerHeartbeatModel workerHeartbeat,
             CancellationToken ct) {
-            if (workerHeartbeat == null) {
+            if (workerHeartbeat is null) {
                 throw new ArgumentNullException(nameof(workerHeartbeat));
             }
             while (true) {
@@ -90,7 +90,7 @@ namespace Microsoft.Azure.IIoT.Agent.Framework.Storage.Database {
                 throw new ArgumentNullException(nameof(workerId));
             }
             var document = await _documents.FindAsync<WorkerDocument>(workerId, ct);
-            if (document == null) {
+            if (document is null) {
                 throw new ResourceNotFoundException("Worker not found");
             }
             return document.Value.ToFrameworkModel();

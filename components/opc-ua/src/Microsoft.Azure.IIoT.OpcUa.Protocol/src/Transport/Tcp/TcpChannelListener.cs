@@ -36,7 +36,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Transport {
                 throw new ArgumentNullException(nameof(logger));
             _controller = controller ??
                 throw new ArgumentNullException(nameof(controller));
-            if (config == null) {
+            if (config is null) {
                 throw new ArgumentNullException(nameof(config));
             }
 
@@ -61,7 +61,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Transport {
             var port = config.Port == 0 ? Utils.UaTcpDefaultPort : config.Port;
             _listeningSocket = BindSocket(IPAddress.Any, port);
             _listeningSocketIPv6 = BindSocket(IPAddress.IPv6Any, port);
-            if (_listeningSocketIPv6 == null && _listeningSocket == null) {
+            if (_listeningSocketIPv6 is null && _listeningSocket is null) {
                 throw ServiceResultException.Create(StatusCodes.BadNoCommunication,
                     "Failed to bind sockets for both Ipv4 and IPv6.");
             }

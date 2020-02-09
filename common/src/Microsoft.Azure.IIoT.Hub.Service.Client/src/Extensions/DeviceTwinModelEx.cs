@@ -20,7 +20,7 @@ namespace Microsoft.Azure.IIoT.Hub.Models {
         /// <param name="twin"></param>
         /// <returns></returns>
         public static Device ToDevice(this DeviceTwinModel twin) {
-            if (twin == null) {
+            if (twin is null) {
                 return null;
             }
             return new Device(twin.Id) {
@@ -34,7 +34,7 @@ namespace Microsoft.Azure.IIoT.Hub.Models {
         /// <param name="twin"></param>
         /// <returns></returns>
         public static Module ToModule(this DeviceTwinModel twin) {
-            if (twin == null) {
+            if (twin is null) {
                 return null;
             }
             return new Module(twin.Id, twin.ModuleId) {
@@ -49,7 +49,7 @@ namespace Microsoft.Azure.IIoT.Hub.Models {
         /// <param name="isPatch"></param>
         /// <returns></returns>
         public static Twin ToTwin(this DeviceTwinModel twin, bool isPatch = false) {
-            if (twin == null) {
+            if (twin is null) {
                 return null;
             }
             return new Twin(twin.Id) {
@@ -102,7 +102,7 @@ namespace Microsoft.Azure.IIoT.Hub.Models {
         /// <param name="serializer"></param>
         /// <returns></returns>
         public static DeviceTwinModel DeserializeTwin(this IJsonSerializer serializer, Twin twin) {
-            if (twin == null) {
+            if (twin is null) {
                 return null;
             }
             return new DeviceTwinModel {
@@ -133,7 +133,7 @@ namespace Microsoft.Azure.IIoT.Hub.Models {
         /// <returns></returns>
         public static Dictionary<string, VariantValue> DeserializeTwinProperties(
             this IJsonSerializer serializer, TwinCollection props) {
-            if (props == null) {
+            if (props is null) {
                 return null;
             }
             var model = new Dictionary<string, VariantValue>();

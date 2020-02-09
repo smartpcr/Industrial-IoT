@@ -92,7 +92,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Transport.Probe {
                 while (true) {
                     switch (_state) {
                         case State.BeginProbe:
-                            if (arg.ConnectSocket == null) {
+                            if (arg.ConnectSocket is null) {
                                 _logger.Error("Probe {index} : Called without connected socket!",
                                     index);
                                 return true;

@@ -41,7 +41,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Publisher.Engine {
 
         /// <inheritdoc/>
         public async Task SendAsync(IEnumerable<NetworkMessageModel> messages) {
-            if (messages == null) {
+            if (messages is null) {
                 return;
             }
             var messageObjects = messages

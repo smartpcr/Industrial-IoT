@@ -4,10 +4,10 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Subscriber.Handlers {
-    using Microsoft.Azure.IIoT.Hub;
     using Microsoft.Azure.IIoT.OpcUa.Subscriber;
     using Microsoft.Azure.IIoT.OpcUa.Subscriber.Models;
-    using Newtonsoft.Json.Linq;
+    using Microsoft.Azure.IIoT.OpcUa.Protocol;
+    using Microsoft.Azure.IIoT.Hub;
     using Opc.Ua;
     using Opc.Ua.Extensions;
     using Opc.Ua.PubSub;
@@ -29,20 +29,23 @@ namespace Microsoft.Azure.IIoT.OpcUa.Subscriber.Handlers {
         /// <summary>
         /// Create handler
         /// </summary>
+        /// <param name="encoder"></param>
         /// <param name="handlers"></param>
         /// <param name="logger"></param>
-        public MonitoredItemSampleBinaryHandler(IEnumerable<IMonitoredItemSampleProcessor> handlers, ILogger logger) {
+        public MonitoredItemSampleBinaryHandler(IVariantEncoderFactory encoder,
+            IEnumerable<IMonitoredItemSampleProcessor> handlers, ILogger logger) {
+            _encoder = encoder ?? throw new ArgumentNullException(nameof(encoder));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _handlers = handlers?.ToList() ?? throw new ArgumentNullException(nameof(handlers));
         }
 
         /// <inheritdoc/>
-        public async Task HandleAsync(string deviceId, string moduleId,  
+        public async Task HandleAsync(string deviceId, string moduleId,
             byte[] payload, IDictionary<string, string> properties, Func<Task> checkpoint) {
-            
+
             MonitoredItemMessage message;
+            var context = new ServiceMessageContext();
             try {
-                var context = new ServiceMessageContext();
                 using (var stream = new MemoryStream(payload)) {
                     using (var decoder = new BinaryDecoder(stream, context)) {
                         var result = decoder.ReadEncodeable(null, typeof(MonitoredItemMessage)) as MonitoredItemMessage;
@@ -55,11 +58,9 @@ namespace Microsoft.Azure.IIoT.OpcUa.Subscriber.Handlers {
                 return;
             }
             try {
+                var codec = _encoder.Create(context);
                 var sample = new MonitoredItemSampleModel() {
-                    Value = new JObject {
-                            { "Body", message.Value.WrappedValue.Value.ToString() },
-                            { "Type", message.Value.WrappedValue.Value.GetType().ToString() }
-                        },
+                    Value = codec.Encode(message.Value),
                     Status = StatusCode.LookupSymbolicId(message.Value.StatusCode.Code),
                     TypeId = message.TypeId.ToString(),
                     DataSetId = message.DisplayName,
@@ -86,6 +87,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Subscriber.Handlers {
             return Task.CompletedTask;
         }
 
+        private readonly IVariantEncoderFactory _encoder;
         private readonly ILogger _logger;
         private readonly List<IMonitoredItemSampleProcessor> _handlers;
     }

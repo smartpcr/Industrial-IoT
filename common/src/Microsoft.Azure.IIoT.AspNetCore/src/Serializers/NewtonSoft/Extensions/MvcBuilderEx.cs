@@ -21,14 +21,14 @@ namespace Microsoft.Azure.IIoT.AspNetCore.Cors {
         /// <param name="builder"></param>
         /// <returns></returns>
         public static IMvcBuilder AddFormatters(this IMvcBuilder builder) {
-            if (builder == null) {
+            if (builder is null) {
                 throw new ArgumentNullException(nameof(builder));
             }
             var services = builder.Services.BuildServiceProvider();
             var provider = services.GetService<IJsonSerializerSettingsProvider>();
             var serializer = services.GetService<IJsonSerializer>();
             // Add newton soft json if the serializer is such - otherwise use default;
-            if (serializer == null || serializer is NewtonSoftJsonSerializer) {
+            if (serializer is null || serializer is NewtonSoftJsonSerializer) {
                 builder = builder.AddNewtonsoftJson(options => {
                     options.SerializerSettings.Update(provider?.GetSettings());
                 });
@@ -43,7 +43,7 @@ namespace Microsoft.Azure.IIoT.AspNetCore.Cors {
         /// <param name="update"></param>
         private static void Update(this JsonSerializerSettings setting,
             JsonSerializerSettings update) {
-            if (update == null) {
+            if (update is null) {
                 return;
             }
             setting.Formatting = update.Formatting;

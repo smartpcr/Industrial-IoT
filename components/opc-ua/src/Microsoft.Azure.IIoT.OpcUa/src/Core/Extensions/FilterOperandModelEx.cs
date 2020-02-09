@@ -18,7 +18,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Core.Models {
         /// <param name="model"></param>
         /// <returns></returns>
         public static FilterOperandModel Clone(this FilterOperandModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new FilterOperandModel {
@@ -39,10 +39,10 @@ namespace Microsoft.Azure.IIoT.OpcUa.Core.Models {
         /// <param name="other"></param>
         /// <returns></returns>
         public static bool IsSameAs(this FilterOperandModel model, FilterOperandModel other) {
-            if (model == null && other == null) {
+            if (model is null && other is null) {
                 return true;
             }
-            if (model == null || other == null) {
+            if (model is null || other is null) {
                 return false;
             }
             if (model.AttributeId != other.AttributeId) {

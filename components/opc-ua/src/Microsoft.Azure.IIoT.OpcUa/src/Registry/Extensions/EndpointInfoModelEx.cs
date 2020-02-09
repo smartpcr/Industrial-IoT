@@ -24,7 +24,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
         /// <returns></returns>
         public static string CreateEndpointId(string applicationId, string url,
             SecurityMode? mode, string securityPolicy) {
-            if (applicationId == null || url == null) {
+            if (applicationId is null || url is null) {
                 return null;
             }
 
@@ -50,7 +50,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
             if (model == that) {
                 return true;
             }
-            if (model == null || that == null) {
+            if (model is null || that is null) {
                 return false;
             }
             if (model.Count() != that.Count()) {
@@ -70,7 +70,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
             if (model == that) {
                 return true;
             }
-            if (model == null || that == null) {
+            if (model is null || that is null) {
                 return false;
             }
             return
@@ -83,7 +83,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
         /// <param name="model"></param>
         /// <returns></returns>
         public static bool IsTwinActivated(this EndpointInfoModel model) {
-            if (model == null) {
+            if (model is null) {
                 return false;
             }
             return
@@ -97,7 +97,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
         /// <param name="model"></param>
         /// <returns></returns>
         public static bool IsTwinConnected(this EndpointInfoModel model) {
-            if (model == null) {
+            if (model is null) {
                 return false;
             }
             return
@@ -110,7 +110,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
         /// <param name="model"></param>
         /// <returns></returns>
         public static EndpointInfoModel Clone(this EndpointInfoModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new EndpointInfoModel {

@@ -2196,8 +2196,8 @@ namespace Microsoft.Azure.IIoT.OpcUa.Testing.Tests {
             results.ErrorInfo.Diagnostics.TryGetValue("BadNodeIdUnknown", out var item);
             Assert.NotNull(item);
             Assert.Equal(VariantValueType.Array, item.Type);
-            Assert.Single(item.Values);
-            Assert.Equal(1, item.Count);
+            Assert.NotEqual(0, item.Count);
+            Assert.NotEmpty(item.Values);
             Assert.Equal("Browse_ns=9;s=unknown", (string)item[0]);
         }
 

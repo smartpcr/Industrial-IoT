@@ -17,7 +17,7 @@ namespace Microsoft.Azure.IIoT.Agent.Framework.Models {
         /// <param name="model"></param>
         /// <returns></returns>
         public static AgentConfigModel Clone(this AgentConfigModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new AgentConfigModel {

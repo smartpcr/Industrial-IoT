@@ -54,7 +54,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Testing.Fixtures {
         /// Create fixture
         /// </summary>
         protected BaseServerFixture(IEnumerable<INodeManagerFactory> nodes) {
-            if (nodes == null) {
+            if (nodes is null) {
                 throw new ArgumentNullException(nameof(nodes));
             }
             Logger = ConsoleOutLogger.Create(LogEventLevel.Debug);

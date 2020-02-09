@@ -87,7 +87,7 @@ namespace Microsoft.Azure.IIoT.Agent.Framework.Jobs {
                 UpdatedJob = null
             };
 
-            if (heartbeat.Job == null) {
+            if (heartbeat.Job is null) {
                 // Worker heartbeat
                 return result;
             }
@@ -102,7 +102,7 @@ namespace Microsoft.Azure.IIoT.Agent.Framework.Jobs {
                     };
                 }
 
-                if (existingJob.LifetimeData == null) {
+                if (existingJob.LifetimeData is null) {
                     existingJob.LifetimeData = new JobLifetimeDataModel();
                 }
 
@@ -125,7 +125,7 @@ namespace Microsoft.Azure.IIoT.Agent.Framework.Jobs {
                             heartbeat.Job.ProcessMode : (ProcessMode?)null
                 };
 
-                if (existingJob.LifetimeData.ProcessingStatus == null) {
+                if (existingJob.LifetimeData.ProcessingStatus is null) {
                     existingJob.LifetimeData.ProcessingStatus = new Dictionary<string, ProcessingStatusModel>();
                 }
                 existingJob.LifetimeData.ProcessingStatus[heartbeat.Worker.WorkerId] = processingStatus;

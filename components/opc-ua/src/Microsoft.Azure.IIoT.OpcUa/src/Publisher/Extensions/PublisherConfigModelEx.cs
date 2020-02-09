@@ -15,7 +15,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Publisher.Models {
         /// <param name="model"></param>
         /// <returns></returns>
         public static EngineConfigurationModel Clone(this EngineConfigurationModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new EngineConfigurationModel {

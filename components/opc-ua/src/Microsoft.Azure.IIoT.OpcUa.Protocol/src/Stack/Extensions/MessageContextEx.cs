@@ -59,7 +59,7 @@ namespace Opc.Ua.Extensions {
         /// </summary>
         /// <param name="context"></param>
         public static ISystemContext ToSystemContext(this ServiceMessageContext context) {
-            if (context == null) {
+            if (context is null) {
                 return null;
             }
             return new SystemContext {
@@ -74,7 +74,7 @@ namespace Opc.Ua.Extensions {
         /// </summary>
         /// <param name="context"></param>
         public static ServiceMessageContext ToMessageContext(this ISystemContext context) {
-            if (context == null) {
+            if (context is null) {
                 return null;
             }
             return new ServiceMessageContext {

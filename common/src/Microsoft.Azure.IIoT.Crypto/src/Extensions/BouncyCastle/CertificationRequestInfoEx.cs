@@ -25,7 +25,7 @@ namespace Microsoft.Azure.IIoT.Crypto.BouncyCastle {
         /// <returns></returns>
         internal static CertificationRequestInfo ToCertificationRequestInfo(
             this byte[] certificateRequest) {
-            if (certificateRequest == null) {
+            if (certificateRequest is null) {
                 throw new ArgumentNullException(nameof(certificateRequest));
             }
             return ToPkcs10CertificationRequest(certificateRequest)
@@ -36,7 +36,7 @@ namespace Microsoft.Azure.IIoT.Crypto.BouncyCastle {
         /// Convert to public key
         /// </summary>
         internal static Key GetPublicKey(this CertificationRequestInfo info) {
-            if (info == null) {
+            if (info is null) {
                 throw new ArgumentNullException(nameof(info));
             }
             var asymmetricKeyParameter = PublicKeyFactory.CreateKey(info.SubjectPublicKeyInfo);
@@ -70,7 +70,7 @@ namespace Microsoft.Azure.IIoT.Crypto.BouncyCastle {
         /// <returns></returns>
         internal static Pkcs10CertificationRequest ToPkcs10CertificationRequest(
             this byte[] certificateRequest) {
-            if (certificateRequest == null) {
+            if (certificateRequest is null) {
                 throw new ArgumentNullException(nameof(certificateRequest));
             }
             var pkcs10CertificationRequest = new Pkcs10CertificationRequest(
@@ -87,7 +87,7 @@ namespace Microsoft.Azure.IIoT.Crypto.BouncyCastle {
         /// <param name="info"></param>
         /// <returns></returns>
         internal static X509Extensions GetX509Extensions(this CertificationRequestInfo info) {
-            if (info == null) {
+            if (info is null) {
                 throw new ArgumentNullException(nameof(info));
             }
             var attributesAsn1Set = info.Attributes;

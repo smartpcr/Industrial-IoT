@@ -36,7 +36,7 @@ namespace Microsoft.Azure.IIoT.Http.Auth {
         /// <returns></returns>
         public override async Task OnRequestAsync(string resourceId,
             HttpRequestHeaders headers, HttpContent content, CancellationToken ct) {
-            if (headers == null) {
+            if (headers is null) {
                 throw new ArgumentNullException(nameof(headers));
             }
             if (!string.IsNullOrEmpty(resourceId)) {
@@ -70,7 +70,7 @@ namespace Microsoft.Azure.IIoT.Http.Auth {
         /// <returns></returns>
         public override async Task OnResponseAsync(string resourceId, HttpStatusCode statusCode,
             HttpResponseHeaders headers, HttpContent content, CancellationToken ct) {
-            if (headers == null) {
+            if (headers is null) {
                 throw new ArgumentNullException(nameof(headers));
             }
             if (statusCode == HttpStatusCode.Unauthorized) {

@@ -22,7 +22,7 @@ namespace System {
         /// <returns></returns>
         public static string ToBase16String(this byte[] value,
             bool upperCase = true) {
-            if (value == null) {
+            if (value is null) {
                 return null;
             }
             var charLookup = upperCase ?
@@ -43,7 +43,7 @@ namespace System {
         /// <param name="value"></param>
         /// <returns></returns>
         public static string ToBase64String(this byte[] value) {
-            if (value == null) {
+            if (value is null) {
                 return null;
             }
             return Convert.ToBase64String(value);
@@ -55,7 +55,7 @@ namespace System {
         /// <param name="bytestr">string to hash</param>
         /// <returns></returns>
         public static string ToSha1Hash(this byte[] bytestr) {
-            if (bytestr == null) {
+            if (bytestr is null) {
                 return null;
             }
             using (var sha1 = new SHA1Managed()) {

@@ -15,7 +15,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Core.Models {
         /// <param name="model"></param>
         /// <returns></returns>
         public static AggregateFilterModel Clone(this AggregateFilterModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new AggregateFilterModel {
@@ -34,10 +34,10 @@ namespace Microsoft.Azure.IIoT.OpcUa.Core.Models {
         /// <returns></returns>
         public static bool IsSameAs(this AggregateFilterModel model,
             AggregateFilterModel other) {
-            if (model == null && other == null) {
+            if (model is null && other is null) {
                 return true;
             }
-            if (model == null || other == null) {
+            if (model is null || other is null) {
                 return false;
             }
             if (model.AggregateTypeId != other.AggregateTypeId) {

@@ -22,7 +22,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Publisher.Models {
         public static MonitoredItemModel ToMonitoredItem(
             this PublishedDataSetEventsModel publishedEvents,
             string displayName = null) {
-            if (publishedEvents?.SelectedFields == null) {
+            if (publishedEvents?.SelectedFields is null) {
                 return null;
             }
             return new MonitoredItemModel {

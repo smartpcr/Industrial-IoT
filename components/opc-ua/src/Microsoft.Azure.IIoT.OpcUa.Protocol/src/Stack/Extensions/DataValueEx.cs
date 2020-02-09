@@ -20,7 +20,7 @@ namespace Opc.Ua.Extensions {
         /// <returns></returns>
         public static T GetValueOrDefault<T>(this DataValue dataValue,
             T defaultValue = default) {
-            if (dataValue == null) {
+            if (dataValue is null) {
                 return defaultValue;
             }
             if (StatusCode.IsNotGood(dataValue.StatusCode)) {

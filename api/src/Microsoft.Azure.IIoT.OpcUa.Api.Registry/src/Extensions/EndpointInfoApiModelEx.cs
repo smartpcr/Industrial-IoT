@@ -18,7 +18,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Models {
         /// <param name="isPatch"></param>
         public static EndpointInfoApiModel Patch(this EndpointInfoApiModel update,
             EndpointInfoApiModel endpoint, bool isPatch = false) {
-            if (endpoint == null) {
+            if (endpoint is null) {
                 return update;
             }
             if (!isPatch || update.ActivationState != null) {
@@ -28,7 +28,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Models {
                 endpoint.ApplicationId = update.ApplicationId;
             }
             if (!isPatch || update.EndpointState != null) {
-                if (update.EndpointState == null && endpoint.EndpointState != null) {
+                if (update.EndpointState is null && endpoint.EndpointState != null) {
                     System.Console.WriteLine();
                 }
                 endpoint.EndpointState = update.EndpointState;

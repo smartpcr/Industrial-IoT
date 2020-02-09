@@ -66,12 +66,12 @@ namespace Microsoft.Azure.IIoT.Storage.Default {
                         }
                         break;
                     case FileMode.Open:
-                        if (entry == null) {
+                        if (entry is null) {
                             throw new InvalidOperationException("Entry not exists");
                         }
                         break;
                     case FileMode.OpenOrCreate:
-                        if (entry == null) {
+                        if (entry is null) {
                             entry = _zip.CreateEntry(name, _compressionLevel);
                         }
                         break;

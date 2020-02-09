@@ -169,7 +169,7 @@ namespace Microsoft.Azure.IIoT.Storage.CosmosDb.Services {
 #endif
             var resource = $"{assembly.GetName().Name}.Script.{sprocName}.js";
             using (var stream = assembly.GetManifestResourceStream(resource)) {
-                if (stream == null) {
+                if (stream is null) {
                     throw new FileNotFoundException(resource + " not found");
                 }
                 var sproc = new StoredProcedure {

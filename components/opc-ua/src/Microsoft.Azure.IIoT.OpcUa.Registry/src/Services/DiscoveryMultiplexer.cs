@@ -44,7 +44,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
 
         /// <inheritdoc/>
         public async Task DiscoverAsync(DiscoveryRequestModel request, CancellationToken ct) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             var discoverers = _discoverers;
@@ -60,7 +60,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
         }
         /// <inheritdoc/>
         public async Task CancelAsync(DiscoveryCancelModel request, CancellationToken ct) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             var discoverers = _discoverers;

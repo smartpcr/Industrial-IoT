@@ -87,7 +87,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol {
         /// <returns></returns>
         public static DiagnosticInfo Decode(this IVariantEncoder codec,
             ServiceResultModel result, DiagnosticsModel config, out StatusCode code) {
-            if (result == null) {
+            if (result is null) {
                 code = StatusCodes.Good;
                 return null;
             }
@@ -106,7 +106,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol {
         public static List<OperationResultModel> Decode(
             this IVariantEncoder codec, ServiceResultModel result, DiagnosticsModel config) {
 
-            if (result?.Diagnostics == null) {
+            if (result?.Diagnostics is null) {
                 return null;
             }
             var root = kDiagnosticsProperty;
@@ -151,7 +151,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol {
             return new ServiceResultModel {
                 // The last operation result is the one that caused the service to fail.
                 StatusCode = statusCode?.Code,
-                ErrorMessage = result?.DiagnosticsInfo?.AdditionalInfo ?? (statusCode == null ?
+                ErrorMessage = result?.DiagnosticsInfo?.AdditionalInfo ?? (statusCode is null ?
                     null : StatusCode.LookupSymbolicId(statusCode.Value.CodeBits)),
                 Diagnostics = codec.Write(diagnostics, config)
             };

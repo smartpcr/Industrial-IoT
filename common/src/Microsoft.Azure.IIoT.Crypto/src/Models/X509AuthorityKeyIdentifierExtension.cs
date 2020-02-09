@@ -117,7 +117,7 @@ namespace Microsoft.Azure.IIoT.Crypto.Models {
 
         /// <inheritdoc/>
         public override void CopyFrom(AsnEncodedData asnEncodedData) {
-            if (asnEncodedData == null) {
+            if (asnEncodedData is null) {
                 throw new ArgumentNullException(nameof(asnEncodedData));
             }
             Oid = asnEncodedData.Oid;
@@ -136,7 +136,7 @@ namespace Microsoft.Azure.IIoT.Crypto.Models {
             var authorityKey =
                 new Org.BouncyCastle.X509.Extension.AuthorityKeyIdentifierStructure(
                     new Org.BouncyCastle.Asn1.DerOctetString(data));
-            if (authorityKey == null) {
+            if (authorityKey is null) {
                 throw new FormatException("Extension has bad oid.");
             }
             if (authorityKey.AuthorityCertSerialNumber != null) {

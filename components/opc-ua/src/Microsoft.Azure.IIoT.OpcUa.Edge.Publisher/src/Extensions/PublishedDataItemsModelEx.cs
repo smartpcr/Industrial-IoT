@@ -21,19 +21,19 @@ namespace Microsoft.Azure.IIoT.OpcUa.Publisher.Models {
         /// <returns></returns>
         public static IEnumerable<MonitoredItemModel> ToMonitoredItems(
             this PublishedDataItemsModel dataItems) {
-            if (dataItems?.PublishedData == null) {
+            if (dataItems?.PublishedData is null) {
                 return Enumerable.Empty<MonitoredItemModel>();
             }
 
             var map = new Dictionary<string, MonitoredItemModel>();
             foreach (var item in dataItems.PublishedData) {
-                if (item == null) {
+                if (item is null) {
                     continue;
                 }
                 var monitoredItem = item.ToMonitoredItem();
                 map.Add(monitoredItem.Id ?? Guid.NewGuid().ToString(),
                     monitoredItem);
-                if (item.HeartbeatInterval == null) {
+                if (item.HeartbeatInterval is null) {
                     continue;
                 }
 

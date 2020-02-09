@@ -15,7 +15,7 @@ namespace Microsoft.Azure.IIoT.Agent.Framework.Models {
         /// <param name="model"></param>
         /// <returns></returns>
         public static DemandModel Clone(this DemandModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new DemandModel {

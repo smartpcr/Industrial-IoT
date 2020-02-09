@@ -19,7 +19,7 @@ namespace Microsoft.Azure.IIoT.Agent.Framework.Storage.Database {
         /// <returns></returns>
         public static DemandDocument ToDocumentModel(this DemandModel model,
             string jobId) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new DemandDocument {
@@ -36,7 +36,7 @@ namespace Microsoft.Azure.IIoT.Agent.Framework.Storage.Database {
         /// <param name="model"></param>
         /// <returns></returns>
         public static DemandModel ToServiceModel(this DemandDocument model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new DemandModel {

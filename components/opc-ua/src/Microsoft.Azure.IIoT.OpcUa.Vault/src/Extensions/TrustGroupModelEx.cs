@@ -21,7 +21,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Vault.Models {
 
             // verify subject
             var subjectList = Utils.ParseDistinguishedName(model.SubjectName);
-            if (subjectList == null ||
+            if (subjectList is null ||
                 subjectList.Count == 0) {
                 throw new ArgumentException(
                     "Invalid Subject");

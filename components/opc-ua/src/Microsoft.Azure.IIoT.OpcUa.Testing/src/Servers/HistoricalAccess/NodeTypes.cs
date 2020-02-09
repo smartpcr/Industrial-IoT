@@ -52,13 +52,13 @@ namespace HistoricalAccess {
         /// <param name="namespaceIndex">Index of the namespace.</param>
         /// <returns>The node identifier for a component.</returns>
         public static NodeId ConstructIdForComponent(NodeState component, ushort namespaceIndex) {
-            if (component == null) {
+            if (component is null) {
                 return null;
             }
 
             // components must be instances with a parent.
 
-            if (!(component is BaseInstanceState instance) || instance.Parent == null) {
+            if (!(component is BaseInstanceState instance) || instance.Parent is null) {
                 return component.NodeId;
             }
 

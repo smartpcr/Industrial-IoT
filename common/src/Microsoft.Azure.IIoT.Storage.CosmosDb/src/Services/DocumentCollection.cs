@@ -54,7 +54,7 @@ namespace Microsoft.Azure.IIoT.Storage.CosmosDb.Services {
         /// <inheritdoc/>
         public IResultFeed<R> Query<T, R>(Func<IQueryable<IDocumentInfo<T>>,
             IQueryable<R>> query, int? pageSize, OperationOptions options) {
-            if (query == null) {
+            if (query is null) {
                 throw new ArgumentNullException(nameof(query));
             }
             var pk = _partitioned || string.IsNullOrEmpty(options?.PartitionKey) ? null :
@@ -66,7 +66,7 @@ namespace Microsoft.Azure.IIoT.Storage.CosmosDb.Services {
                        MaxItemCount = pageSize ?? -1,
                        PartitionKey = pk,
                        ConsistencyLevel = options?.Consistency.ToConsistencyLevel(),
-                       EnableCrossPartitionQuery = pk == null
+                       EnableCrossPartitionQuery = pk is null
                    }).Select(d => (IDocumentInfo<T>)new DocumentInfo<T>(d)));
             return new DocumentResultFeed<R>(result.AsDocumentQuery(), _logger);
         }
@@ -178,7 +178,7 @@ namespace Microsoft.Azure.IIoT.Storage.CosmosDb.Services {
         /// <inheritdoc/>
         public async Task<IDocumentInfo<T>> ReplaceAsync<T>(IDocumentInfo<T> existing,
             T newItem, CancellationToken ct, OperationOptions options) {
-            if (existing == null) {
+            if (existing is null) {
                 throw new ArgumentNullException(nameof(existing));
             }
             options ??= new OperationOptions();
@@ -217,7 +217,7 @@ namespace Microsoft.Azure.IIoT.Storage.CosmosDb.Services {
         /// <inheritdoc/>
         public Task DeleteAsync<T>(IDocumentInfo<T> item, CancellationToken ct,
             OperationOptions options) {
-            if (item == null) {
+            if (item is null) {
                 throw new ArgumentNullException(nameof(item));
             }
             options ??= new OperationOptions();

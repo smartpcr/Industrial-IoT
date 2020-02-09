@@ -36,7 +36,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Vault.Models {
 
             // check the application name.
             if (string.IsNullOrEmpty(entity.Name)) {
-                if (subjectNameEntries == null) {
+                if (subjectNameEntries is null) {
                     throw new ArgumentNullException(nameof(entity.Name),
                         "Must specify a name or a subjectName.");
                 }
@@ -75,7 +75,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Vault.Models {
 
             if (entity.Type != EntityType.User) {
                 // ensure at least one uri
-                if (entity.Uris == null || entity.Uris.Count == 0) {
+                if (entity.Uris is null || entity.Uris.Count == 0) {
                     if (entity.Addresses.Count > 0) {
                         entity.Uris = new List<string> {
                             $"urn:{entity.Addresses[0]}:{entity.Name}"

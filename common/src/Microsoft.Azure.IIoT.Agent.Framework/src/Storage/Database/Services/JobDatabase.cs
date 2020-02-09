@@ -31,7 +31,7 @@ namespace Microsoft.Azure.IIoT.Agent.Framework.Storage.Database {
 
         /// <inheritdoc/>
         public async Task<JobInfoModel> AddAsync(JobInfoModel job, CancellationToken ct) {
-            if (job == null) {
+            if (job is null) {
                 throw new ArgumentNullException(nameof(job));
             }
             while (true) {
@@ -64,12 +64,12 @@ namespace Microsoft.Azure.IIoT.Agent.Framework.Storage.Database {
                 var document = await _documents.FindAsync<JobDocument>(jobId, ct);
                 var updateOrAdd = document?.Value.ToFrameworkModel();
                 var job = await predicate(updateOrAdd);
-                if (job == null) {
+                if (job is null) {
                     return updateOrAdd;
                 }
                 job.LifetimeData.Updated = DateTime.UtcNow;
                 var updated = job.ToDocumentModel(document?.Value?.ETag);
-                if (document == null) {
+                if (document is null) {
                     try {
                         // Add document
                         var result = await _documents.AddAsync(updated, ct);
@@ -100,7 +100,7 @@ namespace Microsoft.Azure.IIoT.Agent.Framework.Storage.Database {
             }
             while (true) {
                 var document = await _documents.FindAsync<JobDocument>(jobId, ct);
-                if (document == null) {
+                if (document is null) {
                     throw new ResourceNotFoundException("Job not found");
                 }
                 var job = document.Value.ToFrameworkModel();
@@ -125,7 +125,7 @@ namespace Microsoft.Azure.IIoT.Agent.Framework.Storage.Database {
                 throw new ArgumentNullException(nameof(jobId));
             }
             var document = await _documents.FindAsync<JobDocument>(jobId, ct);
-            if (document == null) {
+            if (document is null) {
                 throw new ResourceNotFoundException("Job not found");
             }
             return document.Value.ToFrameworkModel();
@@ -158,7 +158,7 @@ namespace Microsoft.Azure.IIoT.Agent.Framework.Storage.Database {
             while (true) {
                 var document = await _documents.FindAsync<JobDocument>(
                     jobId);
-                if (document == null) {
+                if (document is null) {
                     return null;
                 }
                 var job = document.Value.ToFrameworkModel();

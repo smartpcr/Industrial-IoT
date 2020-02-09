@@ -20,7 +20,7 @@ namespace Microsoft.Azure.IIoT.Crypto.Models {
         /// <param name="key"></param>
         /// <returns></returns>
         public static Key Clone(this Key key) {
-            if (key == null) {
+            if (key is null) {
                 return null;
             }
             return new Key {
@@ -36,10 +36,10 @@ namespace Microsoft.Azure.IIoT.Crypto.Models {
         /// <param name="other"></param>
         /// <returns></returns>
         public static bool SameAs(this Key key, Key other) {
-            if (key == null) {
-                return key == null;
+            if (key is null) {
+                return key is null;
             }
-            if (other == null) {
+            if (other is null) {
                 return false;
             }
             if (key.Type != other.Type) {
@@ -193,7 +193,7 @@ namespace Microsoft.Azure.IIoT.Crypto.Models {
         /// </summary>
         /// <param name="value"></param>
         internal static void VerifyNonZero(byte[] value) {
-            if (value == null) {
+            if (value is null) {
                 throw new ArgumentNullException(nameof(value));
             }
             for (var i = 0; i < value.Length; i++) {
@@ -209,7 +209,7 @@ namespace Microsoft.Azure.IIoT.Crypto.Models {
         /// <param name="value"></param>
         /// <returns></returns>
         internal static byte[] RemoveLeadingZeros(byte[] value) {
-            if (value == null) {
+            if (value is null) {
                 return null;
             }
             if (value != null && value.Length > 1 && value[0] == 0) {
@@ -252,7 +252,7 @@ namespace Microsoft.Azure.IIoT.Crypto.Models {
         /// <param name="requiredLength"></param>
         /// <returns></returns>
         internal static byte[] ForceLength(byte[] value, int requiredLength) {
-            if (value == null || value.Length == 0) {
+            if (value is null || value.Length == 0) {
                 return null;
             }
             if (value.Length == requiredLength) {

@@ -21,7 +21,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin.History.Models {
         /// </summary>
         public static AggregateConfigurationModel ToServiceModel(
             this AggregateConfigurationApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new AggregateConfigurationModel {
@@ -38,7 +38,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin.History.Models {
         /// </summary>
         public static ContentFilterModel ToServiceModel(
             this ContentFilterApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new ContentFilterModel {
@@ -53,7 +53,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin.History.Models {
         /// </summary>
         public static ContentFilterElementModel ToServiceModel(
             this ContentFilterElementApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new ContentFilterElementModel {
@@ -69,7 +69,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin.History.Models {
         /// </summary>
         public static CredentialModel ToServiceModel(
             this CredentialApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new CredentialModel {
@@ -83,7 +83,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin.History.Models {
         /// </summary>
         public static DeleteEventsDetailsModel ToServiceModel(
             this DeleteEventsDetailsApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new DeleteEventsDetailsModel {
@@ -96,7 +96,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin.History.Models {
         /// </summary>
         public static DeleteModifiedValuesDetailsModel ToServiceModel(
             this DeleteModifiedValuesDetailsApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new DeleteModifiedValuesDetailsModel {
@@ -110,7 +110,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin.History.Models {
         /// </summary>
         public static DeleteValuesAtTimesDetailsModel ToServiceModel(
             this DeleteValuesAtTimesDetailsApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new DeleteValuesAtTimesDetailsModel {
@@ -123,7 +123,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin.History.Models {
         /// </summary>
         public static DeleteValuesDetailsModel ToServiceModel(
             this DeleteValuesDetailsApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new DeleteValuesDetailsModel {
@@ -137,7 +137,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin.History.Models {
         /// </summary>
         public static DiagnosticsModel ToServiceModel(
             this DiagnosticsApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new DiagnosticsModel {
@@ -152,7 +152,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin.History.Models {
         /// </summary>
         public static EventFilterModel ToServiceModel(
             this EventFilterApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new EventFilterModel {
@@ -168,7 +168,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin.History.Models {
         /// </summary>
         public static FilterOperandModel ToServiceModel(
             this FilterOperandApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new FilterOperandModel {
@@ -188,7 +188,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin.History.Models {
         /// <param name="model"></param>
         public static HistoricEventApiModel ToApiModel(
             this HistoricEventModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new HistoricEventApiModel {
@@ -201,7 +201,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin.History.Models {
         /// </summary>
         public static HistoricEventModel ToServiceModel(
             this HistoricEventApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new HistoricEventModel {
@@ -215,7 +215,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin.History.Models {
         /// <param name="model"></param>
         public static HistoricValueApiModel ToApiModel(
             this HistoricValueModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new HistoricValueApiModel {
@@ -234,7 +234,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin.History.Models {
         /// </summary>
         public static HistoricValueModel ToServiceModel(
             this HistoricValueApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new HistoricValueModel {
@@ -254,7 +254,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin.History.Models {
         /// <returns></returns>
         public static HistoryReadNextRequestModel ToServiceModel(
             this HistoryReadNextRequestApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new HistoryReadNextRequestModel {
@@ -273,7 +273,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin.History.Models {
         /// <param name="convert"></param>
         public static HistoryReadNextResponseApiModel<T> ToApiModel<S, T>(
             this HistoryReadNextResultModel<S> model, Func<S, T> convert) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new HistoryReadNextResponseApiModel<T> {
@@ -293,7 +293,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin.History.Models {
         /// <returns></returns>
         public static HistoryReadRequestModel<S> ToServiceModel<S, T>(
             this HistoryReadRequestApiModel<T> model, Func<T, S> convert) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new HistoryReadRequestModel<S> {
@@ -314,7 +314,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin.History.Models {
         /// <param name="convert"></param>
         public static HistoryReadResponseApiModel<T> ToApiModel<S, T>(
             this HistoryReadResultModel<S> model, Func<S, T> convert) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new HistoryReadResponseApiModel<T> {
@@ -334,7 +334,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin.History.Models {
         /// <returns></returns>
         public static HistoryUpdateRequestModel<S> ToServiceModel<S, T>(
             this HistoryUpdateRequestApiModel<T> model, Func<T, S> convert) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new HistoryUpdateRequestModel<S> {
@@ -351,7 +351,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin.History.Models {
         /// <param name="model"></param>
         public static HistoryUpdateResponseApiModel ToApiModel(
             this HistoryUpdateResultModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new HistoryUpdateResponseApiModel {
@@ -367,7 +367,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin.History.Models {
         /// </summary>
         public static InsertEventsDetailsModel ToServiceModel(
             this InsertEventsDetailsApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new InsertEventsDetailsModel {
@@ -383,7 +383,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin.History.Models {
         /// </summary>
         public static InsertValuesDetailsModel ToServiceModel(
             this InsertValuesDetailsApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new InsertValuesDetailsModel {
@@ -399,7 +399,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin.History.Models {
         /// <param name="model"></param>
         public static ModificationInfoApiModel ToApiModel(
             this ModificationInfoModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new ModificationInfoApiModel {
@@ -414,7 +414,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin.History.Models {
         /// </summary>
         public static ModificationInfoModel ToServiceModel(
             this ModificationInfoApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new ModificationInfoModel {
@@ -429,7 +429,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin.History.Models {
         /// </summary>
         public static ReadEventsDetailsModel ToServiceModel(
             this ReadEventsDetailsApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new ReadEventsDetailsModel {
@@ -445,7 +445,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin.History.Models {
         /// </summary>
         public static ReadModifiedValuesDetailsModel ToServiceModel(
             this ReadModifiedValuesDetailsApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new ReadModifiedValuesDetailsModel {
@@ -460,7 +460,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin.History.Models {
         /// </summary>
         public static ReadProcessedValuesDetailsModel ToServiceModel(
             this ReadProcessedValuesDetailsApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new ReadProcessedValuesDetailsModel {
@@ -477,7 +477,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin.History.Models {
         /// </summary>
         public static ReadValuesAtTimesDetailsModel ToServiceModel(
             this ReadValuesAtTimesDetailsApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new ReadValuesAtTimesDetailsModel {
@@ -491,7 +491,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin.History.Models {
         /// </summary>
         public static ReadValuesDetailsModel ToServiceModel(
             this ReadValuesDetailsApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new ReadValuesDetailsModel {
@@ -507,7 +507,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin.History.Models {
         /// </summary>
         public static ReplaceEventsDetailsModel ToServiceModel(
             this ReplaceEventsDetailsApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new ReplaceEventsDetailsModel {
@@ -523,7 +523,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin.History.Models {
         /// </summary>
         public static ReplaceValuesDetailsModel ToServiceModel(
             this ReplaceValuesDetailsApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new ReplaceValuesDetailsModel {
@@ -539,7 +539,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin.History.Models {
         /// <returns></returns>
         public static RequestHeaderModel ToServiceModel(
             this RequestHeaderApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new RequestHeaderModel {
@@ -555,7 +555,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin.History.Models {
         /// <param name="model"></param>
         public static ServiceResultApiModel ToApiModel(
             this ServiceResultModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new ServiceResultApiModel {
@@ -570,7 +570,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin.History.Models {
         /// </summary>
         public static SimpleAttributeOperandModel ToServiceModel(
             this SimpleAttributeOperandApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new SimpleAttributeOperandModel {

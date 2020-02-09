@@ -48,7 +48,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin.History.Controllers {
         [HttpPost("read/{endpointId}")]
         public async Task<HistoryReadResponseApiModel<VariantValue>> HistoryReadRawAsync(
             string endpointId, [FromBody] [Required] HistoryReadRequestApiModel<VariantValue> request) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             var readresult = await _client.HistoryReadAsync(
@@ -70,7 +70,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin.History.Controllers {
         [HttpPost("read/{endpointId}/next")]
         public async Task<HistoryReadNextResponseApiModel<VariantValue>> HistoryReadRawNextAsync(
             string endpointId, [FromBody] [Required] HistoryReadNextRequestApiModel request) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             var readresult = await _client.HistoryReadNextAsync(
@@ -93,7 +93,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin.History.Controllers {
         [Authorize(Policy = Policies.CanDelete)]
         public async Task<HistoryUpdateResponseApiModel> HistoryUpdateRawAsync(
             string endpointId, [FromBody] [Required] HistoryUpdateRequestApiModel<VariantValue> request) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             var writeResult = await _client.HistoryUpdateAsync(

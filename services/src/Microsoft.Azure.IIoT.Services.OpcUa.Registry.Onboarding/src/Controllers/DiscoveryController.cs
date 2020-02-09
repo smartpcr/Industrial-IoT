@@ -51,13 +51,13 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Onboarding.Controllers {
             if (string.IsNullOrEmpty(discovererId)) {
                 throw new ArgumentNullException(nameof(discovererId));
             }
-            if (model == null) {
+            if (model is null) {
                 throw new ArgumentNullException(nameof(model));
             }
-            if (model.Result == null) {
+            if (model.Result is null) {
                 throw new ArgumentNullException(nameof(model.Result));
             }
-            if (model.Events == null) {
+            if (model.Events is null) {
                 throw new ArgumentNullException(nameof(model.Events));
             }
             await _onboarding.ProcessDiscoveryResultsAsync(

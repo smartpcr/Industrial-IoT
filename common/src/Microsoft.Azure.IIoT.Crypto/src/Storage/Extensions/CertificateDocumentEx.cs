@@ -78,7 +78,7 @@ namespace Microsoft.Azure.IIoT.Crypto.Storage.Models {
                 Version = DateTime.UtcNow.ToFileTimeUtc(),
                 CertificateId = id ?? certificateName,
                 CertificateName = certificateName,
-                KeyHandle = cert.KeyHandle == null ? null :
+                KeyHandle = cert.KeyHandle is null ? null :
                     serializer.SerializeHandle(cert.KeyHandle)
             };
         }

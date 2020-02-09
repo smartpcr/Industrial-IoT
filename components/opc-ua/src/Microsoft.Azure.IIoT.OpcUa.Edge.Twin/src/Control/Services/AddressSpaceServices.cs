@@ -101,7 +101,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Control.Services {
         /// <inheritdoc/>
         public Task<BrowseNextResultModel> NodeBrowseNextAsync(
             EndpointModel endpoint, BrowseNextRequestModel request) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             if (string.IsNullOrEmpty(request.ContinuationToken)) {
@@ -134,11 +134,11 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Control.Services {
         /// <inheritdoc/>
         public Task<BrowsePathResultModel> NodeBrowsePathAsync(
             EndpointModel endpoint, BrowsePathRequestModel request) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
-            if (request.BrowsePaths == null || request.BrowsePaths.Count == 0 ||
-                request.BrowsePaths.Any(p => p == null || p.Length == 0)) {
+            if (request.BrowsePaths is null || request.BrowsePaths.Count == 0 ||
+                request.BrowsePaths.Any(p => p is null || p.Length == 0)) {
                 throw new ArgumentNullException(nameof(request.BrowsePaths));
             }
             return _client.ExecuteServiceAsync(endpoint, request.Header?.Elevation, async session => {
@@ -176,11 +176,11 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Control.Services {
         /// <inheritdoc/>
         public Task<MethodMetadataResultModel> NodeMethodGetMetadataAsync(
             EndpointModel endpoint, MethodMetadataRequestModel request) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             if (string.IsNullOrEmpty(request.MethodId) &&
-                (request.MethodBrowsePath == null || request.MethodBrowsePath.Length == 0)) {
+                (request.MethodBrowsePath is null || request.MethodBrowsePath.Length == 0)) {
                 throw new ArgumentException(nameof(request.MethodId));
             }
             return _client.ExecuteServiceAsync(endpoint, request.Header?.Elevation, async session => {
@@ -240,7 +240,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Control.Services {
                             false, false, false, diagnostics, false);
                         var arg = new MethodMetadataArgumentModel {
                             Name = argument.Name,
-                            DefaultValue = argument.Value == null ? null :
+                            DefaultValue = argument.Value is null ? null :
                                 codec.Encode(new Variant(argument.Value), out var type),
                             ValueRank = argument.ValueRank == ValueRanks.Scalar ?
                                 (NodeValueRank?)null : (NodeValueRank)argument.ValueRank,
@@ -265,11 +265,11 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Control.Services {
         /// <inheritdoc/>
         public Task<MethodCallResultModel> NodeMethodCallAsync(EndpointModel endpoint,
             MethodCallRequestModel request) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             if (string.IsNullOrEmpty(request.ObjectId) &&
-                (request.ObjectBrowsePath == null || request.ObjectBrowsePath.Length == 0)) {
+                (request.ObjectBrowsePath is null || request.ObjectBrowsePath.Length == 0)) {
                 throw new ArgumentException(nameof(request.ObjectId));
             }
             return _client.ExecuteServiceAsync(endpoint, request.Header?.Elevation, async session => {
@@ -360,7 +360,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Control.Services {
                     new CallMethodRequest {
                         ObjectId = objectId,
                         MethodId = methodId,
-                        InputArguments = inputs == null ? null :
+                        InputArguments = inputs is null ? null :
                             new VariantCollection(inputs
                                 .Select(arg => arg.Item1.CreateVariant(arg.Item2)))
                     }
@@ -370,7 +370,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Control.Services {
                 if (request.Arguments != null) {
                     for (var i = 0; i < request.Arguments.Count; i++) {
                         var arg = request.Arguments[i];
-                        if (arg == null) {
+                        if (arg is null) {
                             continue;
                         }
                         var builtinType = inputs[i].Item1.BuiltInType;
@@ -423,11 +423,11 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Control.Services {
         /// <inheritdoc/>
         public Task<ValueReadResultModel> NodeValueReadAsync(EndpointModel endpoint,
             ValueReadRequestModel request) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             if (string.IsNullOrEmpty(request.NodeId) &&
-                (request.BrowsePath == null || request.BrowsePath.Length == 0)) {
+                (request.BrowsePath is null || request.BrowsePath.Length == 0)) {
                 throw new ArgumentException(nameof(request.NodeId));
             }
             return _client.ExecuteServiceAsync(endpoint, request.Header?.Elevation, async session => {
@@ -485,14 +485,14 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Control.Services {
         /// <inheritdoc/>
         public Task<ValueWriteResultModel> NodeValueWriteAsync(EndpointModel endpoint,
             ValueWriteRequestModel request) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
-            if (request.Value == null) {
+            if (request.Value is null) {
                 throw new ArgumentNullException(nameof(request.Value));
             }
             if (string.IsNullOrEmpty(request.NodeId) &&
-                (request.BrowsePath == null || request.BrowsePath.Length == 0)) {
+                (request.BrowsePath is null || request.BrowsePath.Length == 0)) {
                 throw new ArgumentException(nameof(request.NodeId));
             }
             return _client.ExecuteServiceAsync(endpoint, request.Header?.Elevation, async session => {
@@ -541,10 +541,10 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Control.Services {
         /// <inheritdoc/>
         public Task<ReadResultModel> NodeReadAsync(EndpointModel endpoint,
             ReadRequestModel request) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
-            if (request.Attributes == null) {
+            if (request.Attributes is null) {
                 throw new ArgumentNullException(nameof(request.Attributes));
             }
             if (request.Attributes.Any(a => string.IsNullOrEmpty(a.NodeId))) {
@@ -565,7 +565,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Control.Services {
                     return new ReadResultModel {
                         Results = response.Results
                             .Select((value, index) => {
-                                var diagnostics = response.DiagnosticInfos == null ||
+                                var diagnostics = response.DiagnosticInfos is null ||
                                             response.DiagnosticInfos.Count == 0 ? null :
                                     response.DiagnosticInfos[index];
                                 return new AttributeReadResultModel {
@@ -581,10 +581,10 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Control.Services {
         /// <inheritdoc/>
         public Task<WriteResultModel> NodeWriteAsync(EndpointModel endpoint,
             WriteRequestModel request) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
-            if (request.Attributes == null) {
+            if (request.Attributes is null) {
                 throw new ArgumentNullException(nameof(request.Attributes));
             }
             if (request.Attributes.Any(a => string.IsNullOrEmpty(a.NodeId))) {
@@ -606,7 +606,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Control.Services {
                     return new WriteResultModel {
                         Results = response.Results
                             .Select((value, index) => {
-                                var diagnostics = response.DiagnosticInfos == null ||
+                                var diagnostics = response.DiagnosticInfos is null ||
                                             response.DiagnosticInfos.Count == 0 ? null :
                                     response.DiagnosticInfos[index];
                                 return new AttributeWriteResultModel {
@@ -621,14 +621,14 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Control.Services {
         /// <inheritdoc/>
         public Task<HistoryReadResultModel<VariantValue>> HistoryReadAsync(EndpointModel endpoint,
             HistoryReadRequestModel<VariantValue> request) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
-            if (request.Details == null) {
+            if (request.Details is null) {
                 throw new ArgumentNullException(nameof(request.Details));
             }
             if (string.IsNullOrEmpty(request.NodeId) &&
-                (request.BrowsePath == null || request.BrowsePath.Length == 0)) {
+                (request.BrowsePath is null || request.BrowsePath.Length == 0)) {
                 throw new ArgumentException(nameof(request.NodeId));
             }
             return _client.ExecuteServiceAsync(endpoint, request.Header?.Elevation, async session => {
@@ -672,7 +672,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Control.Services {
         /// <inheritdoc/>
         public Task<HistoryReadNextResultModel<VariantValue>> HistoryReadNextAsync(EndpointModel endpoint,
             HistoryReadNextRequestModel request) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             if (string.IsNullOrEmpty(request.ContinuationToken)) {
@@ -706,10 +706,10 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Control.Services {
         /// <inheritdoc/>
         public Task<HistoryUpdateResultModel> HistoryUpdateAsync(EndpointModel endpoint,
             HistoryUpdateRequestModel<VariantValue> request) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
-            if (request.Details == null) {
+            if (request.Details is null) {
                 throw new ArgumentNullException(nameof(request.Details));
             }
             return _client.ExecuteServiceAsync(endpoint, request.Header?.Elevation, async session => {
@@ -783,26 +783,26 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Control.Services {
                 DisplayName = node.DisplayName?.ToString(),
                 Description = node.Description?.ToString(),
                 NodeClass = node.NodeClass.ToServiceType() ?? nodeClass?.ToServiceType(),
-                AccessRestrictions = node.AccessRestrictions == null || node.AccessRestrictions == 0 ?
+                AccessRestrictions = node.AccessRestrictions is null || node.AccessRestrictions == 0 ?
                     (NodeAccessRestrictions?)null : (NodeAccessRestrictions)node.AccessRestrictions,
                 UserWriteMask = node.UserWriteMask,
                 WriteMask = node.WriteMask,
                 DataType = node.DataType.AsString(session.MessageContext),
                 ArrayDimensions = node.ArrayDimensions,
                 ValueRank = (NodeValueRank?)node.ValueRank,
-                AccessLevel = node.AccessLevelEx == null &&
-                    node.AccessLevel == null ? (NodeAccessLevel?)null :
+                AccessLevel = node.AccessLevelEx is null &&
+                    node.AccessLevel is null ? (NodeAccessLevel?)null :
                         (NodeAccessLevel)((node.AccessLevelEx ?? 0) | (node.AccessLevel ?? 0)),
                 UserAccessLevel =
-                    node.UserAccessLevel == null ?
+                    node.UserAccessLevel is null ?
                         (NodeAccessLevel?)null : (NodeAccessLevel)node.UserAccessLevel,
                 Historizing = node.Historizing,
                 MinimumSamplingInterval = node.MinimumSamplingInterval,
                 IsAbstract = node.IsAbstract,
-                Value = node.Value == null ? null : codec.Encode(node.Value.Value, out var type),
-                EventNotifier = node.EventNotifier == null || node.EventNotifier == 0x0 ?
+                Value = node.Value is null ? null : codec.Encode(node.Value.Value, out var type),
+                EventNotifier = node.EventNotifier is null || node.EventNotifier == 0x0 ?
                     (NodeEventNotifier?)null : (NodeEventNotifier)node.EventNotifier,
-                DataTypeDefinition = node.DataTypeDefinition == null ? null :
+                DataTypeDefinition = node.DataTypeDefinition is null ? null :
                     codec.Encode(new Variant(node.DataTypeDefinition)),
                 InverseName = node.InverseName?.ToString(),
                 Symmetric = node.Symmetric,
@@ -834,7 +834,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Control.Services {
             IVariantEncoder codec, RequestHeader header, bool targetNodesOnly, bool readValues,
             bool rawMode, List<NodeReferenceModel> result, List<OperationResultModel> diagnostics,
             byte[] continuationPoint, List<ReferenceDescription> references) {
-            if (references == null) {
+            if (references is null) {
                 return null;
             }
             foreach (var reference in references) {
@@ -947,7 +947,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Control.Services {
         private async Task<NodeId> ResolveBrowsePathToNodeAsync(Session session,
             NodeId rootId, string paramName, string[] paths, DiagnosticsModel diagnostics,
             List<OperationResultModel> operations) {
-            if (paths == null || paths.Length == 0) {
+            if (paths is null || paths.Length == 0) {
                 return rootId;
             }
             if (NodeId.IsNull(rootId)) {

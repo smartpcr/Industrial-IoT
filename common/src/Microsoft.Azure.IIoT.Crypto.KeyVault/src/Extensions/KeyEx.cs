@@ -70,7 +70,7 @@ namespace Microsoft.Azure.KeyVault.WebKey {
                 case KeyType.RSA:
                     var rsa = key.Parameters as RsaParams;
                     return new JsonWebKey {
-                        Kty = rsa.T == null ?
+                        Kty = rsa.T is null ?
                             JsonWebKeyType.Rsa : JsonWebKeyType.RsaHsm,
                         D = rsa.D,
                         DP = rsa.DP,
@@ -85,7 +85,7 @@ namespace Microsoft.Azure.KeyVault.WebKey {
                 case KeyType.ECC:
                     var ecc = key.Parameters as EccParams;
                     return new JsonWebKey {
-                        Kty = ecc.T == null ?
+                        Kty = ecc.T is null ?
                             JsonWebKeyType.EllipticCurve : JsonWebKeyType.EllipticCurveHsm,
                         D = ecc.D,
                         CurveName = ToJsonWebKeyCurveName(ecc.Curve),

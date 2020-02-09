@@ -34,7 +34,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Models {
         /// <returns></returns>
         private static DiscovererApiModel ToApiModel(
             this DiscovererModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new DiscovererApiModel {
@@ -55,7 +55,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Models {
         /// <returns></returns>
         private static DiscoveryConfigApiModel ToApiModel(
             this DiscoveryConfigModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new DiscoveryConfigApiModel {
@@ -80,7 +80,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Models {
         /// <returns></returns>
         private static EndpointActivationFilterApiModel ToApiModel(
             this EndpointActivationFilterModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new EndpointActivationFilterApiModel {

@@ -107,7 +107,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Export.Services {
                     continue;
                 }
                 var node = await ReadNodeAsync(nodeId, ct);
-                if (node == null) {
+                if (node is null) {
                     continue;
                 }
                 await FetchReferencesAsync(node, ct);
@@ -174,7 +174,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Export.Services {
                             !reference.IsForward, reference.NodeId);
                         _references++;
                     }
-                    if (response.Results[0].ContinuationPoint == null) {
+                    if (response.Results[0].ContinuationPoint is null) {
                         break;
                     }
                     response = await _client.ExecuteServiceAsync(_endpoint, _elevation,

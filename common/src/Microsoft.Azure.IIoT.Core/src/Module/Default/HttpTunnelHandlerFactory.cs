@@ -75,7 +75,7 @@ namespace Microsoft.Azure.IIoT.Module.Default {
             var response = _serializer.Deserialize<HttpTunnelResponseModel>(result);
             if (_outstanding.TryRemove(response.RequestId, out var request)) {
                 var httpResponse = new HttpResponseMessage((HttpStatusCode)response.Status) {
-                    Content = response.Payload == null ? null :
+                    Content = response.Payload is null ? null :
                         new ByteArrayContent(response.Payload)
                 };
                 if (response.Headers != null) {

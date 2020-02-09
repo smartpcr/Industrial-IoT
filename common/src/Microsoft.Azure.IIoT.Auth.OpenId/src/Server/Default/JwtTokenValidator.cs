@@ -39,10 +39,10 @@ namespace Microsoft.Azure.IIoT.Auth.Server.Default {
         /// <returns></returns>
         public async Task<TokenResultModel> ValidateAsync(string jwtToken,
             CancellationToken ct) {
-            if (jwtToken == null) {
+            if (jwtToken is null) {
                 throw new ArgumentNullException(nameof(jwtToken));
             }
-            await RefreshSigningKeys(ct);
+            await RefreshSigningKeysAsync(ct);
             var issuer = _issuer;
             var signingKeys = _signingKeys;
             if (string.IsNullOrEmpty(issuer)) {
@@ -74,9 +74,9 @@ namespace Microsoft.Azure.IIoT.Auth.Server.Default {
         /// </summary>
         /// <param name="ct"></param>
         /// <returns></returns>
-        private async Task RefreshSigningKeys(CancellationToken ct) {
+        private async Task RefreshSigningKeysAsync(CancellationToken ct) {
             if (DateTime.UtcNow.Subtract(_stsMetadataRetrievalTime).TotalHours > 24 ||
-                string.IsNullOrEmpty(_issuer) || _signingKeys == null) {
+                string.IsNullOrEmpty(_issuer) || _signingKeys is null) {
 
                 // Get tenant information that's used to validate incoming jwt tokens
                 var configManager = new ConfigurationManager<OpenIdConnectConfiguration>(

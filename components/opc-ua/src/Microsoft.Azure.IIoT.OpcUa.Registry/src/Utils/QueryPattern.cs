@@ -249,11 +249,11 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Utils {
         /// <returns></returns>
         private static int Match(string target, int targetIndex,
             IList<string> tokens, ref int tokenIndex) {
-            if (tokens == null || tokenIndex < 0 || tokenIndex >= tokens.Count) {
+            if (tokens is null || tokenIndex < 0 || tokenIndex >= tokens.Count) {
                 return -1;
             }
 
-            if (target == null || targetIndex < 0 || targetIndex >= target.Length) {
+            if (target is null || targetIndex < 0 || targetIndex >= target.Length) {
                 if (tokens[tokenIndex] == "%" && tokenIndex == tokens.Count - 1) {
                     return targetIndex;
                 }

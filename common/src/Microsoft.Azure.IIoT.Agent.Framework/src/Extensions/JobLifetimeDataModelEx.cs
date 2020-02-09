@@ -17,7 +17,7 @@ namespace Microsoft.Azure.IIoT.Agent.Framework.Models {
         /// <param name="model"></param>
         /// <returns></returns>
         public static JobLifetimeDataModel Clone(this JobLifetimeDataModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new JobLifetimeDataModel {

@@ -17,7 +17,7 @@ namespace Microsoft.Azure.IIoT.Crypto {
         /// <param name="policies"></param>
         /// <returns></returns>
         public static IssuerPolicies Clone(this IssuerPolicies policies) {
-            if (policies == null) {
+            if (policies is null) {
                 return null;
             }
             return new IssuerPolicies {
@@ -34,10 +34,10 @@ namespace Microsoft.Azure.IIoT.Crypto {
         /// <returns></returns>
         public static bool SameAs(this IssuerPolicies policies, IssuerPolicies other) {
 
-            if (policies == null) {
-                return other == null;
+            if (policies is null) {
+                return other is null;
             }
-            if (other == null) {
+            if (other is null) {
                 return false;
             }
 

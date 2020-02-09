@@ -56,7 +56,7 @@ namespace Vehicles {
             _configuration = configuration.ParseExtension<VehiclesServerConfiguration>();
 
             // use suitable defaults if no configuration exists.
-            if (_configuration == null) {
+            if (_configuration is null) {
                 _configuration = new VehiclesServerConfiguration();
             }
         }
@@ -118,17 +118,17 @@ namespace Vehicles {
         /// Loads the schema from an embedded resource.
         /// </summary>
         public byte[] LoadSchemaFromResource(string resourcePath, Assembly assembly) {
-            if (resourcePath == null) {
+            if (resourcePath is null) {
                 throw new ArgumentNullException(nameof(resourcePath));
             }
 
-            if (assembly == null) {
+            if (assembly is null) {
                 assembly = Assembly.GetCallingAssembly();
             }
 
             var istrm = assembly.GetManifestResourceStream(resourcePath);
 
-            if (istrm == null) {
+            if (istrm is null) {
                 throw ServiceResultException.Create(StatusCodes.BadDecodingError, "Could not load nodes from resource: {0}", resourcePath);
             }
 
@@ -202,7 +202,7 @@ namespace Vehicles {
             NodeHandle handle,
             IDictionary<NodeId, NodeState> cache) {
             // not valid if no root.
-            if (handle == null) {
+            if (handle is null) {
                 return null;
             }
 

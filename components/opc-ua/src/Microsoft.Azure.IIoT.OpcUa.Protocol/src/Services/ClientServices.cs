@@ -69,7 +69,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Services {
                 .Cast<X509Certificate2>()
                 .Reverse()
                 .ToList();
-            if (chain == null || chain.Count == 0) {
+            if (chain is null || chain.Count == 0) {
                 return Task.FromException(
                     new ArgumentNullException(nameof(certificates)));
             }
@@ -104,7 +104,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Services {
                 .Cast<X509Certificate2>()
                 .Reverse()
                 .ToList();
-            if (chain == null || chain.Count == 0) {
+            if (chain is null || chain.Count == 0) {
                 return Task.FromException(
                     new ArgumentNullException(nameof(certificates)));
             }
@@ -132,7 +132,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Services {
 
         /// <inheritdoc/>
         public ISessionHandle GetSessionHandle(ConnectionModel connection) {
-            if (connection?.Endpoint == null) {
+            if (connection?.Endpoint is null) {
                 throw new ArgumentNullException(nameof(connection));
             }
             var id = new ConnectionIdentifier(connection);
@@ -157,10 +157,10 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Services {
         /// <inheritdoc/>
         public IDisposable RegisterCallback(ConnectionModel connection,
             Func<EndpointConnectivityState, Task> callback) {
-            if (connection?.Endpoint == null) {
+            if (connection?.Endpoint is null) {
                 throw new ArgumentNullException(nameof(connection));
             }
-            if (callback == null) {
+            if (callback is null) {
                 throw new ArgumentNullException(nameof(callback));
             }
             return new CallbackHandle(this, connection, callback);
@@ -233,7 +233,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Services {
 
                 // Match to provided endpoint info
                 var ep = endpoints.Endpoints?.FirstOrDefault(e => e.IsSameAs(endpoint));
-                if (ep == null) {
+                if (ep is null) {
                     _logger.Debug("No endpoints at {discoveryUrl}...", discoveryUrl);
                     throw new ResourceNotFoundException("Endpoint not found");
                 }
@@ -246,7 +246,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Services {
         public Task<T> ExecuteServiceAsync<T>(ConnectionModel connection,
             CredentialModel elevation, int priority, Func<Session, Task<T>> service,
             TimeSpan? timeout, CancellationToken ct, Func<Exception, bool> handler) {
-            if (connection.Endpoint == null) {
+            if (connection.Endpoint is null) {
                 throw new ArgumentNullException(nameof(connection));
             }
             if (string.IsNullOrEmpty(connection.Endpoint?.Url)) {
@@ -496,7 +496,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Services {
             // lookup for an existing certificate in the configured store
             var ownCertificate = await _appConfig.SecurityConfiguration
                 .ApplicationCertificate.Find(true).ConfigureAwait(false);
-            if (ownCertificate == null) {
+            if (ownCertificate is null) {
                 //
                 // Work around windows issue and lookup application certificate also on
                 // directory if configured.  This is needed for container persistence.
@@ -529,7 +529,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Services {
                 }
             }
 
-            if (ownCertificate == null) {
+            if (ownCertificate is null) {
 
                 _logger.Information("Application own certificate not found. " +
                     "Creating a new self-signed certificate with default settings...");
@@ -569,7 +569,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Services {
         /// <param name="newCertificate"></param>
         private async Task SetOwnCertificateAsync(X509Certificate2 newCertificate) {
 
-            if (newCertificate == null || !newCertificate.HasPrivateKey) {
+            if (newCertificate is null || !newCertificate.HasPrivateKey) {
                 throw new ArgumentException("Empty or invalid certificate");
             }
 

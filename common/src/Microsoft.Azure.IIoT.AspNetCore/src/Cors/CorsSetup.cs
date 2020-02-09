@@ -63,7 +63,7 @@ namespace Microsoft.Azure.IIoT.AspNetCore.Cors {
         /// <param name="specific"></param>
         private void Configure(string name, string[] policies, Action all,
             Action<string[]> specific) {
-            if (policies == null) {
+            if (policies is null) {
                 _log.Information("No setting for CORS {name} policy was found, ignore", name);
             }
             else if (policies.Contains("*")) {
@@ -84,7 +84,7 @@ namespace Microsoft.Azure.IIoT.AspNetCore.Cors {
             try {
                 var model = JsonConvert.DeserializeObject<CorsWhitelistModel>(
                     _config.CorsWhitelist);
-                if (model == null) {
+                if (model is null) {
                     _log.Error("Invalid CORS whitelist {whitelist}. Ignored",
                         _config.CorsWhitelist);
                 }

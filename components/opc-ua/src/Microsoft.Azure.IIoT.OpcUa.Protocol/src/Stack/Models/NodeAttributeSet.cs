@@ -331,7 +331,7 @@ namespace Opc.Ua.Models {
                 }
                 return null;
             }
-            set => _attributes.AddOrUpdate(Attributes.Value, value == null ?
+            set => _attributes.AddOrUpdate(Attributes.Value, value is null ?
                 null : new DataValue(value.Value));
         }
 
@@ -383,7 +383,7 @@ namespace Opc.Ua.Models {
                 if (_attributes.TryGetValue(attributeId, out var result) && result != null) {
                     value = result.WrappedValue.Value;
                 }
-                if (value == null) {
+                if (value is null) {
                     value = _attributeMap.GetDefault(NodeClass, attributeId, ref optional);
                 }
                 _attributeMap.Encode(encoder, attributeId, value);

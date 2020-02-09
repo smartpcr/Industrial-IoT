@@ -75,10 +75,10 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Controllers {
         /// <returns></returns>
         public async Task<BrowseResponseApiModel> BrowseAsync(
             EndpointApiModel endpoint, BrowseRequestInternalApiModel request) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
-            if (endpoint == null) {
+            if (endpoint is null) {
                 throw new ArgumentNullException(nameof(endpoint));
             }
             var result = await _browse.NodeBrowseFirstAsync(
@@ -94,10 +94,10 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Controllers {
         /// <returns></returns>
         public async Task<BrowseNextResponseApiModel> BrowseNextAsync(
             EndpointApiModel endpoint, BrowseNextRequestInternalApiModel request) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
-            if (endpoint == null) {
+            if (endpoint is null) {
                 throw new ArgumentNullException(nameof(endpoint));
             }
             var result = await _browse.NodeBrowseNextAsync(
@@ -113,10 +113,10 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Controllers {
         /// <returns></returns>
         public async Task<BrowsePathResponseApiModel> BrowsePathAsync(
             EndpointApiModel endpoint, BrowsePathRequestInternalApiModel request) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
-            if (endpoint == null) {
+            if (endpoint is null) {
                 throw new ArgumentNullException(nameof(endpoint));
             }
             var result = await _browse.NodeBrowsePathAsync(
@@ -132,10 +132,10 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Controllers {
         /// <returns></returns>
         public async Task<ValueReadResponseApiModel> ValueReadAsync(
             EndpointApiModel endpoint, ValueReadRequestApiModel request) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
-            if (endpoint == null) {
+            if (endpoint is null) {
                 throw new ArgumentNullException(nameof(endpoint));
             }
             var result = await _nodes.NodeValueReadAsync(
@@ -151,10 +151,10 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Controllers {
         /// <returns></returns>
         public async Task<ValueWriteResponseApiModel> ValueWriteAsync(
             EndpointApiModel endpoint, ValueWriteRequestApiModel request) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
-            if (endpoint == null) {
+            if (endpoint is null) {
                 throw new ArgumentNullException(nameof(endpoint));
             }
             var result = await _nodes.NodeValueWriteAsync(
@@ -170,10 +170,10 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Controllers {
         /// <returns></returns>
         public async Task<MethodMetadataResponseApiModel> MethodMetadataAsync(
             EndpointApiModel endpoint, MethodMetadataRequestApiModel request) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
-            if (endpoint == null) {
+            if (endpoint is null) {
                 throw new ArgumentNullException(nameof(endpoint));
             }
             var result = await _nodes.NodeMethodGetMetadataAsync(
@@ -189,10 +189,10 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Controllers {
         /// <returns></returns>
         public async Task<MethodCallResponseApiModel> MethodCallAsync(
             EndpointApiModel endpoint, MethodCallRequestApiModel request) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
-            if (endpoint == null) {
+            if (endpoint is null) {
                 throw new ArgumentNullException(nameof(endpoint));
             }
             var result = await _nodes.NodeMethodCallAsync(
@@ -208,7 +208,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Controllers {
         /// <returns></returns>
         public async Task<ReadResponseApiModel> NodeReadAsync(
             EndpointApiModel endpoint, ReadRequestApiModel request) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             var result = await _nodes.NodeReadAsync(
@@ -224,7 +224,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Controllers {
         /// <returns></returns>
         public async Task<WriteResponseApiModel> NodeWriteAsync(
             EndpointApiModel endpoint, WriteRequestApiModel request) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             var result = await _nodes.NodeWriteAsync(
@@ -240,7 +240,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Controllers {
         /// <returns></returns>
         public async Task<HistoryReadResponseApiModel<VariantValue>> HistoryReadAsync(
             EndpointApiModel endpoint, HistoryReadRequestApiModel<VariantValue> request) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             var result = await _historian.HistoryReadAsync(
@@ -256,7 +256,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Controllers {
         /// <returns></returns>
         public async Task<HistoryReadNextResponseApiModel<VariantValue>> HistoryReadNextAsync(
             EndpointApiModel endpoint, HistoryReadNextRequestApiModel request) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             var result = await _historian.HistoryReadNextAsync(
@@ -272,7 +272,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Controllers {
         /// <returns></returns>
         public async Task<HistoryUpdateResponseApiModel> HistoryUpdateAsync(
             EndpointApiModel endpoint, HistoryUpdateRequestApiModel<VariantValue> request) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             var result = await _historian.HistoryUpdateAsync(
@@ -287,7 +287,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Controllers {
         /// <returns></returns>
         public async Task<byte[]> GetEndpointCertificateAsync(
             EndpointApiModel endpoint) {
-            if (endpoint == null) {
+            if (endpoint is null) {
                 throw new ArgumentNullException(nameof(endpoint));
             }
             var result = await _discovery.GetEndpointCertificateAsync(

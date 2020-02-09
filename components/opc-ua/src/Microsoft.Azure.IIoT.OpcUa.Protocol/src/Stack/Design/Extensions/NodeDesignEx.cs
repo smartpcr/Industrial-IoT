@@ -120,7 +120,7 @@ namespace Opc.Ua.Design.Schema {
             if (string.IsNullOrEmpty(childName)) {
                 throw new ArgumentNullException(nameof(childName));
             }
-            if (parent?.SymbolicId == null) {
+            if (parent?.SymbolicId is null) {
                 throw new ArgumentNullException(nameof(parent));
             }
             return new XmlQualifiedName(CreateSymbolicId(parent.SymbolicId.Name, childName),
@@ -165,7 +165,7 @@ namespace Opc.Ua.Design.Schema {
         /// <param name="namespaceUris"></param>
         /// <returns></returns>
         public static NodeId GetNodeId(this NodeDesign node, NamespaceTable namespaceUris) {
-            if (node == null) {
+            if (node is null) {
                 return NodeId.Null;
             }
             if (!string.IsNullOrEmpty(node.StringId)) {

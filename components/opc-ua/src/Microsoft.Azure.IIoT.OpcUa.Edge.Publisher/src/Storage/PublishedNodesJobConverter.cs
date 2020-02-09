@@ -68,7 +68,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Publisher.Models {
         /// <returns></returns>
         private IEnumerable<WriterGroupJobModel> ToWriterGroupJobs(
             IEnumerable<PublishedNodesEntryModel> items, LegacyCliModel legacyCliModel) {
-            if (items == null) {
+            if (items is null) {
                 return Enumerable.Empty<WriterGroupJobModel>();
             }
             return items
@@ -108,7 +108,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Publisher.Models {
                                     SamplingInterval = node.OpcSamplingIntervalTimespan ?? legacyCliModel.DefaultSamplingInterval ?? (TimeSpan?)null
 
                                     // TODO: Link all to server time sampled at heartbeat interval
-                                    // HeartbeatInterval = opcNode.HeartbeatInterval == null ? (TimeSpan?)null :
+                                    // HeartbeatInterval = opcNode.HeartbeatInterval is null ? (TimeSpan?)null :
                                     //    TimeSpan.FromMilliseconds(opcNode.HeartbeatInterval.Value),
                                     // SkipFirst = opcNode.SkipFirst,
                                     // DisplayName = opcNode.DisplayName
@@ -119,7 +119,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Publisher.Models {
                 .SelectMany(dataSetSourceBatches => dataSetSourceBatches
                     .Select(dataSetSource => new WriterGroupJobModel {
                         MessagingMode = MessagingMode.Samples,
-                        Engine = _config == null ? null : new EngineConfigurationModel {
+                        Engine = _config is null ? null : new EngineConfigurationModel {
                             BatchSize = _config.BatchSize,
                             DiagnosticsInterval = _config.DiagnosticsInterval
                         },
@@ -181,7 +181,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Publisher.Models {
             var user = entry.Username;
             var password = entry.Password;
             if (string.IsNullOrEmpty(user)) {
-                if (_cryptoProvider == null || string.IsNullOrEmpty(entry.EncryptedAuthUsername)) {
+                if (_cryptoProvider is null || string.IsNullOrEmpty(entry.EncryptedAuthUsername)) {
                     return null;
                 }
 

@@ -22,7 +22,7 @@ namespace Microsoft.Azure.IIoT.Hub.Services {
         /// <param name="unknown"></param>
         public IoTHubDeviceEventHandler(IEnumerable<IDeviceTelemetryHandler> handlers,
             IUnknownEventHandler unknown = null) {
-            if (handlers == null) {
+            if (handlers is null) {
                 throw new ArgumentNullException(nameof(handlers));
             }
             _handlers = handlers.ToDictionary(h => h.MessageSchema.ToLowerInvariant(), h => h);

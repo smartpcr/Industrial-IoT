@@ -1146,36 +1146,35 @@ namespace Microsoft.Azure.IIoT.OpcUa.Testing.Tests {
             // Assert
             Assert.Collection(result.Results,
                 arg => {
-                    Assert.Equal((string)input[0].Value, (string)arg.Value);
+                    Assert.Equal(input[0].Value, arg.Value);
                     Assert.Equal(input[0].DataType, arg.DataType);
                 },
                 arg => {
-                    Assert.Equal((string)input[1].Value, (string)arg.Value);
+                    Assert.Equal(input[1].Value, arg.Value);
                     Assert.Equal(input[1].DataType, arg.DataType);
                 },
                 arg => {
-                    Assert.Equal((string)input[2].Value, (string)arg.Value);
+                    Assert.Equal(input[2].Value, arg.Value);
                     Assert.Equal(input[2].DataType, arg.DataType);
                 },
                 arg => {
-                    Assert.Equal((string)input[3].Value, (string)arg.Value);
+                    Assert.Equal(input[3].Value, arg.Value);
                     Assert.Equal(input[3].DataType, arg.DataType);
                 },
                 arg => {
-                    Assert.Equal(input[4].Value.ToString(Serializers.Formatting.None),
-                        arg.Value.ToString(Serializers.Formatting.None));
+                    Assert.Equal(input[4].Value, arg.Value);
                     Assert.Equal(input[4].DataType, arg.DataType);
                 },
                 arg => {
-                    Assert.Equal((string)input[5].Value, (string)arg.Value);
+                    Assert.Equal(input[5].Value, arg.Value);
                     Assert.Equal(input[5].DataType, arg.DataType);
                 },
                 arg => {
-                    Assert.Equal((string)input[6].Value, (string)arg.Value);
+                    Assert.Equal(input[6].Value, arg.Value);
                     Assert.Equal(input[6].DataType, arg.DataType);
                 },
                 arg => {
-                    Assert.Equal((string)input[7].Value, (string)arg.Value);
+                    Assert.Equal(input[7].Value, arg.Value);
                     Assert.Equal(input[7].DataType, arg.DataType);
                 },
                 arg => {

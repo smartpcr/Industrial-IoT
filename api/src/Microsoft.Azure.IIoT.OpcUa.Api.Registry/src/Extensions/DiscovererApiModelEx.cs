@@ -18,7 +18,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Models {
         /// <param name="isPatch"></param>
         public static DiscovererApiModel Patch(this DiscovererApiModel update,
             DiscovererApiModel discoverer, bool isPatch = false) {
-            if (discoverer == null) {
+            if (discoverer is null) {
                 return update;
             }
             if (!isPatch || update.Connected != null) {

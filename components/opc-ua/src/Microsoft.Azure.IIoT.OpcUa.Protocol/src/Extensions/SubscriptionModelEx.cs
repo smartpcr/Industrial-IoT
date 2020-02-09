@@ -19,7 +19,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Models {
         /// <param name="model"></param>
         /// <returns></returns>
         public static SubscriptionModel Clone(this SubscriptionModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new SubscriptionModel {

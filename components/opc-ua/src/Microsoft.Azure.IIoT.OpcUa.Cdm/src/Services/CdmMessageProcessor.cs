@@ -94,10 +94,10 @@ namespace Microsoft.Azure.IIoT.OpcUa.Cdm.Services {
             Manifest = await _cdmCorpus.FetchObjectAsync<CdmManifestDefinition>(
                 "adls:/model.json");
 
-            if (Manifest == null) {
+            if (Manifest is null) {
                 //  no manifest loaded from the storage
                 var adlsRoot = _cdmCorpus.Storage.FetchRootFolder("adls");
-                if (adlsRoot == null) {
+                if (adlsRoot is null) {
                     // unable to retrieve the root folder
                     return;
                 }
@@ -163,12 +163,12 @@ namespace Microsoft.Azure.IIoT.OpcUa.Cdm.Services {
                     _logger.Information("End sending processed CDM data - empty buffer");
                     return;
                 }
-                if (Manifest == null) {
+                if (Manifest is null) {
                     _logger.Warning("Manifest is not assigned yet. Retry ... ");
                     await OpenAsync();
                 }
                 var entityDeclaration = Manifest.Entities.Item(kPublisherSampleEntityName);
-                if (entityDeclaration == null) {
+                if (entityDeclaration is null) {
                     // failed to load the cdm model
                     _logger.Error("Failed to load the entity declaration");
                 }

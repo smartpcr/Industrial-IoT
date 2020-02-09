@@ -37,7 +37,7 @@ namespace Microsoft.Azure.IIoT.Diagnostics {
         /// <param name="addConsole"></param>
         /// <returns></returns>
         public static ILogger Create(LogEventLevel? level = null, bool addConsole = true) {
-            if (level == null) {
+            if (level is null) {
 #if DEBUG
                 level = LogEventLevel.Debug;
 #else

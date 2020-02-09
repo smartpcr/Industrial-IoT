@@ -209,7 +209,7 @@ namespace Opc.Ua.Models {
         /// <param name="attributeId"></param>
         /// <returns></returns>
         public void Validate(NodeClass nodeClass, uint attributeId) {
-            if (attributeId > 32 || _map[NodeClassId(nodeClass), attributeId] == null) {
+            if (attributeId > 32 || _map[NodeClassId(nodeClass), attributeId] is null) {
                 throw new ServiceResultException(StatusCodes.BadNodeAttributesInvalid);
             }
         }
@@ -393,7 +393,7 @@ namespace Opc.Ua.Models {
                         }
                         else {
                             encoder.WriteVariant(field,
-                                value == null ? Variant.Null : new Variant(value));
+                                value is null ? Variant.Null : new Variant(value));
                         }
                         break;
                     default:

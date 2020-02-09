@@ -149,7 +149,7 @@ namespace Opc.Ua.Design.Schema {
         /// </summary>
         public bool WriteTemplate(GeneratorContext context) {
             // ensure context is not null.
-            if (context == null) {
+            if (context is null) {
                 context = new GeneratorContext();
             }
 
@@ -215,7 +215,7 @@ namespace Opc.Ua.Design.Schema {
                     }
 
                     // nothing found.
-                    if (token == null) {
+                    if (token is null) {
                         continue;
                     }
 
@@ -224,7 +224,7 @@ namespace Opc.Ua.Design.Schema {
                         // skip the token if no items to write.
                         var definition = Templates[token];
 
-                        if (definition == null || definition.Targets == null || definition.Targets.Count == 0) {
+                        if (definition is null || definition.Targets is null || definition.Targets.Count == 0) {
                             found = true;
                             line = line.Substring(index + token.Length);
                             index = -1;
@@ -447,7 +447,7 @@ namespace Opc.Ua.Design.Schema {
                 var templatePath = definition.Load(this, context);
 
                 // skip item if no template specified.
-                if (templatePath == null) {
+                if (templatePath is null) {
                     context.Index++;
                     continue;
                 }

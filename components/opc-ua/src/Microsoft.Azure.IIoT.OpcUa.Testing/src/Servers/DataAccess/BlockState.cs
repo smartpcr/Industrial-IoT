@@ -123,7 +123,7 @@ namespace DataAccess {
 
             var block = system.FindBlock(_blockId);
 
-            if (block == null) {
+            if (block is null) {
                 return StatusCodes.BadNodeIdUnknown;
             }
 

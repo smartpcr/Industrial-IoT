@@ -44,7 +44,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
             var device = await _iothub.GetAsync(deviceId, null, ct);
             var registration = device.ToEntityRegistration()
                 as GatewayRegistration;
-            if (registration == null) {
+            if (registration is null) {
                 throw new ResourceNotFoundException(
                     $"{gatewayId} is not a gateway registration.");
             }
@@ -78,7 +78,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
         /// <inheritdoc/>
         public async Task UpdateGatewayAsync(string gatewayId,
             GatewayUpdateModel request, CancellationToken ct) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             if (string.IsNullOrEmpty(gatewayId)) {
@@ -97,7 +97,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
                     }
 
                     var registration = twin.ToEntityRegistration(true) as GatewayRegistration;
-                    if (registration == null) {
+                    if (registration is null) {
                         throw new ResourceNotFoundException(
                             $"{gatewayId} is not a gateway registration.");
                     }

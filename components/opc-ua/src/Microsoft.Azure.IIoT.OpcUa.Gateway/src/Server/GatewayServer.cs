@@ -116,7 +116,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Gateway.Server {
 
         /// <inheritdoc/>
         public void Register(EndpointDescriptionCollection endpoints) {
-            if (endpoints == null) {
+            if (endpoints is null) {
                 throw new ArgumentNullException(nameof(endpoints));
             }
 
@@ -134,7 +134,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Gateway.Server {
 
         /// <inheritdoc/>
         public void Unregister(EndpointDescriptionCollection endpoints) {
-            if (endpoints == null) {
+            if (endpoints is null) {
                 throw new ArgumentNullException(nameof(endpoints));
             }
             foreach (var ep in _endpoints.ToList()) {
@@ -192,7 +192,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Gateway.Server {
                     e.SecurityMode == endpoint.SecurityMode &&
                     e.TransportProfileUri == endpoint.TransportProfileUri &&
                     e.SecurityPolicyUri == endpoint.SecurityPolicyUri);
-                if (endpoint == null) {
+                if (endpoint is null) {
                     throw new ServiceResultException(StatusCodes.BadTcpEndpointUrlInvalid);
                 }
                 // check the server uri to connect to through the gateway matches.
@@ -305,7 +305,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Gateway.Server {
             bool deleteSubscriptions) {
             var context = OnRequestBegin(requestHeader, RequestType.CloseSession);
             try {
-                if (context.Session == null) {
+                if (context.Session is null) {
                     throw new ServiceResultException(StatusCodes.BadSessionIdInvalid);
                 }
                 Sessions.CloseSession(context.Session.Id);
@@ -358,7 +358,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Gateway.Server {
             out DiagnosticInfoCollection diagnosticInfos) {
             var context = OnRequestBegin(requestHeader, RequestType.Browse);
             try {
-                if (nodesToBrowse == null || nodesToBrowse.Count == 0) {
+                if (nodesToBrowse is null || nodesToBrowse.Count == 0) {
                     throw new ServiceResultException(StatusCodes.BadNothingToDo);
                 }
                 results = new BrowseResultCollection(LinqEx.Repeat(
@@ -392,7 +392,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Gateway.Server {
             out DiagnosticInfoCollection diagnosticInfos) {
             var context = OnRequestBegin(requestHeader, RequestType.BrowseNext);
             try {
-                if (continuationPoints == null || continuationPoints.Count == 0) {
+                if (continuationPoints is null || continuationPoints.Count == 0) {
                     throw new ServiceResultException(StatusCodes.BadNothingToDo);
                 }
                 results = new BrowseResultCollection(LinqEx.Repeat(
@@ -432,7 +432,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Gateway.Server {
                 RequestType.TranslateBrowsePathsToNodeIds);
 
             try {
-                if (browsePaths == null || browsePaths.Count == 0) {
+                if (browsePaths is null || browsePaths.Count == 0) {
                     throw new ServiceResultException(StatusCodes.BadNothingToDo);
                 }
                 results = new BrowsePathResultCollection(LinqEx.Repeat(
@@ -467,7 +467,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Gateway.Server {
             out DiagnosticInfoCollection diagnosticInfos) {
             var context = OnRequestBegin(requestHeader, RequestType.Read);
             try {
-                if (nodesToRead == null || nodesToRead.Count == 0) {
+                if (nodesToRead is null || nodesToRead.Count == 0) {
                     throw new ServiceResultException(StatusCodes.BadNothingToDo);
                 }
                 results = new DataValueCollection(LinqEx.Repeat(
@@ -501,7 +501,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Gateway.Server {
             var context = OnRequestBegin(requestHeader, RequestType.Write);
 
             try {
-                if (nodesToWrite == null || nodesToWrite.Count == 0) {
+                if (nodesToWrite is null || nodesToWrite.Count == 0) {
                     throw new ServiceResultException(StatusCodes.BadNothingToDo);
                 }
 
@@ -536,7 +536,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Gateway.Server {
             out DiagnosticInfoCollection diagnosticInfos) {
             var context = OnRequestBegin(requestHeader, RequestType.Call);
             try {
-                if (methodsToCall == null || methodsToCall.Count == 0) {
+                if (methodsToCall is null || methodsToCall.Count == 0) {
                     throw new ServiceResultException(StatusCodes.BadNothingToDo);
                 }
 
@@ -571,7 +571,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Gateway.Server {
             out DiagnosticInfoCollection diagnosticInfos) {
             var context = OnRequestBegin(requestHeader, RequestType.HistoryRead);
             try {
-                if (nodesToRead == null || nodesToRead.Count == 0) {
+                if (nodesToRead is null || nodesToRead.Count == 0) {
                     throw new ServiceResultException(StatusCodes.BadNothingToDo);
                 }
                 results = new HistoryReadResultCollection(LinqEx.Repeat(
@@ -606,7 +606,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Gateway.Server {
             out DiagnosticInfoCollection diagnosticInfos) {
             var context = OnRequestBegin(requestHeader, RequestType.HistoryUpdate);
             try {
-                if (historyUpdateDetails == null || historyUpdateDetails.Count == 0) {
+                if (historyUpdateDetails is null || historyUpdateDetails.Count == 0) {
                     throw new ServiceResultException(StatusCodes.BadNothingToDo);
                 }
                 results = new HistoryUpdateResultCollection(LinqEx.Repeat(
@@ -640,7 +640,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Gateway.Server {
             ValidateRequest(requestHeader);
 
             var channelContext = SecureChannelContext.Current;
-            if (endpointUrl == null) {
+            if (endpointUrl is null) {
                 endpointUrl = channelContext?.EndpointDescription?.EndpointUrl;
             }
 
@@ -655,7 +655,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Gateway.Server {
             ValidateRequest(requestHeader);
 
             var channelContext = SecureChannelContext.Current;
-            if (endpointUrl == null) {
+            if (endpointUrl is null) {
                 endpointUrl = channelContext?.EndpointDescription?.EndpointUrl;
             }
 
@@ -682,7 +682,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Gateway.Server {
                 throw new ServiceResultException(error);
             }
             // check for stopped
-            if (_requestState == null) {
+            if (_requestState is null) {
                 throw new ServiceResultException(StatusCodes.BadServerHalted);
             }
             if (_serverState != ServerState.Running) {
@@ -701,7 +701,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Gateway.Server {
             string endpointUrl, StringCollection serverUris) {
             IEnumerable<ApplicationInfoModel> applications;
             var url = Utils.ParseUri(endpointUrl);
-            if (url == null) {
+            if (url is null) {
                 return new ApplicationDescriptionCollection();
             }
             if (serverUris != null && serverUris.Count > 0) {
@@ -739,7 +739,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Gateway.Server {
             var server = ToApplicationDescription(registration.Application);
             var endpoints = _endpoints.SelectMany(ep => {
                 return registration.Endpoints
-                    .Where(t => endpointId == null || t.Id == endpointId)
+                    .Where(t => endpointId is null || t.Id == endpointId)
                     .Select(t => new EndpointDescription {
                         Server = server,
                         EndpointUrl = ToTwinUri(ep, applicationId, t.Id)
@@ -755,7 +755,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Gateway.Server {
             });
             // Filter from transports
             return new EndpointDescriptionCollection(endpoints
-                .Where(e => profileUris == null || profileUris.Count == 0 ||
+                .Where(e => profileUris is null || profileUris.Count == 0 ||
                     profileUris.Contains(e.TransportProfileUri)));
         }
 
@@ -826,7 +826,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Gateway.Server {
                     results[i] = new BrowseResult {
                         StatusCode = statusCode,
                         ContinuationPoint = response.ContinuationToken?.DecodeAsBase64(),
-                        References = references == null ? null :
+                        References = references is null ? null :
                             new ReferenceDescriptionCollection(references)
                     };
                 }
@@ -897,7 +897,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Gateway.Server {
                     results[i] = new BrowseResult {
                         StatusCode = statusCode,
                         ContinuationPoint = response.ContinuationToken?.DecodeAsBase64(),
-                        References = references == null ? null :
+                        References = references is null ? null :
                             new ReferenceDescriptionCollection(references)
                     };
                 }
@@ -959,7 +959,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Gateway.Server {
                         });
                     results[i] = new BrowsePathResult {
                         StatusCode = statusCode,
-                        Targets = targets == null ? null :
+                        Targets = targets is null ? null :
                             new BrowsePathTargetCollection(targets)
                     };
                 }
@@ -1024,7 +1024,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Gateway.Server {
 
                     results[i] = new CallMethodResult {
                         StatusCode = statusCode,
-                        OutputArguments = outputs == null ? null :
+                        OutputArguments = outputs is null ? null :
                             new VariantCollection(outputs)
                     };
                 }
@@ -1285,14 +1285,14 @@ namespace Microsoft.Azure.IIoT.OpcUa.Gateway.Server {
             var elevation = GetRemoteCredentialsFromContext(context, codec.Serializer);
             for (var i = 0; i < nodesToRead.Count; i++) {
                 try {
-                    if (nodesToRead[i].ContinuationPoint == null) {
+                    if (nodesToRead[i].ContinuationPoint is null) {
                         // Call read first
                         var response = await _historian.HistoryReadAsync(endpointId,
                             new HistoryReadRequestModel<VariantValue> {
                                 NodeId = nodesToRead[i].NodeId
                                     .AsString(context.Session.MessageContext),
                                 IndexRange = nodesToRead[i].IndexRange,
-                                Details = historyReadDetails == null ? null :
+                                Details = historyReadDetails is null ? null :
                                     codec.Encode(new Variant(historyReadDetails), out var tmp),
                                 Header = new RequestHeaderModel {
                                     Diagnostics = diagnostics,
@@ -1308,7 +1308,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Gateway.Server {
                         results[i] = new HistoryReadResult {
                             StatusCode = statusCode,
                             ContinuationPoint = response.ContinuationToken?.DecodeAsBase64(),
-                            HistoryData = response.History == null ? null : (ExtensionObject)
+                            HistoryData = response.History is null ? null : (ExtensionObject)
                                 codec.Decode(response.History, BuiltInType.ExtensionObject).Value
                         };
                     }
@@ -1333,7 +1333,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Gateway.Server {
                         results[i] = new HistoryReadResult {
                             StatusCode = statusCode,
                             ContinuationPoint = response.ContinuationToken?.DecodeAsBase64(),
-                            HistoryData = response.History == null ? null : (ExtensionObject)
+                            HistoryData = response.History is null ? null : (ExtensionObject)
                                 codec.Decode(response.History, BuiltInType.ExtensionObject).Value
                         };
                     }
@@ -1370,7 +1370,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Gateway.Server {
                     // Call service
                     var response = await _historian.HistoryUpdateAsync(endpointId,
                         new HistoryUpdateRequestModel<VariantValue> {
-                            Details = historyUpdateDetails == null ? null :
+                            Details = historyUpdateDetails is null ? null :
                                 codec.Encode(new Variant(historyUpdateDetails), out var tmp),
                             Header = new RequestHeaderModel {
                                 Diagnostics = diagnostics,
@@ -1426,7 +1426,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Gateway.Server {
         /// <param name="endpointDescription"></param>
         /// <returns></returns>
         private string ToEndpointId(EndpointDescription endpointDescription) {
-            if (endpointDescription == null) {
+            if (endpointDescription is null) {
                 throw new ArgumentNullException(nameof(endpointDescription));
             }
             if (string.IsNullOrEmpty(endpointDescription.EndpointUrl)) {
@@ -1445,7 +1445,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Gateway.Server {
         /// <returns></returns>
         private static Uri ToTwinUri(EndpointDescription endpointDescription,
             string applicationId, string endpointId = null) {
-            if (endpointDescription == null) {
+            if (endpointDescription is null) {
                 throw new ArgumentNullException(nameof(endpointDescription));
             }
             if (string.IsNullOrEmpty(endpointDescription.EndpointUrl)) {
@@ -1484,7 +1484,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Gateway.Server {
                     }
                     break;
                 }
-                else if (applicationId == null) {
+                else if (applicationId is null) {
                     applicationId = segment;
                 }
                 else {
@@ -1571,7 +1571,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Gateway.Server {
 
             // Pass to request manager
             lock (_lock) {
-                if (_requestState == null) {
+                if (_requestState is null) {
                     throw new ServiceResultException(StatusCodes.BadServerHalted);
                 }
                 _requestState.RequestReceived(context);
@@ -1585,7 +1585,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Gateway.Server {
         /// <param name="context">The operation context.</param>
         internal void OnRequestComplete(RequestContextModel context) {
             lock (_lock) {
-                if (_requestState == null) {
+                if (_requestState is null) {
                     throw new ServiceResultException(StatusCodes.BadServerHalted);
                 }
                 _requestState.RequestCompleted(context);
@@ -1697,7 +1697,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Gateway.Server {
             // Use existing certificate, if it is there.
             var cert = await config.SecurityConfiguration.ApplicationCertificate
                 .Find(true);
-            if (cert == null) {
+            if (cert is null) {
                 // Create cert
 #pragma warning disable IDE0067 // Dispose objects before losing scope
                 cert = CertificateFactory.CreateCertificate(
@@ -1806,10 +1806,10 @@ namespace Microsoft.Azure.IIoT.OpcUa.Gateway.Server {
         /// <returns></returns>
         private UserTokenPolicyCollection GetUserTokenPolicies(EndpointRegistrationModel endpoint,
             EndpointDescription description) {
-            if (endpoint == null) {
+            if (endpoint is null) {
                 throw new ArgumentNullException(nameof(endpoint));
             }
-            if (description == null) {
+            if (description is null) {
                 throw new ArgumentNullException(nameof(description));
             }
 
@@ -1830,7 +1830,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Gateway.Server {
         /// <param name="sender"></param>
         /// <param name="args"></param>
         private void ValidateUserIdentityToken(object sender, UserIdentityHandlerArgs args) {
-            if (args == null) {
+            if (args is null) {
                 throw new ArgumentNullException(nameof(args));
             }
             if (!(sender is IServerSession session)) {
@@ -1839,7 +1839,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Gateway.Server {
             if (args.ValidationException != null) {
                 return; // Another handler failed already - no need to continue.
             }
-            if (args.Token == null) {
+            if (args.Token is null) {
                 args.Token = new AnonymousIdentityToken();
             }
             if (string.IsNullOrEmpty(args.Token.PolicyId)) {
@@ -1894,7 +1894,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Gateway.Server {
                                 $"Token type {args.Token?.GetType()} not supported.");
                         break;
                 }
-                if (args.ValidationException == null) {
+                if (args.ValidationException is null) {
                     // Top of stack is remote elevation - root is gateway identity
                     var newIdentities = new List<IUserIdentity> {
                         new UserIdentity(args.Token)
@@ -2028,7 +2028,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Gateway.Server {
         /// <returns></returns>
         private X509Certificate2 ValidateClientLeafCertificate(byte[] clientCertificate,
             string applicationUri, string securityPolicyUri) {
-            if (clientCertificate == null) {
+            if (clientCertificate is null) {
                 throw new ArgumentNullException(nameof(clientCertificate));
             }
             if (string.IsNullOrEmpty(securityPolicyUri)) {

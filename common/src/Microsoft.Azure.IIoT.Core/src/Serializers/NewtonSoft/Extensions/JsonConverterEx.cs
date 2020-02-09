@@ -17,7 +17,7 @@ namespace Newtonsoft.Json.Converters {
         /// <returns></returns>
         public static IList<JsonConverter> AddDefault(this IList<JsonConverter> converters,
             bool permissive = false) {
-            if (converters == null) {
+            if (converters is null) {
                 converters = new List<JsonConverter>();
             }
             converters.Add(new ExceptionConverter(permissive));

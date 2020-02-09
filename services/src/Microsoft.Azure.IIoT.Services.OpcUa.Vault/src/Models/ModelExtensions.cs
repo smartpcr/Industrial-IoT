@@ -20,7 +20,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Vault.Models {
         /// </summary>
         public static CertificateRequestQueryRequestModel ToServiceModel(
             this CertificateRequestQueryRequestApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new CertificateRequestQueryRequestModel {
@@ -35,7 +35,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Vault.Models {
         /// <param name="model"></param>
         public static CertificateRequestQueryResponseApiModel ToApiModel(
             this CertificateRequestQueryResultModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new CertificateRequestQueryResponseApiModel {
@@ -52,7 +52,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Vault.Models {
         /// <param name="model"></param>
         public static PrivateKeyApiModel ToApiModel(
             this PrivateKeyModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new PrivateKeyApiModel {
@@ -79,7 +79,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Vault.Models {
         /// <param name="model"></param>
         public static FinishSigningRequestResponseApiModel ToApiModel(
             this FinishSigningRequestResultModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new FinishSigningRequestResponseApiModel {
@@ -94,7 +94,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Vault.Models {
         /// <param name="model"></param>
         public static FinishNewKeyPairRequestResponseApiModel ToApiModel(
             this FinishNewKeyPairRequestResultModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new FinishNewKeyPairRequestResponseApiModel {
@@ -110,7 +110,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Vault.Models {
         /// <param name="model"></param>
         public static CertificateRequestRecordApiModel ToApiModel(
             this CertificateRequestRecordModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new CertificateRequestRecordApiModel {
@@ -131,7 +131,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Vault.Models {
         /// </summary>
         public static StartNewKeyPairRequestModel ToServiceModel(
             this StartNewKeyPairRequestApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new StartNewKeyPairRequestModel {
@@ -148,7 +148,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Vault.Models {
         /// <param name="model"></param>
         public static StartNewKeyPairRequestResponseApiModel ToApiModel(
             this StartNewKeyPairRequestResultModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new StartNewKeyPairRequestResponseApiModel {
@@ -162,7 +162,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Vault.Models {
         /// <returns></returns>
         public static StartSigningRequestModel ToServiceModel(
             this StartSigningRequestApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new StartSigningRequestModel {
@@ -178,7 +178,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Vault.Models {
         /// <param name="model"></param>
         public static StartSigningRequestResponseApiModel ToApiModel(
             this StartSigningRequestResultModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new StartSigningRequestResponseApiModel {
@@ -192,7 +192,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Vault.Models {
         /// <param name="model"></param>
         public static TrustGroupApiModel ToApiModel(
             this TrustGroupModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new TrustGroupApiModel {
@@ -217,7 +217,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Vault.Models {
         /// <param name="model"></param>
         public static TrustGroupRegistrationApiModel ToApiModel(
             this TrustGroupRegistrationModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new TrustGroupRegistrationApiModel {
@@ -232,7 +232,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Vault.Models {
         /// <param name="model"></param>
         public static TrustGroupRegistrationListApiModel ToApiModel(
             this TrustGroupRegistrationListModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new TrustGroupRegistrationListApiModel {
@@ -249,7 +249,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Vault.Models {
         /// <returns></returns>
         public static TrustGroupRegistrationRequestModel ToServiceModel(
             this TrustGroupRegistrationRequestApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new TrustGroupRegistrationRequestModel {
@@ -269,7 +269,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Vault.Models {
         /// <param name="model"></param>
         public static TrustGroupRegistrationResponseApiModel ToApiModel(
             this TrustGroupRegistrationResultModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new TrustGroupRegistrationResponseApiModel {
@@ -283,7 +283,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Vault.Models {
         /// <returns></returns>
         public static TrustGroupRootCreateRequestModel ToServiceModel(
             this TrustGroupRootCreateRequestApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new TrustGroupRootCreateRequestModel {
@@ -307,7 +307,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Vault.Models {
         /// <returns></returns>
         public static TrustGroupRegistrationUpdateModel ToServiceModel(
             this TrustGroupUpdateRequestApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new TrustGroupRegistrationUpdateModel {
@@ -325,7 +325,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Vault.Models {
         /// <param name="model"></param>
         public static VaultOperationContextApiModel ToApiModel(
             this VaultOperationContextModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new VaultOperationContextApiModel {
@@ -340,7 +340,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Vault.Models {
         /// <param name="model"></param>
         public static X509CertificateApiModel ToApiModel(
             this X509CertificateModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new X509CertificateApiModel {
@@ -360,7 +360,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Vault.Models {
         /// <param name="model"></param>
         public static X509CertificateChainApiModel ToApiModel(
             this X509CertificateChainModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new X509CertificateChainApiModel {
@@ -379,7 +379,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Vault.Models {
         /// <param name="model"></param>
         public static X509CertificateListApiModel ToApiModel(
             this X509CertificateListModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new X509CertificateListApiModel {
@@ -396,7 +396,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Vault.Models {
         /// <param name="model"></param>
         public static X509CrlApiModel ToApiModel(
             this X509CrlModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new X509CrlApiModel {
@@ -411,7 +411,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Vault.Models {
         /// <param name="model"></param>
         public static X509CrlChainApiModel ToApiModel(
             this X509CrlChainModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new X509CrlChainApiModel {

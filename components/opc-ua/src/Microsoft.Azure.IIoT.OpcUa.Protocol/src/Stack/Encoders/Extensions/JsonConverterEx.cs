@@ -20,7 +20,7 @@ namespace Newtonsoft.Json.Converters {
         /// <param name="converters"></param>
         /// <returns></returns>
         public static IList<JsonConverter> AddUaConverters(this IList<JsonConverter> converters) {
-            if (converters == null) {
+            if (converters is null) {
                 converters = new List<JsonConverter>();
             }
             converters.Add(new StringEnumConverter(new CamelCaseNamingStrategy(), true));

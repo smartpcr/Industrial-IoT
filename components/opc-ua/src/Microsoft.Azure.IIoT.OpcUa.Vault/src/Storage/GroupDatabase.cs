@@ -24,7 +24,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Vault.Storage {
         /// </summary>
         /// <param name="db"></param>
         public GroupDatabase(IItemContainerFactory db) {
-            if (db == null) {
+            if (db is null) {
                 throw new ArgumentNullException(nameof(db));
             }
             var container = db.OpenAsync("groups").Result;
@@ -34,7 +34,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Vault.Storage {
         /// <inheritdoc/>
         public async Task<TrustGroupRegistrationModel> AddAsync(
             TrustGroupRegistrationModel group, CancellationToken ct) {
-            if (group == null) {
+            if (group is null) {
                 throw new ArgumentNullException(nameof(group));
             }
             while (true) {
@@ -56,7 +56,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Vault.Storage {
                 throw new ArgumentNullException(nameof(groupId));
             }
             var document = await _groups.FindAsync<GroupDocument>(groupId, ct);
-            if (document == null) {
+            if (document is null) {
                 throw new ResourceNotFoundException("No such group");
             }
             return document.Value.ToServiceModel();
@@ -72,7 +72,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Vault.Storage {
             while (true) {
                 var document = await _groups.FindAsync<GroupDocument>(
                     groupId, ct);
-                if (document == null) {
+                if (document is null) {
                     throw new ResourceNotFoundException("Group does not exist");
                 }
                 var group = document.Value.Clone().ToServiceModel();
@@ -101,7 +101,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Vault.Storage {
             while (true) {
                 var document = await _groups.FindAsync<GroupDocument>(
                     groupId, ct);
-                if (document == null) {
+                if (document is null) {
                     return null;
                 }
                 var group = document.Value.ToServiceModel();

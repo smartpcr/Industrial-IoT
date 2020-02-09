@@ -121,7 +121,7 @@ namespace Microsoft.Azure.IIoT.Crypto.Models {
         /// <param name="parameters"></param>
         /// <returns></returns>
         public static EccParams Clone(this EccParams parameters) {
-            if (parameters == null) {
+            if (parameters is null) {
                 return null;
             }
             return new EccParams {
@@ -140,10 +140,10 @@ namespace Microsoft.Azure.IIoT.Crypto.Models {
         /// <param name="other"></param>
         /// <returns></returns>
         public static bool SameAs(this EccParams parameters, EccParams other) {
-            if (parameters == null) {
-                return other == null;
+            if (parameters is null) {
+                return other is null;
             }
-            if (other == null) {
+            if (other is null) {
                 return false;
             }
             if (other.Curve != parameters.Curve) {

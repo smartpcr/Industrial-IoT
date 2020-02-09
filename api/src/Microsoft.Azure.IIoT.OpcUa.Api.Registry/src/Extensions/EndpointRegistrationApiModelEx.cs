@@ -17,7 +17,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Models {
         /// <param name="isPatch"></param>
         public static EndpointRegistrationApiModel Patch(this EndpointRegistrationApiModel update,
             EndpointRegistrationApiModel endpoint, bool isPatch = false) {
-            if (endpoint == null) {
+            if (endpoint is null) {
                 return update;
             }
             if (!isPatch || update.AuthenticationMethods != null) {

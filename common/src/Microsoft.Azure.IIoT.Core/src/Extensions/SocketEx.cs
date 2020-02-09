@@ -17,7 +17,7 @@ namespace System.Net.Sockets {
         /// </summary>
         /// <param name="socket"></param>
         public static void SafeDispose(this Socket socket) {
-            if (socket == null) {
+            if (socket is null) {
                 return;
             }
             Try.Op(() => socket.Close(0));

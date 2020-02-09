@@ -48,7 +48,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin.History.Controllers {
         public async Task<HistoryUpdateResponseApiModel> HistoryDeleteValuesAtTimesAsync(
             string endpointId,
             [FromBody] [Required] HistoryUpdateRequestApiModel<DeleteValuesAtTimesDetailsApiModel> request) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             var writeResult = await _historian.HistoryDeleteValuesAtTimesAsync(
@@ -71,7 +71,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin.History.Controllers {
         public async Task<HistoryUpdateResponseApiModel> HistoryDeleteValuesAsync(
             string endpointId,
             [FromBody] [Required] HistoryUpdateRequestApiModel<DeleteValuesDetailsApiModel> request) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             var writeResult = await _historian.HistoryDeleteValuesAsync(
@@ -94,7 +94,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin.History.Controllers {
         public async Task<HistoryUpdateResponseApiModel> HistoryDeleteModifiedValuesAsync(
             string endpointId,
             [FromBody] [Required] HistoryUpdateRequestApiModel<DeleteModifiedValuesDetailsApiModel> request) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             var writeResult = await _historian.HistoryDeleteModifiedValuesAsync(
@@ -117,7 +117,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin.History.Controllers {
         public async Task<HistoryUpdateResponseApiModel> HistoryDeleteEventsAsync(
             string endpointId,
             [FromBody] [Required] HistoryUpdateRequestApiModel<DeleteEventsDetailsApiModel> request) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             var writeResult = await _historian.HistoryDeleteEventsAsync(

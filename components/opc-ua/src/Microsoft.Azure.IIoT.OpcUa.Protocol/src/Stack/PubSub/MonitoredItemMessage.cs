@@ -148,7 +148,7 @@ namespace Opc.Ua.PubSub {
             }
             if ((MessageContentMask & (uint)MonitoredItemMessageContentMask.Status) != 0) {
                 encoder.WriteString(nameof(MonitoredItemMessageContentMask.Status),
-                    Value == null ? "" : StatusCode.LookupSymbolicId(Value.StatusCode.Code));
+                    Value is null ? "" : StatusCode.LookupSymbolicId(Value.StatusCode.Code));
             }
             if ((MessageContentMask & (uint)MonitoredItemMessageContentMask.EndpointUrl) != 0) {
                 encoder.WriteString(nameof(MonitoredItemMessageContentMask.EndpointUrl), EndpointUrl);

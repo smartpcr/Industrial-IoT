@@ -73,7 +73,7 @@ namespace System.Net {
         /// <param name="endpoint"></param>
         /// <returns></returns>
         public static string TryResolve(this EndPoint endpoint) {
-            if (endpoint == null) {
+            if (endpoint is null) {
                 return null;
             }
             try {
@@ -91,7 +91,7 @@ namespace System.Net {
         /// <param name="endpoint"></param>
         /// <returns></returns>
         public static async Task<string> TryResolveAsync(this EndPoint endpoint) {
-            if (endpoint == null) {
+            if (endpoint is null) {
                 return null;
             }
             try {

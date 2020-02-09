@@ -21,12 +21,12 @@ namespace Microsoft.Azure.IIoT.Diagnostics {
         /// <param name="provider"></param>
         /// <param name="singleton"></param>
         public LoggerProviderModule(ILoggerProvider provider, bool singleton = true) {
-            if (provider == null) {
+            if (provider is null) {
                 throw new ArgumentNullException(nameof(provider));
             }
-            if (_instance == null) {
+            if (_instance is null) {
                 lock (kSingleton) {
-                    if (_instance == null) {
+                    if (_instance is null) {
                         _instance = provider;
                     }
                 }

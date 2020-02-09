@@ -24,7 +24,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Core.Models {
             if (model == that) {
                 return true;
             }
-            if (model == null || that == null) {
+            if (model is null || that is null) {
                 return false;
             }
             if (model.Count() != that.Count()) {
@@ -44,7 +44,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Core.Models {
             if (model == that) {
                 return true;
             }
-            if (model == null || that == null) {
+            if (model is null || that is null) {
                 return false;
             }
             if (model.Configuration != null && that.Configuration != null) {
@@ -65,7 +65,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Core.Models {
         /// <param name="model"></param>
         /// <returns></returns>
         public static AuthenticationMethodModel Clone(this AuthenticationMethodModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new AuthenticationMethodModel {

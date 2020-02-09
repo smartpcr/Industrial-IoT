@@ -26,7 +26,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
             if (model == that) {
                 return true;
             }
-            if (model == null || that == null) {
+            if (model is null || that is null) {
                 return false;
             }
             if (model.Count() != that.Count()) {
@@ -46,7 +46,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
             if (model == that) {
                 return true;
             }
-            if (model == null || that == null) {
+            if (model is null || that is null) {
                 return false;
             }
             return model.Endpoint.HasSameSecurityProperties(that.Endpoint) &&
@@ -64,7 +64,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
         /// <param name="model"></param>
         /// <returns></returns>
         public static EndpointRegistrationModel Clone(this EndpointRegistrationModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new EndpointRegistrationModel {
@@ -90,7 +90,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
                 return SecurityAssessment.Low;
             }
 
-            if (model.Endpoint.Certificate == null) {
+            if (model.Endpoint.Certificate is null) {
                 return SecurityAssessment.Low;
             }
 

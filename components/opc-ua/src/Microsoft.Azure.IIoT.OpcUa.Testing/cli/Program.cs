@@ -35,6 +35,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Cli {
     using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
+    using Microsoft.Azure.IIoT.Serializers;
 
     /// <summary>
     /// Test client for opc ua services
@@ -292,7 +293,7 @@ Operations (Mutually exclusive):
                 var ev = JsonConvert.DeserializeObject<DiscoveryEventModel>(
                     Encoding.UTF8.GetString(data));
                 var endpoint = ev.Registration?.Endpoint;
-                if (endpoint == null) {
+                if (endpoint is null) {
                     return;
                 }
                 try {
@@ -301,7 +302,7 @@ Operations (Mutually exclusive):
                     using (var writer = File.CreateText($"iop_{id}.json"))
                     using (var json = new JsonTextWriter(writer) {
                         AutoCompleteOnClose = true,
-                        Formatting = Formatting.Indented,
+                        Formatting = Newtonsoft.Json.Formatting.Indented,
                         DateFormatHandling = DateFormatHandling.IsoDateFormat
                     })
                     using (var encoder = new JsonEncoderEx(json, null,
@@ -328,12 +329,12 @@ Operations (Mutually exclusive):
             }
 
             /// <inheritdoc/>
-            public Task ReportAsync(string propertyId, dynamic value) {
+            public Task ReportAsync(string propertyId, VariantValue value) {
                 return Task.CompletedTask;
             }
 
             /// <inheritdoc/>
-            public Task ReportAsync(IEnumerable<KeyValuePair<string, dynamic>> properties) {
+            public Task ReportAsync(IEnumerable<KeyValuePair<string, VariantValue>> properties) {
                 return Task.CompletedTask;
             }
 
@@ -352,7 +353,7 @@ Operations (Mutually exclusive):
             using (var writer = new StreamWriter(stream))
             using (var json = new JsonTextWriter(writer) {
                 AutoCompleteOnClose = true,
-                Formatting = Formatting.Indented,
+                Formatting = Newtonsoft.Json.Formatting.Indented,
                 DateFormatHandling = DateFormatHandling.IsoDateFormat
             })
             using (var encoder = new JsonEncoderEx(json, null,
@@ -554,7 +555,8 @@ Operations (Mutually exclusive):
                                 var result = await service.NodeBrowseAsync(endpoint, request);
                                 visited.Add(request.NodeId);
                                 if (!silent) {
-                                    Console.WriteLine(JsonConvert.SerializeObject(result, Formatting.Indented));
+                                    Console.WriteLine(JsonConvert.SerializeObject(result,
+                                        Newtonsoft.Json.Formatting.Indented));
                                 }
 
                                 // Do recursive browse
@@ -583,7 +585,8 @@ Operations (Mutually exclusive):
                                                 NodeId = r.Target.NodeId
                                             });
                                         if (!silent) {
-                                            Console.WriteLine(JsonConvert.SerializeObject(result, Formatting.Indented));
+                                            Console.WriteLine(JsonConvert.SerializeObject(result,
+                                                Newtonsoft.Json.Formatting.Indented));
                                         }
                                     }
                                     catch (Exception ex) {
@@ -615,7 +618,7 @@ Operations (Mutually exclusive):
             /// <param name="endpoint"></param>
             public ServerWrapper(EndpointModel endpoint, StackLogger logger) {
                 _cts = new CancellationTokenSource();
-                if (endpoint.Url == null) {
+                if (endpoint.Url is null) {
                     _server = RunSampleServerAsync(_cts.Token, logger.Logger);
                     endpoint.Url = "opc.tcp://" + Utils.GetHostName() +
                         ":51210/UA/SampleServer";

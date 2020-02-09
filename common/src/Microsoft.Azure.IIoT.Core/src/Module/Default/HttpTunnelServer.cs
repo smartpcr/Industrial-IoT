@@ -326,7 +326,7 @@ namespace Microsoft.Azure.IIoT.Module.Default {
                 }
                 _payload[id] = payload;
                 _lastActivity = DateTime.UtcNow;
-                if (_payload.Any(p => p == null)) {
+                if (_payload.Any(p => p is null)) {
                     return false;
                 }
                 return true;

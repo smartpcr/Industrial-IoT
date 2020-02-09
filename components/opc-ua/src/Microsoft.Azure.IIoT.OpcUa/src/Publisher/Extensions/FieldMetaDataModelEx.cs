@@ -18,7 +18,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Publisher.Models {
         /// <param name="model"></param>
         /// <returns></returns>
         public static FieldMetaDataModel Clone(this FieldMetaDataModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new FieldMetaDataModel {

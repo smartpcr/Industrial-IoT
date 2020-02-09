@@ -155,7 +155,7 @@ namespace Microsoft.Azure.IIoT.Services.Processor.Telemetry {
             /// </summary>
             /// <param name="queue"></param>
             public UnknownTelemetryForwarder(IEventQueueService queue) {
-                if (queue == null) {
+                if (queue is null) {
                     throw new ArgumentNullException(nameof(queue));
                 }
                 _client = queue.OpenAsync().Result;

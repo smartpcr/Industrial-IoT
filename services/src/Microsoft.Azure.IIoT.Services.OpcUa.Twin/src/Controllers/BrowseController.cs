@@ -51,7 +51,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin.Controllers {
         [HttpPost("{endpointId}")]
         public async Task<BrowseResponseApiModel> BrowseAsync(string endpointId,
             [FromBody] [Required] BrowseRequestApiModel request) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             var browseresult = await _broser.NodeBrowseAsync(endpointId,
@@ -73,10 +73,10 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin.Controllers {
         [HttpPost("{endpointId}/next")]
         public async Task<BrowseNextResponseApiModel> BrowseNextAsync(
             string endpointId, [FromBody] [Required] BrowseNextRequestApiModel request) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
-            if (request.ContinuationToken == null) {
+            if (request.ContinuationToken is null) {
                 throw new ArgumentNullException(nameof(request.ContinuationToken));
             }
             var browseresult = await _broser.NodeBrowseNextAsync(endpointId,
@@ -99,7 +99,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin.Controllers {
         [HttpPost("{endpointId}/path")]
         public async Task<BrowsePathResponseApiModel> BrowseUsingPathAsync(string endpointId,
             [FromBody] [Required] BrowsePathRequestApiModel request) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             var browseresult = await _broser.NodeBrowsePathAsync(endpointId,

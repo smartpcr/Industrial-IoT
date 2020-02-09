@@ -51,7 +51,7 @@ namespace Microsoft.Azure.IIoT.Serializers {
         public static void Serialize(this IJsonSerializer serializer,
             object o, Stream stream, Formatting format = Formatting.None,
             Encoding encoding = null, int bufferSize = 512) {
-            if (stream == null) {
+            if (stream is null) {
                 throw new ArgumentNullException(nameof(stream));
             }
             using (var writer = new StreamWriter(stream,
@@ -69,7 +69,7 @@ namespace Microsoft.Azure.IIoT.Serializers {
         /// <returns></returns>
         public static void SerializeToRequest(this IJsonSerializer serializer,
             IHttpRequest request, object o) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             request.SetStringContent(serializer.Serialize(o));
@@ -248,7 +248,7 @@ namespace Microsoft.Azure.IIoT.Serializers {
         /// <param name="model"></param>
         /// <returns></returns>
         public static T Map<T>(this IJsonSerializer serializer, object model) {
-            if (model == null) {
+            if (model is null) {
                 return default;
             }
             return serializer.Deserialize<T>(serializer.Serialize(model));

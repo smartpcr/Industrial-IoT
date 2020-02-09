@@ -102,7 +102,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Vault.Controllers {
         [Authorize(Policy = Policies.CanManage)]
         public async Task UpdateGroupAsync(string groupId,
             [FromBody] [Required] TrustGroupUpdateRequestApiModel request) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             await _groups.UpdateGroupAsync(groupId, request.ToServiceModel());
@@ -120,7 +120,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Vault.Controllers {
         [Authorize(Policy = Policies.CanManage)]
         public async Task<TrustGroupRegistrationResponseApiModel> CreateRootAsync(
             [FromBody] [Required] TrustGroupRootCreateRequestApiModel request) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             var result = await _groups.CreateRootAsync(request.ToServiceModel());
@@ -139,7 +139,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Vault.Controllers {
         [Authorize(Policy = Policies.CanManage)]
         public async Task<TrustGroupRegistrationResponseApiModel> CreateGroupAsync(
             [FromBody] [Required] TrustGroupRegistrationRequestApiModel request) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             var result = await _groups.CreateGroupAsync(request.ToServiceModel());

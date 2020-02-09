@@ -54,7 +54,7 @@ namespace Microsoft.Azure.IIoT.Agent.Framework.Jobs {
 
             var created = false;
             var job = await _jobRepository.AddOrUpdateAsync(jobId, async model => {
-                if (model == null) {
+                if (model is null) {
                     created = true;
 
                     // Create new job
@@ -97,7 +97,7 @@ namespace Microsoft.Azure.IIoT.Agent.Framework.Jobs {
         /// </summary>
         /// <param name="model"></param>
         private static void SetDefaultValues(JobInfoModel model) {
-            if (model.Id == null) {
+            if (model.Id is null) {
                 model.Id = Guid.NewGuid().ToString();
             }
             model.LifetimeData = new JobLifetimeDataModel {
@@ -106,7 +106,7 @@ namespace Microsoft.Azure.IIoT.Agent.Framework.Jobs {
                 Updated = DateTime.UtcNow,
                 ProcessingStatus = new Dictionary<string, ProcessingStatusModel>()
             };
-            if (model.RedundancyConfig == null) {
+            if (model.RedundancyConfig is null) {
                 model.RedundancyConfig = new RedundancyConfigModel {
                     DesiredActiveAgents = 1,
                     DesiredPassiveAgents = 0

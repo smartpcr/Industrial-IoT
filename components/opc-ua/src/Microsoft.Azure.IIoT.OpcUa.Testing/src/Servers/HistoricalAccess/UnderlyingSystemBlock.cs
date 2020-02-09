@@ -181,7 +181,7 @@ namespace HistoricalAccess {
                 // find the tag.
                 tag = FindTag(tagName);
 
-                if (tag == null) {
+                if (tag is null) {
                     return StatusCodes.BadNodeIdUnknown;
                 }
 
@@ -255,7 +255,7 @@ namespace HistoricalAccess {
                     onTagsChanged = OnTagsChanged;
 
                     // do nothing if not monitored.
-                    if (onTagsChanged == null) {
+                    if (onTagsChanged is null) {
                         return;
                     }
 

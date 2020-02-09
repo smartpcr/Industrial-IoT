@@ -166,7 +166,7 @@ namespace Microsoft.Azure.IIoT.Net {
         /// <returns></returns>
         public static uint ToUInt32(this byte[] data, bool netOrder = false,
             int offset = 0) {
-            if (data == null) {
+            if (data is null) {
                 return 0;
             }
             var value = BitConverter.ToUInt32(data, offset);
@@ -185,7 +185,7 @@ namespace Microsoft.Azure.IIoT.Net {
         /// <returns></returns>
         public static ushort ToUInt16(this byte[] data, bool netOrder = false,
             int offset = 0) {
-            if (data == null) {
+            if (data is null) {
                 return 0;
             }
             var value = BitConverter.ToUInt16(data, offset);
@@ -204,7 +204,7 @@ namespace Microsoft.Azure.IIoT.Net {
         /// <returns></returns>
         public static string ToEncodedString(this byte[] data,
             Encoding encoding = null, int offset = 0) {
-            if (data == null) {
+            if (data is null) {
                 return string.Empty;
             }
             try {

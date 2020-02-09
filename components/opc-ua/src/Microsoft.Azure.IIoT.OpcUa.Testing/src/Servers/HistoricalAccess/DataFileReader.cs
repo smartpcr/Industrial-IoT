@@ -95,7 +95,7 @@ namespace HistoricalAccess {
                     var line = reader.ReadLine();
 
                     // check for end or error.
-                    if (line == null) {
+                    if (line is null) {
                         break;
                     }
 
@@ -204,7 +204,7 @@ namespace HistoricalAccess {
             // get the data set to use.
             var dataset = item.DataSet;
 
-            if (dataset == null) {
+            if (dataset is null) {
                 dataset = CreateDataSet();
             }
 
@@ -271,7 +271,7 @@ namespace HistoricalAccess {
             }
 
             // create a random dataset if nothing found in the archive,
-            if (item.DataSet == null || item.DataSet.Tables[0].Rows.Count == 0) {
+            if (item.DataSet is null || item.DataSet.Tables[0].Rows.Count == 0) {
                 CreateData(item);
             }
 
@@ -315,7 +315,7 @@ namespace HistoricalAccess {
                 var line = reader.ReadLine();
 
                 // check for end or error.
-                if (line == null) {
+                if (line is null) {
                     break;
                 }
 
@@ -492,7 +492,7 @@ namespace HistoricalAccess {
             value = string.Empty;
             var field = ExtractField(ref line);
 
-            if (field == null) {
+            if (field is null) {
                 return true;
             }
 
@@ -507,7 +507,7 @@ namespace HistoricalAccess {
             value = 0;
             var field = ExtractField(ref line);
 
-            if (field == null) {
+            if (field is null) {
                 return true;
             }
 
@@ -529,7 +529,7 @@ namespace HistoricalAccess {
             value = 0;
             var field = ExtractField(ref line);
 
-            if (field == null) {
+            if (field is null) {
                 return true;
             }
 
@@ -556,7 +556,7 @@ namespace HistoricalAccess {
             value = BuiltInType.String;
             var field = ExtractField(ref line);
 
-            if (field == null) {
+            if (field is null) {
                 return true;
             }
 
@@ -578,7 +578,7 @@ namespace HistoricalAccess {
             value = Variant.Null;
             var field = line;
 
-            if (field == null) {
+            if (field is null) {
                 return true;
             }
 

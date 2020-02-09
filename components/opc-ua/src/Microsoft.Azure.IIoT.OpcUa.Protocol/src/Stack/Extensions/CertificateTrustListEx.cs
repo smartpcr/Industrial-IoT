@@ -21,7 +21,7 @@ namespace Opc.Ua {
         /// <returns></returns>
         public static void Remove(this CertificateTrustList trustList,
             IEnumerable<X509Certificate2> certificates) {
-            if (certificates == null) {
+            if (certificates is null) {
                 throw new ArgumentNullException(nameof(certificates));
             }
             using (var trustedStore = trustList.OpenStore()) {
@@ -58,7 +58,7 @@ namespace Opc.Ua {
         /// <returns></returns>
         public static void Add(this CertificateTrustList trustList,
             IEnumerable<X509Certificate2> certificates, bool noCopy = false) {
-            if (certificates == null) {
+            if (certificates is null) {
                 throw new ArgumentNullException(nameof(certificates));
             }
             using (var trustedStore = trustList.OpenStore()) {

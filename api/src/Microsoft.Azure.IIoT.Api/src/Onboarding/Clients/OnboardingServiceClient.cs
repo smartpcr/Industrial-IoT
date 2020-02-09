@@ -58,7 +58,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Onboarding.Clients {
         /// <inheritdoc/>
         public async Task ProcessDiscoveryResultsAsync(string discovererId,
             DiscoveryResultListApiModel content, CancellationToken ct) {
-            if (content == null) {
+            if (content is null) {
                 throw new ArgumentNullException(nameof(content));
             }
             var uri = new UriBuilder($"{_serviceUri}/v2/discovery") {

@@ -43,10 +43,10 @@ namespace Microsoft.Azure.IIoT.OpcUa.Vault.Models {
         /// <param name="withCertificate"></param>
         public static X509CertificateModel ToServiceModel(this Certificate certificate,
             bool withCertificate = true) {
-            if (certificate == null) {
+            if (certificate is null) {
                 throw new ArgumentNullException(nameof(certificate));
             }
-            if (certificate.RawData == null) {
+            if (certificate.RawData is null) {
                 throw new ArgumentNullException(nameof(certificate.RawData));
             }
             return new X509CertificateModel {

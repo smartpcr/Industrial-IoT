@@ -23,7 +23,7 @@ namespace Microsoft.Azure.IIoT.Core.Messaging.EventHub {
         /// <param name="unknown"></param>
         public EventHubDeviceEventHandler(IEnumerable<IDeviceTelemetryHandler> handlers,
             IUnknownEventHandler unknown = null) {
-            if (handlers == null) {
+            if (handlers is null) {
                 throw new ArgumentNullException(nameof(handlers));
             }
             _handlers = handlers.ToDictionary(h => h.MessageSchema.ToLowerInvariant(), h => h);

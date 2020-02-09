@@ -118,7 +118,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Discovery.Models {
                 }
             }
 
-            if (AddressRanges == null) {
+            if (AddressRanges is null) {
                 if (request.Discovery == DiscoveryMode.Fast) {
                     var interfaces = NetworkInformationEx.GetAllNetInterfaces(NetworkClass.Wired);
                     AddressRanges = interfaces.Select(t => new AddressRange(t, false, 24));
@@ -137,7 +137,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Discovery.Models {
                 }
             }
 
-            if (PortRanges == null) {
+            if (PortRanges is null) {
                 switch (request.Discovery) {
                     case DiscoveryMode.Local:
                         PortRanges = PortRange.All;

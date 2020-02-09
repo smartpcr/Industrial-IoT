@@ -22,7 +22,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Core.Models {
         /// <returns></returns>
         public static X509CertificateChainModel ToCertificateChain(
             this byte[] rawCertificates, bool validate = true) {
-            if (rawCertificates == null) {
+            if (rawCertificates is null) {
                 return null;
             }
             var certificates = new List<X509Certificate2>();

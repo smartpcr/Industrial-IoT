@@ -31,7 +31,7 @@ namespace Microsoft.Azure.IIoT.Diagnostics {
 
         /// <inheritdoc/>
         public IDisposable Subscribe(string eventSource, IEventSourceSubscriber subscriber) {
-            if (subscriber == null) {
+            if (subscriber is null) {
                 throw new ArgumentNullException(nameof(subscriber));
             }
             if (string.IsNullOrEmpty(eventSource)) {

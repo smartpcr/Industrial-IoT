@@ -47,13 +47,13 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Clients {
         /// <inheritdoc/>
         public async Task<BrowseResponseApiModel> NodeBrowseFirstAsync(EndpointApiModel endpoint,
             BrowseRequestApiModel request, CancellationToken ct) {
-            if (endpoint == null) {
+            if (endpoint is null) {
                 throw new ArgumentNullException(nameof(endpoint));
             }
             if (string.IsNullOrEmpty(endpoint.Url)) {
                 throw new ArgumentNullException(nameof(endpoint.Url));
             }
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             var response = await _methodClient.CallMethodAsync(_deviceId, _moduleId,
@@ -67,16 +67,16 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Clients {
         /// <inheritdoc/>
         public async Task<BrowseNextResponseApiModel> NodeBrowseNextAsync(EndpointApiModel endpoint,
             BrowseNextRequestApiModel request, CancellationToken ct) {
-            if (endpoint == null) {
+            if (endpoint is null) {
                 throw new ArgumentNullException(nameof(endpoint));
             }
             if (string.IsNullOrEmpty(endpoint.Url)) {
                 throw new ArgumentNullException(nameof(endpoint.Url));
             }
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
-            if (request.ContinuationToken == null) {
+            if (request.ContinuationToken is null) {
                 throw new ArgumentNullException(nameof(request.ContinuationToken));
             }
             var response = await _methodClient.CallMethodAsync(_deviceId, _moduleId,
@@ -90,17 +90,17 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Clients {
         /// <inheritdoc/>
         public async Task<BrowsePathResponseApiModel> NodeBrowsePathAsync(EndpointApiModel endpoint,
             BrowsePathRequestApiModel request, CancellationToken ct) {
-            if (endpoint == null) {
+            if (endpoint is null) {
                 throw new ArgumentNullException(nameof(endpoint));
             }
             if (string.IsNullOrEmpty(endpoint.Url)) {
                 throw new ArgumentNullException(nameof(endpoint.Url));
             }
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
-            if (request.BrowsePaths == null || request.BrowsePaths.Count == 0 ||
-                request.BrowsePaths.Any(p => p == null || p.Length == 0)) {
+            if (request.BrowsePaths is null || request.BrowsePaths.Count == 0 ||
+                request.BrowsePaths.Any(p => p is null || p.Length == 0)) {
                 throw new ArgumentNullException(nameof(request.BrowsePaths));
             }
             var response = await _methodClient.CallMethodAsync(_deviceId, _moduleId,
@@ -114,16 +114,16 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Clients {
         /// <inheritdoc/>
         public async Task<ReadResponseApiModel> NodeReadAsync(EndpointApiModel endpoint,
             ReadRequestApiModel request, CancellationToken ct) {
-            if (endpoint == null) {
+            if (endpoint is null) {
                 throw new ArgumentNullException(nameof(endpoint));
             }
             if (string.IsNullOrEmpty(endpoint.Url)) {
                 throw new ArgumentNullException(nameof(endpoint.Url));
             }
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
-            if (request.Attributes == null || request.Attributes.Count == 0) {
+            if (request.Attributes is null || request.Attributes.Count == 0) {
                 throw new ArgumentException(nameof(request.Attributes));
             }
             var response = await _methodClient.CallMethodAsync(_deviceId, _moduleId,
@@ -137,16 +137,16 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Clients {
         /// <inheritdoc/>
         public async Task<WriteResponseApiModel> NodeWriteAsync(EndpointApiModel endpoint,
             WriteRequestApiModel request, CancellationToken ct) {
-            if (endpoint == null) {
+            if (endpoint is null) {
                 throw new ArgumentNullException(nameof(endpoint));
             }
             if (string.IsNullOrEmpty(endpoint.Url)) {
                 throw new ArgumentNullException(nameof(endpoint.Url));
             }
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
-            if (request.Attributes == null || request.Attributes.Count == 0) {
+            if (request.Attributes is null || request.Attributes.Count == 0) {
                 throw new ArgumentException(nameof(request.Attributes));
             }
             var response = await _methodClient.CallMethodAsync(_deviceId, _moduleId,
@@ -160,13 +160,13 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Clients {
         /// <inheritdoc/>
         public async Task<ValueReadResponseApiModel> NodeValueReadAsync(EndpointApiModel endpoint,
             ValueReadRequestApiModel request, CancellationToken ct) {
-            if (endpoint == null) {
+            if (endpoint is null) {
                 throw new ArgumentNullException(nameof(endpoint));
             }
             if (string.IsNullOrEmpty(endpoint.Url)) {
                 throw new ArgumentNullException(nameof(endpoint.Url));
             }
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             var response = await _methodClient.CallMethodAsync(_deviceId, _moduleId,
@@ -180,16 +180,16 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Clients {
         /// <inheritdoc/>
         public async Task<ValueWriteResponseApiModel> NodeValueWriteAsync(EndpointApiModel endpoint,
             ValueWriteRequestApiModel request, CancellationToken ct) {
-            if (endpoint == null) {
+            if (endpoint is null) {
                 throw new ArgumentNullException(nameof(endpoint));
             }
             if (string.IsNullOrEmpty(endpoint.Url)) {
                 throw new ArgumentNullException(nameof(endpoint.Url));
             }
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
-            if (request.Value == null) {
+            if (request.Value is null) {
                 throw new ArgumentNullException(nameof(request.Value));
             }
             var response = await _methodClient.CallMethodAsync(_deviceId, _moduleId,
@@ -203,13 +203,13 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Clients {
         /// <inheritdoc/>
         public async Task<MethodMetadataResponseApiModel> NodeMethodGetMetadataAsync(
             EndpointApiModel endpoint, MethodMetadataRequestApiModel request, CancellationToken ct) {
-            if (endpoint == null) {
+            if (endpoint is null) {
                 throw new ArgumentNullException(nameof(endpoint));
             }
             if (string.IsNullOrEmpty(endpoint.Url)) {
                 throw new ArgumentNullException(nameof(endpoint.Url));
             }
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             var response = await _methodClient.CallMethodAsync(_deviceId, _moduleId,
@@ -223,13 +223,13 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Clients {
         /// <inheritdoc/>
         public async Task<MethodCallResponseApiModel> NodeMethodCallAsync(
             EndpointApiModel endpoint, MethodCallRequestApiModel request, CancellationToken ct) {
-            if (endpoint == null) {
+            if (endpoint is null) {
                 throw new ArgumentNullException(nameof(endpoint));
             }
             if (string.IsNullOrEmpty(endpoint.Url)) {
                 throw new ArgumentNullException(nameof(endpoint.Url));
             }
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             var response = await _methodClient.CallMethodAsync(_deviceId, _moduleId,

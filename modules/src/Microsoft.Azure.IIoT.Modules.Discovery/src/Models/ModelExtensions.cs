@@ -18,7 +18,7 @@ namespace Microsoft.Azure.IIoT.Modules.Discovery.Models {
         /// <param name="model"></param>
         public static DiscoveryCancelInternalApiModel ToApiModel(
             this DiscoveryCancelModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new DiscoveryCancelInternalApiModel {
@@ -33,7 +33,7 @@ namespace Microsoft.Azure.IIoT.Modules.Discovery.Models {
         /// <returns></returns>
         public static DiscoveryCancelModel ToServiceModel(
             this DiscoveryCancelInternalApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new DiscoveryCancelModel {
@@ -48,7 +48,7 @@ namespace Microsoft.Azure.IIoT.Modules.Discovery.Models {
         /// <param name="model"></param>
         public static DiscoveryConfigApiModel ToApiModel(
             this DiscoveryConfigModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new DiscoveryConfigApiModel {
@@ -72,7 +72,7 @@ namespace Microsoft.Azure.IIoT.Modules.Discovery.Models {
         /// <returns></returns>
         public static DiscoveryConfigModel ToServiceModel(
             this DiscoveryConfigApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new DiscoveryConfigModel {
@@ -96,7 +96,7 @@ namespace Microsoft.Azure.IIoT.Modules.Discovery.Models {
         /// <param name="model"></param>
         public static DiscoveryRequestInternalApiModel ToApiModel(
             this DiscoveryRequestModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new DiscoveryRequestInternalApiModel {
@@ -113,7 +113,7 @@ namespace Microsoft.Azure.IIoT.Modules.Discovery.Models {
         /// <returns></returns>
         public static DiscoveryRequestModel ToServiceModel(
             this DiscoveryRequestInternalApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new DiscoveryRequestModel {
@@ -130,7 +130,7 @@ namespace Microsoft.Azure.IIoT.Modules.Discovery.Models {
         /// <param name="model"></param>
         public static EndpointActivationFilterApiModel ToApiModel(
             this EndpointActivationFilterModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new EndpointActivationFilterApiModel {
@@ -146,7 +146,7 @@ namespace Microsoft.Azure.IIoT.Modules.Discovery.Models {
         /// <returns></returns>
         public static EndpointActivationFilterModel ToServiceModel(
             this EndpointActivationFilterApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new EndpointActivationFilterModel {
@@ -162,7 +162,7 @@ namespace Microsoft.Azure.IIoT.Modules.Discovery.Models {
         /// <param name="model"></param>
         public static RegistryOperationContextApiModel ToApiModel(
             this RegistryOperationContextModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new RegistryOperationContextApiModel {
@@ -177,7 +177,7 @@ namespace Microsoft.Azure.IIoT.Modules.Discovery.Models {
         /// <returns></returns>
         public static RegistryOperationContextModel ToServiceModel(
             this RegistryOperationContextApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new RegistryOperationContextModel {

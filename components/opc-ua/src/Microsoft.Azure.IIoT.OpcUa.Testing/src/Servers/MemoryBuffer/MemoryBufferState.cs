@@ -229,7 +229,7 @@ namespace MemoryBuffer {
                     return StatusCodes.BadNodeIdUnknown;
                 }
 
-                if (_buffer == null) {
+                if (_buffer is null) {
                     return StatusCodes.BadOutOfService;
                 }
 
@@ -286,7 +286,7 @@ namespace MemoryBuffer {
                     return StatusCodes.BadNodeIdUnknown;
                 }
 
-                if (_buffer == null) {
+                if (_buffer is null) {
                     return StatusCodes.BadOutOfService;
                 }
 
@@ -296,7 +296,7 @@ namespace MemoryBuffer {
                     case BuiltInType.UInt32: {
                             var valueToWrite = value as uint?;
 
-                            if (valueToWrite == null) {
+                            if (valueToWrite is null) {
                                 return StatusCodes.BadTypeMismatch;
                             }
 
@@ -307,7 +307,7 @@ namespace MemoryBuffer {
                     case BuiltInType.Double: {
                             var valueToWrite = value as double?;
 
-                            if (valueToWrite == null) {
+                            if (valueToWrite is null) {
                                 return StatusCodes.BadTypeMismatch;
                             }
 
@@ -347,7 +347,7 @@ namespace MemoryBuffer {
                     return Variant.Null;
                 }
 
-                if (_buffer == null) {
+                if (_buffer is null) {
                     return Variant.Null;
                 }
 
@@ -422,7 +422,7 @@ namespace MemoryBuffer {
 
                 var elementCount = (int)(SizeInBytes.Value / ElementSize);
 
-                if (_monitoringTable == null) {
+                if (_monitoringTable is null) {
                     _monitoringTable = new MemoryBufferMonitoredItem[elementCount][];
                     _scanTimer = new Timer(DoScan, null, 100, 100);
                 }
@@ -431,7 +431,7 @@ namespace MemoryBuffer {
 
                 var monitoredItems = _monitoringTable[elementOffet];
 
-                if (monitoredItems == null) {
+                if (monitoredItems is null) {
                     monitoredItems = new MemoryBufferMonitoredItem[1];
                 }
                 else {

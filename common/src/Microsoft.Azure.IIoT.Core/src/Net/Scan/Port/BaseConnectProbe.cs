@@ -133,7 +133,7 @@ namespace Microsoft.Azure.IIoT.Net.Scanner {
                     }
 
                     while (!_cts.IsCancellationRequested) {
-                        if (_arg == null) {
+                        if (_arg is null) {
                             _arg = new AsyncConnect(this);
                         }
                         try {

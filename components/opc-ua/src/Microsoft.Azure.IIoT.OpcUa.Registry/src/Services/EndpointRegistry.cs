@@ -189,7 +189,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
 
             // Convert to twin registration
             var registration = twin.ToEntityRegistration(true) as EndpointRegistration;
-            if (registration == null) {
+            if (registration is null) {
                 throw new ResourceNotFoundException(
                     $"{endpointId} is not an endpoint registration.");
             }
@@ -221,7 +221,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
 
             // Convert to twin registration
             var registration = twin.ToEntityRegistration(true) as EndpointRegistration;
-            if (registration == null) {
+            if (registration is null) {
                 throw new ResourceNotFoundException(
                     $"{endpointId} is not an endpoint registration.");
             }
@@ -256,7 +256,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
             }
             // Convert to twin registration
             var registration = twin.ToEntityRegistration(true) as EndpointRegistration;
-            if (registration == null) {
+            if (registration is null) {
                 throw new ResourceNotFoundException(
                     $"{endpointId} is not an endpoint registration.");
             }
@@ -390,7 +390,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
             DiscoveryResultModel result, string discovererId, string supervisorId,
             string applicationId, bool hardDelete) {
 
-            if (newEndpoints == null) {
+            if (newEndpoints is null) {
                 throw new ArgumentNullException(nameof(newEndpoints));
             }
 
@@ -473,7 +473,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
             // Update endpoints that were disabled
             foreach (var exists in unchange) {
                 try {
-                    if (exists.DiscovererId == null || exists.DiscovererId == discovererId ||
+                    if (exists.DiscovererId is null || exists.DiscovererId == discovererId ||
                         (exists.IsDisabled ?? false)) {
                         // Get the new one we will patch over the existing one...
                         var patch = change.First(x =>
@@ -575,7 +575,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
         private async Task<string> ApplyActivationFilterAsync(
             EndpointActivationFilterModel filter, EndpointRegistration registration,
             RegistryOperationContextModel context, CancellationToken ct = default) {
-            if (filter == null || registration == null) {
+            if (filter is null || registration is null) {
                 return null;
             }
             // TODO: Get trust list entry and validate endpoint.Certificate
@@ -716,7 +716,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
                 return; // ok, no supervisor
             }
             var deviceId = SupervisorModelEx.ParseDeviceId(supervisorId, out var moduleId);
-            if (secret == null) {
+            if (secret is null) {
                 // Remove from supervisor - this disconnects the device
                 await _iothub.UpdatePropertyAsync(deviceId, moduleId, twinId, null, ct);
                 _logger.Information("Twin {twinId} deactivated on {supervisorId}.",
@@ -743,7 +743,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
 
             // Convert to twin registration
             var registration = twin.ToEntityRegistration(onlyServerState) as EndpointRegistration;
-            if (registration == null) {
+            if (registration is null) {
                 if (skipInvalid) {
                     return null;
                 }

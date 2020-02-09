@@ -114,7 +114,7 @@ namespace Microsoft.Azure.IIoT.Crypto.Models {
         /// <returns></returns>
         private static byte[] NormalizeSerialNumber(byte[] serialNumber,
             bool isBigEndian) {
-            if (serialNumber == null) {
+            if (serialNumber is null) {
                 throw new ArgumentNullException(nameof(serialNumber));
             }
             if (serialNumber.Length < 1) {

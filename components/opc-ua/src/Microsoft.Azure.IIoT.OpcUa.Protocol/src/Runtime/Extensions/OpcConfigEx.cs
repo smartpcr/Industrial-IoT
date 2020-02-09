@@ -52,7 +52,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol {
             certificate = applicationConfiguration.SecurityConfiguration.ApplicationCertificate.Find(true).Result;
 
             // create a self signed certificate if there is none
-            if (certificate == null && createSelfSignedCertIfNone) {
+            if (certificate is null && createSelfSignedCertIfNone) {
                 certificate = CertificateFactory.CreateCertificate(
                     applicationConfiguration.SecurityConfiguration.ApplicationCertificate.StoreType,
                     applicationConfiguration.SecurityConfiguration.ApplicationCertificate.StorePath,

@@ -102,7 +102,7 @@ namespace Opc.Ua.Design.Schema {
                     }
                     var tokens = arrayDimensions.Split(
                         new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                    if (tokens == null || tokens.Length < 1) {
+                    if (tokens is null || tokens.Length < 1) {
                         return (ValueRanks.OneOrMoreDimensions, null);
                     }
                     var dimensions = new UInt32Collection();

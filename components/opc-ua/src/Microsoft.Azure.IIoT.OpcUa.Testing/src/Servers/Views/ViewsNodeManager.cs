@@ -50,7 +50,7 @@ namespace Views {
             _configuration = configuration.ParseExtension<ViewsServerConfiguration>();
 
             // use suitable defaults if no configuration exists.
-            if (_configuration == null) {
+            if (_configuration is null) {
                 _configuration = new ViewsServerConfiguration();
             }
         }
@@ -227,7 +227,7 @@ namespace Views {
             NodeHandle handle,
             IDictionary<NodeId, NodeState> cache) {
             // not valid if no root.
-            if (handle == null) {
+            if (handle is null) {
                 return null;
             }
 
@@ -239,7 +239,7 @@ namespace Views {
             // lookup in operation cache.
             var target = FindNodeInCache(context, handle, cache);
 
-            if (target == null) {
+            if (target is null) {
                 // TBD
                 return null;
             }

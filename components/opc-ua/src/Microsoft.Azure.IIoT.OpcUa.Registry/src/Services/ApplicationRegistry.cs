@@ -48,10 +48,10 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
         /// <inheritdoc/>
         public async Task<ApplicationRegistrationResultModel> RegisterApplicationAsync(
             ApplicationRegistrationRequestModel request, CancellationToken ct) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
-            if (request.ApplicationUri == null) {
+            if (request.ApplicationUri is null) {
                 throw new ArgumentNullException(nameof(request.ApplicationUri));
             }
 
@@ -112,7 +112,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
             context = context.Validate();
 
             var app = await _database.DeleteAsync(applicationId, null, ct);
-            if (app == null) {
+            if (app is null) {
                 return;
             }
 
@@ -122,7 +122,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
         /// <inheritdoc/>
         public async Task UpdateApplicationAsync(string applicationId,
             ApplicationRegistrationUpdateModel request, CancellationToken ct) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             var context = request.Context.Validate();
@@ -141,7 +141,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
         public async Task<ApplicationRegistrationModel> GetApplicationAsync(
             string applicationId, bool filterInactiveTwins, CancellationToken ct) {
             var application = await _database.GetAsync(applicationId, true, ct);
-            if (application == null) {
+            if (application is null) {
                 return null;
             }
             var endpoints = await _endpoints.GetApplicationEndpoints(applicationId,
@@ -169,11 +169,11 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
             do {
                 var applications = await _database.ListAsync(continuation, null, true, ct);
                 continuation = applications?.ContinuationToken;
-                if (applications?.Items == null) {
+                if (applications?.Items is null) {
                     continue;
                 }
                 foreach (var application in applications.Items) {
-                    if (application.NotSeenSince == null ||
+                    if (application.NotSeenSince is null ||
                         application.NotSeenSince.Value >= absolute) {
                         // Skip
                         continue;
@@ -183,7 +183,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
                         var app = await _database.DeleteAsync(application.ApplicationId,
                             a => application.NotSeenSince != null &&
                                  application.NotSeenSince.Value < absolute, ct);
-                        if (app == null) {
+                        if (app is null) {
                             // Skip - already deleted or not satisfying condition
                             continue;
                         }
@@ -221,7 +221,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
             if (string.IsNullOrEmpty(discovererId)) {
                 throw new ArgumentNullException(nameof(discovererId));
             }
-            if (result == null) {
+            if (result is null) {
                 throw new ArgumentNullException(nameof(result));
             }
             var context = result.Context.Validate();

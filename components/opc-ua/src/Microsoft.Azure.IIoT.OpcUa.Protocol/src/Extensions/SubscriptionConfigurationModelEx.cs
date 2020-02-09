@@ -16,7 +16,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Models {
         /// <param name="model"></param>
         /// <returns></returns>
         public static SubscriptionConfigurationModel Clone(this SubscriptionConfigurationModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new SubscriptionConfigurationModel {
@@ -36,10 +36,10 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Models {
         /// <returns></returns>
         public static bool IsSameAs(this SubscriptionConfigurationModel model,
             SubscriptionConfigurationModel other) {
-            if (model == null && other == null) {
+            if (model is null && other is null) {
                 return true;
             }
-            if (model == null || other == null) {
+            if (model is null || other is null) {
                 return false;
             }
             if (model.PublishingInterval != other.PublishingInterval) {

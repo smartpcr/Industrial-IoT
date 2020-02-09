@@ -87,7 +87,7 @@ namespace HistoricalAccess {
         public ArchiveFolder GetParentFolder() {
             var parentPath = string.Empty;
 
-            if (FileInfo == null) {
+            if (FileInfo is null) {
                 return new ArchiveFolder(parentPath, null);
             }
 

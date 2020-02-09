@@ -50,7 +50,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Controllers {
         /// <returns></returns>
         public async Task<ModelUploadStartResponseApiModel> ModelUploadStartAsync(
             ModelUploadStartRequestApiModel request) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             var result = await _export.ModelUploadStartAsync(
@@ -68,7 +68,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Controllers {
 
             // Limit returned references to fit into 128k response
             const int kMaxReferences = 100;
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             if (!request.MaxReferencesToReturn.HasValue ||
@@ -87,7 +87,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Controllers {
         /// <returns></returns>
         public async Task<BrowseNextResponseApiModel> BrowseNextAsync(
             BrowseNextRequestInternalApiModel request) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             var result = await _browse.NodeBrowseNextAsync(
@@ -102,7 +102,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Controllers {
         /// <returns></returns>
         public async Task<BrowsePathResponseApiModel> BrowsePathAsync(
             BrowsePathRequestInternalApiModel request) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             var result = await _browse.NodeBrowsePathAsync(
@@ -117,7 +117,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Controllers {
         /// <returns></returns>
         public async Task<ValueReadResponseApiModel> ValueReadAsync(
             ValueReadRequestApiModel request) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             var result = await _nodes.NodeValueReadAsync(
@@ -132,7 +132,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Controllers {
         /// <returns></returns>
         public async Task<ValueWriteResponseApiModel> ValueWriteAsync(
             ValueWriteRequestApiModel request) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             var result = await _nodes.NodeValueWriteAsync(
@@ -147,7 +147,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Controllers {
         /// <returns></returns>
         public async Task<MethodMetadataResponseApiModel> MethodMetadataAsync(
             MethodMetadataRequestApiModel request) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             var result = await _nodes.NodeMethodGetMetadataAsync(
@@ -162,7 +162,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Controllers {
         /// <returns></returns>
         public async Task<MethodCallResponseApiModel> MethodCallAsync(
             MethodCallRequestApiModel request) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             var result = await _nodes.NodeMethodCallAsync(
@@ -177,7 +177,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Controllers {
         /// <returns></returns>
         public async Task<ReadResponseApiModel> NodeReadAsync(
             ReadRequestApiModel request) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             var result = await _nodes.NodeReadAsync(
@@ -192,7 +192,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Controllers {
         /// <returns></returns>
         public async Task<WriteResponseApiModel> NodeWriteAsync(
             WriteRequestApiModel request) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             var result = await _nodes.NodeWriteAsync(
@@ -207,7 +207,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Controllers {
         /// <returns></returns>
         public async Task<HistoryReadResponseApiModel<VariantValue>> HistoryReadAsync(
             HistoryReadRequestApiModel<VariantValue> request) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             var result = await _historian.HistoryReadAsync(
@@ -222,7 +222,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Controllers {
         /// <returns></returns>
         public async Task<HistoryReadNextResponseApiModel<VariantValue>> HistoryReadNextAsync(
             HistoryReadNextRequestApiModel request) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             var result = await _historian.HistoryReadNextAsync(
@@ -237,7 +237,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Controllers {
         /// <returns></returns>
         public async Task<HistoryUpdateResponseApiModel> HistoryUpdateAsync(
             HistoryUpdateRequestApiModel<VariantValue> request) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             var result = await _historian.HistoryUpdateAsync(

@@ -236,7 +236,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Export.Services {
                 _logger.Error(ex, "Failed to retrieve event filter for {nodeId}", _nodeId);
             }
 
-            if (filter == null) {
+            if (filter is null) {
                 // Nothing to do without event filter
                 // TODO: use generates events?  What other way to get event field structure?
                 return;

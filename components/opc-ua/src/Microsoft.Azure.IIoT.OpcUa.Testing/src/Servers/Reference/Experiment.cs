@@ -71,7 +71,7 @@ namespace Reference {
         /// <param name="value">The data value to append to the stream.</param>
         /// <returns>True if successful, false if the source timestamp has been superceeded by values already in the stream.</returns>
         public bool PushRawValue(DataValue value) {
-            if (value == null) {
+            if (value is null) {
                 return false;
             }
 
@@ -150,11 +150,11 @@ namespace Reference {
         /// <param name="start">The start position.</param>
         /// <returns>The interpolated value.</returns>
         private DataValue Interpolate(DateTime timestamp, LinkedListNode<DataValue> start) {
-            if (start == null) {
+            if (start is null) {
                 start = _values.First;
             }
 
-            if (start == null) {
+            if (start is null) {
                 return new DataValue(Variant.Null, StatusCodes.BadNoData, timestamp, timestamp);
             }
 
@@ -196,7 +196,7 @@ namespace Reference {
             }
 
             // check if first bound found.
-            if (firstBound == null) {
+            if (firstBound is null) {
                 // can't extrapolate backwards in time.
                 if (!_timeFlowsBackward) {
                     return new DataValue(Variant.Null, StatusCodes.BadNoData, timestamp, timestamp);
@@ -204,7 +204,7 @@ namespace Reference {
             }
 
             // check if last bound found.
-            if (lastBound == null) {
+            if (lastBound is null) {
                 // can't extrapolate backwards in time.
                 if (_timeFlowsBackward) {
                     return new DataValue(Variant.Null, StatusCodes.BadNoData, timestamp, timestamp);
@@ -212,7 +212,7 @@ namespace Reference {
             }
 
             // use stepped interpolation/extrapolation if a bound is missing.
-            if (!_configuration.UseSlopedExtrapolation || lastBound == null || firstBound == null) {
+            if (!_configuration.UseSlopedExtrapolation || lastBound is null || firstBound is null) {
                 if (_timeFlowsBackward) {
                     StatusCode statusCode = lastBoundBad ? StatusCodes.UncertainDataSubNormal : StatusCodes.Good;
                     statusCode = statusCode.SetAggregateBits(AggregateBits.Interpolated);
@@ -292,11 +292,11 @@ namespace Reference {
         /// <param name="timestamp">The timestamp to search.</param>
         /// <returns>The first good value that follows the timestamp.</returns>
         private LinkedListNode<DataValue> FindLateBound(LinkedListNode<DataValue> start, DateTime timestamp) {
-            if (start == null) {
+            if (start is null) {
                 start = _values.First;
             }
 
-            if (start == null) {
+            if (start is null) {
                 return null;
             }
 
@@ -342,7 +342,7 @@ namespace Reference {
         /// <param name="value">The value to test.</param>
         /// <returns>True if the value is good.</returns>
         public bool IsGood(DataValue value) {
-            if (value == null) {
+            if (value is null) {
                 return false;
             }
 

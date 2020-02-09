@@ -72,7 +72,7 @@ namespace System.Threading.Tasks {
 
             // Make sure we actually got a task, then complete the
             // operation by waiting on it.
-            if (task == null) {
+            if (task is null) {
                 throw new ArgumentNullException();
             }
 
@@ -98,7 +98,7 @@ namespace System.Threading.Tasks {
 
             // Make sure we actually got a task, then complete the
             // operation by waiting on it.
-            if (task == null) {
+            if (task is null) {
                 throw new ArgumentNullException();
             }
 

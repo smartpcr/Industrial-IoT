@@ -823,7 +823,7 @@ namespace Opc.Ua.Client {
         public static void Validate<T, R>(IEnumerable<T> results,
             DiagnosticInfoCollection diagnostics, IEnumerable<R> requested) {
             var resultsWithStatus = results?.ToList();
-            if (resultsWithStatus == null || (resultsWithStatus.Count == 0 &&
+            if (resultsWithStatus is null || (resultsWithStatus.Count == 0 &&
                 diagnostics.Count == 0)) {
                 throw new ServiceResultException(StatusCodes.BadUnexpectedError,
                     "The server returned no results or diagnostics information.");

@@ -98,7 +98,7 @@ namespace Microsoft.Azure.IIoT.Agent.Framework.Agent {
         public async Task StopAsync() {
             await _lock.WaitAsync();
             try {
-                if (_cts == null) {
+                if (_cts is null) {
                     return;
                 }
 
@@ -110,7 +110,7 @@ namespace Microsoft.Azure.IIoT.Agent.Framework.Agent {
                 await _worker;
                 _worker = null;
 
-                System.Diagnostics.Debug.Assert(_jobProcess == null);
+                System.Diagnostics.Debug.Assert(_jobProcess is null);
                 _logger.Information("Worker stopped.");
             }
             catch (OperationCanceledException) { }
@@ -124,7 +124,7 @@ namespace Microsoft.Azure.IIoT.Agent.Framework.Agent {
         public void Dispose() {
             Try.Async(StopAsync).Wait();
 
-            System.Diagnostics.Debug.Assert(_jobProcess == null);
+            System.Diagnostics.Debug.Assert(_jobProcess is null);
             _jobProcess?.Dispose();
 
             _cts?.Dispose();
@@ -172,8 +172,8 @@ namespace Microsoft.Azure.IIoT.Agent.Framework.Agent {
                         }, ct));
 
                     ct.ThrowIfCancellationRequested();
-                    if (jobProcessInstruction?.Job?.JobConfiguration == null ||
-                        jobProcessInstruction?.ProcessMode == null) {
+                    if (jobProcessInstruction?.Job?.JobConfiguration is null ||
+                        jobProcessInstruction?.ProcessMode is null) {
                         _logger.Information("No job received, wait {delay} ...",
                             _jobCheckerInterval);
                         await Task.Delay(_jobCheckerInterval, ct);
@@ -214,14 +214,14 @@ namespace Microsoft.Azure.IIoT.Agent.Framework.Agent {
                     }
 
                     // Check if the job is to be continued with new configuration settings
-                    if (_jobProcess.JobContinuation == null) {
+                    if (_jobProcess.JobContinuation is null) {
                         _jobProcess = null;
                         break;
                     }
 
                     jobProcessInstruction = _jobProcess.JobContinuation;
-                    if (jobProcessInstruction?.Job?.JobConfiguration == null ||
-                        jobProcessInstruction?.ProcessMode == null) {
+                    if (jobProcessInstruction?.Job?.JobConfiguration is null ||
+                        jobProcessInstruction?.ProcessMode is null) {
                         _logger.Information("Job continuation invalid, continue listening...");
                         _jobProcess = null;
                         break;
@@ -383,7 +383,7 @@ namespace Microsoft.Azure.IIoT.Agent.Framework.Agent {
                     }, ct);
 
                 // Check for updated job
-                if (result.UpdatedJob != null && JobContinuation == null) {
+                if (result.UpdatedJob != null && JobContinuation is null) {
                     JobContinuation = result.UpdatedJob;
                     // Cancel
                     if (!_cancellationTokenSource.IsCancellationRequested) {
@@ -466,7 +466,7 @@ namespace Microsoft.Azure.IIoT.Agent.Framework.Agent {
             _lock.Wait();
             try {
                 return _jobProcess?.Status ??
-                    (_cts == null ? WorkerStatus.Stopped :
+                    (_cts is null ? WorkerStatus.Stopped :
                         (_cts.IsCancellationRequested ? WorkerStatus.Stopping :
                             WorkerStatus.WaitingForJob));
             }

@@ -53,7 +53,7 @@ namespace Opc.Ua.Aggregates {
                     }
                 }
 
-                if ((bucket.EarlyBound.Value == null) || (bucket.LateBound.Value == null)) {
+                if ((bucket.EarlyBound.Value is null) || (bucket.LateBound.Value is null)) {
                     return true;
                 }
             }
@@ -65,7 +65,7 @@ namespace Opc.Ua.Aggregates {
         /// Calculates the status for the time slice.
         /// </summary>
         protected override StatusCode ComputeStatus(IAggregationContext context, int numGood, int numBad, TimeSlice bucket) {
-            var code = (bucket.EarlyBound.Value == null && numGood + numBad == 0) ? // no inital bound, do not extrapolate
+            var code = (bucket.EarlyBound.Value is null && numGood + numBad == 0) ? // no inital bound, do not extrapolate
                 StatusCodes.BadNoData : base.ComputeStatus(context, numGood, numBad, bucket);
             return code;
         }
@@ -74,7 +74,7 @@ namespace Opc.Ua.Aggregates {
         /// Determines the best good point before the end bound.
         /// </summary>
         protected void UpdatePriorPoint(BoundingValue bound, AggregateState state) {
-            if (state.HasTerminated && (state.LatePoint == null) && bound.PriorPoint == null) {
+            if (state.HasTerminated && (state.LatePoint is null) && bound.PriorPoint is null) {
                 bound.PriorPoint = state.PriorPoint;
                 bound.PriorBadPoints = state.PriorBadPoints;
                 bound.DerivationType = UseSlopedExtrapolation ? BoundingValueType.SlopedExtrapolation : BoundingValueType.SteppedExtrapolation;

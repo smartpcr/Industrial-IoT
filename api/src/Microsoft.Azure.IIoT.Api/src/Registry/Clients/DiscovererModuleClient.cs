@@ -35,7 +35,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Clients {
         /// <inhertitdoc/>
         public async Task DiscoverAsync(string discovererId,
             DiscoveryRequestModel request, CancellationToken ct) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             await CallServiceOnDiscovererAsync(discovererId, "Discover_V2", request, ct);
@@ -44,7 +44,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Clients {
         /// <inhertitdoc/>
         public async Task CancelAsync(string discovererId,
             DiscoveryCancelModel request, CancellationToken ct) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             await CallServiceOnDiscovererAsync(discovererId, "Cancel_V2", request, ct);

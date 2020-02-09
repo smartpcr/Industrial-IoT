@@ -32,7 +32,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
         /// <returns></returns>
         public static RegistryOperationContextModel Validate(
             this RegistryOperationContextModel context) {
-            if (context == null) {
+            if (context is null) {
                 context = new RegistryOperationContextModel {
                     AuthorityId = null, // Should throw if configured
                     Time = DateTime.UtcNow

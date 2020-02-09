@@ -24,10 +24,10 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol {
         /// <param name="details"></param>
         /// <returns></returns>
         public static VariantValue Encode(this IVariantEncoder codec, DeleteValuesAtTimesDetailsModel details) {
-            if (details == null) {
+            if (details is null) {
                 throw new ArgumentNullException(nameof(details));
             }
-            if (details.ReqTimes == null || details.ReqTimes.Length == 0) {
+            if (details.ReqTimes is null || details.ReqTimes.Length == 0) {
                 throw new ArgumentException(nameof(details.ReqTimes));
             }
             return codec.Encode(new ExtensionObject(new DeleteAtTimeDetails {
@@ -43,10 +43,10 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol {
         /// <param name="details"></param>
         /// <returns></returns>
         public static VariantValue Encode(this IVariantEncoder codec, DeleteEventsDetailsModel details) {
-            if (details == null) {
+            if (details is null) {
                 throw new ArgumentNullException(nameof(details));
             }
-            if (details.EventIds == null || details.EventIds.Count == 0) {
+            if (details.EventIds is null || details.EventIds.Count == 0) {
                 throw new ArgumentException(nameof(details.EventIds));
             }
             return codec.Encode(new ExtensionObject(new DeleteEventDetails {
@@ -62,10 +62,10 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol {
         /// <param name="details"></param>
         /// <returns></returns>
         public static VariantValue Encode(this IVariantEncoder codec, DeleteValuesDetailsModel details) {
-            if (details == null) {
+            if (details is null) {
                 throw new ArgumentNullException(nameof(details));
             }
-            if (details.EndTime == null && details.StartTime == null) {
+            if (details.EndTime is null && details.StartTime is null) {
                 throw new ArgumentException("Start time and end time cannot both be null", nameof(details));
             }
             return codec.Encode(new ExtensionObject(new DeleteRawModifiedDetails {
@@ -83,7 +83,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol {
         /// <param name="details"></param>
         /// <returns></returns>
         public static VariantValue Encode(this IVariantEncoder codec, DeleteModifiedValuesDetailsModel details) {
-            if (details == null) {
+            if (details is null) {
                 throw new ArgumentNullException(nameof(details));
             }
             return codec.Encode(new ExtensionObject(new DeleteRawModifiedDetails {
@@ -101,10 +101,10 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol {
         /// <param name="details"></param>
         /// <returns></returns>
         public static VariantValue Encode(this IVariantEncoder codec, ReplaceValuesDetailsModel details) {
-            if (details == null) {
+            if (details is null) {
                 throw new ArgumentNullException(nameof(details));
             }
-            if (details.Values == null || details.Values.Count == 0) {
+            if (details.Values is null || details.Values.Count == 0) {
                 throw new ArgumentException(nameof(details.Values));
             }
             return codec.Encode(new ExtensionObject(new UpdateDataDetails {
@@ -129,10 +129,10 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol {
         /// <param name="details"></param>
         /// <returns></returns>
         public static VariantValue Encode(this IVariantEncoder codec, InsertValuesDetailsModel details) {
-            if (details == null) {
+            if (details is null) {
                 throw new ArgumentNullException(nameof(details));
             }
-            if (details.Values == null || details.Values.Count == 0) {
+            if (details.Values is null || details.Values.Count == 0) {
                 throw new ArgumentException(nameof(details.Values));
             }
             return codec.Encode(new ExtensionObject(new UpdateDataDetails {
@@ -157,10 +157,10 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol {
         /// <param name="details"></param>
         /// <returns></returns>
         public static VariantValue Encode(this IVariantEncoder codec, ReplaceEventsDetailsModel details) {
-            if (details == null) {
+            if (details is null) {
                 throw new ArgumentNullException(nameof(details));
             }
-            if (details.Events == null || details.Events.Count == 0) {
+            if (details.Events is null || details.Events.Count == 0) {
                 throw new ArgumentException(nameof(details.Events));
             }
             return codec.Encode(new ExtensionObject(new UpdateEventDetails {
@@ -182,10 +182,10 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol {
         /// <param name="details"></param>
         /// <returns></returns>
         public static VariantValue Encode(this IVariantEncoder codec, InsertEventsDetailsModel details) {
-            if (details == null) {
+            if (details is null) {
                 throw new ArgumentNullException(nameof(details));
             }
-            if (details.Events == null || details.Events.Count == 0) {
+            if (details.Events is null || details.Events.Count == 0) {
                 throw new ArgumentException(nameof(details.Events));
             }
             return codec.Encode(new ExtensionObject(new UpdateEventDetails {
@@ -207,10 +207,10 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol {
         /// <param name="details"></param>
         /// <returns></returns>
         public static VariantValue Encode(this IVariantEncoder codec, ReadValuesAtTimesDetailsModel details) {
-            if (details == null) {
+            if (details is null) {
                 throw new ArgumentNullException(nameof(details));
             }
-            if (details.ReqTimes == null || details.ReqTimes.Length == 0) {
+            if (details.ReqTimes is null || details.ReqTimes.Length == 0) {
                 throw new ArgumentException(nameof(details.ReqTimes));
             }
             return codec.Encode(new ExtensionObject(new ReadAtTimeDetails {
@@ -226,13 +226,13 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol {
         /// <param name="details"></param>
         /// <returns></returns>
         public static VariantValue Encode(this IVariantEncoder codec, ReadEventsDetailsModel details) {
-            if (details == null) {
+            if (details is null) {
                 throw new ArgumentNullException(nameof(details));
             }
-            if (details.EndTime == null && details.StartTime == null) {
+            if (details.EndTime is null && details.StartTime is null) {
                 throw new ArgumentException("Start time and end time cannot both be null", nameof(details));
             }
-            if ((details.StartTime == null || details.EndTime == null) && ((details.NumEvents ?? 0) == 0)) {
+            if ((details.StartTime is null || details.EndTime is null) && ((details.NumEvents ?? 0) == 0)) {
                 throw new ArgumentException("Value bound must be set", nameof(details.NumEvents));
             }
             return codec.Encode(new ExtensionObject(new ReadEventDetails {
@@ -250,17 +250,17 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol {
         /// <param name="details"></param>
         /// <returns></returns>
         public static VariantValue Encode(this IVariantEncoder codec, ReadProcessedValuesDetailsModel details) {
-            if (details == null) {
+            if (details is null) {
                 throw new ArgumentNullException(nameof(details));
             }
-            if (details.EndTime == null && details.StartTime == null) {
+            if (details.EndTime is null && details.StartTime is null) {
                 throw new ArgumentException("Start time and end time cannot both be null", nameof(details));
             }
             var aggregate = details.AggregateTypeId?.ToNodeId(codec.Context);
             return codec.Encode(new ExtensionObject(new ReadProcessedDetails {
                 EndTime = details.EndTime ?? DateTime.MinValue,
                 StartTime = details.StartTime ?? DateTime.MinValue,
-                AggregateType = aggregate == null ? null : new NodeIdCollection(aggregate.YieldReturn()),
+                AggregateType = aggregate is null ? null : new NodeIdCollection(aggregate.YieldReturn()),
                 ProcessingInterval = details.ProcessingInterval ?? 0,
                 AggregateConfiguration = details.AggregateConfiguration.ToStackModel()
             })); // Reapplies the aggregate namespace uri during encoding using the context's table
@@ -273,13 +273,13 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol {
         /// <param name="details"></param>
         /// <returns></returns>
         public static VariantValue Encode(this IVariantEncoder codec, ReadValuesDetailsModel details) {
-            if (details == null) {
+            if (details is null) {
                 throw new ArgumentNullException(nameof(details));
             }
-            if (details.EndTime == null && details.StartTime == null) {
+            if (details.EndTime is null && details.StartTime is null) {
                 throw new ArgumentException("Start time and end time cannot both be null", nameof(details));
             }
-            if ((details.StartTime == null || details.EndTime == null) && ((details.NumValues ?? 0) == 0)) {
+            if ((details.StartTime is null || details.EndTime is null) && ((details.NumValues ?? 0) == 0)) {
                 throw new ArgumentException("Value bound must be set", nameof(details.NumValues));
             }
             return codec.Encode(new ExtensionObject(new ReadRawModifiedDetails {
@@ -298,13 +298,13 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol {
         /// <param name="details"></param>
         /// <returns></returns>
         public static VariantValue Encode(this IVariantEncoder codec, ReadModifiedValuesDetailsModel details) {
-            if (details == null) {
+            if (details is null) {
                 throw new ArgumentNullException(nameof(details));
             }
-            if (details.EndTime == null && details.StartTime == null) {
+            if (details.EndTime is null && details.StartTime is null) {
                 throw new ArgumentException("Start time and end time cannot both be null", nameof(details));
             }
-            if ((details.StartTime == null || details.EndTime == null) && ((details.NumValues ?? 0) == 0)) {
+            if ((details.StartTime is null || details.EndTime is null) && ((details.NumValues ?? 0) == 0)) {
                 throw new ArgumentException("Value bound must be set", nameof(details.NumValues));
             }
             return codec.Encode(new ExtensionObject(new ReadRawModifiedDetails {
@@ -377,7 +377,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol {
         /// <param name="o"></param>
         /// <returns></returns>
         internal static VariantValue Encode(this IVariantEncoder codec, ExtensionObject o) {
-            var variant = o == null ? Variant.Null : new Variant(o);
+            var variant = o is null ? Variant.Null : new Variant(o);
             return codec.Encode(variant);
         }
 
@@ -389,7 +389,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol {
         /// <returns></returns>
         internal static ExtensionObject DecodeExtensionObject(this IVariantEncoder codec,
             VariantValue result) {
-            if (result == null) {
+            if (result is null) {
                 return null;
             }
             var variant = codec.Decode(result, BuiltInType.ExtensionObject);

@@ -18,7 +18,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Models {
         /// <param name="model"></param>
         /// <returns></returns>
         public static MonitoredItemModel Clone(this MonitoredItemModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new MonitoredItemModel {
@@ -46,10 +46,10 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Models {
         /// <param name="other"></param>
         /// <returns></returns>
         public static bool IsSameAs(this MonitoredItemModel model, MonitoredItemModel other) {
-            if (model == null && other == null) {
+            if (model is null && other is null) {
                 return true;
             }
-            if (model == null || other == null) {
+            if (model is null || other is null) {
                 return false;
             }
             if (model.TriggerId != other.TriggerId) {

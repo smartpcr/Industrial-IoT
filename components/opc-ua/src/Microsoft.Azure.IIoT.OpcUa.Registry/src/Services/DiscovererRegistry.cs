@@ -48,7 +48,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
             var device = await _iothub.GetAsync(deviceId, moduleId, ct);
             var registration = device.ToEntityRegistration(onlyServerState)
                 as DiscovererRegistration;
-            if (registration == null) {
+            if (registration is null) {
                 throw new ResourceNotFoundException(
                     $"{id} is not a discoverer registration.");
             }
@@ -58,7 +58,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
         /// <inheritdoc/>
         public async Task UpdateDiscovererAsync(string discovererId,
             DiscovererUpdateModel request, CancellationToken ct) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             if (string.IsNullOrEmpty(discovererId)) {
@@ -77,7 +77,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
                     }
 
                     var registration = twin.ToEntityRegistration(true) as DiscovererRegistration;
-                    if (registration == null) {
+                    if (registration is null) {
                         throw new ResourceNotFoundException(
                             $"{discovererId} is not a discoverer registration.");
                     }
@@ -99,7 +99,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
                     }
 
                     if (request.DiscoveryConfig != null) {
-                        if (patched.DiscoveryConfig == null) {
+                        if (patched.DiscoveryConfig is null) {
                             patched.DiscoveryConfig = new DiscoveryConfigModel();
                         }
                         if (request.DiscoveryConfig.AddressRangesToScan != null) {
@@ -146,9 +146,9 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
                         }
                         if (request.DiscoveryConfig.ActivationFilter != null) {
                             patched.DiscoveryConfig.ActivationFilter =
-                                request.DiscoveryConfig.ActivationFilter.SecurityMode == null &&
-                                request.DiscoveryConfig.ActivationFilter.SecurityPolicies == null &&
-                                request.DiscoveryConfig.ActivationFilter.TrustLists == null ?
+                                request.DiscoveryConfig.ActivationFilter.SecurityMode is null &&
+                                request.DiscoveryConfig.ActivationFilter.SecurityPolicies is null &&
+                                request.DiscoveryConfig.ActivationFilter.TrustLists is null ?
                                     null : request.DiscoveryConfig.ActivationFilter;
                         }
                     }

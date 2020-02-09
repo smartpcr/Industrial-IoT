@@ -45,7 +45,7 @@ namespace Microsoft.Azure.IIoT.Api.Jobs.Clients {
             }
             while (true) {
                 var uri = _config?.Config?.JobOrchestratorUrl?.TrimEnd('/');
-                if (uri == null) {
+                if (uri is null) {
                     throw new InvalidConfigurationException("Job orchestrator not configured");
                 }
                 var request = _httpClient.NewRequest($"{uri}/v2/workers/{workerId}");
@@ -70,12 +70,12 @@ namespace Microsoft.Azure.IIoT.Api.Jobs.Clients {
         /// <inheritdoc/>
         public async Task<HeartbeatResultModel> SendHeartbeatAsync(HeartbeatModel heartbeat,
             CancellationToken ct) {
-            if (heartbeat == null) {
+            if (heartbeat is null) {
                 throw new ArgumentNullException(nameof(heartbeat));
             }
             while (true) {
                 var uri = _config?.Config?.JobOrchestratorUrl?.TrimEnd('/');
-                if (uri == null) {
+                if (uri is null) {
                     throw new InvalidConfigurationException("Job orchestrator not configured");
                 }
                 var request = _httpClient.NewRequest($"{uri}/v2/heartbeat");

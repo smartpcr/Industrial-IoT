@@ -44,7 +44,7 @@ namespace Microsoft.Azure.IIoT.Crypto {
             IssuerPolicies policies = null, KeyHandle key = null,
             RevocationInfo revoked = null) {
 
-            if (cert == null) {
+            if (cert is null) {
                 return null;
             }
 
@@ -69,7 +69,7 @@ namespace Microsoft.Azure.IIoT.Crypto {
             // Set issuer serial number
             certificate.IssuerSerialNumber =
                 certificate.GetAuthorityKeyIdentifierExtension()?.SerialNumber.Value;
-            if (certificate.IssuerSerialNumber == null && certificate.IsSelfSigned()) {
+            if (certificate.IssuerSerialNumber is null && certificate.IsSelfSigned()) {
                 certificate.IssuerSerialNumber = certificate.SerialNumber.ToArray();
             }
             return certificate;
@@ -81,7 +81,7 @@ namespace Microsoft.Azure.IIoT.Crypto {
         /// <param name="certificate"></param>
         /// <returns></returns>
         public static Certificate Clone(this Certificate certificate) {
-            if (certificate == null) {
+            if (certificate is null) {
                 return null;
             }
             return new Certificate {
@@ -107,10 +107,10 @@ namespace Microsoft.Azure.IIoT.Crypto {
         /// <param name="other"></param>
         /// <returns></returns>
         public static bool SameAs(this Certificate certificate, Certificate other) {
-            if (certificate == null) {
-                return other == null;
+            if (certificate is null) {
+                return other is null;
             }
-            if (other == null) {
+            if (other is null) {
                 return false;
             }
             if (!certificate.RawData.SequenceEqualsSafe(other.RawData)) {
@@ -305,7 +305,7 @@ namespace Microsoft.Azure.IIoT.Crypto {
         /// <param name="certificate"></param>
         /// <returns></returns>
         public static SerialNumber GetSerialNumber(this Certificate certificate) {
-            if (certificate?.SerialNumber == null) {
+            if (certificate?.SerialNumber is null) {
                 return null;
             }
             return new SerialNumber(certificate.SerialNumber);
@@ -353,7 +353,7 @@ namespace Microsoft.Azure.IIoT.Crypto {
         /// <param name="certificate"></param>
         /// <returns></returns>
         public static SerialNumber GetIssuerSerialNumber(this Certificate certificate) {
-            if (certificate?.IssuerSerialNumber == null) {
+            if (certificate?.IssuerSerialNumber is null) {
                 return null;
             }
             return new SerialNumber(certificate.IssuerSerialNumber);
@@ -384,7 +384,7 @@ namespace Microsoft.Azure.IIoT.Crypto {
         /// <param name="certificate"></param>
         /// <returns></returns>
         public static T GetExtensionByType<T>(this Certificate certificate) {
-            if (certificate?.Extensions == null) {
+            if (certificate?.Extensions is null) {
                 return default;
             }
             return certificate.Extensions.OfType<T>().FirstOrDefault();
@@ -398,7 +398,7 @@ namespace Microsoft.Azure.IIoT.Crypto {
         public static X509AuthorityKeyIdentifierExtension GetAuthorityKeyIdentifierExtension(
             this Certificate certificate) {
             var extension = certificate.GetExtensionByOid(Oids.AuthorityKeyIdentifier);
-            if (extension == null) {
+            if (extension is null) {
                 extension = certificate.GetExtensionByOid(Oids.AuthorityKeyIdentifier2);
             }
             if (extension != null) {
@@ -416,7 +416,7 @@ namespace Microsoft.Azure.IIoT.Crypto {
         public static X509SubjectAltNameExtension GetSubjectAltNameExtension(
             this Certificate certificate) {
             var extension = certificate.GetExtensionByOid(Oids.SubjectAltName);
-            if (extension == null) {
+            if (extension is null) {
                 extension = certificate.GetExtensionByOid(Oids.SubjectAltName2);
             }
             if (extension != null) {

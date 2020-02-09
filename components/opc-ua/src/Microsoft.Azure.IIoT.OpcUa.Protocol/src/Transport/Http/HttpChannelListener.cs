@@ -42,7 +42,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Transport {
         /// <param name="logger"></param>
         public HttpChannelListener(IServer controller,
             IWebListenerConfig config, ILogger logger) {
-            if (controller?.Callback == null) {
+            if (controller?.Callback is null) {
                 throw new ArgumentNullException(nameof(controller));
             }
             _logger = logger ??
@@ -66,7 +66,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Transport {
         /// <inheritdoc/>
         public async Task<IServiceResponse> ProcessAsync(HttpContext context,
             IServiceRequest request) {
-            if (request.RequestHeader == null) {
+            if (request.RequestHeader is null) {
                 request.RequestHeader = new RequestHeader();
             }
             // extract token from header for sessionless messages.
@@ -104,7 +104,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Transport {
                 out var header)) {
                 policy = header;
                 ep = GetEndpoints().FirstOrDefault(e => e.SecurityPolicyUri == policy);
-                if (ep == null) {
+                if (ep is null) {
                     _logger.Debug("Policy {policy} not supported", policy);
                     // Policy not supported.
                     return null;

@@ -133,7 +133,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
                 existing?.DiscoveryUrls?.DecodeAsList());
             if (!(urlUpdate ?? true)) {
                 twin.Tags.Add(nameof(ApplicationRegistration.DiscoveryUrls),
-                    update?.DiscoveryUrls == null ?
+                    update?.DiscoveryUrls is null ?
                     null : serializer.FromObject(update.DiscoveryUrls));
             }
 
@@ -141,7 +141,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
                 existing?.Capabilities?.DecodeAsSet());
             if (!(capsUpdate ?? true)) {
                 twin.Tags.Add(nameof(ApplicationRegistration.Capabilities),
-                    update?.Capabilities == null ?
+                    update?.Capabilities is null ?
                     null : serializer.FromObject(update.Capabilities));
             }
 
@@ -149,7 +149,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
                 existing?.LocalizedNames);
             if (!(namesUpdate ?? true)) {
                 twin.Tags.Add(nameof(ApplicationRegistration.LocalizedNames),
-                    update?.LocalizedNames == null ?
+                    update?.LocalizedNames is null ?
                     null : serializer.FromObject(update.LocalizedNames));
             }
 
@@ -157,7 +157,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
                 existing?.HostAddresses?.DecodeAsList());
             if (!(hostsUpdate ?? true)) {
                 twin.Tags.Add(nameof(ApplicationRegistration.HostAddresses),
-                    update?.HostAddresses == null ?
+                    update?.HostAddresses is null ?
                     null : serializer.FromObject(update.HostAddresses));
             }
 
@@ -185,14 +185,14 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
             if (update?.ApplicationUri != null) {
                 applicationUri = update?.ApplicationUri;
             }
-            if (applicationUri == null) {
+            if (applicationUri is null) {
                 throw new ArgumentException(nameof(ApplicationRegistration.ApplicationUri));
             }
 
             var siteOrGatewayId = existing?.SiteOrGatewayId;
-            if (siteOrGatewayId == null) {
+            if (siteOrGatewayId is null) {
                 siteOrGatewayId = update?.SiteOrGatewayId;
-                if (siteOrGatewayId == null) {
+                if (siteOrGatewayId is null) {
                     throw new ArgumentException(nameof(ApplicationRegistration.SiteOrGatewayId));
                 }
             }
@@ -243,11 +243,11 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
             }
             if (request.LocalizedNames != null) {
                 var table = registration.LocalizedNames;
-                if (table == null) {
+                if (table is null) {
                     table = new Dictionary<string, string>();
                 }
                 foreach (var item in request.LocalizedNames) {
-                    if (item.Value == null) {
+                    if (item.Value is null) {
                         table.Remove(item.Key);
                     }
                     else {
@@ -265,11 +265,11 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
         /// </summary>
         /// <param name="registration">The application registration</param>
         public static void Validate(this ApplicationRegistration registration) {
-            if (registration == null) {
+            if (registration is null) {
                 throw new ArgumentNullException(nameof(registration));
             }
 
-            if (registration.ApplicationUri == null) {
+            if (registration.ApplicationUri is null) {
                 throw new ArgumentNullException(nameof(registration.ApplicationUri));
             }
 
@@ -344,7 +344,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
         /// <param name="twin"></param>
         /// <returns></returns>
         public static ApplicationRegistration ToApplicationRegistration(this DeviceTwinModel twin) {
-            if (twin == null) {
+            if (twin is null) {
                 return null;
             }
             var tags = twin.Tags ?? new Dictionary<string, VariantValue>();
@@ -410,7 +410,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
         /// <param name="registration"></param>
         /// <returns></returns>
         public static ApplicationRegistration Clone(this ApplicationRegistration registration) {
-            if (registration == null) {
+            if (registration is null) {
                 return null;
             }
             return new ApplicationRegistration {
@@ -456,7 +456,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
         public static ApplicationRegistration ToApplicationRegistration(
             this ApplicationInfoModel model, bool? disabled = null, string etag = null,
             uint? recordId = null) {
-            if (model == null) {
+            if (model is null) {
                 throw new ArgumentNullException(nameof(model));
             }
             return new ApplicationRegistration {
@@ -491,7 +491,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
         /// <param name="registration"></param>
         /// <returns></returns>
         public static ApplicationInfoModel ToServiceModel(this ApplicationRegistration registration) {
-            if (registration == null) {
+            if (registration is null) {
                 return null;
             }
             return new ApplicationInfoModel {
@@ -527,8 +527,8 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
         /// <returns></returns>
         public static bool Matches(this ApplicationRegistration registration,
             ApplicationInfoModel model) {
-            if (registration == null) {
-                return model == null;
+            if (registration is null) {
+                return model is null;
             }
             return model != null &&
                 registration.ApplicationId == model.ApplicationId &&
@@ -557,7 +557,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
         /// </summary>
         /// <param name="registration">The application record.</param>
         public static string GetApplicationName(this ApplicationRegistration registration) {
-            if (registration == null) {
+            if (registration is null) {
                 return null;
             }
             if (!string.IsNullOrEmpty(registration.ApplicationName)) {
@@ -577,11 +577,11 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
         /// <param name="registration"></param>
         /// <returns></returns>
         public static string GetSiteOrGatewayId(this ApplicationRegistration registration) {
-            if (registration == null) {
+            if (registration is null) {
                 return null;
             }
             var siteOrGatewayId = registration?.SiteId;
-            if (siteOrGatewayId == null) {
+            if (siteOrGatewayId is null) {
                 var id = registration?.DiscovererId;
                 if (id != null) {
                     siteOrGatewayId = DiscovererModelEx.ParseDeviceId(id, out _);
@@ -598,7 +598,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
         /// <returns></returns>
         private static RegistryOperationContextModel ToOperationModel(
             string authorityId, DateTime? time) {
-            if (string.IsNullOrEmpty(authorityId) && time == null) {
+            if (string.IsNullOrEmpty(authorityId) && time is null) {
                 return null;
             }
             return new RegistryOperationContextModel {

@@ -103,7 +103,7 @@ namespace Microsoft.Azure.IIoT.Crypto.Models {
 
         /// <inheritdoc/>
         public override void CopyFrom(AsnEncodedData asnEncodedData) {
-            if (asnEncodedData == null) {
+            if (asnEncodedData is null) {
                 throw new ArgumentNullException(nameof(asnEncodedData));
             }
 

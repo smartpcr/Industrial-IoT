@@ -45,11 +45,11 @@ namespace Microsoft.Azure.IIoT.OpcUa.Vault.Services {
             }
 
             var entity = await _resolver.FindEntityAsync(entityId, ct);
-            if (entity == null) {
+            if (entity is null) {
                 throw new ResourceNotFoundException("Trusting entity not found");
             }
             var trusted = await _resolver.FindEntityAsync(trustedId, ct);
-            if (trusted == null) {
+            if (trusted is null) {
                 throw new ResourceNotFoundException("Trusted entity not found");
             }
             try {
@@ -84,7 +84,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Vault.Services {
                 // Get latest certificate from store - it has the id of the entity
                 var trustedCert = await _certificates.FindLatestCertificateAsync(
                     relationship.TrustedId, ct);
-                if (trustedCert == null) {
+                if (trustedCert is null) {
                     continue;
                 }
                 result.Certificates.Add(trustedCert.ToServiceModel());

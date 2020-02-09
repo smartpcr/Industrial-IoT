@@ -181,7 +181,7 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Client {
         private Task<IClient> CreateAdapterAsync(string product, Action onError,
             ITransportSettings transportSetting = null) {
             if (string.IsNullOrEmpty(ModuleId)) {
-                if (_cs == null) {
+                if (_cs is null) {
                     throw new InvalidConfigurationException(
                         "No connection string for device client specified.");
                 }
@@ -230,7 +230,7 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Client {
                 TimeSpan timeout, IRetryPolicy retry, Action onConnectionLost,
                 ILogger logger) {
 
-                if (cs == null) {
+                if (cs is null) {
                     logger.Information("Running in iotedge context.");
                 }
                 else {
@@ -363,14 +363,14 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Client {
             /// <returns></returns>
             private static async Task<ModuleClient> CreateAsync(IotHubConnectionStringBuilder cs,
                 ITransportSettings transportSetting) {
-                if (transportSetting == null) {
-                    if (cs == null) {
+                if (transportSetting is null) {
+                    if (cs is null) {
                         return await ModuleClient.CreateFromEnvironmentAsync();
                     }
                     return ModuleClient.CreateFromConnectionString(cs.ToString());
                 }
                 var ts = new ITransportSettings[] { transportSetting };
-                if (cs == null) {
+                if (cs is null) {
                     return await ModuleClient.CreateFromEnvironmentAsync(ts);
                 }
                 return ModuleClient.CreateFromConnectionString(cs.ToString(), ts);
@@ -540,7 +540,7 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Client {
             /// <returns></returns>
             private static DeviceClient Create(IotHubConnectionStringBuilder cs,
                 ITransportSettings transportSetting) {
-                if (cs == null) {
+                if (cs is null) {
                     throw new ArgumentNullException(nameof(cs));
                 }
                 if (transportSetting != null) {

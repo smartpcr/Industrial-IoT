@@ -40,10 +40,10 @@ namespace Microsoft.Azure.IIoT.OpcUa.Publisher.Clients {
             if (string.IsNullOrEmpty(endpointId)) {
                 throw new ArgumentNullException(nameof(endpointId));
             }
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
-            if (request.Item == null) {
+            if (request.Item is null) {
                 throw new ArgumentNullException(nameof(request.Item));
             }
             if (string.IsNullOrEmpty(request.Item.NodeId)) {
@@ -81,7 +81,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Publisher.Clients {
             if (string.IsNullOrEmpty(endpointId)) {
                 throw new ArgumentNullException(nameof(endpointId));
             }
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             if (string.IsNullOrEmpty(request.NodeId)) {
@@ -122,7 +122,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Publisher.Clients {
             if (string.IsNullOrEmpty(endpointId)) {
                 throw new ArgumentNullException(nameof(endpointId));
             }
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             List<PublishedItemModel> list = null;
@@ -204,7 +204,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Publisher.Clients {
                     break;
                 }
             }
-            if (variables == null) {
+            if (variables is null) {
                 // No writer found - add new one with a published dataset
                 var dataSetWriter = new DataSetWriterModel {
                     DataSetWriterId = GetDefaultId(endpointId),

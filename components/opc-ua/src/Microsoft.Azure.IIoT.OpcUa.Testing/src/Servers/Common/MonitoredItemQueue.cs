@@ -54,7 +54,7 @@ namespace Opc.Ua.Sample {
         /// </summary>
         public uint QueueSize {
             get {
-                if (_values == null) {
+                if (_values is null) {
                     return 0;
                 }
 

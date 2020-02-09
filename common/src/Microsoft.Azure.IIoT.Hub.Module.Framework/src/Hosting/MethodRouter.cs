@@ -273,7 +273,7 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
                 catch (Exception e) {
                     task = Task.FromException(e);
                 }
-                if (_methodTaskContinuation == null) {
+                if (_methodTaskContinuation is null) {
                     return VoidContinuation((Task)task);
                 }
                 return (Task<byte[]>)_methodTaskContinuation.Invoke(this, new[] {
@@ -296,7 +296,7 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
                 return task.ContinueWith(tr => {
                     if (tr.IsFaulted || tr.IsCanceled) {
                         var ex = tr.Exception?.Flatten().InnerExceptions.FirstOrDefault();
-                        if (ex == null) {
+                        if (ex is null) {
                             ex = new TaskCanceledException(tr);
                         }
                         _logger.Verbose(ex, "Method call error");
@@ -319,7 +319,7 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
                 return task.ContinueWith(tr => {
                     if (tr.IsFaulted || tr.IsCanceled) {
                         var ex = tr.Exception?.Flatten().InnerExceptions.FirstOrDefault();
-                        if (ex == null) {
+                        if (ex is null) {
                             ex = new TaskCanceledException(tr);
                         }
                         _logger.Verbose(ex, "Method call error");

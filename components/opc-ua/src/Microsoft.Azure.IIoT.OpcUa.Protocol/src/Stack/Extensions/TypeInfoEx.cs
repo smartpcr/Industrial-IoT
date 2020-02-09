@@ -43,7 +43,7 @@ namespace Opc.Ua {
         /// <param name="value"></param>
         /// <returns></returns>
         public static Variant CreateVariant(this TypeInfo typeInfo, object value) {
-            if (value == null) {
+            if (value is null) {
                 value = typeInfo.GetDefaultValue();
             }
             if (!(value is Variant var)) {

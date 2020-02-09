@@ -44,7 +44,7 @@ namespace Microsoft.Azure.IIoT.Storage.Default {
             while (true) {
                 // Get current value
                 var cur = await _indices.FindAsync<Bitmap>(_id, ct);
-                if (cur == null) {
+                if (cur is null) {
                     // Add new index
                     try {
                         var idx = new Bitmap();
@@ -79,7 +79,7 @@ namespace Microsoft.Azure.IIoT.Storage.Default {
                 // Get current value
                 var cur = await _indices.FindAsync<Bitmap>(_id, ct,
                     kWithStrongConsistency);
-                if (cur == null) {
+                if (cur is null) {
                     return;
                 }
                 try {

@@ -74,7 +74,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Controllers {
         [Authorize(Policy = Policies.CanChange)]
         public async Task UpdateDiscovererAsync(string discovererId,
             [FromBody] [Required] DiscovererUpdateApiModel request) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             await _discoverers.UpdateDiscovererAsync(discovererId,
@@ -138,7 +138,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Controllers {
             [FromBody] [Required] DiscovererQueryApiModel query,
             [FromQuery] bool? onlyServerState,
             [FromQuery] int? pageSize) {
-            if (query == null) {
+            if (query is null) {
                 throw new ArgumentNullException(nameof(query));
             }
             if (Request.Headers.ContainsKey(HttpHeader.MaxItemCount)) {
@@ -173,7 +173,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Controllers {
             [FromQuery] bool? onlyServerState,
             [FromQuery] int? pageSize) {
 
-            if (query == null) {
+            if (query is null) {
                 throw new ArgumentNullException(nameof(query));
             }
             if (Request.Headers.ContainsKey(HttpHeader.MaxItemCount)) {

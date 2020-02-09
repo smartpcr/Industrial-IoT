@@ -160,9 +160,9 @@ namespace Microsoft.Extensions.Configuration {
                 }
                 if (singleton) {
                     // Save singleton creation
-                    if (_singleton == null) {
+                    if (_singleton is null) {
                         lock (kLock) {
-                            if (_singleton == null) {
+                            if (_singleton is null) {
                                 // Create instance
                                 _singleton = CreateInstanceAsync(configuration,
                                     keyVaultUrlVarName, false, allowDeveloperAccess);
@@ -201,7 +201,7 @@ namespace Microsoft.Extensions.Configuration {
                 }
                 var keyVault = await TryKeyVaultClientAsync(vaultUri,
                     configuration, keyVaultUrlVarName, allowDeveloperAccess);
-                if (keyVault == null) {
+                if (keyVault is null) {
                     return null;
                 }
                 var provider = new KeyVaultConfigurationProvider(keyVault, vaultUri);
@@ -304,7 +304,7 @@ namespace Microsoft.Extensions.Configuration {
                     .ConfigureAwait(false);
                 var allSecrets = new List<SecretItem>(secretPage.ToList());
                 while (true) {
-                    if (secretPage.NextPageLink == null) {
+                    if (secretPage.NextPageLink is null) {
                         break;
                     }
                     secretPage =  await _keyVault.GetSecretsNextAsync(
@@ -316,7 +316,7 @@ namespace Microsoft.Extensions.Configuration {
                         continue;
                     }
                     var key = GetKeyForSecretName(secret.Identifier.Name);
-                    if (key == null) {
+                    if (key is null) {
                         continue;
                     }
                     _cache.TryAdd(key, _keyVault.GetSecretAsync(

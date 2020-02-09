@@ -53,7 +53,7 @@ namespace Microsoft.Azure.IIoT.App {
         /// </summary>
         /// <param name="configuration"></param>
         public Startup(IConfiguration configuration) {
-            if (configuration == null) {
+            if (configuration is null) {
                 throw new ArgumentNullException(nameof(configuration));
             }
 

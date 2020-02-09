@@ -208,11 +208,11 @@ namespace HistoricalAccess {
             if (StatusCode.IsNotBad(value.StatusCode)) {
                 var typeInfo = value.WrappedValue.TypeInfo;
 
-                if (typeInfo == null) {
+                if (typeInfo is null) {
                     typeInfo = TypeInfo.Construct(value.Value);
                 }
 
-                if (typeInfo == null || typeInfo.BuiltInType != ArchiveItem.DataType || typeInfo.ValueRank != ValueRanks.Scalar) {
+                if (typeInfo is null || typeInfo.BuiltInType != ArchiveItem.DataType || typeInfo.ValueRank != ValueRanks.Scalar) {
                     return StatusCodes.BadTypeMismatch;
                 }
             }
@@ -380,7 +380,7 @@ namespace HistoricalAccess {
         /// Selects the table to use.
         /// </summary>
         private DataTable SelectTable(QualifiedName propertyName) {
-            if (propertyName == null || propertyName.Name == null) {
+            if (propertyName is null || propertyName.Name is null) {
                 return ArchiveItem.DataSet.Tables[0];
             }
 

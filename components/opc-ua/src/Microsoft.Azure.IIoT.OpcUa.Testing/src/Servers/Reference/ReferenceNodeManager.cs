@@ -52,7 +52,7 @@ namespace Reference {
             _configuration = configuration.ParseExtension<ReferenceServerConfiguration>();
 
             // use suitable defaults if no configuration exists.
-            if (_configuration == null) {
+            if (_configuration is null) {
                 _configuration = new ReferenceServerConfiguration();
             }
 
@@ -1515,7 +1515,7 @@ namespace Reference {
                 variable.EURange.Value = new Opc.Ua.Range(100, 0);
             }
 
-            if (initialValues == null) {
+            if (initialValues is null) {
                 variable.Value = TypeInfo.GetDefaultValue(dataType, valueRank, Server.TypeTree);
             }
             else {
@@ -1720,7 +1720,7 @@ namespace Reference {
                 context.NamespaceUris,
                 context.TypeTable);
 
-            if (typeInfo == null || typeInfo == TypeInfo.Unknown) {
+            if (typeInfo is null || typeInfo == TypeInfo.Unknown) {
                 return StatusCodes.BadTypeMismatch;
             }
 
@@ -1749,7 +1749,7 @@ namespace Reference {
             var typeInfo = TypeInfo.Construct(value);
 
             if (!(node is MultiStateValueDiscreteState variable) ||
-                typeInfo == null ||
+                typeInfo is null ||
                 typeInfo == Opc.Ua.TypeInfo.Unknown ||
                 !TypeInfo.IsNumericType(typeInfo.BuiltInType)) {
                 return StatusCodes.BadTypeMismatch;
@@ -1791,7 +1791,7 @@ namespace Reference {
                 context.NamespaceUris,
                 context.TypeTable);
 
-            if (typeInfo == null || typeInfo == TypeInfo.Unknown) {
+            if (typeInfo is null || typeInfo == TypeInfo.Unknown) {
                 return StatusCodes.BadTypeMismatch;
             }
 
@@ -1837,7 +1837,7 @@ namespace Reference {
 
             if (!(node is PropertyState<Opc.Ua.Range> variable) ||
                 !(value is ExtensionObject extensionObject) ||
-                typeInfo == null ||
+                typeInfo is null ||
                 typeInfo == Opc.Ua.TypeInfo.Unknown) {
                 return StatusCodes.BadTypeMismatch;
             }
@@ -2168,7 +2168,7 @@ namespace Reference {
         }
 
         private object GetNewValue(BaseVariableState variable) {
-            if (_generator == null) {
+            if (_generator is null) {
                 _generator = new Opc.Ua.Test.TestDataGenerator() {
                     BoundaryValueFrequency = 0
                 };
@@ -2177,7 +2177,7 @@ namespace Reference {
             object value = null;
             var retryCount = 0;
 
-            while (value == null && retryCount < 10) {
+            while (value is null && retryCount < 10) {
                 value = _generator.GetRandom(variable.DataType, variable.ValueRank,
                     new uint[] { 10 }, Server.TypeTree);
                 retryCount++;
@@ -2244,7 +2244,7 @@ namespace Reference {
            NodeHandle handle,
            IDictionary<NodeId, NodeState> cache) {
             // not valid if no root.
-            if (handle == null) {
+            if (handle is null) {
                 return null;
             }
 

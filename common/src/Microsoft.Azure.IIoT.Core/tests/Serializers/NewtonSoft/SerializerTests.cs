@@ -206,6 +206,110 @@ namespace Microsoft.Azure.IIoT.Serializers {
             Assert.Equal(expected, actual);
         }
 
+        [Fact]
+        public void SerializeFromObjectsWithSameContent1() {
+            var expected = Serializer.FromObject(new {
+                Test = "Text",
+                Locale = "de"
+            });
+            var actual = Serializer.FromObject(new {
+                Locale = "de",
+                Test = "Text"
+            });
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void SerializeFromObjectsWithSameContent2() {
+            var expected = Serializer.FromObject(new {
+                Test = 1,
+                LoCale = "de"
+            });
+            var actual = Serializer.FromObject(new {
+                Locale = "de",
+                TeSt = 1
+            });
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void NullCompareTests() {
+            VariantValue i1 = null;
+            VariantValue i2 = null;
+            VariantValue i3 = "test";
+            VariantValue i4 = 0;
+
+            Assert.True(i1 == null);
+            Assert.True(i1 is null);
+            Assert.True(null == i1);
+            Assert.True(i1 == i2);
+            Assert.True(i1 != i3);
+            Assert.True(i3 != i1);
+            Assert.True(i1 != i4);
+            Assert.True(i4 != i1);
+            Assert.True(i4 != null);
+            Assert.False(i4 == null);
+            Assert.True(i3 != null);
+            Assert.False(i3 == null);
+        }
+
+        [Fact]
+        public void IntGreaterThanTests() {
+            VariantValue i1 = 1;
+            VariantValue i2 = 2;
+            VariantValue i3 = 2;
+
+            Assert.True(i1 < i2);
+            Assert.True(i2 > i1);
+            Assert.True(i2 < 3);
+            Assert.True(i2 <= 2);
+            Assert.True(i2 <= i3);
+            Assert.True(i2 != i1);
+            Assert.True(i1 == 1);
+            Assert.True(i2 == i3);
+            Assert.True(i1 != 2);
+            Assert.False(i2 == i1);
+            Assert.False(i1 == 2);
+        }
+
+        [Fact]
+        public void UlongGreaterThanTests() {
+            VariantValue i1 = 1ul;
+            VariantValue i2 = 2ul;
+            VariantValue i3 = 2ul;
+
+            Assert.True(i1 < i2);
+            Assert.True(i2 > i1);
+            Assert.True(i2 < 3);
+            Assert.True(i2 <= 2);
+            Assert.True(i2 <= i3);
+            Assert.True(i2 != i1);
+            Assert.True(i1 == 1);
+            Assert.True(i2 == i3);
+            Assert.True(i1 != 2);
+            Assert.False(i2 == i1);
+            Assert.False(i1 == 2);
+        }
+
+        [Fact]
+        public void UlongAndIntGreaterThanTests() {
+            VariantValue i1 = -1;
+            VariantValue i2 = 2ul;
+            VariantValue i3 = 2;
+
+            Assert.True(i1 < i2);
+            Assert.True(i2 > i1);
+            Assert.True(i2 < 3);
+            Assert.True(i2 <= 2);
+            Assert.True(i2 <= i3);
+            Assert.True(i2 != i1);
+            Assert.True(i1 < 0);
+            Assert.True(i1 == -1);
+            Assert.True(i2 == i3);
+            Assert.True(i1 != 2);
+            Assert.False(i2 == i1);
+            Assert.False(i1 == 2);
+        }
 
         public static IEnumerable<object[]> GetNulls() {
             return GetStrings()

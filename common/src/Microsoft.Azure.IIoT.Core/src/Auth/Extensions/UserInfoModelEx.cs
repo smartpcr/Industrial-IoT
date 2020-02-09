@@ -43,7 +43,7 @@ namespace Microsoft.Azure.IIoT.Auth.Models {
                         break;
                     case ClaimTypes.Email:
                     case "email":
-                        if (result.Email == null) {
+                        if (result.Email is null) {
                             result.Email = claim.Value;
                         }
                         else if (!result.Email.Contains(claim.Value)) {

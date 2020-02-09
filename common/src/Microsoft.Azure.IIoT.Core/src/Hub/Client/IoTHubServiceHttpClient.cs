@@ -58,7 +58,7 @@ namespace Microsoft.Azure.IIoT.Hub.Client {
         /// <inheritdoc/>
         public Task<DeviceTwinModel> CreateAsync(DeviceTwinModel twin, bool force,
             CancellationToken ct) {
-            if (twin == null) {
+            if (twin is null) {
                 throw new ArgumentNullException(nameof(twin));
             }
             if (string.IsNullOrEmpty(twin.Id)) {
@@ -109,7 +109,7 @@ namespace Microsoft.Azure.IIoT.Hub.Client {
 
         /// <inheritdoc/>
         public Task<DeviceTwinModel> PatchAsync(DeviceTwinModel twin, bool force, CancellationToken ct) {
-            if (twin == null) {
+            if (twin is null) {
                 throw new ArgumentNullException(nameof(twin));
             }
             if (string.IsNullOrEmpty(twin.Id)) {
@@ -162,7 +162,7 @@ namespace Microsoft.Azure.IIoT.Hub.Client {
             if (string.IsNullOrEmpty(deviceId)) {
                 throw new ArgumentNullException(nameof(deviceId));
             }
-            if (parameters == null) {
+            if (parameters is null) {
                 throw new ArgumentNullException(nameof(parameters));
             }
             if (string.IsNullOrEmpty(parameters.Name)) {
@@ -211,7 +211,7 @@ namespace Microsoft.Azure.IIoT.Hub.Client {
         /// <inheritdoc/>
         public Task ApplyConfigurationAsync(string deviceId,
             ConfigurationContentModel configuration, CancellationToken ct) {
-            if (configuration == null) {
+            if (configuration is null) {
                 throw new ArgumentNullException(nameof(configuration));
             }
             if (string.IsNullOrEmpty(deviceId)) {

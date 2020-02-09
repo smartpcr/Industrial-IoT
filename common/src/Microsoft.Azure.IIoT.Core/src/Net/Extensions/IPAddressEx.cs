@@ -19,7 +19,7 @@ namespace System.Net {
         /// <param name="address"></param>
         /// <returns></returns>
         public static bool IsEmpty(this IPAddress address) {
-            return address == null ||
+            return address is null ||
 address.Equals(IPAddress.Any) || address.Equals(IPAddress.IPv6Any) ||
 address.Equals(IPAddress.None) || address.Equals(IPAddress.IPv6None);
         }
@@ -30,7 +30,7 @@ address.Equals(IPAddress.None) || address.Equals(IPAddress.IPv6None);
         /// <param name="address"></param>
         /// <returns></returns>
         public static IPv4Address AsV4(this IPAddress address) {
-            return address == null ? null : new IPv4Address(address.GetAddressBytes());
+            return address is null ? null : new IPv4Address(address.GetAddressBytes());
         }
 
         /// <summary>
@@ -39,7 +39,7 @@ address.Equals(IPAddress.None) || address.Equals(IPAddress.IPv6None);
         /// <param name="address"></param>
         /// <returns></returns>
         public static IPAddress Copy(this IPAddress address) {
-            return address == null ? null : new IPAddress(address.GetAddressBytes());
+            return address is null ? null : new IPAddress(address.GetAddressBytes());
         }
 
         /// <summary>
@@ -86,7 +86,7 @@ address.Equals(IPAddress.None) || address.Equals(IPAddress.IPv6None);
         /// <param name="address"></param>
         /// <returns></returns>
         public static string TryResolve(this IPAddress address) {
-            if (address == null) {
+            if (address is null) {
                 return null;
             }
             try {
@@ -104,7 +104,7 @@ address.Equals(IPAddress.None) || address.Equals(IPAddress.IPv6None);
         /// <param name="address"></param>
         /// <returns></returns>
         public static async Task<string> TryResolveAsync(this IPAddress address) {
-            if (address == null) {
+            if (address is null) {
                 return null;
             }
             try {

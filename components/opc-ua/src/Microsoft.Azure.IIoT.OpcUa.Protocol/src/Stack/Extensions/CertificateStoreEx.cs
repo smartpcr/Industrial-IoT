@@ -24,7 +24,7 @@ namespace Opc.Ua {
         public static void Add(this ICertificateStore store,
             IEnumerable<X509Certificate2> certificates,
             bool noCopy = false) {
-            if (certificates == null) {
+            if (certificates is null) {
                 throw new ArgumentNullException(nameof(certificates));
             }
             foreach (var cert in certificates) {
@@ -41,7 +41,7 @@ namespace Opc.Ua {
         /// <returns></returns>
         public static void Remove(this ICertificateStore store,
             IEnumerable<X509Certificate2> certificates) {
-            if (certificates == null) {
+            if (certificates is null) {
                 throw new ArgumentNullException(nameof(certificates));
             }
             foreach (var cert in certificates) {

@@ -68,7 +68,7 @@ namespace Microsoft.Azure.IIoT.Serializers {
         /// <inheritdoc/>
         public VariantValue FromObject(object o) {
             try {
-                return new JsonVariantValue(o == null ? JValue.CreateNull() :
+                return new JsonVariantValue(o is null ? JValue.CreateNull() :
                     JToken.FromObject(o, JsonSerializer.CreateDefault(Settings)), this);
             }
             catch (JsonReaderException ex) {
@@ -252,7 +252,7 @@ namespace Microsoft.Azure.IIoT.Serializers {
             protected override bool ValueEquals(object o) {
                 // Compare tokens
                 if (!(o is JToken t)) {
-                    if (FastCompare(o)) {
+                    if (FastEqual(o)) {
                         return true;
                     }
                     t = JToken.FromObject(o,
@@ -285,8 +285,18 @@ namespace Microsoft.Azure.IIoT.Serializers {
                     return t1 == t2;
                 }
 
+                if (t1 is JObject o1 && t2 is JObject o2) {
+                    // Compare properties in order of key
+                    var props1 = o1.Properties().OrderBy(k => k.Name)
+                        .Select(p => p.Value);
+                    var props2 = o2.Properties().OrderBy(k => k.Name)
+                        .Select(p => p.Value);
+                    return props1.SequenceEqual(props2,
+                        Compare.Using<JToken>((x, y) => DeepEquals(x, y)));
+                }
+
                 if (t1 is JContainer c1 && t2 is JContainer c2) {
-                    // Compare all items - they are per json.net ordered.
+                    // For all other containers - order is important
                     return c1.Children().SequenceEqual(c2.Children(),
                         Compare.Using<JToken>((x, y) => DeepEquals(x, y)));
                 }
@@ -306,12 +316,23 @@ namespace Microsoft.Azure.IIoT.Serializers {
                 return false;
             }
 
+            /// <inheritdoc/>
+            protected override bool TryCompareInnerValueTo(object o, out int result) {
+                // Compare value token
+                if (Token is JValue v1 && o is JValue v2) {
+                    result = v1.CompareTo(v2);
+                    return true;
+                }
+                result = 0;
+                return false;
+            }
+
             /// <summary>
             /// Quick compare to object
             /// </summary>
             /// <param name="o"></param>
             /// <returns></returns>
-            private bool FastCompare(object o) {
+            private bool FastEqual(object o) {
                 // Handle special cases
                 switch (o) {
                     case byte[] b:

@@ -54,13 +54,13 @@ namespace Microsoft.Azure.IIoT.Hub.Processor.Services {
             /// <inheritdoc/>
             public async Task ProcessEventsAsync(PartitionContext context,
                 IEnumerable<EventData> messages) {
-                if (messages == null || !messages.Any()) {
+                if (messages is null || !messages.Any()) {
                     return;
                 }
                 foreach (var eventData in messages) {
                     var properties = new EventProperties(eventData.SystemProperties,
                         eventData.Properties);
-                    if (eventData.Body.Array == null) {
+                    if (eventData.Body.Array is null) {
                         _logger.Verbose("WARNING: Received empty message with properties {@properties}",
                             properties);
                         continue;

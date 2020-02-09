@@ -22,7 +22,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
         /// <returns></returns>
         public static EntityRegistration ToEntityRegistration(this DeviceTwinModel twin,
             bool onlyServerState = false) {
-            if (twin == null) {
+            if (twin is null) {
                 return null;
             }
             var type = twin.Tags.GetValueOrDefault<string>(nameof(EntityRegistration.DeviceType), null);

@@ -18,7 +18,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Models {
         /// <param name="isPatch"></param>
         public static SupervisorApiModel Patch(this SupervisorApiModel update,
             SupervisorApiModel supervisor, bool isPatch = false) {
-            if (supervisor == null) {
+            if (supervisor is null) {
                 return update;
             }
             if (!isPatch || update.Connected != null) {

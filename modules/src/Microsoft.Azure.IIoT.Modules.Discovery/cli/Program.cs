@@ -74,11 +74,11 @@ namespace Microsoft.Azure.IIoT.Modules.Discovery.Cli {
                     throw new ArgumentException("Bad connection string.");
                 }
                 config = connectionString.ToIoTHubConfig();
-                if (deviceId == null) {
+                if (deviceId is null) {
                     deviceId = Dns.GetHostName();
                     Console.WriteLine($"Using <deviceId> '{deviceId}'");
                 }
-                if (moduleId == null) {
+                if (moduleId is null) {
                     moduleId = "discovery";
                     Console.WriteLine($"Using <moduleId> '{moduleId}'");
                 }

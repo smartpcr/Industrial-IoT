@@ -131,7 +131,7 @@ namespace Vehicles.Types {
 
             VehicleType value = encodeable as VehicleType;
 
-            if (value == null) {
+            if (value is null) {
                 return false;
             }
 
@@ -335,7 +335,7 @@ namespace Vehicles.Types {
 
             CarType value = encodeable as CarType;
 
-            if (value == null) {
+            if (value is null) {
                 return false;
             }
 
@@ -537,7 +537,7 @@ namespace Vehicles.Types {
 
             TruckType value = encodeable as TruckType;
 
-            if (value == null) {
+            if (value is null) {
                 return false;
             }
 

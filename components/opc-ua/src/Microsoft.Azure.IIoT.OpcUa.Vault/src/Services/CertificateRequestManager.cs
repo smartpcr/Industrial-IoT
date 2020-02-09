@@ -171,7 +171,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Vault.Services {
                     "The request id must be provided");
             }
             var request = await _repo.FindAsync(requestId, ct);
-            if (request == null) {
+            if (request is null) {
                 throw new ResourceNotFoundException("Request not found");
             }
             return request.Record;

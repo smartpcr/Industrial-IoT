@@ -377,7 +377,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Sample {
                         // find the id for the issuer certificate.
                         var id = configuration.ParseExtension<CertificateIdentifier>(qname);
 
-                        if (id == null) {
+                        if (id is null) {
                             Utils.Trace(
                                 Utils.TraceMasks.Error,
                                 "Could not load CertificateIdentifier for UserTokenPolicy {0}",
@@ -395,7 +395,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Sample {
                         // find the location of the trusted issuers.
                         var trustedIssuers = configuration.ParseExtension<CertificateTrustList>(qname);
 
-                        if (trustedIssuers == null) {
+                        if (trustedIssuers is null) {
                             Utils.Trace(
                                 Utils.TraceMasks.Error,
                                 "Could not load CertificateTrustList for UserTokenPolicy {0}",
@@ -415,7 +415,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Sample {
             /// </summary>
             private void SessionManager_ImpersonateUser(Session session,
                 ImpersonateEventArgs args) {
-                if (session == null) {
+                if (session is null) {
                     throw new ArgumentNullException(nameof(session));
                 }
 

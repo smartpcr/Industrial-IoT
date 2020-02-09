@@ -28,7 +28,7 @@ namespace Opc.Ua {
         /// <inheritdoc/>
         public override void WriteJson(JsonWriter writer, object value,
             JsonSerializer serializer) {
-            if (value == null) {
+            if (value is null) {
                 writer.WriteNull();
                 return;
             }

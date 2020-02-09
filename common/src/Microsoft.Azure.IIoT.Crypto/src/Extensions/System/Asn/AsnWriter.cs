@@ -47,7 +47,7 @@ namespace System.Security.Cryptography.Asn1 {
                 throw new OverflowException();
             }
 
-            if (_buffer == null || _buffer.Length - _offset < pendingCount) {
+            if (_buffer is null || _buffer.Length - _offset < pendingCount) {
 #if CHECK_ACCURATE_ENSURE
 // A debug paradigm to make sure that throughout the execution nothing ever writes
 // past where the buffer was "allocated".  This causes quite a number of reallocs
@@ -506,7 +506,7 @@ namespace System.Security.Cryptography.Asn1 {
         }
 
         public void WriteNamedBitList(object enumValue) {
-            if (enumValue == null) {
+            if (enumValue is null) {
                 throw new ArgumentNullException(nameof(enumValue));
             }
 
@@ -518,7 +518,7 @@ namespace System.Security.Cryptography.Asn1 {
         }
 
         public void WriteNamedBitList(Asn1Tag tag, object enumValue) {
-            if (enumValue == null) {
+            if (enumValue is null) {
                 throw new ArgumentNullException(nameof(enumValue));
             }
 
@@ -698,7 +698,7 @@ namespace System.Security.Cryptography.Asn1 {
         }
 
         public void WriteObjectIdentifier(Oid oid) {
-            if (oid == null) {
+            if (oid is null) {
                 throw new ArgumentNullException(nameof(oid));
             }
 
@@ -706,7 +706,7 @@ namespace System.Security.Cryptography.Asn1 {
         }
 
         public void WriteObjectIdentifier(string oidValue) {
-            if (oidValue == null) {
+            if (oidValue is null) {
                 throw new ArgumentNullException(nameof(oidValue));
             }
 
@@ -718,7 +718,7 @@ namespace System.Security.Cryptography.Asn1 {
         }
 
         public void WriteObjectIdentifier(Asn1Tag tag, Oid oid) {
-            if (oid == null) {
+            if (oid is null) {
                 throw new ArgumentNullException(nameof(oid));
             }
 
@@ -726,7 +726,7 @@ namespace System.Security.Cryptography.Asn1 {
         }
 
         public void WriteObjectIdentifier(Asn1Tag tag, string oidValue) {
-            if (oidValue == null) {
+            if (oidValue is null) {
                 throw new ArgumentNullException(nameof(oidValue));
             }
 
@@ -881,7 +881,7 @@ namespace System.Security.Cryptography.Asn1 {
         }
 
         public void WriteEnumeratedValue(object enumValue) {
-            if (enumValue == null) {
+            if (enumValue is null) {
                 throw new ArgumentNullException(nameof(enumValue));
             }
 
@@ -893,7 +893,7 @@ namespace System.Security.Cryptography.Asn1 {
         }
 
         public void WriteEnumeratedValue(Asn1Tag tag, object enumValue) {
-            if (enumValue == null) {
+            if (enumValue is null) {
                 throw new ArgumentNullException(nameof(enumValue));
             }
 
@@ -1224,7 +1224,7 @@ namespace System.Security.Cryptography.Asn1 {
         }
 
         private void PushTag(Asn1Tag tag) {
-            if (_nestingStack == null) {
+            if (_nestingStack is null) {
                 _nestingStack = new Stack<(Asn1Tag, int)>();
             }
 
@@ -1237,7 +1237,7 @@ namespace System.Security.Cryptography.Asn1 {
         }
 
         private void PopTag(Asn1Tag tag, bool sortContents = false) {
-            if (_nestingStack == null || _nestingStack.Count == 0) {
+            if (_nestingStack is null || _nestingStack.Count == 0) {
                 throw new ArgumentException(SR.Cryptography_AsnWriter_PopWrongTag, nameof(tag));
             }
 
@@ -1294,7 +1294,7 @@ namespace System.Security.Cryptography.Asn1 {
         }
 
         public void WriteCharacterString(UniversalTagNumber encodingType, string str) {
-            if (str == null) {
+            if (str is null) {
                 throw new ArgumentNullException(nameof(str));
             }
 
@@ -1308,7 +1308,7 @@ namespace System.Security.Cryptography.Asn1 {
         }
 
         public void WriteCharacterString(Asn1Tag tag, UniversalTagNumber encodingType, string str) {
-            if (str == null) {
+            if (str is null) {
                 throw new ArgumentNullException(nameof(str));
             }
 

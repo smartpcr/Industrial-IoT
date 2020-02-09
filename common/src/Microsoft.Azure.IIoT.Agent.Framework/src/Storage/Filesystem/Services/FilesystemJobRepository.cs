@@ -96,7 +96,7 @@ namespace Microsoft.Azure.IIoT.Agent.Framework.Storage.Filesystem {
             try {
                 var jobToUpdate = _jobs.SingleOrDefault(j => j.Id == jobId);
                 var updatedOrNew = await predicate(jobToUpdate.Clone());
-                if (updatedOrNew == null) {
+                if (updatedOrNew is null) {
                     return jobToUpdate;
                 }
                 updatedOrNew.LifetimeData.Updated = DateTime.UtcNow;
@@ -142,7 +142,7 @@ namespace Microsoft.Azure.IIoT.Agent.Framework.Storage.Filesystem {
             await _lock.WaitAsync();
             try {
                 var jobToRemove = _jobs.SingleOrDefault(j => j.Id == jobId);
-                if (jobToRemove == null) {
+                if (jobToRemove is null) {
                     throw new ResourceNotFoundException("Job not found");
                 }
                 if (await predicate(jobToRemove)) {

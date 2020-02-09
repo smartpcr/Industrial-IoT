@@ -97,7 +97,7 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
         }
 
         [Fact]
-        public async Task TestSettingDesiredPropertyAndCheckReported2() {
+        public async Task TestSettingDesiredPropertyAndCheckReported2Async() {
 
             var harness = new ModuleHostHarness();
             var controller = new TestController2();
@@ -106,7 +106,7 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
                     var expected = new Test {
                         Item1 = "test",
                         Item2 = 5454,
-                        Item3 = DateTime.Now
+                        Item3 = DateTime.UtcNow
                     };
                     var test = _serializer.FromObject(expected);
 

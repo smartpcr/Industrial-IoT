@@ -56,7 +56,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Testing.Tests {
             Assert.NotNull(result);
             Assert.NotNull(result.Results);
             Assert.Equal(attributes.Count, result.Results.Count);
-            Assert.True(result.Results.TrueForAll(r => r.ErrorInfo == null));
+            Assert.True(result.Results.TrueForAll(r => r.ErrorInfo is null));
             Assert.True(result.Results.TrueForAll(r => (int)r.Value == (int)expected));
         }
 
@@ -89,7 +89,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Testing.Tests {
             Assert.NotNull(result);
             Assert.NotNull(result.Results);
             Assert.Equal(attributes.Count, result.Results.Count);
-            Assert.True(result.Results.TrueForAll(r => r.ErrorInfo == null));
+            Assert.True(result.Results.TrueForAll(r => r.ErrorInfo is null));
             Assert.True(result.Results.TrueForAll(r => (int)r.Value == expected));
         }
 
@@ -122,7 +122,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Testing.Tests {
             Assert.NotNull(result);
             Assert.NotNull(result.Results);
             Assert.Equal(attributes.Count, result.Results.Count);
-            Assert.True(result.Results.TrueForAll(r => r.ErrorInfo == null));
+            Assert.True(result.Results.TrueForAll(r => r.ErrorInfo is null));
             Assert.True(result.Results.TrueForAll(r => (int)r.Value == 0));
         }
 
@@ -155,7 +155,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Testing.Tests {
             Assert.NotNull(result);
             Assert.NotNull(result.Results);
             Assert.Equal(attributes.Count, result.Results.Count);
-            Assert.True(result.Results.TrueForAll(r => r.ErrorInfo == null));
+            Assert.True(result.Results.TrueForAll(r => r.ErrorInfo is null));
             Assert.True(result.Results.TrueForAll(r => (int)r.Value == 0));
         }
 
@@ -945,9 +945,9 @@ namespace Microsoft.Azure.IIoT.OpcUa.Testing.Tests {
             results.ErrorInfo.Diagnostics.TryGetValue("BadNodeIdUnknown", out var item);
             Assert.NotNull(item);
             Assert.Equal(VariantValueType.Array, item.Type);
-            Assert.Single(item.Values);
-            Assert.Equal(1, item.Count);
-            Assert.Equal("Browse_ns=9;s=unknown", (string)item[0]);
+            Assert.NotEqual(0, item.Count);
+            Assert.NotEmpty(item.Values);
+            Assert.Equal("ReadValue_ns=9;s=unknown", (string)item[0]);
         }
 
 

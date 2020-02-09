@@ -25,7 +25,7 @@ namespace System.Collections.Generic {
             if (dict == that) {
                 return true;
             }
-            if (dict == null || that == null) {
+            if (dict is null || that is null) {
                 return false;
             }
             if (dict.Count != that.Count) {

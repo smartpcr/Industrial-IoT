@@ -230,7 +230,7 @@ namespace Opc.Ua.Sample {
 
                 // update the queue size.
                 if (queueSize > 1) {
-                    if (_queue == null) {
+                    if (_queue is null) {
                         _queue = new MonitoredItemQueue();
                     }
 
@@ -555,7 +555,7 @@ namespace Opc.Ua.Sample {
                 _readyToTrigger = false;
 
                 // check if queuing is enabled.
-                if (_queue == null) {
+                if (_queue is null) {
                     Publish(context, _lastValue, _lastError, notifications, diagnostics);
                 }
                 else {

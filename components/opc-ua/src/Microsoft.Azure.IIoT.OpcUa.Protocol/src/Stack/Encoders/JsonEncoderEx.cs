@@ -252,7 +252,7 @@ namespace Opc.Ua.Encoders {
 
         /// <inheritdoc/>
         public void WriteString(string property, string value) {
-            if (value == null) {
+            if (value is null) {
                 WriteNull(property);
             }
             else {
@@ -327,7 +327,7 @@ namespace Opc.Ua.Encoders {
 
         /// <inheritdoc/>
         public void WriteByteString(string property, byte[] value) {
-            if (value == null || value.Length == 0) {
+            if (value is null || value.Length == 0) {
                 WriteNull(property);
             }
             else {
@@ -345,7 +345,7 @@ namespace Opc.Ua.Encoders {
 
         /// <inheritdoc/>
         public void WriteXmlElement(string property, XmlElement value) {
-            if (value == null) {
+            if (value is null) {
                 WriteNull(property);
             }
             else {
@@ -435,7 +435,7 @@ namespace Opc.Ua.Encoders {
 
         /// <inheritdoc/>
         public void WriteDiagnosticInfo(string property, DiagnosticInfo value) {
-            if (value == null) {
+            if (value is null) {
                 WriteNull(property);
             }
             else {
@@ -551,7 +551,7 @@ namespace Opc.Ua.Encoders {
 
         /// <inheritdoc/>
         public void WriteDataValue(string property, DataValue value) {
-            if (value == null) {
+            if (value is null) {
                 WriteNull(property);
             }
             else {
@@ -584,7 +584,7 @@ namespace Opc.Ua.Encoders {
 
         /// <inheritdoc/>
         public void WriteExtensionObject(string property, ExtensionObject value) {
-            if (value == null) {
+            if (value is null) {
                 WriteNull(property);
                 return;
             }
@@ -686,7 +686,7 @@ namespace Opc.Ua.Encoders {
 
         /// <inheritdoc/>
         public void WriteEncodeable(string property, IEncodeable value, Type systemType) {
-            if (value == null) {
+            if (value is null) {
                 WriteNull(property);
             }
             else {
@@ -700,7 +700,7 @@ namespace Opc.Ua.Encoders {
 
         /// <inheritdoc/>
         public void WriteEnumerated(string property, Enum value) {
-            if (value == null) {
+            if (value is null) {
                 WriteNull(property);
             }
             else {
@@ -865,7 +865,7 @@ namespace Opc.Ua.Encoders {
 
         /// <inheritdoc/>
         public void WriteEnumeratedArray(string property, Array values, Type systemType) {
-            if (values == null || values.Length == 0) {
+            if (values is null || values.Length == 0) {
                 WriteNull(property);
             }
             else {
@@ -894,7 +894,7 @@ namespace Opc.Ua.Encoders {
                         $"Bad variant: Value rank '{valueRank}' is invalid.");
                 }
                 // Cannot deduce rank - write null
-                if (value == null) {
+                if (value is null) {
                     WriteNull(null);
                     return;
                 }
@@ -1114,7 +1114,7 @@ namespace Opc.Ua.Encoders {
 
             if (valueRank > 1) {
                 // Write matrix
-                if (value == null) {
+                if (value is null) {
                     WriteNull(null);
                     return;
                 }
@@ -1137,7 +1137,7 @@ namespace Opc.Ua.Encoders {
         /// <param name="value"></param>
         /// <returns></returns>
         private IList<T> ToTypedArray<T>(object value) {
-            if (value == null) {
+            if (value is null) {
                 return default;
             }
             if (value is object[] o) {
@@ -1158,7 +1158,7 @@ namespace Opc.Ua.Encoders {
         /// <param name="value"></param>
         /// <returns></returns>
         private T ToTypedScalar<T>(object value) {
-            if (value == null) {
+            if (value is null) {
                 return default;
             }
             if (value is T t) {
@@ -1276,7 +1276,7 @@ namespace Opc.Ua.Encoders {
         /// <param name="writer"></param>
         private void WriteArray<T>(string property, IList<T> values,
             Action<T> writer) {
-            if (values == null) {
+            if (values is null) {
                 WriteNull(property);
             }
             else {

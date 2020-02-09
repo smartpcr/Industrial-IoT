@@ -18,7 +18,7 @@ namespace Microsoft.Azure.IIoT.Crypto.Storage.Models {
         /// <param name="document"></param>
         /// <returns></returns>
         public static Crl ToModel(this CrlDocument document) {
-            if (document?.RawData == null) {
+            if (document?.RawData is null) {
                 return null;
             }
             return CrlEx.ToCrl(document.RawData);

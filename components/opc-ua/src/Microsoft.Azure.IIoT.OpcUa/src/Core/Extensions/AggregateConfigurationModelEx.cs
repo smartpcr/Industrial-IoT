@@ -16,7 +16,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Core.Models {
         /// <param name="model"></param>
         /// <returns></returns>
         public static AggregateConfigurationModel Clone(this AggregateConfigurationModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new AggregateConfigurationModel {
@@ -36,10 +36,10 @@ namespace Microsoft.Azure.IIoT.OpcUa.Core.Models {
         /// <returns></returns>
         public static bool IsSameAs(this AggregateConfigurationModel model,
             AggregateConfigurationModel other) {
-            if (model == null && other == null) {
+            if (model is null && other is null) {
                 return true;
             }
-            if (model == null || other == null) {
+            if (model is null || other is null) {
                 return false;
             }
             if (model.PercentDataBad != other.PercentDataBad) {

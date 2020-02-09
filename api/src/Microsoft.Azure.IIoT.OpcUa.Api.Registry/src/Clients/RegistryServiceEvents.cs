@@ -28,7 +28,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry {
         /// <inheritdoc/>
         public async Task<IAsyncDisposable> SubscribeApplicationEventsAsync(
             string userId, Func<ApplicationEventApiModel, Task> callback) {
-            if (callback == null) {
+            if (callback is null) {
                 throw new ArgumentNullException(nameof(callback));
             }
             var registrar = await _client.GetRegistrarAsync(userId);
@@ -53,7 +53,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry {
         /// <inheritdoc/>
         public async Task<IAsyncDisposable> SubscribeEndpointEventsAsync(
             string userId, Func<EndpointEventApiModel, Task> callback) {
-            if (callback == null) {
+            if (callback is null) {
                 throw new ArgumentNullException(nameof(callback));
             }
             var registrar = await _client.GetRegistrarAsync(userId);
@@ -78,7 +78,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry {
         /// <inheritdoc/>
         public async Task<IAsyncDisposable> SubscribeGatewayEventsAsync(
             string userId, Func<GatewayEventApiModel, Task> callback) {
-            if (callback == null) {
+            if (callback is null) {
                 throw new ArgumentNullException(nameof(callback));
             }
             var registrar = await _client.GetRegistrarAsync(userId);
@@ -103,7 +103,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry {
         /// <inheritdoc/>
         public async Task<IAsyncDisposable> SubscribeSupervisorEventsAsync(
             string userId, Func<SupervisorEventApiModel, Task> callback) {
-            if (callback == null) {
+            if (callback is null) {
                 throw new ArgumentNullException(nameof(callback));
             }
             var registrar = await _client.GetRegistrarAsync(userId);
@@ -128,7 +128,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry {
         /// <inheritdoc/>
         public async Task<IAsyncDisposable> SubscribeDiscovererEventsAsync(
             string userId, Func<DiscovererEventApiModel, Task> callback) {
-            if (callback == null) {
+            if (callback is null) {
                 throw new ArgumentNullException(nameof(callback));
             }
             var registrar = await _client.GetRegistrarAsync(userId);
@@ -153,7 +153,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry {
         /// <inheritdoc/>
         public async Task<IAsyncDisposable> SubscribePublisherEventsAsync(
             string userId, Func<PublisherEventApiModel, Task> callback) {
-            if (callback == null) {
+            if (callback is null) {
                 throw new ArgumentNullException(nameof(callback));
             }
             var registrar = await _client.GetRegistrarAsync(userId);
@@ -178,7 +178,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry {
         /// <inheritdoc/>
         public async Task<IAsyncDisposable> SubscribeDiscoveryProgressByDiscovererIdAsync(
             string discovererId, string userId, Func<DiscoveryProgressApiModel, Task> callback) {
-            if (callback == null) {
+            if (callback is null) {
                 throw new ArgumentNullException(nameof(callback));
             }
             var registrar = await _client.GetRegistrarAsync(userId);
@@ -205,7 +205,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry {
         /// <inheritdoc/>
         public async Task<IAsyncDisposable> SubscribeDiscoveryProgressByRequestIdAsync(
             string requestId, string userId, Func<DiscoveryProgressApiModel, Task> callback) {
-            if (callback == null) {
+            if (callback is null) {
                 throw new ArgumentNullException(nameof(callback));
             }
             var registrar = await _client.GetRegistrarAsync(userId);

@@ -614,7 +614,7 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
             }
 
             public Task<int> Test3Async(byte[] request, int value) {
-                if (request == null) {
+                if (request is null) {
                     throw new ArgumentNullException(nameof(request));
                 }
                 return Task.FromResult(value);

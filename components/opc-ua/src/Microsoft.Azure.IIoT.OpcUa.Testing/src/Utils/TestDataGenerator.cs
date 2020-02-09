@@ -97,7 +97,7 @@ namespace Opc.Ua.Test {
             NamespaceUris = new NamespaceTable();
             ServerUris = new StringTable();
             _random = random;
-            if (_random == null) {
+            if (_random is null) {
                 _random = new RandomSource();
             }
             _boundaryValues = new SortedDictionary<string, object[]>();
@@ -130,14 +130,14 @@ namespace Opc.Ua.Test {
             var num = 0;
             switch (valueRank) {
                 case -2:
-                    num = (arrayDimensions == null || arrayDimensions.Count <= 0) ?
+                    num = (arrayDimensions is null || arrayDimensions.Count <= 0) ?
                         GetRandomRange(0, 1) : arrayDimensions.Count;
                     break;
                 case -3:
                     num = GetRandomRange(0, 1);
                     break;
                 case 0:
-                    num = (arrayDimensions == null || arrayDimensions.Count <= 0) ?
+                    num = (arrayDimensions is null || arrayDimensions.Count <= 0) ?
                         GetRandomRange(1, 1) : arrayDimensions.Count;
                     break;
                 case -1:
@@ -377,11 +377,11 @@ namespace Opc.Ua.Test {
                     if (UseBoundaryValue()) {
                         obj = GetBoundaryValue(typeof(T));
                     }
-                    if (obj == null) {
+                    if (obj is null) {
                         obj = GetRandom(typeof(T));
                     }
                 }
-                while (obj == null);
+                while (obj is null);
                 array[i] = (T)obj;
             }
             return array;
@@ -760,7 +760,7 @@ namespace Opc.Ua.Test {
                 string text = null;
                 List<string> list = null;
                 var stream = typeof(Opc.Ua.Test.DataGenerator).GetTypeInfo().Assembly.GetManifestResourceStream(resourceName);
-                if (stream == null) {
+                if (stream is null) {
                     var fileInfo = new FileInfo(resourceName);
                     stream = fileInfo.OpenRead();
                 }
@@ -789,14 +789,14 @@ namespace Opc.Ua.Test {
         }
 
         private object GetBoundaryValue(Type type) {
-            if (type == null) {
+            if (type is null) {
                 return null;
             }
             object[] value = null;
             if (!_boundaryValues.TryGetValue(type.Name, out value)) {
                 return null;
             }
-            if (value == null || value.Length == 0) {
+            if (value is null || value.Length == 0) {
                 return null;
             }
             var num = _random.NextInt32(value.Length - 1);

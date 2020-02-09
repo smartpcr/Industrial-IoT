@@ -21,7 +21,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Publisher.Models {
         /// <param name="model"></param>
         public static CredentialModel ToServiceModel(
             this CredentialApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new CredentialModel {
@@ -36,7 +36,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Publisher.Models {
         /// <param name="model"></param>
         public static DiagnosticsModel ToServiceModel(
             this DiagnosticsApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new DiagnosticsModel {
@@ -52,7 +52,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Publisher.Models {
         /// <param name="model"></param>
         public static PublishedItemApiModel ToApiModel(
             this PublishedItemModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new PublishedItemApiModel {
@@ -67,7 +67,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Publisher.Models {
         /// </summary>
         public static PublishedItemModel ToServiceModel(
             this PublishedItemApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new PublishedItemModel {
@@ -82,7 +82,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Publisher.Models {
         /// </summary>
         public static PublishedItemListRequestModel ToServiceModel(
             this PublishedItemListRequestApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new PublishedItemListRequestModel {
@@ -96,7 +96,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Publisher.Models {
         /// <param name="model"></param>
         public static PublishedItemListResponseApiModel ToApiModel(
             this PublishedItemListResultModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new PublishedItemListResponseApiModel {
@@ -111,7 +111,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Publisher.Models {
         /// Create service model from api model
         /// </summary>
         public static PublishStartRequestModel ToServiceModel(this PublishStartRequestApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new PublishStartRequestModel {
@@ -125,7 +125,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Publisher.Models {
         /// </summary>
         /// <param name="model"></param>
         public static PublishStartResponseApiModel ToApiModel(this PublishStartResultModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new PublishStartResponseApiModel {
@@ -137,7 +137,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Publisher.Models {
         /// Create service model from api model
         /// </summary>
         public static PublishStopRequestModel ToServiceModel(this PublishStopRequestApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new PublishStopRequestModel {
@@ -151,7 +151,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Publisher.Models {
         /// </summary>
         /// <param name="model"></param>
         public static PublishStopResponseApiModel ToApiModel(this PublishStopResultModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new PublishStopResponseApiModel {
@@ -164,7 +164,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Publisher.Models {
         /// </summary>
         /// <returns></returns>
         public static RequestHeaderModel ToServiceModel(this RequestHeaderApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new RequestHeaderModel {
@@ -179,7 +179,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Publisher.Models {
         /// </summary>
         /// <param name="model"></param>
         public static ServiceResultApiModel ToApiModel(this ServiceResultModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new ServiceResultApiModel {

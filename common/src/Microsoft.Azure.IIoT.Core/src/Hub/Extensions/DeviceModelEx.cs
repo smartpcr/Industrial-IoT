@@ -16,7 +16,7 @@ namespace Microsoft.Azure.IIoT.Hub.Models {
         /// <param name="model"></param>
         /// <returns></returns>
         public static DeviceModel Clone(this DeviceModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new DeviceModel {
@@ -33,7 +33,7 @@ namespace Microsoft.Azure.IIoT.Hub.Models {
         /// <param name="model"></param>
         /// <returns></returns>
         public static DeviceAuthenticationModel Clone(this DeviceAuthenticationModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new DeviceAuthenticationModel {

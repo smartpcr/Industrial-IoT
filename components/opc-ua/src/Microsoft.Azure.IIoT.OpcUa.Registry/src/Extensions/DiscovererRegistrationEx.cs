@@ -62,7 +62,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
                 existing?.SecurityPoliciesFilter?.DecodeAsList());
             if (!(policiesUpdate ?? true)) {
                 twin.Tags.Add(nameof(DiscovererRegistration.SecurityPoliciesFilter),
-                    update?.SecurityPoliciesFilter == null ?
+                    update?.SecurityPoliciesFilter is null ?
                     null : serializer.FromObject(update.SecurityPoliciesFilter));
             }
 
@@ -70,13 +70,13 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
                 existing?.TrustListsFilter?.DecodeAsList());
             if (!(trustListUpdate ?? true)) {
                 twin.Tags.Add(nameof(DiscovererRegistration.TrustListsFilter),
-                    update?.TrustListsFilter == null ?
+                    update?.TrustListsFilter is null ?
                     null : serializer.FromObject(update.TrustListsFilter));
             }
 
             if (update?.SecurityModeFilter != existing?.SecurityModeFilter) {
                 twin.Tags.Add(nameof(DiscovererRegistration.SecurityModeFilter),
-                    update?.SecurityModeFilter == null ?
+                    update?.SecurityModeFilter is null ?
                     null : serializer.FromObject(update.SecurityModeFilter.ToString()));
             }
 
@@ -86,7 +86,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
                 existing?.DiscoveryUrls?.DecodeAsList());
             if (!(urlUpdate ?? true)) {
                 twin.Properties.Desired.Add(nameof(DiscovererRegistration.DiscoveryUrls),
-                    update?.DiscoveryUrls == null ?
+                    update?.DiscoveryUrls is null ?
                     null : serializer.FromObject(update.DiscoveryUrls));
             }
 
@@ -94,7 +94,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
                 existing?.Locales?.DecodeAsList());
             if (!(localesUpdate ?? true)) {
                 twin.Properties.Desired.Add(nameof(DiscovererRegistration.Locales),
-                    update?.Locales == null ?
+                    update?.Locales is null ?
                     null : serializer.FromObject(update.Locales));
             }
 
@@ -115,7 +115,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
 
             if (update?.LogLevel != existing?.LogLevel) {
                 twin.Properties.Desired.Add(nameof(DiscovererRegistration.LogLevel),
-                    update?.LogLevel == null ?
+                    update?.LogLevel is null ?
                     null : serializer.FromObject(update.LogLevel.ToString()));
             }
 
@@ -167,7 +167,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
         /// <returns></returns>
         public static DiscovererRegistration ToDiscovererRegistration(this DeviceTwinModel twin,
             Dictionary<string, VariantValue> properties) {
-            if (twin == null) {
+            if (twin is null) {
                 return null;
             }
 
@@ -257,27 +257,27 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
         public static DiscovererRegistration ToDiscovererRegistration(this DeviceTwinModel twin,
             bool onlyServerState, out bool connected) {
 
-            if (twin == null) {
+            if (twin is null) {
                 connected = false;
                 return null;
             }
-            if (twin.Tags == null) {
+            if (twin.Tags is null) {
                 twin.Tags = new Dictionary<string, VariantValue>();
             }
 
             var consolidated =
                 ToDiscovererRegistration(twin, twin.GetConsolidatedProperties());
-            var desired = (twin.Properties?.Desired == null) ? null :
+            var desired = (twin.Properties?.Desired is null) ? null :
                 ToDiscovererRegistration(twin, twin.Properties.Desired);
 
             connected = consolidated.Connected;
             if (desired != null) {
                 desired.Connected = connected;
-                if (desired.SiteId == null && consolidated.SiteId != null) {
+                if (desired.SiteId is null && consolidated.SiteId != null) {
                     // Not set by user, but by config, so fake user desiring it.
                     desired.SiteId = consolidated.SiteId;
                 }
-                if (desired.LogLevel == null && consolidated.LogLevel != null) {
+                if (desired.LogLevel is null && consolidated.LogLevel != null) {
                     // Not set by user, but reported, so set as desired
                     desired.LogLevel = consolidated.LogLevel;
                 }
@@ -300,7 +300,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
         /// <param name="disabled"></param>
         public static DiscovererRegistration ToDiscovererRegistration(
             this DiscovererModel model, bool? disabled = null) {
-            if (model == null) {
+            if (model is null) {
                 throw new ArgumentNullException(nameof(model));
             }
             var deviceId = DiscovererModelEx.ParseDeviceId(model.Id,
@@ -340,7 +340,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
         /// <param name="registration"></param>
         /// <returns></returns>
         public static DiscovererModel ToServiceModel(this DiscovererRegistration registration) {
-            if (registration == null) {
+            if (registration is null) {
                 return null;
             }
             return new DiscovererModel {
@@ -364,14 +364,14 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
         private static bool IsNullConfig(this DiscovererRegistration registration) {
             if (string.IsNullOrEmpty(registration.AddressRangesToScan) &&
                 string.IsNullOrEmpty(registration.PortRangesToScan) &&
-                registration.MaxNetworkProbes == null &&
-                registration.NetworkProbeTimeout == null &&
-                registration.MaxPortProbes == null &&
-                registration.MinPortProbesPercent == null &&
-                registration.PortProbeTimeout == null &&
-                (registration.DiscoveryUrls == null || registration.DiscoveryUrls.Count == 0) &&
-                (registration.Locales == null || registration.Locales.Count == 0) &&
-                registration.IdleTimeBetweenScans == null) {
+                registration.MaxNetworkProbes is null &&
+                registration.NetworkProbeTimeout is null &&
+                registration.MaxPortProbes is null &&
+                registration.MinPortProbesPercent is null &&
+                registration.PortProbeTimeout is null &&
+                (registration.DiscoveryUrls is null || registration.DiscoveryUrls.Count == 0) &&
+                (registration.Locales is null || registration.Locales.Count == 0) &&
+                registration.IdleTimeBetweenScans is null) {
                 return true;
             }
             return false;
@@ -404,9 +404,9 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
         /// <param name="registration"></param>
         /// <returns></returns>
         private static bool IsNullFilter(this DiscovererRegistration registration) {
-            if (registration.SecurityModeFilter == null &&
-                (registration.TrustListsFilter == null || registration.TrustListsFilter.Count == 0) &&
-                (registration.SecurityPoliciesFilter == null || registration.SecurityPoliciesFilter.Count == 0)) {
+            if (registration.SecurityModeFilter is null &&
+                (registration.TrustListsFilter is null || registration.TrustListsFilter.Count == 0) &&
+                (registration.SecurityPoliciesFilter is null || registration.SecurityPoliciesFilter.Count == 0)) {
                 return true;
             }
             return false;
@@ -433,8 +433,8 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
         /// <param name="other"></param>
         internal static bool IsInSyncWith(this DiscovererRegistration registration,
             DiscovererRegistration other) {
-            if (registration == null) {
-                return other == null;
+            if (registration is null) {
+                return other is null;
             }
             return
                 other != null &&

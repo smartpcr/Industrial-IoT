@@ -23,7 +23,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Vault.Storage {
         /// </summary>
         /// <param name="db"></param>
         public TrustDatabase(IItemContainerFactory db) {
-            if (db == null) {
+            if (db is null) {
                 throw new ArgumentNullException(nameof(db));
             }
             var container = db.OpenAsync("trust").Result;
@@ -33,7 +33,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Vault.Storage {
         /// <inheritdoc/>
         public async Task<TrustRelationshipModel> AddAsync(TrustRelationshipModel relationship,
             CancellationToken ct) {
-            if (relationship == null) {
+            if (relationship is null) {
                 throw new ArgumentNullException(nameof(relationship));
             }
             var result = await _relationships.AddAsync(relationship.ToDocumentModel(),
@@ -99,9 +99,9 @@ namespace Microsoft.Azure.IIoT.OpcUa.Vault.Storage {
             queryParameters = new Dictionary<string, object>();
             var queryString = $"SELECT {(idOnly ? "g.Id" : "*")} FROM Trust g WHERE ";
 
-            var trusted = direction == null ||
+            var trusted = direction is null ||
                  TrustDirectionType.Trusted == (direction.Value & TrustDirectionType.Trusted);
-            var trusts = direction == null ||
+            var trusts = direction is null ||
                 TrustDirectionType.Trusting == (direction.Value & TrustDirectionType.Trusting);
 
             if (trusted || trusts) {

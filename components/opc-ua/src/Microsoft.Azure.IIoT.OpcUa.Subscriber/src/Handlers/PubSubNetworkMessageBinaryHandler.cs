@@ -6,8 +6,8 @@
 namespace Microsoft.Azure.IIoT.OpcUa.Subscriber.Handlers {
     using Microsoft.Azure.IIoT.OpcUa.Subscriber;
     using Microsoft.Azure.IIoT.OpcUa.Subscriber.Models;
+    using Microsoft.Azure.IIoT.OpcUa.Protocol;
     using Microsoft.Azure.IIoT.Hub;
-    using Newtonsoft.Json.Linq;
     using Opc.Ua;
     using Opc.Ua.PubSub;
     using Serilog;
@@ -29,9 +29,12 @@ namespace Microsoft.Azure.IIoT.OpcUa.Subscriber.Handlers {
         /// <summary>
         /// Create handler
         /// </summary>
+        /// <param name="encoder"></param>
         /// <param name="handlers"></param>
         /// <param name="logger"></param>
-        public PubSubNetworkMessageBinaryHandler(IEnumerable<IMonitoredItemSampleProcessor> handlers, ILogger logger) {
+        public PubSubNetworkMessageBinaryHandler(IVariantEncoderFactory encoder,
+            IEnumerable<IMonitoredItemSampleProcessor> handlers, ILogger logger) {
+            _encoder = encoder ?? throw new ArgumentNullException(nameof(encoder));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _handlers = handlers?.ToList() ?? throw new ArgumentNullException(nameof(handlers));
         }
@@ -47,11 +50,9 @@ namespace Microsoft.Azure.IIoT.OpcUa.Subscriber.Handlers {
                     foreach (var message in networkMessage.Messages) {
                         foreach (var datapoint in message.Payload) {
                             try {
+                                var codec = _encoder.Create(context);
                                 var sample = new MonitoredItemSampleModel() {
-                                    Value = new JObject {
-                                        { "Body", datapoint.Value.WrappedValue.Value.ToString() },
-                                        { "Type", datapoint.Value.WrappedValue.Value.GetType().ToString() }
-                                    },
+                                    Value = codec.Encode(datapoint.Value),
                                     Status = StatusCode.LookupSymbolicId(datapoint.Value.StatusCode.Code),
                                     TypeId = message.TypeId.ToString(),
                                     DataSetId = message.DataSetWriterId,
@@ -64,7 +65,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Subscriber.Handlers {
                                     SourceTimestamp = datapoint.Value.SourceTimestamp,
                                     ServerTimestamp = datapoint.Value.ServerTimestamp
                                 };
-                                if (sample == null) {
+                                if (sample is null) {
                                     continue;
                                 }
                                 await Task.WhenAll(_handlers.Select(h => h.HandleSampleAsync(sample)));
@@ -85,6 +86,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Subscriber.Handlers {
             return Task.CompletedTask;
         }
 
+        private readonly IVariantEncoderFactory _encoder;
         private readonly ILogger _logger;
         private readonly List<IMonitoredItemSampleProcessor> _handlers;
     }

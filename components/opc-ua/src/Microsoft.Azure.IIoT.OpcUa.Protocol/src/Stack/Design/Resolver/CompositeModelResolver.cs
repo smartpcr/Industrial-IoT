@@ -52,7 +52,7 @@ namespace Opc.Ua.Design.Resolver {
 
         /// <inheritdoc/>
         public NodeDesign TryResolve(Namespace ns, XmlQualifiedName symbolicId) {
-            if (ns == null) {
+            if (ns is null) {
                 throw new ArgumentNullException(nameof(ns));
             }
             if (symbolicId.IsNullOrEmpty()) {

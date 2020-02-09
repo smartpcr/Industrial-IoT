@@ -95,7 +95,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Services {
             var key = new ConnectionIdentifier(connection);
             await _lock.WaitAsync();
             try {
-                if (!_sessions.TryGetValue(key, out var wrapper) || wrapper?.Session == null) {
+                if (!_sessions.TryGetValue(key, out var wrapper) || wrapper?.Session is null) {
                     return;
                 }
                 var session = wrapper.Session;
@@ -131,7 +131,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Services {
             _lock.Wait();
             try {
                 var entry = _sessions.SingleOrDefault(s => s.Value.Session.SessionName == session.SessionName);
-                if (entry.Key == null) {
+                if (entry.Key is null) {
                     return;
                 }
                 entry.Value.MissedKeepAlives++;

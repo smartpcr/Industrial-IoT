@@ -18,7 +18,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Vault.Models {
         /// <param name="key"></param>
         /// <returns></returns>
         public static Key ToKey(this PrivateKeyModel key) {
-            if (key == null) {
+            if (key is null) {
                 return null;
             }
             switch (key.Kty) {
@@ -67,7 +67,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Vault.Models {
         /// <param name="key"></param>
         /// <returns></returns>
         public static PrivateKeyModel ToServiceModel(this Key key) {
-            if (key == null) {
+            if (key is null) {
                 return null;
             }
             switch (key.Type) {

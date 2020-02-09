@@ -19,7 +19,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Transport {
         /// <returns></returns>
         public static IApplicationBuilder UseOpcUaTransport(
             this IApplicationBuilder app) {
-            if (app == null) {
+            if (app is null) {
                 throw new ArgumentNullException(nameof(app));
             }
             // Order important, want to handle websockets first.

@@ -121,7 +121,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Vault.Handler {
                             }));
                     }
                 }
-                if (result.NextPageLink == null) {
+                if (result.NextPageLink is null) {
                     break;
                 }
                 result = await _requests.ListRequestsAsync(result.NextPageLink);

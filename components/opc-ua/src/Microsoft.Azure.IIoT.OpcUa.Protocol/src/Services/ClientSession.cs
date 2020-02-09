@@ -32,7 +32,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Services {
             DateTime.UtcNow > _lastActivity + _timeout;
 
         /// <inheritdoc/>
-        public int Pending => _queue.Count + (_curOperation == null ? 0 : 1);
+        public int Pending => _queue.Count + (_curOperation is null ? 0 : 1);
 
         private ClientSession(ApplicationConfiguration config, ConnectionModel connection,
             ILogger logger, Func<ConnectionModel, EndpointConnectivityState, Task> statusCb,
@@ -192,7 +192,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Services {
                 while (!_cts.Token.IsCancellationRequested) {
 
                     Exception ex = null;
-                    if (_session == null) {
+                    if (_session is null) {
                         // Try create session
                         recreate = false;
                         reconnect = false;
@@ -271,7 +271,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Services {
                     }
 
                     // Failed to connect
-                    if (recreate || reconnect || _session == null) {
+                    if (recreate || reconnect || _session is null) {
                         await NotifyConnectivityStateChangeAsync(ToConnectivityState(ex));
                         if (ex is ServiceResultException sre) {
                             ex = sre.ToTypedException();
@@ -280,7 +280,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Services {
                         // Compress operations queue
                         var operations = new List<(int, SessionOperation)>();
                         while (_queue.TryDequeue(out var op)) {
-                            if (op.Item2 == null) {
+                            if (op.Item2 is null) {
                                 break;
                             }
                             operations.Add(op);
@@ -320,7 +320,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Services {
                     recreate = false;
                     reconnect = false;
 
-                    if (_curOperation == null) {
+                    if (_curOperation is null) {
                         if (!_queue.TryDequeue(out var next)) {
                             // Wait for enqueue or keep alive timeout
                             var timeout = await WaitForNewlyEnqueuedOperationAsync(
@@ -613,7 +613,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Services {
             var selectedEndpoint = await DiscoverEndpointsAsync(_config,
                 _connection.Endpoint, new Uri(_endpointUrl), (server, endpoints, channel) =>
                     SelectServerEndpoint(server, endpoints, channel, true));
-            if (selectedEndpoint == null) {
+            if (selectedEndpoint is null) {
                 throw new ConnectionException(
                     $"Unable to select secure endpoint on {_connection.Endpoint.Url} via {_endpointUrl}");
             }
@@ -624,7 +624,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Services {
 
             var session = await Session.Create(_config, configuredEndpoint, true, false,
                 _sessionName, (uint)(_timeout.TotalMilliseconds * 1.2), identity, null);
-            if (session == null) {
+            if (session is null) {
                 throw new ExternalDependencyException(
                     $"Cannot establish session to {_connection.Endpoint.Url} via {_endpointUrl}.");
             }

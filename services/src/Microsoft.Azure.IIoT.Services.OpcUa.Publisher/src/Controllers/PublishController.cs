@@ -50,7 +50,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Publisher.Controllers {
         [HttpPost("{endpointId}/start")]
         public async Task<PublishStartResponseApiModel> StartPublishingValuesAsync(
             string endpointId, [FromBody] [Required] PublishStartRequestApiModel request) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             var result = await _publisher.NodePublishStartAsync(
@@ -72,7 +72,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Publisher.Controllers {
         [HttpPost("{endpointId}/stop")]
         public async Task<PublishStopResponseApiModel> StopPublishingValuesAsync(
             string endpointId, [FromBody] [Required] PublishStopRequestApiModel request) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             var result = await _publisher.NodePublishStopAsync(
@@ -94,7 +94,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Publisher.Controllers {
         [HttpPost("{endpointId}")]
         public async Task<PublishedItemListResponseApiModel> GetFirstListOfPublishedNodesAsync(
             string endpointId, [FromBody] [Required] PublishedItemListRequestApiModel request) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             var result = await _publisher.NodePublishListAsync(

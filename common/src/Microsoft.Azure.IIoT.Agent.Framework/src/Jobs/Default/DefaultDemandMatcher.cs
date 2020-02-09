@@ -23,11 +23,11 @@ namespace Microsoft.Azure.IIoT.Agent.Framework.Jobs {
         /// <returns></returns>
         public bool MatchCapabilitiesAndDemands(IEnumerable<DemandModel> demands,
             IDictionary<string, string> capabilities) {
-            if (demands == null || !demands.Any()) {
+            if (demands is null || !demands.Any()) {
                 return true;
             }
 
-            if (demands.Any() && (capabilities == null || !capabilities.Any())) {
+            if (demands.Any() && (capabilities is null || !capabilities.Any())) {
                 return false;
             }
 

@@ -69,7 +69,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.Controller {
             get {
                 var config = _config.Clone();
                 config.AgentId = _identity.DeviceId + "_" + _identity.ModuleId;
-                if (config.Capabilities == null) {
+                if (config.Capabilities is null) {
                     config.Capabilities = new Dictionary<string, string>();
                 }
                 config.Capabilities.AddOrUpdate("Type", IdentityType.Publisher);

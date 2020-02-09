@@ -113,7 +113,7 @@ namespace Microsoft.Azure.IIoT.Module.Default {
                     throw new ArgumentNullException(nameof(outer));
                 _method = method ??
                     throw new ArgumentNullException(nameof(method));
-                if (contentLength == null) {
+                if (contentLength is null) {
                     throw new ArgumentNullException(nameof(contentLength));
                 }
                 _payload = new byte[contentLength.Value];

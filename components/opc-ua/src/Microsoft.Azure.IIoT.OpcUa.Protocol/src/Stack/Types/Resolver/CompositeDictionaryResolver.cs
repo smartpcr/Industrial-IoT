@@ -52,7 +52,7 @@ namespace Opc.Ua.Types.Resolver {
 
         /// <inheritdoc/>
         public DataType TryResolve(ImportDirective import, XmlQualifiedName typeName) {
-            if (import == null) {
+            if (import is null) {
                 throw new ArgumentNullException(nameof(import));
             }
             if (typeName.IsNullOrEmpty()) {

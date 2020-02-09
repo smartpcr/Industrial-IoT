@@ -57,7 +57,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Subscriber.Handlers {
             foreach (var message in messages) {
                 try {
                     var sample = message.ToServiceModel();
-                    if (sample == null) {
+                    if (sample is null) {
                         continue;
                     }
                     await Task.WhenAll(_handlers.Select(h => h.HandleSampleAsync(sample)));

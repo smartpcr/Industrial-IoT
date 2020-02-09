@@ -11,6 +11,7 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
     using Microsoft.Azure.Devices.Client;
     using Microsoft.Azure.Devices.Client.Exceptions;
     using Microsoft.Azure.Devices.Shared;
+    using Microsoft.Azure.IIoT.Serializers;
     using Serilog;
     using System;
     using System.Collections.Generic;
@@ -30,7 +31,7 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
         public int MaxMethodPayloadCharacterCount => 120 * 1024;
 
         /// <inheritdoc/>
-        public IReadOnlyDictionary<string, dynamic> Reported => _reported;
+        public IReadOnlyDictionary<string, VariantValue> Reported => _reported;
 
         /// <inheritdoc/>
         public string DeviceId { get; private set; }
@@ -50,13 +51,15 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
         /// <param name="router"></param>
         /// <param name="settings"></param>
         /// <param name="factory"></param>
+        /// <param name="serializer"></param>
         /// <param name="logger"></param>
         public ModuleHost(IMethodRouter router, ISettingsRouter settings,
-            IClientFactory factory, ILogger logger) {
+            IClientFactory factory, IJsonSerializer serializer, ILogger logger) {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _factory = factory ?? throw new ArgumentNullException(nameof(factory));
             _router = router ?? throw new ArgumentNullException(nameof(router));
             _settings = settings ?? throw new ArgumentNullException(nameof(settings));
+            _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
         }
 
         /// <inheritdoc/>
@@ -101,10 +104,10 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
         /// <inheritdoc/>
         public async Task StartAsync(string type, string siteId, string serviceInfo,
             IProcessControl reset) {
-            if (Client == null) {
+            if (Client is null) {
                 try {
                     await _lock.WaitAsync();
-                    if (Client == null) {
+                    if (Client is null) {
                         // Create client
                         _logger.Debug("Starting Module Host...");
                         Client = await _factory.CreateAsync(serviceInfo, reset);
@@ -163,9 +166,10 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
                     _twin = await Client.GetTwinAsync();
                     _reported.Clear();
                     foreach (KeyValuePair<string, dynamic> property in _twin.Properties.Reported) {
-                        _reported.Add(property.Key, property.Value);
-                    }
+                        _reported.AddOrUpdate(property.Key,
+                            (VariantValue)_serializer.FromObject(property.Value));
 
+                    }
                     var changes = await _settings.GetSettingsChangesAsync();
                 }
             }
@@ -216,13 +220,13 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
         }
 
         /// <inheritdoc/>
-        public async Task ReportAsync(IEnumerable<KeyValuePair<string, dynamic>> properties) {
+        public async Task ReportAsync(IEnumerable<KeyValuePair<string, VariantValue>> properties) {
             try {
                 await _lock.WaitAsync();
                 if (Client != null) {
                     var collection = new TwinCollection();
                     foreach (var property in properties) {
-                        collection[property.Key] = property.Value;
+                        collection[property.Key] = property.Value?.ToObject<object>();
                     }
                     await Client.UpdateReportedPropertiesAsync(collection);
                     foreach (var property in properties) {
@@ -237,12 +241,12 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
         }
 
         /// <inheritdoc/>
-        public async Task ReportAsync(string propertyId, dynamic value) {
+        public async Task ReportAsync(string propertyId, VariantValue value) {
             try {
                 await _lock.WaitAsync();
                 if (Client != null) {
                     var collection = new TwinCollection {
-                        [propertyId] = value
+                        [propertyId] = value?.ToObject<object>()
                     };
                     await Client.UpdateReportedPropertiesAsync(collection);
                     _reported.Remove(propertyId);
@@ -344,29 +348,30 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
             _logger.Information("Initialize device twin for {deviceId} - {moduleId}",
                 DeviceId, ModuleId ?? "standalone");
 
-            var desired = new TwinCollection();
-            var reported = new TwinCollection();
+            var desired = new Dictionary<string, VariantValue>();
+            var reported = new Dictionary<string, VariantValue>();
 
             // Start with reported values which we desire to be re-applied
             _reported.Clear();
             foreach (KeyValuePair<string, dynamic> property in _twin.Properties.Reported) {
-                if (property.Value is Newtonsoft.Json.Linq.JObject obj &&
-                    obj.TryGetValue("status", StringComparison.InvariantCultureIgnoreCase,
-                        out var val) &&
-                    obj.Children().Count() == 1) {
+                var value = (VariantValue)_serializer.FromObject(property.Value);
+                if (value.Type == VariantValueType.Object &&
+                    value.TryGetValue("status", out var val) &&
+                    value.Keys.Count() == 1) {
                     // Clear status properties from twin
-                    _reported[property.Key] = null;
+                    _reported.AddOrUpdate(property.Key, null);
                     continue;
                 }
-                if (!ProcessEdgeHostSettings(property.Key, property.Value)) {
-                    desired[property.Key] = property.Value;
-                    _reported[property.Key] = property.Value;
+                if (!ProcessEdgeHostSettings(property.Key, value)) {
+                    desired[property.Key] = value;
+                    _reported.AddOrUpdate(property.Key, value);
                 }
             }
             // Apply desired values on top.
             foreach (KeyValuePair<string, dynamic> property in _twin.Properties.Desired) {
-                if (!ProcessEdgeHostSettings(property.Key, property.Value, reported)) {
-                    desired[property.Key] = property.Value;
+                var value = (VariantValue)_serializer.FromObject(property.Value);
+                if (!ProcessEdgeHostSettings(property.Key, value, reported)) {
+                    desired[property.Key] = value;
                 }
             }
 
@@ -375,29 +380,40 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
             var processed = await _settings.ProcessSettingsAsync(desired);
 
             // If there are changes, update what should be reported back.
-            foreach (KeyValuePair<string, dynamic> property in processed) {
+            foreach (var property in processed) {
                 var exists = _twin.Properties.Reported.Contains(property.Key);
                 if (property.Value == null) {
                     if (exists) {
                         // If exists as reported, remove
-                        reported[property.Key] = null;
+                        reported.AddOrUpdate(property.Key, null);
                         _reported.Remove(property.Key);
                     }
                 }
                 else {
-                    // If exists and same as property value, continue
-                    if (exists && _twin.Properties.Reported[property.Key]
-                        .Equals(property.Value)) {
+                    if (exists) {
+                        // If exists and same as property value, continue
+                        var r = (VariantValue)_serializer.FromObject(
+                            _twin.Properties.Reported[property.Key]);
+                        if (r == property.Value) {
+                            continue;
+                        }
+                    }
+                    else if (property.Value == null) {
                         continue;
                     }
+
                     // Otherwise, add to reported properties
                     reported[property.Key] = property.Value;
-                    _reported[property.Key] = property.Value;
+                    _reported.AddOrUpdate(property.Key, property.Value);
                 }
             }
             if (reported.Count > 0) {
                 _logger.Debug("Reporting initial state.");
-                await Client.UpdateReportedPropertiesAsync(reported);
+                var collection = new TwinCollection();
+                foreach (var item in reported) {
+                    collection[item.Key] = item.Value?.ToObject<object>();
+                }
+                await Client.UpdateReportedPropertiesAsync(collection);
             }
         }
 
@@ -412,17 +428,22 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
                     await _lock.WaitAsync();
 
                     // Patch existing reported properties
-                    var desired = new TwinCollection();
-                    var reporting = new TwinCollection();
+                    var desired = new Dictionary<string, VariantValue>();
+                    var reporting = new Dictionary<string, VariantValue>();
+
                     foreach (KeyValuePair<string, dynamic> property in settings) {
-                        if (!ProcessEdgeHostSettings(property.Key, property.Value,
-                            reporting)) {
-                            desired[property.Key] = property.Value;
+                        var value = (VariantValue)_serializer.FromObject(property.Value);
+                        if (!ProcessEdgeHostSettings(property.Key, value, reporting)) {
+                            desired.AddOrUpdate(property.Key, value);
                         }
                     }
 
                     if (reporting != null && reporting.Count != 0) {
-                        await Client.UpdateReportedPropertiesAsync(reporting);
+                        var collection = new TwinCollection();
+                        foreach (var item in reporting) {
+                            collection[item.Key] = item.Value?.ToObject<object>();
+                        }
+                        await Client.UpdateReportedPropertiesAsync(collection);
                         _logger.Debug("Internal state updated...", reporting);
                     }
 
@@ -432,14 +453,17 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
                     }
 
                     _logger.Debug("Processing new settings...");
-                    reporting = await _settings.ProcessSettingsAsync(desired);
+                    var reported = await _settings.ProcessSettingsAsync(desired);
 
-                    if (reporting != null && reporting.Count != 0) {
+                    if (reported != null && reported.Count != 0) {
                         _logger.Debug("Reporting setting results...");
-                        await Client.UpdateReportedPropertiesAsync(reporting);
-                        foreach (KeyValuePair<string, dynamic> property in reporting) {
-                            _reported.Remove(property.Key);
-                            _reported.Add(property.Key, property.Value);
+                        var collection = new TwinCollection();
+                        foreach (var item in reported) {
+                            collection[item.Key] = item.Value?.ToObject<object>();
+                        }
+                        await Client.UpdateReportedPropertiesAsync(collection);
+                        foreach (var item in reported) {
+                            _reported.AddOrUpdate(item.Key, item.Value);
                         }
                     }
                     _logger.Information("New settings processed.");
@@ -457,8 +481,8 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
         /// <param name="value"></param>
         /// <param name="processed"></param>
         /// <returns></returns>
-        private bool ProcessEdgeHostSettings(string key, dynamic value,
-            TwinCollection processed = null) {
+        private bool ProcessEdgeHostSettings(string key, VariantValue value,
+            IDictionary<string, VariantValue> processed = null) {
             switch (key.ToLowerInvariant()) {
                 case TwinProperty.Connected:
                 case TwinProperty.Type:
@@ -479,10 +503,11 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
 
         private readonly IMethodRouter _router;
         private readonly ISettingsRouter _settings;
+        private readonly IJsonSerializer _serializer;
         private readonly ILogger _logger;
         private readonly IClientFactory _factory;
         private readonly SemaphoreSlim _lock = new SemaphoreSlim(1, 1);
-        private readonly Dictionary<string, dynamic> _reported =
-            new Dictionary<string, dynamic>();
+        private readonly Dictionary<string, VariantValue> _reported =
+            new Dictionary<string, VariantValue>();
     }
 }

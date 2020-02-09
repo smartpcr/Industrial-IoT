@@ -22,7 +22,7 @@ namespace System.Collections.Generic {
             if (seq == that) {
                 return true;
             }
-            if (seq == null || that == null) {
+            if (seq is null || that is null) {
                 if (!(that?.Any() ?? false)) {
                     return (seq?.Count ?? 0) == 0;
                 }
@@ -40,7 +40,7 @@ namespace System.Collections.Generic {
         /// <returns></returns>
         public static HashSet<T> MergeWith<T>(this HashSet<T> a, IEnumerable<T> b) {
             if (b?.Any() ?? false) {
-                if (a == null) {
+                if (a is null) {
                     a = b.ToHashSetSafe();
                 }
                 else {

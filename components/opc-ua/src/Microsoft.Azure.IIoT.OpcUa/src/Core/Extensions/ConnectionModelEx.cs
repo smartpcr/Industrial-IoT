@@ -22,7 +22,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Core.Models {
             if (model == that) {
                 return true;
             }
-            if (model == null || that == null) {
+            if (model is null || that is null) {
                 return false;
             }
             if (!that.Endpoint.IsSameAs(model.Endpoint)) {
@@ -59,7 +59,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Core.Models {
         /// <param name="model"></param>
         /// <returns></returns>
         public static ConnectionModel Clone(this ConnectionModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new ConnectionModel {

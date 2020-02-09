@@ -401,13 +401,13 @@ Operations (Mutually exclusive):
             }
 
             /// <inheritdoc/>
-            public Task ReportAsync(string propertyId, dynamic value) {
+            public Task ReportAsync(string propertyId, VariantValue value) {
                 Console.WriteLine($"{propertyId}={value}");
                 return Task.CompletedTask;
             }
 
             /// <inheritdoc/>
-            public Task ReportAsync(IEnumerable<KeyValuePair<string, dynamic>> properties) {
+            public Task ReportAsync(IEnumerable<KeyValuePair<string, VariantValue>> properties) {
                 foreach (var prop in properties) {
                     Console.WriteLine($"{prop.Key}={prop.Value}");
                 }

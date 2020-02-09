@@ -27,7 +27,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol {
         /// <returns></returns>
         public static RequestHeader ToStackModel(this DiagnosticsModel diagnostics,
             uint timeoutHint = 0) {
-            if (diagnostics == null && timeoutHint == 0) {
+            if (diagnostics is null && timeoutHint == 0) {
                 return null;
             }
             return new RequestHeader {
@@ -63,7 +63,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol {
         /// <returns></returns>
         public static ViewDescription ToStackModel(this BrowseViewModel viewModel,
             ServiceMessageContext context) {
-            if (viewModel == null) {
+            if (viewModel is null) {
                 return null;
             }
             return new ViewDescription {
@@ -83,7 +83,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol {
         /// <returns></returns>
         public static BrowseViewModel ToServiceModel(this ViewDescription view,
             ServiceMessageContext context) {
-            if (view == null) {
+            if (view is null) {
                 return null;
             }
             return new BrowseViewModel {
@@ -103,7 +103,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol {
         /// <returns></returns>
         public static RolePermissionType ToStackModel(this RolePermissionModel model,
             ServiceMessageContext context) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new RolePermissionType {
@@ -120,7 +120,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol {
         /// <returns></returns>
         public static RolePermissionModel ToServiceModel(this RolePermissionType type,
             ServiceMessageContext context) {
-            if (type == null) {
+            if (type is null) {
                 return null;
             }
             return new RolePermissionModel {
@@ -135,7 +135,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol {
         /// <param name="model"></param>
         /// <returns></returns>
         public static DataChangeFilter ToStackModel(this DataChangeFilterModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new DataChangeFilter {
@@ -151,7 +151,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol {
         /// <param name="model"></param>
         /// <returns></returns>
         public static DataChangeFilterModel ToServiceModel(this DataChangeFilter model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new DataChangeFilterModel {
@@ -170,7 +170,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol {
         /// <returns></returns>
         public static AggregateFilter ToStackModel(this AggregateFilterModel model,
             ServiceMessageContext context) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new AggregateFilter {
@@ -189,7 +189,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol {
         /// <returns></returns>
         public static AggregateFilterModel ToServiceModel(this AggregateFilter model,
             ServiceMessageContext context) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new AggregateFilterModel {
@@ -209,7 +209,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol {
         /// <returns></returns>
         public static AggregateConfiguration ToStackModel(
             this AggregateConfigurationModel model) {
-            if (model == null) {
+            if (model is null) {
                 return new AggregateConfiguration();
             }
             return new AggregateConfiguration {
@@ -228,7 +228,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol {
         /// <returns></returns>
         public static AggregateConfigurationModel ToServiceModel(
             this AggregateConfiguration model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new AggregateConfigurationModel {
@@ -253,13 +253,13 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol {
         /// <returns></returns>
         public static SimpleAttributeOperand ToStackModel(this SimpleAttributeOperandModel model,
             ServiceMessageContext context) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new SimpleAttributeOperand {
                 TypeDefinitionId = model.NodeId.ToNodeId(context),
                 AttributeId = (uint)(model.AttributeId ?? NodeAttribute.Value),
-                BrowsePath = new QualifiedNameCollection(model.BrowsePath == null ?
+                BrowsePath = new QualifiedNameCollection(model.BrowsePath is null ?
                     Enumerable.Empty<QualifiedName>() :
                     model.BrowsePath?.Select(n => n.ToQualifiedName(context))),
                 IndexRange = model.IndexRange
@@ -274,7 +274,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol {
         /// <returns></returns>
         public static SimpleAttributeOperandModel ToServiceModel(this SimpleAttributeOperand model,
             ServiceMessageContext context) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new SimpleAttributeOperandModel {
@@ -293,7 +293,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol {
         /// <returns></returns>
         public static List<AuthenticationMethodModel> ToServiceModel(
             this UserTokenPolicyCollection policies, IJsonSerializer serializer) {
-            if (policies == null || policies.Count == 0) {
+            if (policies is null || policies.Count == 0) {
                 return new List<AuthenticationMethodModel>{
                      new AuthenticationMethodModel {
                          Id = "Anonymous",
@@ -315,7 +315,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol {
         /// <returns></returns>
         public static UserTokenPolicyCollection ToStackModel(
             this List<AuthenticationMethodModel> policies) {
-            if (policies == null || policies.Count == 0) {
+            if (policies is null || policies.Count == 0) {
                 return new UserTokenPolicyCollection{
                      new UserTokenPolicy {
                          PolicyId = "Anonymous",
@@ -337,7 +337,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol {
         /// <returns></returns>
         public static AuthenticationMethodModel ToServiceModel(this UserTokenPolicy policy,
             IJsonSerializer serializer) {
-            if (policy == null) {
+            if (policy is null) {
                 return null;
             }
             var result = new AuthenticationMethodModel {
@@ -386,7 +386,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol {
         /// <param name="policy"></param>
         /// <returns></returns>
         public static UserTokenPolicy ToStackModel(this AuthenticationMethodModel policy) {
-            if (policy == null) {
+            if (policy is null) {
                 return null;
             }
             var result = new UserTokenPolicy {
@@ -501,7 +501,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol {
         /// <returns></returns>
         public static CredentialModel ToServiceModel(this UserIdentityToken token,
             IJsonSerializer serializer) {
-            if (token == null) {
+            if (token is null) {
                 return null;  // Treat as anonymous
             }
             switch (token) {

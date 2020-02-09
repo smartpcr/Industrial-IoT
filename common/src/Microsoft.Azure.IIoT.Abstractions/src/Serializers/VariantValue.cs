@@ -7,11 +7,12 @@ namespace Microsoft.Azure.IIoT.Serializers {
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Globalization;
 
     /// <summary>
     /// Represents primitive or structurally complex value
     /// </summary>
-    public abstract class VariantValue : ICloneable, IConvertible {
+    public abstract class VariantValue : ICloneable, IConvertible, IComparable {
 
         /// <summary>
         /// Get type of value
@@ -440,22 +441,10 @@ namespace Microsoft.Azure.IIoT.Serializers {
 
         /// <inheritdoc/>
         public static bool operator ==(VariantValue left, VariantValue right) =>
-            EqualityComparer<VariantValue>.Default.Equals(left, right);
+            left?.Equals(right) ?? right?.Equals(null) ?? true;
         /// <inheritdoc/>
         public static bool operator !=(VariantValue left, VariantValue right) =>
             !(left == right);
-        /// <inheritdoc/>
-        public static bool operator ==(VariantValue left, object right) =>
-            left.Equals(right);
-        /// <inheritdoc/>
-        public static bool operator !=(VariantValue left, object right) =>
-            !left.Equals(right);
-        /// <inheritdoc/>
-        public static bool operator ==(object left, VariantValue right) =>
-            right.Equals(left);
-        /// <inheritdoc/>
-        public static bool operator !=(object left, VariantValue right) =>
-            !right.Equals(left);
 
         /// <inheritdoc/>
         public override bool Equals(object o) {
@@ -484,6 +473,38 @@ namespace Microsoft.Azure.IIoT.Serializers {
         /// <inheritdoc/>
         public object Clone() {
             return Copy();
+        }
+
+        /// <inheritdoc/>
+        public static bool operator >(VariantValue left, VariantValue right) =>
+            left is null ? right != null : left.CompareTo(right) > 0;
+        /// <inheritdoc/>
+        public static bool operator <(VariantValue left, VariantValue right) =>
+            left is null ? right is null : left.CompareTo(right) < 0;
+
+        /// <inheritdoc/>
+        public int CompareTo(object o) {
+            if (Equals(o)) {
+                return 0;
+            }
+
+            if (o is VariantValue v) {
+                if (this.IsNull() && v.IsNull()) {
+                    return 0;
+                }
+                // Get inner value to compare
+                o = v.IsNull() ? null : v.Value;
+            }
+
+            // Compare values
+            if (TryCompareInnerValueTo(o, out var result)) {
+                return result;
+            }
+
+            // Compare stringified version
+            var s1 = this.IsNull() ? "null" : Value.ToString();
+            var s2 = o is null ? "null" : o.ToString();
+            return s1.CompareTo(s2);
         }
 
         /// <summary>
@@ -582,6 +603,13 @@ namespace Microsoft.Azure.IIoT.Serializers {
         /// <returns></returns>
         protected abstract bool DeepEquals(VariantValue o);
 
+        /// <summary>
+        /// Compare value
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="result"></param>
+        /// <returns></returns>
+        protected abstract bool TryCompareInnerValueTo(object obj, out int result);
 
         /// <summary>
         /// Represents a primitive value for assignment purposes
@@ -619,13 +647,13 @@ namespace Microsoft.Azure.IIoT.Serializers {
             /// <inheritdoc/>
             public PrimitiveValue(string value) {
                 Value = value;
-                Type = value == null ? VariantValueType.Null : VariantValueType.String;
+                Type = value is null ? VariantValueType.Null : VariantValueType.String;
             }
 
             /// <inheritdoc/>
             public PrimitiveValue(byte[] value) {
                 Value = value;
-                Type = value == null ? VariantValueType.Null : VariantValueType.Bytes;
+                Type = value is null ? VariantValueType.Null : VariantValueType.Bytes;
             }
 
             /// <inheritdoc/>
@@ -727,97 +755,97 @@ namespace Microsoft.Azure.IIoT.Serializers {
             /// <inheritdoc/>
             public PrimitiveValue(bool? value) {
                 Value = value;
-                Type = value == null ? VariantValueType.Null : VariantValueType.Boolean;
+                Type = value is null ? VariantValueType.Null : VariantValueType.Boolean;
             }
 
             /// <inheritdoc/>
             public PrimitiveValue(byte? value) {
                 Value = value;
-                Type = value == null ? VariantValueType.Null : VariantValueType.Integer;
+                Type = value is null ? VariantValueType.Null : VariantValueType.Integer;
             }
 
             /// <inheritdoc/>
             public PrimitiveValue(sbyte? value) {
                 Value = value;
-                Type = value == null ? VariantValueType.Null : VariantValueType.Integer;
+                Type = value is null ? VariantValueType.Null : VariantValueType.Integer;
             }
 
             /// <inheritdoc/>
             public PrimitiveValue(short? value) {
                 Value = value;
-                Type = value == null ? VariantValueType.Null : VariantValueType.Integer;
+                Type = value is null ? VariantValueType.Null : VariantValueType.Integer;
             }
 
             /// <inheritdoc/>
             public PrimitiveValue(ushort? value) {
                 Value = value;
-                Type = value == null ? VariantValueType.Null : VariantValueType.Integer;
+                Type = value is null ? VariantValueType.Null : VariantValueType.Integer;
             }
 
             /// <inheritdoc/>
             public PrimitiveValue(int? value) {
                 Value = value;
-                Type = value == null ? VariantValueType.Null : VariantValueType.Integer;
+                Type = value is null ? VariantValueType.Null : VariantValueType.Integer;
             }
 
             /// <inheritdoc/>
             public PrimitiveValue(uint? value) {
                 Value = value;
-                Type = value == null ? VariantValueType.Null : VariantValueType.Integer;
+                Type = value is null ? VariantValueType.Null : VariantValueType.Integer;
             }
 
             /// <inheritdoc/>
             public PrimitiveValue(long? value) {
                 Value = value;
-                Type = value == null ? VariantValueType.Null : VariantValueType.Integer;
+                Type = value is null ? VariantValueType.Null : VariantValueType.Integer;
             }
 
             /// <inheritdoc/>
             public PrimitiveValue(ulong? value) {
                 Value = value;
-                Type = value == null ? VariantValueType.Null : VariantValueType.Integer;
+                Type = value is null ? VariantValueType.Null : VariantValueType.Integer;
             }
 
             /// <inheritdoc/>
             public PrimitiveValue(float? value) {
                 Value = value;
-                Type = value == null ? VariantValueType.Null : VariantValueType.Float;
+                Type = value is null ? VariantValueType.Null : VariantValueType.Float;
             }
 
             /// <inheritdoc/>
             public PrimitiveValue(double? value) {
                 Value = value;
-                Type = value == null ? VariantValueType.Null : VariantValueType.Float;
+                Type = value is null ? VariantValueType.Null : VariantValueType.Float;
             }
 
             /// <inheritdoc/>
             public PrimitiveValue(decimal? value) {
                 Value = value;
-                Type = value == null ? VariantValueType.Null : VariantValueType.Float;
+                Type = value is null ? VariantValueType.Null : VariantValueType.Float;
             }
 
             /// <inheritdoc/>
             public PrimitiveValue(Guid? value) {
                 Value = value.ToString();
-                Type = value == null ? VariantValueType.Null : VariantValueType.String;
+                Type = value is null ? VariantValueType.Null : VariantValueType.String;
             }
 
             /// <inheritdoc/>
             public PrimitiveValue(DateTime? value) {
                 Value = value;
-                Type = value == null ? VariantValueType.Null : VariantValueType.Date;
+                Type = value is null ? VariantValueType.Null : VariantValueType.Date;
             }
 
             /// <inheritdoc/>
             public PrimitiveValue(DateTimeOffset? value) {
                 Value = value;
-                Type = value == null ? VariantValueType.Null : VariantValueType.Date;
+                Type = value is null ? VariantValueType.Null : VariantValueType.Date;
             }
 
             /// <inheritdoc/>
             public PrimitiveValue(TimeSpan? value) {
                 Value = value;
-                Type = value == null ? VariantValueType.Null : VariantValueType.Date;
+                Type = value is null ? VariantValueType.Null : VariantValueType.Date;
             }
 
             /// <inheritdoc/>
@@ -847,10 +875,29 @@ namespace Microsoft.Azure.IIoT.Serializers {
                     return b1.AsSpan().SequenceEqual(b2);
                 }
 
-                // ...
+                if (o.Equals(Value)) {
+                    return true;
+                }
 
-                // Default to generic comparison
-                return o.Equals(Value);
+                if (Value is IConvertible co1) {
+                    try {
+                        var compare = co1.ToType(o.GetType(),
+                            CultureInfo.InvariantCulture);
+                        return compare.Equals(o);
+                    }
+                    catch {
+                    }
+                }
+                if (o is IConvertible co2) {
+                    try {
+                        var compare = co2.ToType(Value.GetType(),
+                            CultureInfo.InvariantCulture);
+                        return compare.Equals(Value);
+                    }
+                    catch {
+                    }
+                }
+                return false;
             }
 
             /// <inheritdoc/>
@@ -866,6 +913,34 @@ namespace Microsoft.Azure.IIoT.Serializers {
             /// <inheritdoc/>
             protected override int GetDeepHashCode() {
                 return Value?.GetHashCode() ?? 0;
+            }
+
+            /// <inheritdoc/>
+            protected override bool TryCompareInnerValueTo(object obj, out int result) {
+                result = 0;
+                if (Value is IComparable cv1 && obj is IConvertible co1) {
+                    try {
+                        result = cv1.CompareTo(co1.ToType(Value.GetType(),
+                            CultureInfo.InvariantCulture));
+                        return true;
+                    }
+                    catch {
+                        result = -1;
+                    }
+                }
+                // Compare the other way around
+                if (obj is IComparable cv2 && Value is IConvertible co2) {
+                    try {
+                        var compared = cv2.CompareTo(co2.ToType(Value.GetType(),
+                            CultureInfo.InvariantCulture));
+                        result = compared > 0 ? -1 : compared < 0 ? 1 : 0;
+                        return true;
+                    }
+                    catch {
+                        result = 1;
+                    }
+                }
+                return false;
             }
 
             /// <inheritdoc/>

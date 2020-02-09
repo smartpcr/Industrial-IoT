@@ -15,7 +15,7 @@ namespace Microsoft.Azure.IIoT.Agent.Framework.Models {
         /// <param name="model"></param>
         /// <returns></returns>
         public static ProcessingStatusModel Clone(this ProcessingStatusModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new ProcessingStatusModel {

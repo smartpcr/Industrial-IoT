@@ -28,7 +28,7 @@ namespace Microsoft.Azure.IIoT.Diagnostics {
         /// </summary>
         /// <returns></returns>
         public static ILogger Create(LogEventLevel? level = null) {
-            if (level == null) {
+            if (level is null) {
 #if DEBUG
                 level = LogEventLevel.Debug;
 #else

@@ -39,7 +39,7 @@ namespace Microsoft.Azure.IIoT.AspNetCore.Auth.Clients {
         public Task<TokenResultModel> GetTokenForAsync(string resource,
             IEnumerable<string> scopes) {
             var user = _ctx.HttpContext.User;
-            if (user == null) {
+            if (user is null) {
                 // Use service to service auth
                 _logger.Verbose("Making call {id} on behalf of {user}.",
                     _ctx.HttpContext.TraceIdentifier, user.Identity.Name);

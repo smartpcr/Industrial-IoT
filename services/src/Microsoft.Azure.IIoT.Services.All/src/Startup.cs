@@ -178,7 +178,7 @@ namespace Microsoft.Azure.IIoT.Services.All {
             /// <inheritdoc/>
             public Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context,
                 CancellationToken cancellationToken) {
-                return Task.FromResult(_runner == null || !_runner.IsFaulted ?
+                return Task.FromResult(_runner is null || !_runner.IsFaulted ?
                     HealthCheckResult.Healthy() :
                     new HealthCheckResult(HealthStatus.Unhealthy, null, _runner.Exception));
             }

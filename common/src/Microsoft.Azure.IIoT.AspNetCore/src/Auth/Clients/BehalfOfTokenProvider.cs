@@ -58,7 +58,7 @@ namespace Microsoft.Azure.IIoT.AspNetCore.Auth.Clients {
 
             var user = _ctx.HttpContext?.User;
             // User id should be known, we need it to sign in on behalf of...
-            if (user == null) {
+            if (user is null) {
                 _handler.Handle(_ctx.HttpContext,
                     new AuthenticationException("Missing claims principal."));
                 return null;
@@ -115,7 +115,7 @@ namespace Microsoft.Azure.IIoT.AspNetCore.Auth.Clients {
                 Path = tenantId ?? "common"
             };
             var ctx = new AuthenticationContext(uri.ToString(), cache);
-            if (tenantId == null && ctx.TokenCache.Count > 0) {
+            if (tenantId is null && ctx.TokenCache.Count > 0) {
                 uri.Path = ctx.TokenCache.ReadItems().First().TenantId;
                 ctx = new AuthenticationContext(uri.ToString(), cache);
             }

@@ -182,7 +182,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol {
         /// <param name="permissions"></param>
         /// <returns></returns>
         public static UaPermissionType ToStackType(this RolePermissions? permissions) {
-            if (permissions == null) {
+            if (permissions is null) {
                 return UaPermissionType.None;
             }
             return (UaPermissionType)permissions;
@@ -347,7 +347,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol {
         /// <param name="mode"></param>
         /// <returns></returns>
         public static UaMonitoringMode? ToStackType(this MonitoringMode? mode) {
-            if (mode == null) {
+            if (mode is null) {
                 return null;
             }
             switch (mode) {
@@ -368,7 +368,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol {
         /// <param name="mode"></param>
         /// <returns></returns>
         public static UaDeadbandType ToStackType(this DeadbandType? mode) {
-            if (mode == null) {
+            if (mode is null) {
                 return UaDeadbandType.None;
             }
             switch (mode.Value) {
@@ -405,7 +405,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol {
         /// <param name="mode"></param>
         /// <returns></returns>
         public static UaDataChangeTrigger ToStackType(this DataChangeTriggerType? mode) {
-            if (mode == null) {
+            if (mode is null) {
                 return UaDataChangeTrigger.Status;
             }
             switch (mode.Value) {
@@ -541,7 +541,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol {
         public static uint ToMonitoredItemMessageMask(this DataSetContentMask? message,
             DataSetFieldContentMask? field) {
             UaMonitoredItemMessageContentMask result = 0;
-            if (field == null) {
+            if (field is null) {
                 result |=
                     UaMonitoredItemMessageContentMask.StatusCode |
                     UaMonitoredItemMessageContentMask.SourceTimestamp |
@@ -587,7 +587,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol {
                     result |= UaMonitoredItemMessageContentMask.ExtraFields;
                 }
             }
-            if (message == null) {
+            if (message is null) {
                 result |=
                     UaMonitoredItemMessageContentMask.Timestamp |
                     UaMonitoredItemMessageContentMask.Status;
@@ -644,7 +644,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol {
         /// <param name="mask"></param>
         /// <returns></returns>
         public static JsonNetworkMessageContentMask ToJsonStackType(this NetworkMessageContentMask? mask) {
-            if (mask == null) {
+            if (mask is null) {
                 mask =
                     NetworkMessageContentMask.NetworkMessageHeader |
                     NetworkMessageContentMask.DataSetMessageHeader |
@@ -679,7 +679,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol {
         /// <param name="mask"></param>
         /// <returns></returns>
         public static JsonDataSetMessageContentMask ToJsonStackType(this DataSetContentMask? mask) {
-            if (mask == null) {
+            if (mask is null) {
                 mask =
                     DataSetContentMask.DataSetWriterId |
                     DataSetContentMask.MetaDataVersion |
@@ -709,7 +709,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol {
         /// <param name="mask"></param>
         /// <returns></returns>
         public static UadpNetworkMessageContentMask ToUadpStackType(this NetworkMessageContentMask? mask) {
-            if (mask == null) {
+            if (mask is null) {
                 mask =
                     NetworkMessageContentMask.NetworkMessageHeader |
                     NetworkMessageContentMask.DataSetMessageHeader |
@@ -759,7 +759,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol {
         /// <param name="mask"></param>
         /// <returns></returns>
         public static UadpDataSetMessageContentMask ToUadpStackType(this DataSetContentMask? mask) {
-            if (mask == null) {
+            if (mask is null) {
                 mask =
                     DataSetContentMask.DataSetWriterId |
                     DataSetContentMask.MetaDataVersion |
@@ -793,7 +793,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol {
         /// <param name="mask"></param>
         /// <returns></returns>
         public static UaDataSetFieldContentMask ToStackType(this DataSetFieldContentMask? mask) {
-            if (mask == null) {
+            if (mask is null) {
                 mask =
                     DataSetFieldContentMask.StatusCode |
                     DataSetFieldContentMask.SourceTimestamp |

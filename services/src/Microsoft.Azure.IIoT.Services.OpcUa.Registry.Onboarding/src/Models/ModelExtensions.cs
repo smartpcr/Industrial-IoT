@@ -22,7 +22,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Onboarding.Models {
         /// <returns></returns>
         public static ApplicationInfoModel ToServiceModel(
             this ApplicationInfoApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new ApplicationInfoModel {
@@ -53,7 +53,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Onboarding.Models {
         /// <returns></returns>
         public static AuthenticationMethodModel ToServiceModel(
             this AuthenticationMethodApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new AuthenticationMethodModel {
@@ -71,20 +71,20 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Onboarding.Models {
         /// <returns></returns>
         public static DiscoveryConfigModel ToServiceModel(
             this DiscoveryConfigApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new DiscoveryConfigModel {
                 AddressRangesToScan = model.AddressRangesToScan,
-                NetworkProbeTimeout = model.NetworkProbeTimeoutMs == null ?
+                NetworkProbeTimeout = model.NetworkProbeTimeoutMs is null ?
                     (TimeSpan?)null : TimeSpan.FromMilliseconds((double)model.NetworkProbeTimeoutMs),
                 MaxNetworkProbes = model.MaxNetworkProbes,
                 PortRangesToScan = model.PortRangesToScan,
-                PortProbeTimeout = model.PortProbeTimeoutMs == null ?
+                PortProbeTimeout = model.PortProbeTimeoutMs is null ?
                     (TimeSpan?)null : TimeSpan.FromMilliseconds((double)model.PortProbeTimeoutMs),
                 MaxPortProbes = model.MaxPortProbes,
                 MinPortProbesPercent = model.MinPortProbesPercent,
-                IdleTimeBetweenScans = model.IdleTimeBetweenScansSec == null ?
+                IdleTimeBetweenScans = model.IdleTimeBetweenScansSec is null ?
                     (TimeSpan?)null : TimeSpan.FromSeconds((double)model.IdleTimeBetweenScansSec),
                 ActivationFilter = model.ActivationFilter.ToServiceModel(),
                 Locales = model.Locales,
@@ -98,7 +98,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Onboarding.Models {
         /// <returns></returns>
         public static EndpointActivationFilterModel ToServiceModel(
             this EndpointActivationFilterApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new EndpointActivationFilterModel {
@@ -115,7 +115,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Onboarding.Models {
         /// <returns></returns>
         public static EndpointModel ToServiceModel(
             this EndpointApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new EndpointModel {
@@ -134,7 +134,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Onboarding.Models {
         /// <returns></returns>
         public static EndpointRegistrationModel ToServiceModel(
             this EndpointRegistrationApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new EndpointRegistrationModel {
@@ -158,7 +158,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Onboarding.Models {
         /// <returns></returns>
         public static RegistryOperationContextModel ToServiceModel(
             this RegistryOperationApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new RegistryOperationContextModel {
@@ -174,7 +174,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Onboarding.Models {
         /// <returns></returns>
         public static DiscoveryEventModel ToServiceModel(
             this DiscoveryEventApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new DiscoveryEventModel {

@@ -17,7 +17,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
         /// <param name="model"></param>
         /// <returns></returns>
         public static EndpointActivationFilterModel Clone(this EndpointActivationFilterModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new EndpointActivationFilterModel {

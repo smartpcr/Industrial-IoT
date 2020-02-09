@@ -40,14 +40,14 @@ namespace Microsoft.Azure.IIoT.OpcUa.Vault.Services {
                 throw new ArgumentNullException(nameof(groupId));
             }
             var group = await _groups.FindAsync(groupId, ct);
-            if (group == null) {
+            if (group is null) {
                 throw new ResourceNotFoundException("Group not found");
             }
 
             TrustGroupRegistrationModel parent = null;
             if (!string.IsNullOrEmpty(group.Group.ParentId)) {
                 parent = await _groups.FindAsync(group.Group.ParentId, ct);
-                if (parent == null) {
+                if (parent is null) {
                     throw new ResourceNotFoundException("Parent not found");
                 }
             }
@@ -59,7 +59,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Vault.Services {
         /// <inheritdoc/>
         public async Task<TrustGroupRegistrationResultModel> CreateGroupAsync(
             TrustGroupRegistrationRequestModel request, CancellationToken ct) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             if (string.IsNullOrEmpty(request.ParentId)) {
@@ -67,7 +67,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Vault.Services {
             }
 
             var parent = await _groups.FindAsync(request.ParentId, ct);
-            if (parent == null) {
+            if (parent is null) {
                 throw new ResourceNotFoundException("Parent group not found");
             }
 
@@ -95,7 +95,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Vault.Services {
         /// <inheritdoc/>
         public async Task<TrustGroupRegistrationResultModel> CreateRootAsync(
             TrustGroupRootCreateRequestModel request, CancellationToken ct) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             var result = await _groups.AddAsync(request.ToRegistration(), ct);
@@ -119,7 +119,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Vault.Services {
         public async Task<TrustGroupRegistrationModel> GetGroupAsync(
             string groupId, CancellationToken ct) {
             var group = await _groups.FindAsync(groupId, ct);
-            if (group == null) {
+            if (group is null) {
                 throw new ResourceNotFoundException("No such group");
             }
             return group;
@@ -128,7 +128,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Vault.Services {
         /// <inheritdoc/>
         public async Task UpdateGroupAsync(string groupId,
             TrustGroupRegistrationUpdateModel request, CancellationToken ct) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             if (string.IsNullOrEmpty(groupId)) {
@@ -172,7 +172,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Vault.Services {
             var now = DateTime.UtcNow.AddDays(-1);
             var notBefore = new DateTime(now.Year, now.Month, now.Day,
                 0, 0, 0, DateTimeKind.Utc);
-            if (parent == null) {
+            if (parent is null) {
                 return await RenewGroupRootAsync(group, notBefore, ct);
             }
             return await RenewGroupFromParentAsync(group, parent, notBefore, ct);

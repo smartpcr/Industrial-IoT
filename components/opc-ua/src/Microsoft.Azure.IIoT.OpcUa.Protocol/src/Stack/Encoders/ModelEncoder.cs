@@ -374,7 +374,7 @@ fieldName, new EncodableWrapper(this, value), systemType);
         /// <returns></returns>
         private static IEncoder CreateEncoder(string contentType, Stream stream,
             ServiceMessageContext context) {
-            if (stream == null) {
+            if (stream is null) {
                 throw new ArgumentNullException(nameof(stream));
             }
             switch (contentType.ToLowerInvariant()) {

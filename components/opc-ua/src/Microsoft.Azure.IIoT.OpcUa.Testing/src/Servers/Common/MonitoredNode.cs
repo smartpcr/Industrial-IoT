@@ -135,7 +135,7 @@ namespace Opc.Ua.Sample {
                 range,
                 alwaysReportUpdates);
 
-            if (_monitoredItems == null) {
+            if (_monitoredItems is null) {
                 _monitoredItems = new List<DataChangeMonitoredItem>();
                 Node.OnStateChanged = OnNodeChange;
             }
@@ -239,7 +239,7 @@ namespace Opc.Ua.Sample {
         /// Subscribes to events produced by the node.
         /// </summary>
         public void SubscribeToEvents(ISystemContext context, IEventMonitoredItem eventSubscription) {
-            if (_eventSubscriptions == null) {
+            if (_eventSubscriptions is null) {
                 _eventSubscriptions = new List<IEventMonitoredItem>();
             }
 

@@ -23,7 +23,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// </summary>
         /// <param name="model"></param>
         public static ConfigurationVersionApiModel ToApiModel(this ConfigurationVersionModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new ConfigurationVersionApiModel {
@@ -36,7 +36,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// Create service model from api model
         /// </summary>
         public static ConfigurationVersionModel ToServiceModel(this ConfigurationVersionApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new ConfigurationVersionModel {
@@ -50,7 +50,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// </summary>
         /// <param name="model"></param>
         public static ConnectionApiModel ToApiModel(this ConnectionModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new ConnectionApiModel {
@@ -64,7 +64,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// Create service model from api model
         /// </summary>
         public static ConnectionModel ToServiceModel(this ConnectionApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new ConnectionModel {
@@ -79,7 +79,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// </summary>
         /// <param name="model"></param>
         public static ContentFilterApiModel ToApiModel(this ContentFilterModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new ContentFilterApiModel {
@@ -93,7 +93,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// Create service model from api model
         /// </summary>
         public static ContentFilterModel ToServiceModel(this ContentFilterApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new ContentFilterModel {
@@ -108,7 +108,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// </summary>
         /// <param name="model"></param>
         public static ContentFilterElementApiModel ToApiModel(this ContentFilterElementModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new ContentFilterElementApiModel {
@@ -123,7 +123,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// Create service model from api model
         /// </summary>
         public static ContentFilterElementModel ToServiceModel(this ContentFilterElementApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new ContentFilterElementModel {
@@ -139,7 +139,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// </summary>
         /// <param name="model"></param>
         public static CredentialApiModel ToApiModel(this CredentialModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new CredentialApiModel {
@@ -152,7 +152,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// Create service model from api model
         /// </summary>
         public static CredentialModel ToServiceModel(this CredentialApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new CredentialModel {
@@ -166,7 +166,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// </summary>
         /// <param name="model"></param>
         public static DataSetMetaDataApiModel ToApiModel(this DataSetMetaDataModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new DataSetMetaDataApiModel {
@@ -194,7 +194,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// Create service model from api model
         /// </summary>
         public static DataSetMetaDataModel ToServiceModel(this DataSetMetaDataApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new DataSetMetaDataModel {
@@ -223,7 +223,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// </summary>
         /// <param name="model"></param>
         public static DataSetWriterApiModel ToApiModel(this DataSetWriterModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new DataSetWriterApiModel {
@@ -241,7 +241,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// Create service model from api model
         /// </summary>
         public static DataSetWriterModel ToServiceModel(this DataSetWriterApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new DataSetWriterModel {
@@ -260,7 +260,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// </summary>
         /// <param name="model"></param>
         public static DataSetWriterMessageSettingsApiModel ToApiModel(this DataSetWriterMessageSettingsModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new DataSetWriterMessageSettingsApiModel {
@@ -275,7 +275,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// Create service model from api model
         /// </summary>
         public static DataSetWriterMessageSettingsModel ToServiceModel(this DataSetWriterMessageSettingsApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new DataSetWriterMessageSettingsModel {
@@ -291,7 +291,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// </summary>
         /// <param name="model"></param>
         public static DiagnosticsApiModel ToApiModel(this DiagnosticsModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new DiagnosticsApiModel {
@@ -305,7 +305,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// Create service model from api model
         /// </summary>
         public static DiagnosticsModel ToServiceModel(this DiagnosticsApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new DiagnosticsModel {
@@ -320,7 +320,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// </summary>
         /// <param name="model"></param>
         public static EndpointApiModel ToApiModel(this EndpointModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new EndpointApiModel {
@@ -336,7 +336,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// Create service model from api model
         /// </summary>
         public static EndpointModel ToServiceModel(this EndpointApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new EndpointModel {
@@ -353,7 +353,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// </summary>
         /// <param name="model"></param>
         public static EngineConfigurationApiModel ToApiModel(this EngineConfigurationModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new EngineConfigurationApiModel {
@@ -366,7 +366,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// Create service model from api model
         /// </summary>
         public static EngineConfigurationModel ToServiceModel(this EngineConfigurationApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new EngineConfigurationModel {
@@ -380,7 +380,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// </summary>
         /// <param name="model"></param>
         public static EnumDefinitionApiModel ToApiModel(this EnumDefinitionModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new EnumDefinitionApiModel {
@@ -394,7 +394,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// Create service model from api model
         /// </summary>
         public static EnumDefinitionModel ToServiceModel(this EnumDefinitionApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new EnumDefinitionModel {
@@ -409,7 +409,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// </summary>
         /// <param name="model"></param>
         public static EnumDescriptionApiModel ToApiModel(this EnumDescriptionModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new EnumDescriptionApiModel {
@@ -424,7 +424,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// Create service model from api model
         /// </summary>
         public static EnumDescriptionModel ToServiceModel(this EnumDescriptionApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new EnumDescriptionModel {
@@ -440,7 +440,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// </summary>
         /// <param name="model"></param>
         public static EnumFieldApiModel ToApiModel(this EnumFieldModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new EnumFieldApiModel {
@@ -455,7 +455,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// Create service model from api model
         /// </summary>
         public static EnumFieldModel ToServiceModel(this EnumFieldApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new EnumFieldModel {
@@ -471,7 +471,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// </summary>
         /// <param name="model"></param>
         public static FieldMetaDataApiModel ToApiModel(this FieldMetaDataModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new FieldMetaDataApiModel {
@@ -493,7 +493,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// Create service model from api model
         /// </summary>
         public static FieldMetaDataModel ToServiceModel(this FieldMetaDataApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new FieldMetaDataModel {
@@ -516,7 +516,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// </summary>
         /// <param name="model"></param>
         public static FilterOperandApiModel ToApiModel(this FilterOperandModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new FilterOperandApiModel {
@@ -534,7 +534,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// Create service model from api model
         /// </summary>
         public static FilterOperandModel ToServiceModel(this FilterOperandApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new FilterOperandModel {
@@ -553,7 +553,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// </summary>
         /// <param name="model"></param>
         public static IdentityTokenApiModel ToApiModel(this IdentityTokenModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new IdentityTokenApiModel {
@@ -568,7 +568,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// </summary>
         /// <returns></returns>
         public static IdentityTokenModel ToServiceModel(this IdentityTokenApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new IdentityTokenModel {
@@ -584,7 +584,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// </summary>
         /// <param name="model"></param>
         public static LocalizedTextApiModel ToApiModel(this LocalizedTextModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new LocalizedTextApiModel {
@@ -597,7 +597,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// Create service model from api model
         /// </summary>
         public static LocalizedTextModel ToServiceModel(this LocalizedTextApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new LocalizedTextModel {
@@ -611,7 +611,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// </summary>
         /// <param name="model"></param>
         public static PublishedDataItemsApiModel ToApiModel(this PublishedDataItemsModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new PublishedDataItemsApiModel {
@@ -625,7 +625,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// Create service model from api model
         /// </summary>
         public static PublishedDataItemsModel ToServiceModel(this PublishedDataItemsApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new PublishedDataItemsModel {
@@ -640,7 +640,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// </summary>
         /// <param name="model"></param>
         public static PublishedDataSetApiModel ToApiModel(this PublishedDataSetModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new PublishedDataSetApiModel {
@@ -656,7 +656,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// Create service model from api model
         /// </summary>
         public static PublishedDataSetModel ToServiceModel(this PublishedDataSetApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new PublishedDataSetModel {
@@ -673,7 +673,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// </summary>
         /// <param name="model"></param>
         public static PublishedDataSetEventsApiModel ToApiModel(this PublishedDataSetEventsModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new PublishedDataSetEventsApiModel {
@@ -695,7 +695,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// Create service model from api model
         /// </summary>
         public static PublishedDataSetEventsModel ToServiceModel(this PublishedDataSetEventsApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new PublishedDataSetEventsModel {
@@ -719,7 +719,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// </summary>
         /// <param name="model"></param>
         public static PublishedDataSetSettingsApiModel ToApiModel(this PublishedDataSetSettingsModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new PublishedDataSetSettingsApiModel {
@@ -735,7 +735,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// Create service model from api model
         /// </summary>
         public static PublishedDataSetSettingsModel ToServiceModel(this PublishedDataSetSettingsApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new PublishedDataSetSettingsModel {
@@ -752,7 +752,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// </summary>
         /// <param name="model"></param>
         public static PublishedDataSetSourceApiModel ToApiModel(this PublishedDataSetSourceModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new PublishedDataSetSourceApiModel {
@@ -767,7 +767,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// Create service model from api model
         /// </summary>
         public static PublishedDataSetSourceModel ToServiceModel(this PublishedDataSetSourceApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new PublishedDataSetSourceModel {
@@ -783,7 +783,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// </summary>
         /// <param name="model"></param>
         public static PublishedDataSetVariableApiModel ToApiModel(this PublishedDataSetVariableModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new PublishedDataSetVariableApiModel {
@@ -809,7 +809,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// Create service model from api model
         /// </summary>
         public static PublishedDataSetVariableModel ToServiceModel(this PublishedDataSetVariableApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new PublishedDataSetVariableModel {
@@ -837,7 +837,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// </summary>
         /// <param name="model"></param>
         public static PublisherConfigApiModel ToApiModel(this AgentConfigModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new PublisherConfigApiModel {
@@ -855,7 +855,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// </summary>
         /// <returns></returns>
         public static AgentConfigModel ToServiceModel(this PublisherConfigApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new AgentConfigModel {
@@ -874,7 +874,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// </summary>
         /// <param name="model"></param>
         public static SimpleAttributeOperandApiModel ToApiModel(this SimpleAttributeOperandModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new SimpleAttributeOperandApiModel {
@@ -889,7 +889,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// Create service model from api model
         /// </summary>
         public static SimpleAttributeOperandModel ToServiceModel(this SimpleAttributeOperandApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new SimpleAttributeOperandModel {
@@ -906,7 +906,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// </summary>
         /// <param name="model"></param>
         public static SimpleTypeDescriptionApiModel ToApiModel(this SimpleTypeDescriptionModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new SimpleTypeDescriptionApiModel {
@@ -921,7 +921,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// Create service model from api model
         /// </summary>
         public static SimpleTypeDescriptionModel ToServiceModel(this SimpleTypeDescriptionApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new SimpleTypeDescriptionModel {
@@ -937,7 +937,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// </summary>
         /// <param name="model"></param>
         public static StructureDefinitionApiModel ToApiModel(this StructureDefinitionModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new StructureDefinitionApiModel {
@@ -953,7 +953,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// Create service model from api model
         /// </summary>
         public static StructureDefinitionModel ToServiceModel(this StructureDefinitionApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new StructureDefinitionModel {
@@ -970,7 +970,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// </summary>
         /// <param name="model"></param>
         public static StructureDescriptionApiModel ToApiModel(this StructureDescriptionModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new StructureDescriptionApiModel {
@@ -984,7 +984,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// Create service model from api model
         /// </summary>
         public static StructureDescriptionModel ToServiceModel(this StructureDescriptionApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new StructureDescriptionModel {
@@ -999,7 +999,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// </summary>
         /// <param name="model"></param>
         public static StructureFieldApiModel ToApiModel(this StructureFieldModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new StructureFieldApiModel {
@@ -1017,7 +1017,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// Create service model from api model
         /// </summary>
         public static StructureFieldModel ToServiceModel(this StructureFieldApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new StructureFieldModel {
@@ -1035,7 +1035,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// </summary>
         /// <param name="model"></param>
         public static WriterGroupApiModel ToApiModel(this WriterGroupModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new WriterGroupApiModel {
@@ -1064,7 +1064,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// Create service model from api model
         /// </summary>
         public static WriterGroupModel ToServiceModel(this WriterGroupApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new WriterGroupModel {
@@ -1094,7 +1094,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// </summary>
         /// <param name="model"></param>
         public static WriterGroupJobApiModel ToApiModel(this WriterGroupJobModel model) {
-            if (model?.WriterGroup == null) {
+            if (model?.WriterGroup is null) {
                 return null;
             }
             return new WriterGroupJobApiModel {
@@ -1109,7 +1109,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// Create service model from api model
         /// </summary>
         public static WriterGroupJobModel ToServiceModel(this WriterGroupJobApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new WriterGroupJobModel {
@@ -1125,7 +1125,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// </summary>
         /// <param name="model"></param>
         public static WriterGroupMessageSettingsApiModel ToApiModel(this WriterGroupMessageSettingsModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new WriterGroupMessageSettingsApiModel {
@@ -1141,7 +1141,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Adapter {
         /// Create service model from api model
         /// </summary>
         public static WriterGroupMessageSettingsModel ToServiceModel(this WriterGroupMessageSettingsApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new WriterGroupMessageSettingsModel {

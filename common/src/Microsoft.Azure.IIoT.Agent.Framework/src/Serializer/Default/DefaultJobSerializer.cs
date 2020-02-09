@@ -35,7 +35,7 @@ namespace Microsoft.Azure.IIoT.Agent.Framework.Serializer {
         public object DeserializeJobConfiguration(VariantValue model, string jobConfigurationType) {
             var type = _knownJobConfigProvider.KnownJobTypes
                 .SingleOrDefault(t => t.Name.Equals(jobConfigurationType, StringComparison.OrdinalIgnoreCase));
-            if (type == null) {
+            if (type is null) {
                 throw new UnknownJobTypeException(jobConfigurationType);
             }
             return model.ToObject(type);

@@ -16,7 +16,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
         /// <param name="model"></param>
         /// <returns></returns>
         public static DiscoveryRequestModel Clone(this DiscoveryRequestModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new DiscoveryRequestModel {

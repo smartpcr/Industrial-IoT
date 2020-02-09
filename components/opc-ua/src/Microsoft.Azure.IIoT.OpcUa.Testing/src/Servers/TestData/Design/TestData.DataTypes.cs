@@ -432,7 +432,7 @@ namespace TestData {
 
             ScalarValueDataType value = encodeable as ScalarValueDataType;
 
-            if (value == null) {
+            if (value is null) {
                 return false;
             }
 
@@ -693,7 +693,7 @@ namespace TestData {
             set {
                 m_booleanValue = value;
 
-                if (value == null) {
+                if (value is null) {
                     m_booleanValue = new BooleanCollection();
                 }
             }
@@ -711,7 +711,7 @@ namespace TestData {
             set {
                 m_sByteValue = value;
 
-                if (value == null) {
+                if (value is null) {
                     m_sByteValue = new SByteCollection();
                 }
             }
@@ -729,7 +729,7 @@ namespace TestData {
             set {
                 m_byteValue = value;
 
-                if (value == null) {
+                if (value is null) {
                     m_byteValue = new ByteCollection();
                 }
             }
@@ -747,7 +747,7 @@ namespace TestData {
             set {
                 m_int16Value = value;
 
-                if (value == null) {
+                if (value is null) {
                     m_int16Value = new Int16Collection();
                 }
             }
@@ -765,7 +765,7 @@ namespace TestData {
             set {
                 m_uInt16Value = value;
 
-                if (value == null) {
+                if (value is null) {
                     m_uInt16Value = new UInt16Collection();
                 }
             }
@@ -783,7 +783,7 @@ namespace TestData {
             set {
                 m_int32Value = value;
 
-                if (value == null) {
+                if (value is null) {
                     m_int32Value = new Int32Collection();
                 }
             }
@@ -801,7 +801,7 @@ namespace TestData {
             set {
                 m_uInt32Value = value;
 
-                if (value == null) {
+                if (value is null) {
                     m_uInt32Value = new UInt32Collection();
                 }
             }
@@ -819,7 +819,7 @@ namespace TestData {
             set {
                 m_int64Value = value;
 
-                if (value == null) {
+                if (value is null) {
                     m_int64Value = new Int64Collection();
                 }
             }
@@ -837,7 +837,7 @@ namespace TestData {
             set {
                 m_uInt64Value = value;
 
-                if (value == null) {
+                if (value is null) {
                     m_uInt64Value = new UInt64Collection();
                 }
             }
@@ -855,7 +855,7 @@ namespace TestData {
             set {
                 m_floatValue = value;
 
-                if (value == null) {
+                if (value is null) {
                     m_floatValue = new FloatCollection();
                 }
             }
@@ -873,7 +873,7 @@ namespace TestData {
             set {
                 m_doubleValue = value;
 
-                if (value == null) {
+                if (value is null) {
                     m_doubleValue = new DoubleCollection();
                 }
             }
@@ -891,7 +891,7 @@ namespace TestData {
             set {
                 m_stringValue = value;
 
-                if (value == null) {
+                if (value is null) {
                     m_stringValue = new StringCollection();
                 }
             }
@@ -909,7 +909,7 @@ namespace TestData {
             set {
                 m_dateTimeValue = value;
 
-                if (value == null) {
+                if (value is null) {
                     m_dateTimeValue = new DateTimeCollection();
                 }
             }
@@ -927,7 +927,7 @@ namespace TestData {
             set {
                 m_guidValue = value;
 
-                if (value == null) {
+                if (value is null) {
                     m_guidValue = new UuidCollection();
                 }
             }
@@ -945,7 +945,7 @@ namespace TestData {
             set {
                 m_byteStringValue = value;
 
-                if (value == null) {
+                if (value is null) {
                     m_byteStringValue = new ByteStringCollection();
                 }
             }
@@ -963,7 +963,7 @@ namespace TestData {
             set {
                 m_xmlElementValue = value;
 
-                if (value == null) {
+                if (value is null) {
                     m_xmlElementValue = new XmlElementCollection();
                 }
             }
@@ -981,7 +981,7 @@ namespace TestData {
             set {
                 m_nodeIdValue = value;
 
-                if (value == null) {
+                if (value is null) {
                     m_nodeIdValue = new NodeIdCollection();
                 }
             }
@@ -999,7 +999,7 @@ namespace TestData {
             set {
                 m_expandedNodeIdValue = value;
 
-                if (value == null) {
+                if (value is null) {
                     m_expandedNodeIdValue = new ExpandedNodeIdCollection();
                 }
             }
@@ -1017,7 +1017,7 @@ namespace TestData {
             set {
                 m_qualifiedNameValue = value;
 
-                if (value == null) {
+                if (value is null) {
                     m_qualifiedNameValue = new QualifiedNameCollection();
                 }
             }
@@ -1035,7 +1035,7 @@ namespace TestData {
             set {
                 m_localizedTextValue = value;
 
-                if (value == null) {
+                if (value is null) {
                     m_localizedTextValue = new LocalizedTextCollection();
                 }
             }
@@ -1053,7 +1053,7 @@ namespace TestData {
             set {
                 m_statusCodeValue = value;
 
-                if (value == null) {
+                if (value is null) {
                     m_statusCodeValue = new StatusCodeCollection();
                 }
             }
@@ -1071,7 +1071,7 @@ namespace TestData {
             set {
                 m_variantValue = value;
 
-                if (value == null) {
+                if (value is null) {
                     m_variantValue = new VariantCollection();
                 }
             }
@@ -1089,7 +1089,7 @@ namespace TestData {
             set {
                 m_enumerationValue = value;
 
-                if (value == null) {
+                if (value is null) {
                     m_enumerationValue = new Int32Collection();
                 }
             }
@@ -1107,7 +1107,7 @@ namespace TestData {
             set {
                 m_structureValue = value;
 
-                if (value == null) {
+                if (value is null) {
                     m_structureValue = new ExtensionObjectCollection();
                 }
             }
@@ -1125,7 +1125,7 @@ namespace TestData {
             set {
                 m_number = value;
 
-                if (value == null) {
+                if (value is null) {
                     m_number = new VariantCollection();
                 }
             }
@@ -1143,7 +1143,7 @@ namespace TestData {
             set {
                 m_integer = value;
 
-                if (value == null) {
+                if (value is null) {
                     m_integer = new VariantCollection();
                 }
             }
@@ -1161,7 +1161,7 @@ namespace TestData {
             set {
                 m_uInteger = value;
 
-                if (value == null) {
+                if (value is null) {
                     m_uInteger = new VariantCollection();
                 }
             }
@@ -1262,7 +1262,7 @@ namespace TestData {
 
             ArrayValueDataType value = encodeable as ArrayValueDataType;
 
-            if (value == null) {
+            if (value is null) {
                 return false;
             }
 
@@ -1789,7 +1789,7 @@ namespace TestData {
 
             UserScalarValueDataType value = encodeable as UserScalarValueDataType;
 
-            if (value == null) {
+            if (value is null) {
                 return false;
             }
 
@@ -2030,7 +2030,7 @@ namespace TestData {
             set {
                 m_booleanDataType = value;
 
-                if (value == null) {
+                if (value is null) {
                     m_booleanDataType = new BooleanCollection();
                 }
             }
@@ -2048,7 +2048,7 @@ namespace TestData {
             set {
                 m_sByteDataType = value;
 
-                if (value == null) {
+                if (value is null) {
                     m_sByteDataType = new SByteCollection();
                 }
             }
@@ -2066,7 +2066,7 @@ namespace TestData {
             set {
                 m_byteDataType = value;
 
-                if (value == null) {
+                if (value is null) {
                     m_byteDataType = new ByteCollection();
                 }
             }
@@ -2084,7 +2084,7 @@ namespace TestData {
             set {
                 m_int16DataType = value;
 
-                if (value == null) {
+                if (value is null) {
                     m_int16DataType = new Int16Collection();
                 }
             }
@@ -2102,7 +2102,7 @@ namespace TestData {
             set {
                 m_uInt16DataType = value;
 
-                if (value == null) {
+                if (value is null) {
                     m_uInt16DataType = new UInt16Collection();
                 }
             }
@@ -2120,7 +2120,7 @@ namespace TestData {
             set {
                 m_int32DataType = value;
 
-                if (value == null) {
+                if (value is null) {
                     m_int32DataType = new Int32Collection();
                 }
             }
@@ -2138,7 +2138,7 @@ namespace TestData {
             set {
                 m_uInt32DataType = value;
 
-                if (value == null) {
+                if (value is null) {
                     m_uInt32DataType = new UInt32Collection();
                 }
             }
@@ -2156,7 +2156,7 @@ namespace TestData {
             set {
                 m_int64DataType = value;
 
-                if (value == null) {
+                if (value is null) {
                     m_int64DataType = new Int64Collection();
                 }
             }
@@ -2174,7 +2174,7 @@ namespace TestData {
             set {
                 m_uInt64DataType = value;
 
-                if (value == null) {
+                if (value is null) {
                     m_uInt64DataType = new UInt64Collection();
                 }
             }
@@ -2192,7 +2192,7 @@ namespace TestData {
             set {
                 m_floatDataType = value;
 
-                if (value == null) {
+                if (value is null) {
                     m_floatDataType = new FloatCollection();
                 }
             }
@@ -2210,7 +2210,7 @@ namespace TestData {
             set {
                 m_doubleDataType = value;
 
-                if (value == null) {
+                if (value is null) {
                     m_doubleDataType = new DoubleCollection();
                 }
             }
@@ -2228,7 +2228,7 @@ namespace TestData {
             set {
                 m_stringDataType = value;
 
-                if (value == null) {
+                if (value is null) {
                     m_stringDataType = new StringCollection();
                 }
             }
@@ -2246,7 +2246,7 @@ namespace TestData {
             set {
                 m_dateTimeDataType = value;
 
-                if (value == null) {
+                if (value is null) {
                     m_dateTimeDataType = new DateTimeCollection();
                 }
             }
@@ -2264,7 +2264,7 @@ namespace TestData {
             set {
                 m_guidDataType = value;
 
-                if (value == null) {
+                if (value is null) {
                     m_guidDataType = new UuidCollection();
                 }
             }
@@ -2282,7 +2282,7 @@ namespace TestData {
             set {
                 m_byteStringDataType = value;
 
-                if (value == null) {
+                if (value is null) {
                     m_byteStringDataType = new ByteStringCollection();
                 }
             }
@@ -2300,7 +2300,7 @@ namespace TestData {
             set {
                 m_xmlElementDataType = value;
 
-                if (value == null) {
+                if (value is null) {
                     m_xmlElementDataType = new XmlElementCollection();
                 }
             }
@@ -2318,7 +2318,7 @@ namespace TestData {
             set {
                 m_nodeIdDataType = value;
 
-                if (value == null) {
+                if (value is null) {
                     m_nodeIdDataType = new NodeIdCollection();
                 }
             }
@@ -2336,7 +2336,7 @@ namespace TestData {
             set {
                 m_expandedNodeIdDataType = value;
 
-                if (value == null) {
+                if (value is null) {
                     m_expandedNodeIdDataType = new ExpandedNodeIdCollection();
                 }
             }
@@ -2354,7 +2354,7 @@ namespace TestData {
             set {
                 m_qualifiedNameDataType = value;
 
-                if (value == null) {
+                if (value is null) {
                     m_qualifiedNameDataType = new QualifiedNameCollection();
                 }
             }
@@ -2372,7 +2372,7 @@ namespace TestData {
             set {
                 m_localizedTextDataType = value;
 
-                if (value == null) {
+                if (value is null) {
                     m_localizedTextDataType = new LocalizedTextCollection();
                 }
             }
@@ -2390,7 +2390,7 @@ namespace TestData {
             set {
                 m_statusCodeDataType = value;
 
-                if (value == null) {
+                if (value is null) {
                     m_statusCodeDataType = new StatusCodeCollection();
                 }
             }
@@ -2408,7 +2408,7 @@ namespace TestData {
             set {
                 m_variantDataType = value;
 
-                if (value == null) {
+                if (value is null) {
                     m_variantDataType = new VariantCollection();
                 }
             }
@@ -2499,7 +2499,7 @@ namespace TestData {
 
             UserArrayValueDataType value = encodeable as UserArrayValueDataType;
 
-            if (value == null) {
+            if (value is null) {
                 return false;
             }
 

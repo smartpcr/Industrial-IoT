@@ -238,7 +238,7 @@ namespace Vehicles.Instances {
 
             BicycleType value = encodeable as BicycleType;
 
-            if (value == null) {
+            if (value is null) {
                 return false;
             }
 

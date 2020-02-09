@@ -60,7 +60,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Clients {
         /// <inheritdoc/>
         public async Task UpdateDiscovererAsync(string discovererId,
             DiscovererUpdateApiModel content, CancellationToken ct) {
-            if (content == null) {
+            if (content is null) {
                 throw new ArgumentNullException(nameof(content));
             }
             if (string.IsNullOrEmpty(discovererId)) {
@@ -256,7 +256,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Clients {
         /// <inheritdoc/>
         public async Task UpdateSupervisorAsync(string supervisorId,
             SupervisorUpdateApiModel content, CancellationToken ct) {
-            if (content == null) {
+            if (content is null) {
                 throw new ArgumentNullException(nameof(content));
             }
             if (string.IsNullOrEmpty(supervisorId)) {
@@ -349,10 +349,10 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Clients {
         /// <inheritdoc/>
         public async Task RegisterAsync(ServerRegistrationRequestApiModel content,
             CancellationToken ct) {
-            if (content == null) {
+            if (content is null) {
                 throw new ArgumentNullException(nameof(content));
             }
-            if (content.DiscoveryUrl == null) {
+            if (content.DiscoveryUrl is null) {
                 throw new ArgumentNullException(nameof(content.DiscoveryUrl));
             }
             var request = _httpClient.NewRequest($"{_serviceUri}/v2/applications",
@@ -365,7 +365,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Clients {
 
         /// <inheritdoc/>
         public async Task DiscoverAsync(DiscoveryRequestApiModel content, CancellationToken ct) {
-            if (content == null) {
+            if (content is null) {
                 throw new ArgumentNullException(nameof(content));
             }
             var request = _httpClient.NewRequest($"{_serviceUri}/v2/applications/discover",
@@ -378,7 +378,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Clients {
 
         /// <inheritdoc/>
         public async Task CancelAsync(DiscoveryCancelApiModel content, CancellationToken ct) {
-            if (content?.Id == null) {
+            if (content?.Id is null) {
                 throw new ArgumentNullException(nameof(content));
             }
             var request = _httpClient.NewRequest(
@@ -390,7 +390,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Clients {
         /// <inheritdoc/>
         public async Task<ApplicationRegistrationResponseApiModel> RegisterAsync(
             ApplicationRegistrationRequestApiModel content, CancellationToken ct) {
-            if (content == null) {
+            if (content is null) {
                 throw new ArgumentNullException(nameof(content));
             }
             if (string.IsNullOrEmpty(content.ApplicationUri)) {
@@ -429,7 +429,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Clients {
         /// <inheritdoc/>
         public async Task UpdateApplicationAsync(string applicationId,
             ApplicationRegistrationUpdateApiModel content, CancellationToken ct) {
-            if (content == null) {
+            if (content is null) {
                 throw new ArgumentNullException(nameof(content));
             }
             if (string.IsNullOrEmpty(applicationId)) {
@@ -677,7 +677,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Clients {
         /// <inheritdoc/>
         public async Task UpdatePublisherAsync(string publisherId,
             PublisherUpdateApiModel content, CancellationToken ct) {
-            if (content == null) {
+            if (content is null) {
                 throw new ArgumentNullException(nameof(content));
             }
             if (string.IsNullOrEmpty(publisherId)) {
@@ -767,7 +767,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Clients {
         /// <inheritdoc/>
         public async Task UpdateGatewayAsync(string gatewayId,
             GatewayUpdateApiModel content, CancellationToken ct) {
-            if (content == null) {
+            if (content is null) {
                 throw new ArgumentNullException(nameof(content));
             }
             if (string.IsNullOrEmpty(gatewayId)) {

@@ -44,10 +44,10 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Export.Services {
         /// <inheritdoc/>
         public Task<ModelUploadStartResultModel> ModelUploadStartAsync(EndpointModel endpoint,
             ModelUploadStartRequestModel request) {
-            if (endpoint == null) {
+            if (endpoint is null) {
                 throw new ArgumentNullException(nameof(endpoint));
             }
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
 
@@ -174,7 +174,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Export.Services {
             /// <param name="extension"></param>
             /// <returns></returns>
             private static string ValidateEncoding(string contentType, out string extension) {
-                if (contentType == null) {
+                if (contentType is null) {
                     contentType = ContentMimeType.UaJson;
                 }
                 switch (contentType.ToLowerInvariant()) {

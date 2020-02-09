@@ -22,13 +22,13 @@ namespace Microsoft.Azure.IIoT.App.Data {
         public static void Update(this IList<DiscovererInfo> results,
             DiscovererEventApiModel ev) {
             var discoverer = results.FirstOrDefault(e => e.DiscovererModel.Id == ev.Id);
-            if (discoverer == null &&
+            if (discoverer is null &&
                 ev.EventType != DiscovererEventType.New) {
                 return;
             }
             switch (ev.EventType) {
                 case DiscovererEventType.New:
-                    if (discoverer == null) {
+                    if (discoverer is null) {
                         // Add if not already in list
                         results.Add(new DiscovererInfo {
                             DiscovererModel = ev.Discoverer

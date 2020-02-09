@@ -112,7 +112,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Models {
             // Update value
             await ReadAsync(session, requestHeader, readValueCollection, operations,
                 skipAttributeIdInvalid, traceOnly);
-            if (operations == null &&
+            if (operations is null &&
                 NodeClass != NodeClass.VariableType && NodeClass != NodeClass.Variable) {
                 throw new InvalidOperationException(
                     "Node is not a variable or variable type node and does not have value");

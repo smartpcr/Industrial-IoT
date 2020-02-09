@@ -36,7 +36,7 @@ namespace Microsoft.Azure.IIoT.Hub {
         /// <returns></returns>
         public static Dictionary<string, V> EncodeAsDictionary<T, V>(this List<T> list,
             Func<T, V> converter) {
-            if (list == null) {
+            if (list is null) {
                 return null;
             }
             var result = new Dictionary<string, V>();
@@ -63,7 +63,7 @@ namespace Microsoft.Azure.IIoT.Hub {
         /// <returns></returns>
         public static List<T> DecodeAsList<T, V>(this Dictionary<string, V> dictionary,
             Func<V, T> converter) {
-            if (dictionary == null) {
+            if (dictionary is null) {
                 return null;
             }
             var result = Enumerable.Repeat(default(T), dictionary.Count).ToList();
@@ -79,7 +79,7 @@ namespace Microsoft.Azure.IIoT.Hub {
         /// <param name="dictionary"></param>
         /// <returns></returns>
         public static HashSet<string> DecodeAsSet(this Dictionary<string, bool> dictionary) {
-            if (dictionary == null) {
+            if (dictionary is null) {
                 return null;
             }
             return new HashSet<string>(dictionary.Select(kv => kv.Key));
@@ -91,7 +91,7 @@ namespace Microsoft.Azure.IIoT.Hub {
         /// <param name="buffer"></param>
         /// <returns></returns>
         public static Dictionary<string, string> EncodeAsDictionary(this byte[] buffer) {
-            if (buffer == null) {
+            if (buffer is null) {
                 return null;
             }
             var str = buffer.ToBase64String() ?? string.Empty;
@@ -114,7 +114,7 @@ namespace Microsoft.Azure.IIoT.Hub {
         /// <param name="dictionary"></param>
         /// <returns></returns>
         public static byte[] DecodeAsByteArray(this Dictionary<string, string> dictionary) {
-            if (dictionary == null) {
+            if (dictionary is null) {
                 return null;
             }
             var str = new StringBuilder();
@@ -138,7 +138,7 @@ namespace Microsoft.Azure.IIoT.Hub {
         /// <returns></returns>
         public static Dictionary<string, bool> EncodeAsDictionary(this ISet<string> set,
             bool? upperCase = null) {
-            if (set == null) {
+            if (set is null) {
                 return null;
             }
             var result = new Dictionary<string, bool>();

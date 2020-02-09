@@ -309,7 +309,7 @@ namespace Microsoft.Azure.IIoT.Utils {
         /// <returns></returns>
         public IdentityTokenModel ToIdentityToken() {
             return new IdentityTokenModel {
-                Expires = this[Id.Expires] == null ? DateTime.UtcNow :
+                Expires = this[Id.Expires] is null ? DateTime.UtcNow :
                     DateTime.FromBinary(long.Parse(this[Id.Expires])),
                 Identity = this[Id.Endpoint] ?? this[Id.ModuleId] ?? this[Id.DeviceId],
                 Key = this[Id.AccessKey]

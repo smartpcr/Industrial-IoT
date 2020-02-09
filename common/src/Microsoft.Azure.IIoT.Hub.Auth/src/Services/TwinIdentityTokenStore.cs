@@ -29,7 +29,7 @@ namespace Microsoft.Azure.IIoT.Hub.Auth {
         public async Task<IdentityTokenModel> GetIdentityTokenAsync(string identity) {
             var deviceId = GetDeviceId(identity, out var moduleId);
             var deviceTwin = await _iotHubTwinServices.GetAsync(deviceId, moduleId);
-            if (deviceTwin == null) {
+            if (deviceTwin is null) {
                 throw new ResourceNotFoundException(identity);
             }
             if (!deviceTwin.Properties.Desired.ContainsKey(Constants.IdentityTokenPropertyName)) {
@@ -50,7 +50,7 @@ namespace Microsoft.Azure.IIoT.Hub.Auth {
         /// <param name="moduleId"></param>
         /// <returns></returns>
         private string GetDeviceId(string identity, out string moduleId) {
-            if (identity == null) {
+            if (identity is null) {
                 throw new ArgumentNullException(nameof(identity));
             }
             var values = identity.Split('/');

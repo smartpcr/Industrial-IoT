@@ -16,7 +16,7 @@ namespace Opc.Ua.Extensions {
         /// <param name="value"></param>
         /// <returns></returns>
         public static string AsString(this LocalizedText value) {
-            if (value == null || value.Text == null) {
+            if (value is null || value.Text is null) {
                 return null;
             }
             var full = value.Text;
@@ -32,7 +32,7 @@ namespace Opc.Ua.Extensions {
         /// <param name="str"></param>
         /// <returns></returns>
         public static LocalizedText ToLocalizedText(this string str) {
-            if (str == null) {
+            if (str is null) {
                 return null;
             }
             if (string.IsNullOrEmpty(str)) {

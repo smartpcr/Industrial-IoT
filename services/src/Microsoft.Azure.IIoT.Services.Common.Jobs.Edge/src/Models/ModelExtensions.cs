@@ -20,7 +20,7 @@ namespace Microsoft.Azure.IIoT.Services.Common.Jobs.Edge.Models {
         /// <returns></returns>
         public static DemandApiModel ToApiModel(
             this DemandModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new DemandApiModel {
@@ -37,7 +37,7 @@ namespace Microsoft.Azure.IIoT.Services.Common.Jobs.Edge.Models {
         /// <returns></returns>
         public static HeartbeatModel ToServiceModel(
             this HeartbeatApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new HeartbeatModel {
@@ -53,7 +53,7 @@ namespace Microsoft.Azure.IIoT.Services.Common.Jobs.Edge.Models {
         /// <returns></returns>
         public static HeartbeatResponseApiModel ToApiModel(
             this HeartbeatResultModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new HeartbeatResponseApiModel {
@@ -70,7 +70,7 @@ namespace Microsoft.Azure.IIoT.Services.Common.Jobs.Edge.Models {
         /// <returns></returns>
         public static JobHeartbeatModel ToServiceModel(
             this JobHeartbeatApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new JobHeartbeatModel {
@@ -89,7 +89,7 @@ namespace Microsoft.Azure.IIoT.Services.Common.Jobs.Edge.Models {
         /// <returns></returns>
         public static JobInfoApiModel ToApiModel(
             this JobInfoModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new JobInfoApiModel {
@@ -110,7 +110,7 @@ namespace Microsoft.Azure.IIoT.Services.Common.Jobs.Edge.Models {
         /// <param name="model"></param>
         public static JobLifetimeDataApiModel ToApiModel(
             this JobLifetimeDataModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new JobLifetimeDataApiModel {
@@ -128,7 +128,7 @@ namespace Microsoft.Azure.IIoT.Services.Common.Jobs.Edge.Models {
         /// <param name="model"></param>
         public static JobProcessingInstructionApiModel ToApiModel(
             this JobProcessingInstructionModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new JobProcessingInstructionApiModel {
@@ -143,7 +143,7 @@ namespace Microsoft.Azure.IIoT.Services.Common.Jobs.Edge.Models {
         /// <returns></returns>
         public static JobRequestModel ToServiceModel(
             this JobRequestApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new JobRequestModel {
@@ -158,7 +158,7 @@ namespace Microsoft.Azure.IIoT.Services.Common.Jobs.Edge.Models {
         /// <param name="model"></param>
         public static ProcessingStatusApiModel ToApiModel(
             this ProcessingStatusModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new ProcessingStatusApiModel {
@@ -174,7 +174,7 @@ namespace Microsoft.Azure.IIoT.Services.Common.Jobs.Edge.Models {
         /// <param name="model"></param>
         public static RedundancyConfigApiModel ToApiModel(
             this RedundancyConfigModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new RedundancyConfigApiModel {
@@ -189,7 +189,7 @@ namespace Microsoft.Azure.IIoT.Services.Common.Jobs.Edge.Models {
         /// <returns></returns>
         public static WorkerHeartbeatModel ToServiceModel(
             this WorkerHeartbeatApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new WorkerHeartbeatModel {

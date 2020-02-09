@@ -18,7 +18,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Core.Models {
         /// <param name="model"></param>
         /// <returns></returns>
         public static ContentFilterModel Clone(this ContentFilterModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new ContentFilterModel {
@@ -36,10 +36,10 @@ namespace Microsoft.Azure.IIoT.OpcUa.Core.Models {
         /// <param name="other"></param>
         /// <returns></returns>
         public static bool IsSameAs(this ContentFilterModel model, ContentFilterModel other) {
-            if (model == null && other == null) {
+            if (model is null && other is null) {
                 return true;
             }
-            if (model == null || other == null) {
+            if (model is null || other is null) {
                 return false;
             }
             if (!model.Elements.SetEqualsSafe(other.Elements,

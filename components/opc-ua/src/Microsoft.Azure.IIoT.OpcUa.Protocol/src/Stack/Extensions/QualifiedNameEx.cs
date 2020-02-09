@@ -21,7 +21,7 @@ namespace Opc.Ua.Extensions {
         /// <returns></returns>
         public static string AsString(this QualifiedName qn, ServiceMessageContext context,
             bool noRelativeUriAllowed = false) {
-            if (qn == null || qn == QualifiedName.Null) {
+            if (qn is null || qn == QualifiedName.Null) {
                 return string.Empty;
             }
             var buffer = new StringBuilder();

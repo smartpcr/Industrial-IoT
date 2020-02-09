@@ -37,7 +37,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Models {
         /// <returns></returns>
         private static AuthenticationMethodApiModel ToApiModel(
             this AuthenticationMethodModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new AuthenticationMethodApiModel {
@@ -56,7 +56,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Models {
         /// <returns></returns>
         private static EndpointApiModel ToApiModel(
             this EndpointModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new EndpointApiModel {
@@ -75,7 +75,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Models {
         /// <returns></returns>
         private static EndpointInfoApiModel ToApiModel(
             this EndpointInfoModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new EndpointInfoApiModel {
@@ -95,7 +95,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Models {
         /// <returns></returns>
         private static EndpointRegistrationApiModel ToApiModel(
             this EndpointRegistrationModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new EndpointRegistrationApiModel {

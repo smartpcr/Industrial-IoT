@@ -48,7 +48,7 @@ namespace System.Collections.Concurrent {
         /// <param name="collection">The collection whose elements are copied
         /// to the new ConcurrentPriorityQueue.</param>
         public PriorityQueue(IEnumerable<ValueTuple<T, V>> collection) {
-            if (collection == null) {
+            if (collection is null) {
                 throw new ArgumentNullException(nameof(collection));
             }
             foreach (var item in collection) {

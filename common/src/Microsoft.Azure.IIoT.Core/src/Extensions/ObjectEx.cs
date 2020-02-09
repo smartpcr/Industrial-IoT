@@ -33,7 +33,7 @@ namespace System {
             if (obj == that) {
                 return true;
             }
-            if (obj == null || that == null) {
+            if (obj is null || that is null) {
                 return false;
             }
             return obj.Equals(that);
@@ -56,7 +56,7 @@ namespace System {
         /// <param name="obj"></param>
         /// <returns></returns>
         public static int GetHashSafe<T>(this T? obj) where T : struct {
-            return obj == null ? 0 : obj.GetHashCode();
+            return obj is null ? 0 : obj.GetHashCode();
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace System {
         /// <param name="type"></param>
         /// <returns></returns>
         public static object As(this object value, Type type) {
-            if (value == null || value.GetType() == type) {
+            if (value is null || value.GetType() == type) {
                 return value;
             }
             var converter = TypeDescriptor.GetConverter(type);

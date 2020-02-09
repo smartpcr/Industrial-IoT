@@ -26,7 +26,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Subscriber.Processors {
             IJsonSerializer serializer) {
             _serializer = serializer ??
                 throw new ArgumentNullException(nameof(serializer));
-            if (queue == null) {
+            if (queue is null) {
                 throw new ArgumentNullException(nameof(queue));
             }
             _client = queue.OpenAsync().Result;

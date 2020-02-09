@@ -6,6 +6,7 @@
 namespace Microsoft.Azure.IIoT.OpcUa.Edge.Twin.Services {
     using Microsoft.Azure.IIoT.OpcUa.Protocol;
     using Microsoft.Azure.IIoT.OpcUa.Core.Models;
+    using Microsoft.Azure.IIoT.Serializers;
     using Microsoft.Azure.IIoT.Module;
     using System;
     using System.Threading.Tasks;
@@ -24,9 +25,12 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Twin.Services {
         /// </summary>
         /// <param name="client"></param>
         /// <param name="events"></param>
-        public TwinServices(IEndpointServices client, IEventEmitter events) {
+        /// <param name="serializer"></param>
+        public TwinServices(IEndpointServices client, IEventEmitter events,
+            IJsonSerializer serializer) {
             _client = client ?? throw new ArgumentNullException(nameof(client));
             _events = events ?? throw new ArgumentNullException(nameof(events));
+            _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
         }
 
         /// <inheritdoc/>
@@ -50,7 +54,8 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Twin.Services {
                     };
                     _session = _client.GetSessionHandle(connection);
                     _callback = _client.RegisterCallback(connection,
-                        state => _events?.ReportAsync("State", state));
+                        state => _events?.ReportAsync("State",
+                            _serializer.FromObject(state)));
                 }
             }
             return Task.CompletedTask;
@@ -66,6 +71,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Twin.Services {
 
         private ISessionHandle _session;
         private IDisposable _callback;
+        private readonly IJsonSerializer _serializer;
         private readonly IEndpointServices _client;
         private readonly IEventEmitter _events;
     }

@@ -19,7 +19,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Subscriber.Models {
         /// <param name="model"></param>
         /// <returns></returns>
         public static MonitoredItemSampleModel Clone(this MonitoredItemSampleModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new MonitoredItemSampleModel {
@@ -57,17 +57,17 @@ namespace Microsoft.Azure.IIoT.OpcUa.Subscriber.Models {
             //
             // Check if the value is a data value or if the value was flattened into the root.
             //
-            var dataValue = message;
+            var sampleRoot = message;
             if (IsDataValue(value)) {
-                dataValue = value;
-                value = dataValue.GetValueOrDefault<VariantValue>("Value",
+                sampleRoot = value;
+                value = sampleRoot.GetValueOrDefault<VariantValue>("Value",
                     StringComparison.InvariantCultureIgnoreCase);
             }
 
             // check if value comes from the legacy publisher:
             var applicationUri = sampleRoot.GetValueOrDefault<string>("ApplicationUri",
                 StringComparison.InvariantCultureIgnoreCase);
-            if (applicationUri == null || applicationUri == string.Empty) {
+            if (applicationUri is null || applicationUri == string.Empty) {
                 // this is not a legacy publisher message
                 return new MonitoredItemSampleModel {
                     Value = GetValue(value, out var typeId),
@@ -90,16 +90,16 @@ namespace Microsoft.Azure.IIoT.OpcUa.Subscriber.Models {
                     NodeId = sampleRoot.GetValueOrDefault<string>(
                         nameof(MonitoredItemSampleModel.NodeId),
                             StringComparison.InvariantCultureIgnoreCase),
-                    SourcePicoseconds = dataValue.GetValueOrDefault<ushort?>(
+                    SourcePicoseconds = sampleRoot.GetValueOrDefault<ushort?>(
                         nameof(MonitoredItemSampleModel.SourcePicoseconds),
                             StringComparison.InvariantCultureIgnoreCase),
-                    ServerPicoseconds = dataValue.GetValueOrDefault<ushort?>(
+                    ServerPicoseconds = sampleRoot.GetValueOrDefault<ushort?>(
                         nameof(MonitoredItemSampleModel.ServerPicoseconds),
                             StringComparison.InvariantCultureIgnoreCase),
-                    SourceTimestamp = dataValue.GetValueOrDefault<DateTime?>(
+                    SourceTimestamp = sampleRoot.GetValueOrDefault<DateTime?>(
                         nameof(MonitoredItemSampleModel.SourceTimestamp),
                             StringComparison.InvariantCultureIgnoreCase),
-                    ServerTimestamp = dataValue.GetValueOrDefault<DateTime?>(
+                    ServerTimestamp = sampleRoot.GetValueOrDefault<DateTime?>(
                         nameof(MonitoredItemSampleModel.ServerTimestamp),
                             StringComparison.InvariantCultureIgnoreCase),
                 };
@@ -109,8 +109,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Subscriber.Models {
                 return new MonitoredItemSampleModel {
                     Value = GetValue(value, out var typeId),
                     TypeId = typeId?.ToString(),
-                    DataSetId = sampleRoot.GetValueOrDefault<string>(
-                    "DisplayName",
+                    DataSetId = sampleRoot.GetValueOrDefault<string>("DisplayName",
                         StringComparison.InvariantCultureIgnoreCase),
                     Timestamp = sampleRoot.GetValueOrDefault<DateTime?>(
                     nameof(MonitoredItemSampleModel.Timestamp),
@@ -120,16 +119,16 @@ namespace Microsoft.Azure.IIoT.OpcUa.Subscriber.Models {
                     NodeId = sampleRoot.GetValueOrDefault<string>(
                     nameof(MonitoredItemSampleModel.NodeId),
                         StringComparison.InvariantCultureIgnoreCase),
-                    SourcePicoseconds = dataValue.GetValueOrDefault<ushort?>(
+                    SourcePicoseconds = sampleRoot.GetValueOrDefault<ushort?>(
                     nameof(MonitoredItemSampleModel.SourcePicoseconds),
                         StringComparison.InvariantCultureIgnoreCase),
-                    ServerPicoseconds = dataValue.GetValueOrDefault<ushort?>(
+                    ServerPicoseconds = sampleRoot.GetValueOrDefault<ushort?>(
                     nameof(MonitoredItemSampleModel.ServerPicoseconds),
                         StringComparison.InvariantCultureIgnoreCase),
-                    SourceTimestamp = dataValue.GetValueOrDefault<DateTime?>(
+                    SourceTimestamp = sampleRoot.GetValueOrDefault<DateTime?>(
                     nameof(MonitoredItemSampleModel.SourceTimestamp),
                         StringComparison.InvariantCultureIgnoreCase),
-                    ServerTimestamp = dataValue.GetValueOrDefault<DateTime?>(
+                    ServerTimestamp = sampleRoot.GetValueOrDefault<DateTime?>(
                     nameof(MonitoredItemSampleModel.ServerTimestamp),
                         StringComparison.InvariantCultureIgnoreCase),
                 };

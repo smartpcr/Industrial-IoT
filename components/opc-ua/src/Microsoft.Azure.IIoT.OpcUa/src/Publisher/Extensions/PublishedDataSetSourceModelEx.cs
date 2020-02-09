@@ -17,7 +17,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Publisher.Models {
         /// <param name="model"></param>
         /// <returns></returns>
         public static PublishedDataSetSourceModel Clone(this PublishedDataSetSourceModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new PublishedDataSetSourceModel {

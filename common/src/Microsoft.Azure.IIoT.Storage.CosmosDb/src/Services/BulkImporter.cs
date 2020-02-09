@@ -32,7 +32,7 @@ namespace Microsoft.Azure.IIoT.Storage.CosmosDb.Services {
             ILogger logger, bool addOnly = false, int bulkSize = 10000) {
             _executor = executor ?? throw new ArgumentNullException(nameof(executor));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _serializer = serializer == null ?
+            _serializer = serializer is null ?
                 JsonSerializer.CreateDefault() : JsonSerializer.Create(serializer);
             _bulkSize = bulkSize;
             _addOnly = addOnly;

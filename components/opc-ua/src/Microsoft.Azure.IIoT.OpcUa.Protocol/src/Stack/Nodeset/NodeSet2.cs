@@ -98,7 +98,7 @@ namespace Opc.Ua.Nodeset {
         /// <param name="model"></param>
         public NodeSet2(ModelTableEntry model = null) {
             _uaNodeSet = new UANodeSet {
-                Models = model == null ? null : new ModelTableEntry[] { model },
+                Models = model is null ? null : new ModelTableEntry[] { model },
                 Aliases = new[] {
                     Alias(BrowseNames.Boolean, DataTypeIds.Boolean),
                     Alias(BrowseNames.SByte, DataTypeIds.SByte),
@@ -223,7 +223,7 @@ namespace Opc.Ua.Nodeset {
         public void AddNode(UANode encoded) {
             UANode[] nodes = null;
             var count = 1;
-            if (_uaNodeSet.Items == null) {
+            if (_uaNodeSet.Items is null) {
                 nodes = new UANode[count];
             }
             else {
@@ -300,7 +300,7 @@ namespace Opc.Ua.Nodeset {
             while (true) {
                 var node = (EncodeableNodeModel)encoder.ReadEncodeable(
                     null, typeof(EncodeableNodeModel));
-                if (node == null) {
+                if (node is null) {
                     break;
                 }
                 // AddNode(node)
@@ -328,7 +328,7 @@ namespace Opc.Ua.Nodeset {
         /// <param name="context"></param>
         /// <returns></returns>
         private UANode EncodeNode(BaseNodeModel node, ISystemContext context) {
-            if (node == null) {
+            if (node is null) {
                 throw new ArgumentNullException(nameof(node));
             }
             if (NodeId.IsNull(node.NodeId)) {
@@ -339,7 +339,7 @@ namespace Opc.Ua.Nodeset {
                 case ObjectNodeModel oNode:
                     encoded = new UAObject {
                         EventNotifier = oNode.EventNotifier ?? EventNotifiers.None,
-                        ParentNodeId = oNode.Parent == null ? null : EncodeNodeId(
+                        ParentNodeId = oNode.Parent is null ? null : EncodeNodeId(
                             oNode.Parent.NodeId, context)
                     };
                     break;
@@ -353,16 +353,16 @@ namespace Opc.Ua.Nodeset {
                             (vNode.AccessLevelEx ?? 0),
                         MinimumSamplingInterval = vNode.MinimumSamplingInterval ?? 0.0,
                         Historizing = vNode.Historizing ?? false,
-                        ParentNodeId = vNode.Parent == null ? null : EncodeNodeId(
+                        ParentNodeId = vNode.Parent is null ? null : EncodeNodeId(
                             vNode.Parent.NodeId, context),
-                        Value = vNode.Value == null ? null : EncodeValue(
+                        Value = vNode.Value is null ? null : EncodeValue(
                             new Variant(vNode.Value), context)
                     };
                     break;
                 case MethodNodeModel mNode:
                     encoded = new UAMethod {
                         Executable = mNode.Executable,
-                        ParentNodeId = mNode.Parent == null ? null : EncodeNodeId(
+                        ParentNodeId = mNode.Parent is null ? null : EncodeNodeId(
                             mNode.Parent.NodeId, context),
                         MethodDeclarationId = mNode.TypeDefinitionId == mNode.NodeId ? null :
                         EncodeNodeId(mNode.TypeDefinitionId, context)
@@ -384,7 +384,7 @@ namespace Opc.Ua.Nodeset {
                         DataType = EncodeNodeId(vtNode.DataType, context),
                         ValueRank = vtNode.ValueRank ?? -1,
                         ArrayDimensions = EncodeArrayDimensions(vtNode.ArrayDimensions),
-                        Value = vtNode.Value == null ? null : EncodeValue(
+                        Value = vtNode.Value is null ? null : EncodeValue(
                             new Variant(vtNode.Value), context)
                     };
                     break;
@@ -511,7 +511,7 @@ namespace Opc.Ua.Nodeset {
                         DataType = DecodeNodeId(uaVariableType.DataType, context),
                         ValueRank = uaVariableType.ValueRank,
                         ArrayDimensions = DecodeArrayDimensions(uaVariableType.ArrayDimensions),
-                        Value = uaVariableType.Value == null ? Variant.Null :
+                        Value = uaVariableType.Value is null ? Variant.Null :
                         DecodeValue(uaVariableType.Value, context)
                     };
                     break;
@@ -601,7 +601,7 @@ namespace Opc.Ua.Nodeset {
         /// <param name="context"></param>
         /// <returns></returns>
         private Variant DecodeValue(XmlElement source, ISystemContext context) {
-            if (source == null) {
+            if (source is null) {
                 return Variant.Null;
             }
             var decoder = new XmlDecoder(source, ToMessageContext(context));
@@ -722,7 +722,7 @@ namespace Opc.Ua.Nodeset {
             ISystemContext context) {
             switch (source) {
                 case EnumDefinition2 enumDefinition2:
-                    if (enumDefinition2.Fields == null) {
+                    if (enumDefinition2.Fields is null) {
                         return null;
                     }
                     return new Schema.DataTypeDefinition {
@@ -734,7 +734,7 @@ namespace Opc.Ua.Nodeset {
                             .Select(EncodeEnumField).ToArray()
                     };
                 case EnumDefinition enumDefinition:
-                    if (enumDefinition.Fields == null) {
+                    if (enumDefinition.Fields is null) {
                         return null;
                     }
                     return new Schema.DataTypeDefinition {
@@ -742,7 +742,7 @@ namespace Opc.Ua.Nodeset {
                             .Select(EncodeEnumField).ToArray()
                     };
                 case StructureDefinition2 structureDefinition2:
-                    if (structureDefinition2.Fields == null) {
+                    if (structureDefinition2.Fields is null) {
                         return null;
                     }
                     return new Schema.DataTypeDefinition {
@@ -755,7 +755,7 @@ namespace Opc.Ua.Nodeset {
                             .Select(f => EncodeStructureField(context, f)).ToArray()
                     };
                 case StructureDefinition structureDefinition:
-                    if (structureDefinition.Fields == null) {
+                    if (structureDefinition.Fields is null) {
                         return null;
                     }
                     return new Schema.DataTypeDefinition {
@@ -830,7 +830,7 @@ namespace Opc.Ua.Nodeset {
         /// <returns></returns>
         private Ua.DataTypeDefinition DecodeDataTypeDefinition(Schema.DataTypeDefinition source,
             ISystemContext context) {
-            if (source == null) {
+            if (source is null) {
                 return null;
             }
             var baseTypeId = DecodeNodeId(source.BaseType, context);
@@ -879,7 +879,7 @@ namespace Opc.Ua.Nodeset {
             if (source.Field != null && source.Field.Length > 0) {
                 var fields = new StructureFieldCollection();
                 foreach (var field in source.Field) {
-                    if (field == null) {
+                    if (field is null) {
                         continue;
                     }
                     fields.Add(new StructureField2 {
@@ -918,7 +918,7 @@ namespace Opc.Ua.Nodeset {
             if (source.Field != null && source.Field.Length > 0) {
                 var fields = new EnumFieldCollection();
                 foreach (var field in source.Field) {
-                    if (field == null) {
+                    if (field is null) {
                         continue;
                     }
                     fields.Add(new EnumField2 {
@@ -978,7 +978,7 @@ namespace Opc.Ua.Nodeset {
         /// <param name="arrayDimensions"></param>
         /// <returns></returns>
         private string EncodeArrayDimensions(IEnumerable<uint> arrayDimensions) {
-            if (arrayDimensions == null) {
+            if (arrayDimensions is null) {
                 return string.Empty;
             }
             var buffer = new StringBuilder();
@@ -1084,7 +1084,7 @@ namespace Opc.Ua.Nodeset {
             if (namespaceIndex < 1) {
                 return namespaceIndex; // Not adding ns 0.
             }
-            if (namespaceUris == null || namespaceUris.Count <= namespaceIndex) {
+            if (namespaceUris is null || namespaceUris.Count <= namespaceIndex) {
                 return ushort.MaxValue;
             }
             return AddNamespaceUri(namespaceUris.GetString(namespaceIndex));
@@ -1095,7 +1095,7 @@ namespace Opc.Ua.Nodeset {
         /// </summary>
         private ushort EncodeNamespaceUri(string namespaceUri, NamespaceTable namespaceUris) {
             // return a bad value if parameters are bad.
-            if (namespaceUris == null) {
+            if (namespaceUris is null) {
                 return ushort.MaxValue;
             }
             var namespaceIndex = namespaceUris.GetIndex(namespaceUri);
@@ -1116,8 +1116,8 @@ namespace Opc.Ua.Nodeset {
                 return namespaceIndex;
             }
             // return a bad value if parameters are bad.
-            if (namespaceUris == null ||
-                _uaNodeSet.NamespaceUris == null ||
+            if (namespaceUris is null ||
+                _uaNodeSet.NamespaceUris is null ||
                 _uaNodeSet.NamespaceUris.Length <= namespaceIndex - 1) {
                 return ushort.MaxValue;
             }
@@ -1136,7 +1136,7 @@ namespace Opc.Ua.Nodeset {
                 return serverIndex;
             }
             // return a bad value if parameters are bad.
-            if (serverUris == null || serverUris.Count < serverIndex) {
+            if (serverUris is null || serverUris.Count < serverIndex) {
                 return ushort.MaxValue;
             }
             return AddServerUri(serverIndex, serverUris);
@@ -1153,8 +1153,8 @@ namespace Opc.Ua.Nodeset {
                 return serverIndex;
             }
             // return a bad value if parameters are bad.
-            if (serverUris == null ||
-                _uaNodeSet.ServerUris == null ||
+            if (serverUris is null ||
+                _uaNodeSet.ServerUris is null ||
                 _uaNodeSet.ServerUris.Length <= serverIndex - 1) {
                 return ushort.MaxValue;
             }

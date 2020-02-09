@@ -21,7 +21,7 @@ namespace Opc.Ua.Extensions {
         /// <returns></returns>
         public static RelativePath ToRelativePath(this string[] path,
             ServiceMessageContext context) {
-            if (path == null) {
+            if (path is null) {
                 return new RelativePath();
             }
             return new RelativePath {
@@ -39,7 +39,7 @@ namespace Opc.Ua.Extensions {
         /// <returns></returns>
         public static string[] AsString(this RelativePath path,
             ServiceMessageContext context) {
-            if (path == null) {
+            if (path is null) {
                 return null;
             }
             return path.Elements
@@ -78,7 +78,7 @@ namespace Opc.Ua.Extensions {
             while (index < element.Length && !exit) {
                 switch (element[index]) {
                     case '<':
-                        if (pathElement.ReferenceTypeId == null) {
+                        if (pathElement.ReferenceTypeId is null) {
                             parseReference = true;
                             break;
                         }
@@ -90,7 +90,7 @@ namespace Opc.Ua.Extensions {
                         pathElement.IncludeSubtypes = false;
                         break;
                     case '/':
-                        if (pathElement.ReferenceTypeId == null &&
+                        if (pathElement.ReferenceTypeId is null &&
                             !parseReference) {
                             pathElement.ReferenceTypeId =
                                 ReferenceTypeIds.HierarchicalReferences;
@@ -98,7 +98,7 @@ namespace Opc.Ua.Extensions {
                         }
                         throw new FormatException("Reference type set.");
                     case '.':
-                        if (pathElement.ReferenceTypeId == null &&
+                        if (pathElement.ReferenceTypeId is null &&
                             !parseReference) {
                             pathElement.ReferenceTypeId =
                                 ReferenceTypeIds.Aggregates;
@@ -109,7 +109,7 @@ namespace Opc.Ua.Extensions {
                         if (element[index] == '&') {
                             index++;
                         }
-                        if (pathElement.ReferenceTypeId == null &&
+                        if (pathElement.ReferenceTypeId is null &&
                             !parseReference) {
                             // Set to all references
                             pathElement.ReferenceTypeId =

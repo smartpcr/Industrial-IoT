@@ -46,7 +46,7 @@ namespace Microsoft.Azure.IIoT.Auth.IoTHub {
 
         /// <inheritdoc/>
         public Task StartAsync() {
-            if (_cts == null) {
+            if (_cts is null) {
                 _cts = new CancellationTokenSource();
                 _updateTimer.Change(0, Timeout.Infinite);
             }

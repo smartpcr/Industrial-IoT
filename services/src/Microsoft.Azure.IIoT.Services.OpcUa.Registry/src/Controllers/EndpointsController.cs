@@ -145,7 +145,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Controllers {
             [FromBody] [Required] EndpointRegistrationQueryApiModel query,
             [FromQuery] bool? onlyServerState,
             [FromQuery] int? pageSize) {
-            if (query == null) {
+            if (query is null) {
                 throw new ArgumentNullException(nameof(query));
             }
             if (Request.Headers.ContainsKey(HttpHeader.MaxItemCount)) {
@@ -179,7 +179,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Registry.Controllers {
             [FromQuery] [Required] EndpointRegistrationQueryApiModel query,
             [FromQuery] bool? onlyServerState,
             [FromQuery] int? pageSize) {
-            if (query == null) {
+            if (query is null) {
                 throw new ArgumentNullException(nameof(query));
             }
             if (Request.Headers.ContainsKey(HttpHeader.MaxItemCount)) {

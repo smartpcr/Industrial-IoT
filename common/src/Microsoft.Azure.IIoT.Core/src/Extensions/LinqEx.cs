@@ -19,7 +19,7 @@ namespace System.Linq {
         /// <param name="enumerable"></param>
         /// <returns></returns>
         public static HashSet<T> ToHashSetSafe<T>(this IEnumerable<T> enumerable) {
-            if (enumerable == null) {
+            if (enumerable is null) {
                 return null;
             }
             return new HashSet<T>(enumerable);
@@ -31,7 +31,7 @@ namespace System.Linq {
         /// <param name="enumerable"></param>
         /// <returns></returns>
         public static List<T> ToListSafe<T>(this IEnumerable<T> enumerable) {
-            if (enumerable == null) {
+            if (enumerable is null) {
                 return null;
             }
             return new List<T>(enumerable);
@@ -43,7 +43,7 @@ namespace System.Linq {
         /// <param name="enumerable"></param>
         /// <returns></returns>
         public static SortedSet<T> ToSortedSetSafe<T>(this IEnumerable<T> enumerable) {
-            if (enumerable == null) {
+            if (enumerable is null) {
                 return null;
             }
             return new SortedSet<T>(enumerable);
@@ -133,7 +133,7 @@ namespace System.Linq {
         /// <returns></returns>
         public static T OneOrThis<T>(this IEnumerable<T> source,
             T thiz, bool throwIfMoreThanOne = false) {
-            if (source == null) {
+            if (source is null) {
                 return thiz;
             }
             if (source is IList<T> list) {

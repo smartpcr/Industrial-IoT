@@ -24,7 +24,7 @@ namespace Microsoft.Azure.IIoT.Crypto.BouncyCastle {
         /// <returns></returns>
         internal static IEnumerable<X509Extension> ToX509Extensions(
             this X509Extensions extensions) {
-            if (extensions == null) {
+            if (extensions is null) {
                 return Enumerable.Empty<X509Extension>();
             }
             var result = new List<X509Extension>();

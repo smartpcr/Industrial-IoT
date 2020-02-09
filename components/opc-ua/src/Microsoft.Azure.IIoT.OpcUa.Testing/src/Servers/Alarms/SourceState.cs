@@ -496,7 +496,7 @@ namespace Alarms {
             LocalizedText comment) {
             var alarm = FindAlarmByEventId(eventId);
 
-            if (alarm == null) {
+            if (alarm is null) {
                 return StatusCodes.BadEventIdUnknown;
             }
 
@@ -515,7 +515,7 @@ namespace Alarms {
             LocalizedText comment) {
             var alarm = FindAlarmByEventId(eventId);
 
-            if (alarm == null) {
+            if (alarm is null) {
                 return StatusCodes.BadEventIdUnknown;
             }
 
@@ -534,7 +534,7 @@ namespace Alarms {
             LocalizedText comment) {
             var alarm = FindAlarmByEventId(eventId);
 
-            if (alarm == null) {
+            if (alarm is null) {
                 return StatusCodes.BadEventIdUnknown;
             }
 
@@ -628,7 +628,7 @@ namespace Alarms {
         /// <param name="eventId">The event id.</param>
         /// <returns>The alarm. Null if not found.</returns>
         private AlarmConditionState FindAlarmByEventId(byte[] eventId) {
-            if (eventId == null) {
+            if (eventId is null) {
                 return null;
             }
 
@@ -646,11 +646,11 @@ namespace Alarms {
         /// <param name="alarm">The alarm.</param>
         /// <returns>The record number; 0 if the alarm is not an archived alarm.</returns>
         private uint GetRecordNumber(AlarmConditionState alarm) {
-            if (alarm == null) {
+            if (alarm is null) {
                 return 0;
             }
 
-            if (alarm.BranchId == null || alarm.BranchId.Value == null) {
+            if (alarm.BranchId is null || alarm.BranchId.Value is null) {
                 return 0;
             }
 

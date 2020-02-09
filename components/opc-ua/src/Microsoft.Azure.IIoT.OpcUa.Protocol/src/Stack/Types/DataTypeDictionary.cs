@@ -71,7 +71,7 @@ namespace Opc.Ua.Types {
 
         /// <inheritdoc/>
         public DataType TryResolve(ImportDirective import, XmlQualifiedName typeName) {
-            if (import == null) {
+            if (import is null) {
                 throw new ArgumentNullException(nameof(import));
             }
             if (typeName.IsNullOrEmpty()) {
@@ -79,7 +79,7 @@ namespace Opc.Ua.Types {
             }
             // We only resolve if we own the namespace.
             if (import.Namespace == _dictionary.TargetNamespace &&
-               (import.TargetVersion == null ||
+               (import.TargetVersion is null ||
                 import.TargetVersion == _dictionary.TargetVersion)) {
                 return ResolveType(typeName);
             }
@@ -116,10 +116,10 @@ namespace Opc.Ua.Types {
         /// <returns></returns>
         private DataType ResolveFromImports(XmlQualifiedName typeName,
             DataType dataType) {
-            if (_dictionary.Import == null) {
+            if (_dictionary.Import is null) {
                 return null;
             }
-            if (_resolver == null) {
+            if (_resolver is null) {
                 return null;
             }
             // Find concrete match of one of the imports
@@ -147,7 +147,7 @@ namespace Opc.Ua.Types {
         /// <param name="datatype"></param>
         /// <param name="targetNamespace"></param>
         private void AddDataType(DataType datatype, string targetNamespace) {
-            if (datatype == null) {
+            if (datatype is null) {
                 return;
             }
             datatype.QName = new XmlQualifiedName(datatype.Name, targetNamespace);
@@ -217,7 +217,7 @@ namespace Opc.Ua.Types {
                     $"'{declaration.Name}' source type is null.");
             }
             var type = ResolveType(declaration.SourceType);
-            if (type == null) {
+            if (type is null) {
                 throw new FormatException("The type declaration " +
                     $"'{declaration.Name}' source type was not found.");
             }
@@ -250,7 +250,7 @@ namespace Opc.Ua.Types {
         /// </summary>
         /// <param name="complexType"></param>
         private void ValidateComplexType(ComplexType complexType) {
-            if (complexType.Field == null) {
+            if (complexType.Field is null) {
                 complexType.Field = new FieldType[0];
             }
             var fields = new Dictionary<string, FieldType>();
@@ -291,7 +291,7 @@ namespace Opc.Ua.Types {
                     $" '{datatype.Name}' already exists");
             }
             if (field.DataType.IsNullOrEmpty()) {
-                if (field.ComplexType == null) {
+                if (field.ComplexType is null) {
                     throw new FormatException($"The field '{field.Name}' in complex type " +
                         $"'{datatype.Name}' has no data type.");
                 }
@@ -305,7 +305,7 @@ namespace Opc.Ua.Types {
                     throw new FormatException($"The field '{field.Name}' in complex type " +
                         $"'{datatype.Name}' has an ambiguous data type.");
                 }
-                if (ResolveType(field.DataType) == null) {
+                if (ResolveType(field.DataType) is null) {
                     throw new FormatException($"The field '{field.Name}' in complex type " +
                         $"'{datatype.Name}' has an unrecognized data type '{field.DataType}'.");
                 }
@@ -318,7 +318,7 @@ namespace Opc.Ua.Types {
         /// </summary>
         /// <param name="enumeratedType"></param>
         private static void ValidateEnumeratedType(EnumeratedType enumeratedType) {
-            if (enumeratedType.Value == null || enumeratedType.Value.Length == 0) {
+            if (enumeratedType.Value is null || enumeratedType.Value.Length == 0) {
                 throw new FormatException($"The enumerated type '{enumeratedType.Name}' " +
                     $"does not have any values specified.");
             }

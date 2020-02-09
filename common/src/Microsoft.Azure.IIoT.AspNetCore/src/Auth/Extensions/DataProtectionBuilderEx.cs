@@ -36,7 +36,7 @@ namespace Microsoft.Azure.IIoT.AspNetCore.Auth {
         /// <param name="configuration"></param>
         public static void AddAzureDataProtection(
             this IServiceCollection services, IConfiguration configuration = null) {
-            if (configuration == null) {
+            if (configuration is null) {
                 configuration = services.BuildServiceProvider()
                     .GetRequiredService<IConfiguration>();
             }
@@ -52,7 +52,7 @@ namespace Microsoft.Azure.IIoT.AspNetCore.Auth {
         /// <param name="configuration"></param>
         public static IDataProtectionBuilder AddAzureKeyVaultDataProtection(
             this IDataProtectionBuilder builder, IConfiguration configuration = null) {
-            if (configuration == null) {
+            if (configuration is null) {
                 configuration = builder.Services.BuildServiceProvider()
                     .GetRequiredService<IConfiguration>();
             }
@@ -63,7 +63,7 @@ namespace Microsoft.Azure.IIoT.AspNetCore.Auth {
             var keyName = "dataprotection";
             var client = TryKeyVaultClientAsync(config.KeyVaultBaseUrl,
                 config, keyName).Result;
-            if (client == null) {
+            if (client is null) {
                 throw new UnauthorizedAccessException("Cannot access keyvault");
             }
             var identifier = $"{config.KeyVaultBaseUrl.TrimEnd('/')}/keys/{keyName}";
@@ -77,7 +77,7 @@ namespace Microsoft.Azure.IIoT.AspNetCore.Auth {
         /// <param name="configuration"></param>
         public static IDataProtectionBuilder AddAzureBlobKeyStorage(
             this IDataProtectionBuilder builder, IConfiguration configuration = null) {
-            if (configuration == null) {
+            if (configuration is null) {
                 configuration = builder.Services.BuildServiceProvider()
                     .GetRequiredService<IConfiguration>();
             }

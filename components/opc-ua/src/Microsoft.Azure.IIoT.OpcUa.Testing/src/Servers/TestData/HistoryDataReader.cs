@@ -151,7 +151,7 @@ namespace TestData {
                 value = _source.NextRaw(_lastTime, _isForward, _request.IsReadModified, ref _position);
 
                 // no more data.
-                if (value == null) {
+                if (value is null) {
                     return true;
                 }
 
@@ -183,7 +183,7 @@ namespace TestData {
             DataValueCollection values,
             DataValue value) {
             // ignore invalid case.
-            if (value == null) {
+            if (value is null) {
                 return;
             }
 

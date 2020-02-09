@@ -113,7 +113,7 @@ namespace Microsoft.Azure.IIoT.Storage.Default {
             /// <inheritdoc/>
             public Task DeleteAsync<T>(IDocumentInfo<T> item, CancellationToken ct,
                 OperationOptions options) {
-                if (item == null) {
+                if (item is null) {
                     throw new ArgumentNullException(nameof(item));
                 }
                 return DeleteAsync(item.Id, ct, new OperationOptions {
@@ -160,7 +160,7 @@ namespace Microsoft.Azure.IIoT.Storage.Default {
                     .OfType<IDocumentInfo<T>>()
                     .AsQueryable())
                     .AsEnumerable();
-                var feed = (pageSize == null) ?
+                var feed = (pageSize is null) ?
                     results.YieldReturn() : results.Batch(pageSize.Value);
                 return new MemoryFeed<R>(this, new Queue<IEnumerable<R>>(feed));
             }
@@ -168,7 +168,7 @@ namespace Microsoft.Azure.IIoT.Storage.Default {
             /// <inheritdoc/>
             public Task<IDocumentInfo<T>> ReplaceAsync<T>(IDocumentInfo<T> existing, T value,
                 CancellationToken ct, OperationOptions options) {
-                if (existing == null) {
+                if (existing is null) {
                     throw new ArgumentNullException(nameof(existing));
                 }
                 var item = _outer._serializer.FromObject(value);
@@ -260,12 +260,12 @@ namespace Microsoft.Azure.IIoT.Storage.Default {
             public IResultFeed<T> Submit<T>(string gremlin, int? pageSize,
                 string partitionKey ) {
                 var documents = _outer._queryEngine?.ExecuteGremlin(_data.Values, gremlin);
-                if (documents == null) {
+                if (documents is null) {
                     throw new NotSupportedException("Query not supported");
                 }
                 var results = documents
                     .Select(d => d.Value.ToObject<T>());
-                var feed = (pageSize == null) ?
+                var feed = (pageSize is null) ?
                     results.YieldReturn() : results.Batch(pageSize.Value);
                 return new MemoryFeed<T>(this, new Queue<IEnumerable<T>>(feed));
             }
@@ -275,7 +275,7 @@ namespace Microsoft.Azure.IIoT.Storage.Default {
                 int? pageSize, string partitionKey) {
                 if (_queryStore.TryGetValue(continuationToken, out var feed)) {
                     var result = feed as IResultFeed<IDocumentInfo<T>>;
-                    if (result == null) {
+                    if (result is null) {
                         _outer._logger.Error("Continuation {continuation} type mismatch.",
                             continuationToken);
                     }
@@ -292,7 +292,7 @@ namespace Microsoft.Azure.IIoT.Storage.Default {
                 CancellationToken ct) {
                 queryString = FormatQueryString(queryString, parameters);
                 var documents = _outer._queryEngine?.ExecuteSql(_data.Values, queryString);
-                if (documents == null) {
+                if (documents is null) {
                     throw new NotSupportedException("Query not supported");
                 }
                 foreach (var item in documents) {
@@ -307,12 +307,12 @@ namespace Microsoft.Azure.IIoT.Storage.Default {
                 string partitionKey) {
                 queryString = FormatQueryString(queryString, parameters);
                 var documents = _outer._queryEngine?.ExecuteSql(_data.Values, queryString);
-                if (documents == null) {
+                if (documents is null) {
                     throw new NotSupportedException("Query not supported");
                 }
                 var results = documents
                     .Select(d => new Document<T>(d.Id, d.Value, d.PartitionKey));
-                var feed = (pageSize == null) ?
+                var feed = (pageSize is null) ?
                     results.YieldReturn() : results.Batch(pageSize.Value);
                 return new MemoryFeed<IDocumentInfo<T>>(this,
                     new Queue<IEnumerable<IDocumentInfo<T>>>(feed));
@@ -452,7 +452,7 @@ namespace Microsoft.Azure.IIoT.Storage.Default {
                 public Task<IEnumerable<T>> ReadAsync(CancellationToken ct) {
                     lock (_lock) {
                         var result = _items.Count != 0 ? _items.Dequeue() : Enumerable.Empty<T>();
-                        if (result == null) {
+                        if (result is null) {
                             _container._queryStore.Remove(_continuationToken);
                         }
                         return Task.FromResult(result);

@@ -26,7 +26,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Vault.Storage {
         /// </summary>
         /// <param name="db"></param>
         public RequestDatabase(IItemContainerFactory db) {
-            if (db == null) {
+            if (db is null) {
                 throw new ArgumentNullException(nameof(db));
             }
 
@@ -38,7 +38,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Vault.Storage {
         /// <inheritdoc/>
         public async Task<CertificateRequestModel> AddAsync(
             CertificateRequestModel request, CancellationToken ct) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             var recordId = await _index.AllocateAsync();
@@ -69,7 +69,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Vault.Storage {
             while (true) {
                 var document = await _requests.FindAsync<RequestDocument>(
                     requestId);
-                if (document == null) {
+                if (document is null) {
                     throw new ResourceNotFoundException("Request not found");
                 }
                 var request = document.Value.ToServiceModel();
@@ -96,7 +96,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Vault.Storage {
             while (true) {
                 var document = await _requests.FindAsync<RequestDocument>(
                     requestId);
-                if (document == null) {
+                if (document is null) {
                     return null;
                 }
                 var request = document.Value.ToServiceModel();
@@ -122,7 +122,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Vault.Storage {
             }
             var document = await _requests.FindAsync<RequestDocument>(
                 requestId, ct);
-            if (document == null) {
+            if (document is null) {
                 throw new ResourceNotFoundException("Request not found");
             }
             return document.Value.ToServiceModel();

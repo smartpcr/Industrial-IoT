@@ -19,7 +19,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.History.Models {
         /// <param name="convert"></param>
         public static HistoryReadResultModel<T> ToSpecificModel<T>(
             this HistoryReadResultModel<VariantValue> model, Func<VariantValue, T> convert) {
-            if (model == null) {
+            if (model is null) {
                 throw new ArgumentNullException(nameof(model));
             }
             return new HistoryReadResultModel<T> {
@@ -36,7 +36,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.History.Models {
         /// <param name="convert"></param>
         public static HistoryReadNextResultModel<T> ToSpecificModel<T>(
             this HistoryReadNextResultModel<VariantValue> model, Func<VariantValue, T> convert) {
-            if (model == null) {
+            if (model is null) {
                 throw new ArgumentNullException(nameof(model));
             }
             return new HistoryReadNextResultModel<T> {

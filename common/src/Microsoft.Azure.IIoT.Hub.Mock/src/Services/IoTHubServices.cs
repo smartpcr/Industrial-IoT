@@ -31,7 +31,7 @@ namespace Microsoft.Azure.IIoT.Hub.Mock {
 
         /// <inheritdoc/>
         public IEnumerable<IIoTHubDevice> Devices =>
-            _devices.Where(d => d.Device.ModuleId == null);
+            _devices.Where(d => d.Device.ModuleId is null);
 
         /// <inheritdoc/>
         public IEnumerable<IIoTHubDevice> Modules =>
@@ -94,7 +94,7 @@ namespace Microsoft.Azure.IIoT.Hub.Mock {
         public IIoTHubConnection Connect(string deviceId, string moduleId,
             IIoTClientCallback callback) {
             var model = GetModel(deviceId, moduleId);
-            if (model == null) {
+            if (model is null) {
                 return null; // Failed to connect.
             }
             if (model.Connection != null) {
@@ -124,7 +124,7 @@ namespace Microsoft.Azure.IIoT.Hub.Mock {
             CancellationToken ct) {
             lock (_lock) {
                 var model = GetModel(twin.Id, twin.ModuleId);
-                if (model == null) {
+                if (model is null) {
                     // Create
                     model = new IoTHubDeviceModel(this,
                         new DeviceModel { Id = twin.Id, ModuleId = twin.ModuleId }, twin);
@@ -144,7 +144,7 @@ namespace Microsoft.Azure.IIoT.Hub.Mock {
             CancellationToken ct) {
             lock (_lock) {
                 var model = GetModel(twin.Id, twin.ModuleId);
-                if (model == null) {
+                if (model is null) {
                     throw new ResourceNotFoundException("Twin not found");
                 }
                 model.UpdateTwin(twin);
@@ -157,10 +157,10 @@ namespace Microsoft.Azure.IIoT.Hub.Mock {
             MethodParameterModel parameters, CancellationToken ct) {
             lock (_lock) {
                 var model = GetModel(deviceId, moduleId);
-                if (model == null) {
+                if (model is null) {
                     throw new ResourceNotFoundException("No such device");
                 }
-                if (model.Connection == null) {
+                if (model.Connection is null) {
                     throw new TimeoutException("Timed out waiting for device to connect");
                 }
                 var result = model.Connection.Call(new MethodRequest(parameters.Name,
@@ -178,7 +178,7 @@ namespace Microsoft.Azure.IIoT.Hub.Mock {
             Dictionary<string, VariantValue> properties, string etag, CancellationToken ct) {
             lock (_lock) {
                 var model = GetModel(deviceId, moduleId, etag);
-                if (model == null) {
+                if (model is null) {
                     throw new ResourceNotFoundException("No such device");
                 }
                 model.UpdateDesiredProperties(properties);
@@ -191,7 +191,7 @@ namespace Microsoft.Azure.IIoT.Hub.Mock {
             CancellationToken ct) {
             lock (_lock) {
                 var model = GetModel(deviceId, moduleId);
-                if (model == null) {
+                if (model is null) {
                     throw new ResourceNotFoundException("No such device");
                 }
                 return Task.FromResult(model.Twin.Clone());
@@ -203,7 +203,7 @@ namespace Microsoft.Azure.IIoT.Hub.Mock {
             CancellationToken ct) {
             lock (_lock) {
                 var model = GetModel(deviceId, moduleId);
-                if (model == null) {
+                if (model is null) {
                     throw new ResourceNotFoundException("No such device");
                 }
                 return Task.FromResult(model.Device.Clone());
@@ -215,7 +215,7 @@ namespace Microsoft.Azure.IIoT.Hub.Mock {
             CancellationToken ct) {
             lock (_lock) {
                 var model = GetModel(deviceId, moduleId, etag);
-                if (model == null) {
+                if (model is null) {
                     throw new ResourceNotFoundException("No such device");
                 }
                 model.Connect(null);
@@ -229,7 +229,7 @@ namespace Microsoft.Azure.IIoT.Hub.Mock {
             int? pageSize, CancellationToken ct) {
             lock (_lock) {
                 var result = _query.Query(query).Select(r => r.DeepClone()).ToList();
-                if (pageSize == null) {
+                if (pageSize is null) {
                     pageSize = int.MaxValue;
                 }
 
@@ -294,7 +294,7 @@ namespace Microsoft.Azure.IIoT.Hub.Mock {
                 Twin = twin.Clone();
 
                 // Simulate authentication
-                if (Device.Authentication == null) {
+                if (Device.Authentication is null) {
                     Device.Authentication = new DeviceAuthenticationModel {
                         PrimaryKey = Convert.ToBase64String(
                             Encoding.UTF8.GetBytes(Guid.NewGuid().ToString())),
@@ -302,16 +302,16 @@ namespace Microsoft.Azure.IIoT.Hub.Mock {
                             Encoding.UTF8.GetBytes(Guid.NewGuid().ToString()))
                     };
                 }
-                if (Twin.ConnectionState == null) {
+                if (Twin.ConnectionState is null) {
                     Twin.ConnectionState = "disconnected";
                 }
-                if (Twin.Status == null) {
+                if (Twin.Status is null) {
                     Twin.Status = "enabled";
                 }
-                if (Twin.StatusUpdatedTime == null) {
+                if (Twin.StatusUpdatedTime is null) {
                     Twin.StatusUpdatedTime = DateTime.UtcNow;
                 }
-                if (Twin.LastActivityTime == null) {
+                if (Twin.LastActivityTime is null) {
                     Twin.LastActivityTime = DateTime.UtcNow;
                 }
                 Twin.Etag = Device.Etag = Guid.NewGuid().ToString();
@@ -346,13 +346,13 @@ namespace Microsoft.Azure.IIoT.Hub.Mock {
                     twin.ConnectionState = null;
                     twin.Status = null;
 
-                    if (twin.Properties == null) {
+                    if (twin.Properties is null) {
                         twin.Properties = new TwinPropertiesModel();
                     }
-                    if (twin.Properties.Reported == null) {
+                    if (twin.Properties.Reported is null) {
                         twin.Properties.Reported = new Dictionary<string, VariantValue>();
                     }
-                    if (twin.Properties.Desired == null) {
+                    if (twin.Properties.Desired is null) {
                         twin.Properties.Desired = new Dictionary<string, VariantValue>();
                     }
                     // Double clone but that is ok.
@@ -387,7 +387,7 @@ namespace Microsoft.Azure.IIoT.Hub.Mock {
             /// <inheritdoc/>
             public void UpdateReportedProperties(TwinCollection reportedProperties) {
                 lock (_lock) {
-                    if (Twin.Properties == null) {
+                    if (Twin.Properties is null) {
                         Twin.Properties = new TwinPropertiesModel();
                     }
                     Twin.Properties.Reported = Merge(Twin.Properties.Reported,
@@ -403,7 +403,7 @@ namespace Microsoft.Azure.IIoT.Hub.Mock {
             /// <param name="properties"></param>
             public void UpdateDesiredProperties(Dictionary<string, VariantValue> properties) {
                 lock (_lock) {
-                    if (Twin.Properties == null) {
+                    if (Twin.Properties is null) {
                         Twin.Properties = new TwinPropertiesModel();
                     }
                     Twin.Properties.Desired = Merge(Twin.Properties.Desired,
@@ -414,7 +414,7 @@ namespace Microsoft.Azure.IIoT.Hub.Mock {
                 if (Connection != null) {
                     var desired = new TwinCollection();
                     foreach (var item in Twin.Properties.Desired) {
-                        desired[item.Key] = item.Value;
+                        desired[item.Key] = item.Value?.ToObject<object>();
                     }
                     Connection.SetDesiredProperties(desired);
                 }
@@ -427,7 +427,7 @@ namespace Microsoft.Azure.IIoT.Hub.Mock {
             internal void UpdateTwin(DeviceTwinModel twin) {
                 lock (_lock) {
                     Twin.Tags = Merge(Twin.Tags, twin.Tags);
-                    if (Twin.Properties == null) {
+                    if (Twin.Properties is null) {
                         Twin.Properties = new TwinPropertiesModel();
                     }
                     Twin.Properties.Desired = Merge(
@@ -446,7 +446,7 @@ namespace Microsoft.Azure.IIoT.Hub.Mock {
             public void Connect(IIoTClientCallback client) {
                 lock (_lock) {
                     Connection = client;
-                    Twin.ConnectionState = client == null ? "disconnected" : "connected";
+                    Twin.ConnectionState = client is null ? "disconnected" : "connected";
                 }
             }
 
@@ -459,17 +459,17 @@ namespace Microsoft.Azure.IIoT.Hub.Mock {
                 Dictionary<string, VariantValue> target,
                 Dictionary<string, VariantValue> source) {
 
-                if (source == null) {
+                if (source is null) {
                     return target;
                 }
 
-                if (target == null) {
+                if (target is null) {
                     return source;
                 }
 
                 foreach (var item in source) {
                     if (target.ContainsKey(item.Key)) {
-                        if (item.Value == null || item.Value.Type == VariantValueType.Null) {
+                        if (item.Value is null || item.Value.Type == VariantValueType.Null) {
                             target.Remove(item.Key);
                         }
                         else {

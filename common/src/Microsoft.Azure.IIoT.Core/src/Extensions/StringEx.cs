@@ -89,7 +89,7 @@ namespace System {
         /// <param name="str"></param>
         /// <returns></returns>
         public static byte[] DecodeAsBase64(this string str) {
-            if (str == null) {
+            if (str is null) {
                 return null;
             }
             return Convert.FromBase64String(str);
@@ -116,7 +116,7 @@ namespace System {
         /// <param name="str"></param>
         /// <returns></returns>
         public static byte[] DecodeAsBase16(this string str) {
-            if (str == null) {
+            if (str is null) {
                 return null;
             }
             if (str.Length % 2 != 0) {
@@ -159,7 +159,7 @@ namespace System {
         /// <param name="value"></param>
         /// <returns></returns>
         public static string ToCamelCase(this string value) {
-            if (value == null || value.Length <= 1) {
+            if (value is null || value.Length <= 1) {
                 return value;
             }
             var words = value.Split(new char[0], StringSplitOptions.RemoveEmptyEntries);
@@ -211,7 +211,7 @@ namespace System {
             Func<char, bool> predicate,
             StringSplitOptions options = StringSplitOptions.None) {
             Contract.Assert(value != null);
-            if (predicate == null) {
+            if (predicate is null) {
                 yield return value;
             }
             else {

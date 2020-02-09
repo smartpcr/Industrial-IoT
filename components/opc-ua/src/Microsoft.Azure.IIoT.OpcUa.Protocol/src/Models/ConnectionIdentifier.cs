@@ -28,7 +28,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Models {
         /// </summary>
         /// <param name="endpoint"></param>
         public ConnectionIdentifier(EndpointModel endpoint) {
-            if (endpoint == null) {
+            if (endpoint is null) {
                 throw new ArgumentNullException(nameof(endpoint));
             }
             Connection = new ConnectionModel {

@@ -62,10 +62,10 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Clients {
             if (string.IsNullOrEmpty(endpointId)) {
                 throw new ArgumentNullException(nameof(endpointId));
             }
-            if (content == null) {
+            if (content is null) {
                 throw new ArgumentNullException(nameof(content));
             }
-            if (content.Details == null) {
+            if (content.Details is null) {
                 throw new ArgumentNullException(nameof(content.Details));
             }
             var request = _httpClient.NewRequest(
@@ -82,7 +82,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Clients {
             if (string.IsNullOrEmpty(endpointId)) {
                 throw new ArgumentNullException(nameof(endpointId));
             }
-            if (content == null) {
+            if (content is null) {
                 throw new ArgumentNullException(nameof(content));
             }
             if (string.IsNullOrEmpty(content.ContinuationToken)) {
@@ -102,10 +102,10 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Clients {
             if (string.IsNullOrEmpty(endpointId)) {
                 throw new ArgumentNullException(nameof(endpointId));
             }
-            if (content == null) {
+            if (content is null) {
                 throw new ArgumentNullException(nameof(content));
             }
-            if (content.Details == null) {
+            if (content.Details is null) {
                 throw new ArgumentNullException(nameof(content.Details));
             }
             var request = _httpClient.NewRequest(
@@ -123,7 +123,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Clients {
             if (string.IsNullOrEmpty(endpointId)) {
                 throw new ArgumentNullException(nameof(endpointId));
             }
-            if (content == null) {
+            if (content is null) {
                 throw new ArgumentNullException(nameof(content));
             }
             var request = _httpClient.NewRequest(
@@ -141,7 +141,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Clients {
             if (string.IsNullOrEmpty(endpointId)) {
                 throw new ArgumentNullException(nameof(endpointId));
             }
-            if (content == null) {
+            if (content is null) {
                 throw new ArgumentNullException(nameof(content));
             }
             var request = _httpClient.NewRequest(
@@ -159,7 +159,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Clients {
             if (string.IsNullOrEmpty(endpointId)) {
                 throw new ArgumentNullException(nameof(endpointId));
             }
-            if (content == null) {
+            if (content is null) {
                 throw new ArgumentNullException(nameof(content));
             }
             var request = _httpClient.NewRequest(
@@ -177,7 +177,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Clients {
             if (string.IsNullOrEmpty(endpointId)) {
                 throw new ArgumentNullException(nameof(endpointId));
             }
-            if (content == null) {
+            if (content is null) {
                 throw new ArgumentNullException(nameof(content));
             }
             var request = _httpClient.NewRequest(
@@ -194,7 +194,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Clients {
             if (string.IsNullOrEmpty(endpointId)) {
                 throw new ArgumentNullException(nameof(endpointId));
             }
-            if (content == null) {
+            if (content is null) {
                 throw new ArgumentNullException(nameof(content));
             }
             if (string.IsNullOrEmpty(content.ContinuationToken)) {
@@ -215,7 +215,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Clients {
             if (string.IsNullOrEmpty(endpointId)) {
                 throw new ArgumentNullException(nameof(endpointId));
             }
-            if (content == null) {
+            if (content is null) {
                 throw new ArgumentNullException(nameof(content));
             }
             var request = _httpClient.NewRequest(
@@ -232,7 +232,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Clients {
             if (string.IsNullOrEmpty(endpointId)) {
                 throw new ArgumentNullException(nameof(endpointId));
             }
-            if (content == null) {
+            if (content is null) {
                 throw new ArgumentNullException(nameof(content));
             }
             if (string.IsNullOrEmpty(content.ContinuationToken)) {
@@ -252,7 +252,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Clients {
             if (string.IsNullOrEmpty(endpointId)) {
                 throw new ArgumentNullException(nameof(endpointId));
             }
-            if (content == null) {
+            if (content is null) {
                 throw new ArgumentNullException(nameof(content));
             }
             var request = _httpClient.NewRequest(
@@ -269,7 +269,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Clients {
             if (string.IsNullOrEmpty(endpointId)) {
                 throw new ArgumentNullException(nameof(endpointId));
             }
-            if (content == null) {
+            if (content is null) {
                 throw new ArgumentNullException(nameof(content));
             }
             var request = _httpClient.NewRequest(
@@ -286,7 +286,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Clients {
             if (string.IsNullOrEmpty(endpointId)) {
                 throw new ArgumentNullException(nameof(endpointId));
             }
-            if (content == null) {
+            if (content is null) {
                 throw new ArgumentNullException(nameof(content));
             }
             var request = _httpClient.NewRequest(
@@ -303,7 +303,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Clients {
             if (string.IsNullOrEmpty(endpointId)) {
                 throw new ArgumentNullException(nameof(endpointId));
             }
-            if (content == null) {
+            if (content is null) {
                 throw new ArgumentNullException(nameof(content));
             }
             var request = _httpClient.NewRequest(
@@ -320,7 +320,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Clients {
             if (string.IsNullOrEmpty(endpointId)) {
                 throw new ArgumentNullException(nameof(endpointId));
             }
-            if (content == null) {
+            if (content is null) {
                 throw new ArgumentNullException(nameof(content));
             }
             var request = _httpClient.NewRequest(
@@ -337,7 +337,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Clients {
             if (string.IsNullOrEmpty(endpointId)) {
                 throw new ArgumentNullException(nameof(endpointId));
             }
-            if (content == null) {
+            if (content is null) {
                 throw new ArgumentNullException(nameof(content));
             }
             var request = _httpClient.NewRequest(
@@ -354,7 +354,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Clients {
             if (string.IsNullOrEmpty(endpointId)) {
                 throw new ArgumentNullException(nameof(endpointId));
             }
-            if (content == null) {
+            if (content is null) {
                 throw new ArgumentNullException(nameof(content));
             }
             var request = _httpClient.NewRequest(
@@ -371,7 +371,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Clients {
             if (string.IsNullOrEmpty(endpointId)) {
                 throw new ArgumentNullException(nameof(endpointId));
             }
-            if (content == null) {
+            if (content is null) {
                 throw new ArgumentNullException(nameof(content));
             }
             var request = _httpClient.NewRequest(

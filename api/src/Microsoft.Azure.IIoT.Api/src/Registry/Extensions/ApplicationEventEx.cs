@@ -34,7 +34,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Models {
         /// <returns></returns>
         private static ApplicationInfoApiModel ToApiModel(
             this ApplicationInfoModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new ApplicationInfoApiModel {
@@ -65,7 +65,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Models {
         /// <returns></returns>
         private static RegistryOperationApiModel ToApiModel(
             this RegistryOperationContextModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new RegistryOperationApiModel {

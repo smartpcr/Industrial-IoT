@@ -59,10 +59,10 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Clients {
             if (string.IsNullOrEmpty(endpointId)) {
                 throw new ArgumentNullException(nameof(endpointId));
             }
-            if (content == null) {
+            if (content is null) {
                 throw new ArgumentNullException(nameof(content));
             }
-            if (content.Item == null) {
+            if (content.Item is null) {
                 throw new ArgumentNullException(nameof(content.Item));
             }
             var request = _httpClient.NewRequest($"{_serviceUri}/v2/publish/{endpointId}/start",
@@ -93,7 +93,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Clients {
             if (string.IsNullOrEmpty(endpointId)) {
                 throw new ArgumentNullException(nameof(endpointId));
             }
-            if (content == null) {
+            if (content is null) {
                 throw new ArgumentNullException(nameof(content));
             }
             var request = _httpClient.NewRequest($"{_serviceUri}/v2/publish/{endpointId}/stop",

@@ -17,7 +17,7 @@ namespace Microsoft.Azure.IIoT.Net {
         /// <param name="address"></param>
         /// <returns></returns>
         public static PhysicalAddress Copy(this PhysicalAddress address) {
-            return address == null ? null : new PhysicalAddress(address.GetAddressBytes());
+            return address is null ? null : new PhysicalAddress(address.GetAddressBytes());
         }
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace Microsoft.Azure.IIoT.Net {
         /// <param name="address"></param>
         /// <returns></returns>
         public static bool IsEmpty(this PhysicalAddress address) {
-            return address == null || address.Equals(PhysicalAddress.None);
+            return address is null || address.Equals(PhysicalAddress.None);
         }
     }
 }

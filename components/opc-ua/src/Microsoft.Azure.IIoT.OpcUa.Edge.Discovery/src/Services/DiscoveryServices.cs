@@ -69,7 +69,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Discovery.Services {
 
         /// <inheritdoc/>
         public async Task DiscoverAsync(DiscoveryRequestModel request, CancellationToken ct) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             var task = new DiscoveryRequest(request);
@@ -95,7 +95,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Discovery.Services {
 
         /// <inheritdoc/>
         public async Task CancelAsync(DiscoveryCancelModel request, CancellationToken ct) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             await _lock.WaitAsync();
@@ -478,7 +478,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Discovery.Services {
                         Id = request.Request.Id,
                         Context = request.Request.Context,
                         RegisterOnly = request.Mode == DiscoveryMode.Off,
-                        Diagnostics = diagnostics == null ? null :
+                        Diagnostics = diagnostics is null ? null :
                             _serializer.FromObject(diagnostics)
                     },
                     TimeStamp = timestamp

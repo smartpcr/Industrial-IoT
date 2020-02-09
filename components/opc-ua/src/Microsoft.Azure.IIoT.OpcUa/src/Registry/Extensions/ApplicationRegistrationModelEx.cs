@@ -24,7 +24,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
             if (model == that) {
                 return true;
             }
-            if (model == null || that == null) {
+            if (model is null || that is null) {
                 return false;
             }
             if (model.Count() != that.Count()) {
@@ -44,7 +44,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
             if (model == that) {
                 return true;
             }
-            if (model == null || that == null) {
+            if (model is null || that is null) {
                 return false;
             }
             return
@@ -58,7 +58,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
         /// <param name="model"></param>
         /// <returns></returns>
         public static ApplicationRegistrationModel Clone(this ApplicationRegistrationModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new ApplicationRegistrationModel {
@@ -94,7 +94,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
         public static void UnionWith(this ApplicationRegistrationModel model,
             ApplicationRegistrationModel server) {
 
-            if (model.Application == null) {
+            if (model.Application is null) {
                 model.Application = server.Application;
             }
             else {
@@ -107,7 +107,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
             }
 
             if (server?.Endpoints?.Any() ?? false) {
-                if (model.Endpoints == null) {
+                if (model.Endpoints is null) {
                     model.Endpoints = server.Endpoints;
                 }
                 else {
@@ -117,7 +117,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
                             model.Endpoints.Add(ep);
                         }
                         foreach (var existing in found) {
-                            if (existing.Endpoint == null) {
+                            if (existing.Endpoint is null) {
                                 existing.Endpoint = ep.Endpoint;
                                 continue;
                             }
@@ -134,7 +134,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
         /// <param name="model"></param>
         public static ApplicationRegistrationModel SetSecurityAssessment(
             this ApplicationRegistrationModel model) {
-            if (model.Endpoints == null || !model.Endpoints.Any()) {
+            if (model.Endpoints is null || !model.Endpoints.Any()) {
                 return model;
             }
             model.SecurityAssessment = (SecurityAssessment)

@@ -47,7 +47,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin.Controllers {
         [HttpPost("{endpointId}")]
         public async Task<ValueWriteResponseApiModel> WriteValueAsync(
             string endpointId, [FromBody] [Required] ValueWriteRequestApiModel request) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             var writeResult = await _nodes.NodeValueWriteAsync(
@@ -69,7 +69,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin.Controllers {
         [HttpPost("{endpointId}/attributes")]
         public async Task<WriteResponseApiModel> WriteAttributesAsync(
             string endpointId, [FromBody] [Required] WriteRequestApiModel request) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             var writeResult = await _nodes.NodeWriteAsync(

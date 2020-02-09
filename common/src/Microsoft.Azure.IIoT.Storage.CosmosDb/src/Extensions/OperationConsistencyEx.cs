@@ -18,7 +18,7 @@ namespace Microsoft.Azure.Documents.Client {
         /// <param name="consistency"></param>
         /// <returns></returns>
         public static ConsistencyLevel? ToConsistencyLevel(this OperationConsistency? consistency) {
-            if (consistency == null) {
+            if (consistency is null) {
                 return ConsistencyLevel.Session; // Default to session
             }
             switch (consistency.Value) {

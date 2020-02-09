@@ -58,7 +58,7 @@ namespace HistoricalEvents {
             _configuration = configuration.ParseExtension<HistoricalEventsServerConfiguration>();
 
             // use suitable defaults if no configuration exists.
-            if (_configuration == null) {
+            if (_configuration is null) {
                 _configuration = new HistoricalEventsServerConfiguration();
             }
 
@@ -212,7 +212,7 @@ namespace HistoricalEvents {
             NodeHandle handle,
             IDictionary<NodeId, NodeState> cache) {
             // not valid if no root.
-            if (handle == null) {
+            if (handle is null) {
                 return null;
             }
 
@@ -251,7 +251,7 @@ namespace HistoricalEvents {
                 if (nodeToRead.ContinuationPoint != null) {
                     request = LoadContinuationPoint(context, nodeToRead.ContinuationPoint);
 
-                    if (request == null) {
+                    if (request is null) {
                         errors[handle.Index] = StatusCodes.BadContinuationPointInvalid;
                         continue;
                     }
@@ -538,7 +538,7 @@ namespace HistoricalEvents {
                 // find the continuation point.
                 var request = LoadContinuationPoint(context, nodeToRead.ContinuationPoint);
 
-                if (request == null) {
+                if (request is null) {
                     errors[handle.Index] = StatusCodes.BadContinuationPointInvalid;
                     continue;
                 }
@@ -556,7 +556,7 @@ namespace HistoricalEvents {
             byte[] continuationPoint) {
             var session = context.OperationContext.Session;
 
-            if (session == null) {
+            if (session is null) {
                 return null;
             }
 
@@ -576,7 +576,7 @@ namespace HistoricalEvents {
             HistoryReadRequest request) {
             var session = context.OperationContext.Session;
 
-            if (session == null) {
+            if (session is null) {
                 return null;
             }
 

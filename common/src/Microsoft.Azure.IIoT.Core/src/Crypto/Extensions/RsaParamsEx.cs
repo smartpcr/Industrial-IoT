@@ -144,7 +144,7 @@ namespace Microsoft.Azure.IIoT.Crypto.Models {
         /// <param name="parameters"></param>
         /// <returns></returns>
         public static RsaParams Clone(this RsaParams parameters) {
-            if (parameters == null) {
+            if (parameters is null) {
                 return null;
             }
             return new RsaParams {
@@ -167,10 +167,10 @@ namespace Microsoft.Azure.IIoT.Crypto.Models {
         /// <param name="other"></param>
         /// <returns></returns>
         public static bool SameAs(this RsaParams parameters, RsaParams other) {
-            if (parameters == null) {
-                return other == null;
+            if (parameters is null) {
+                return other is null;
             }
-            if (other == null) {
+            if (other is null) {
                 return false;
             }
             if (!KeyEx.SameNoLeadingZeros(other.D, parameters.D)) {

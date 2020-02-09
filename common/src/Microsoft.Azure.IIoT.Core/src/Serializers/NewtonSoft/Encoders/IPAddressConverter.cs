@@ -24,7 +24,7 @@ namespace Newtonsoft.Json {
         /// <inheritdoc/>
         public override void WriteJson(JsonWriter writer, IPAddress value,
             JsonSerializer serializer) {
-            if (value == null) {
+            if (value is null) {
                 writer.WriteNull();
             }
             else {

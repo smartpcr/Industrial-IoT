@@ -37,7 +37,7 @@ namespace Newtonsoft.Json {
         /// <param name="serializer"></param>
         public override void WriteJson(JsonWriter writer, PhysicalAddress value,
             JsonSerializer serializer) {
-            if (value == null) {
+            if (value is null) {
                 writer.WriteNull();
             }
             else {

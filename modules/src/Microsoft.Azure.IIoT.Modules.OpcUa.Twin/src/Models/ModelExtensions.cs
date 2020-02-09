@@ -25,7 +25,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <param name="model"></param>
         public static AttributeReadRequestApiModel ToApiModel(this AttributeReadRequestModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new AttributeReadRequestApiModel {
@@ -39,7 +39,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <returns></returns>
         public static AttributeReadRequestModel ToServiceModel(this AttributeReadRequestApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new AttributeReadRequestModel {
@@ -53,7 +53,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <param name="model"></param>
         public static AttributeReadResponseApiModel ToApiModel(this AttributeReadResultModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new AttributeReadResponseApiModel {
@@ -68,7 +68,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <param name="model"></param>
         public static AttributeWriteRequestApiModel ToApiModel(this AttributeWriteRequestModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new AttributeWriteRequestApiModel {
@@ -83,7 +83,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <returns></returns>
         public static AttributeWriteRequestModel ToServiceModel(this AttributeWriteRequestApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new AttributeWriteRequestModel {
@@ -98,7 +98,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <param name="model"></param>
         public static AttributeWriteResponseApiModel ToApiModel(this AttributeWriteResultModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new AttributeWriteResponseApiModel {
@@ -111,7 +111,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <param name="model"></param>
         public static AuthenticationMethodApiModel ToApiModel(this AuthenticationMethodModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new AuthenticationMethodApiModel {
@@ -127,7 +127,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// Create service model from api model
         /// </summary>
         public static AuthenticationMethodModel ToServiceModel(this AuthenticationMethodApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new AuthenticationMethodModel {
@@ -144,7 +144,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <param name="model"></param>
         public static BrowseNextRequestInternalApiModel ToApiModel(this BrowseNextRequestModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new BrowseNextRequestInternalApiModel {
@@ -162,7 +162,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <returns></returns>
         public static BrowseNextRequestModel ToServiceModel(this BrowseNextRequestInternalApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new BrowseNextRequestModel {
@@ -180,7 +180,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <param name="model"></param>
         public static BrowseNextResponseApiModel ToApiModel(this BrowseNextResultModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new BrowseNextResponseApiModel {
@@ -197,7 +197,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <param name="model"></param>
         public static BrowsePathRequestInternalApiModel ToApiModel(this BrowsePathRequestModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new BrowsePathRequestInternalApiModel {
@@ -214,7 +214,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <returns></returns>
         public static BrowsePathRequestModel ToServiceModel(this BrowsePathRequestInternalApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new BrowsePathRequestModel {
@@ -231,7 +231,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <param name="model"></param>
         public static BrowsePathResponseApiModel ToApiModel(this BrowsePathResultModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new BrowsePathResponseApiModel {
@@ -247,7 +247,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <param name="model"></param>
         public static BrowseRequestInternalApiModel ToApiModel(this BrowseRequestModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new BrowseRequestInternalApiModel {
@@ -269,7 +269,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <returns></returns>
         public static BrowseRequestModel ToServiceModel(this BrowseRequestInternalApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new BrowseRequestModel {
@@ -291,7 +291,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <param name="model"></param>
         public static BrowseResponseApiModel ToApiModel(this BrowseResultModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new BrowseResponseApiModel {
@@ -309,7 +309,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <returns></returns>
         public static BrowseViewModel ToServiceModel(this BrowseViewApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new BrowseViewModel {
@@ -324,7 +324,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <returns></returns>
         public static BrowseViewApiModel ToApiModel(this BrowseViewModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new BrowseViewApiModel {
@@ -339,7 +339,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <param name="model"></param>
         public static CredentialApiModel ToApiModel(this CredentialModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new CredentialApiModel {
@@ -352,7 +352,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// Create service model from api model
         /// </summary>
         public static CredentialModel ToServiceModel(this CredentialApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new CredentialModel {
@@ -366,7 +366,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <param name="model"></param>
         public static DiagnosticsApiModel ToApiModel(this DiagnosticsModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new DiagnosticsApiModel {
@@ -380,7 +380,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// Create service model from api model
         /// </summary>
         public static DiagnosticsModel ToServiceModel(this DiagnosticsApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new DiagnosticsModel {
@@ -395,7 +395,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <param name="model"></param>
         public static EndpointActivationStatusApiModel ToApiModel(this EndpointActivationStatusModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new EndpointActivationStatusApiModel {
@@ -409,7 +409,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <returns></returns>
         public static EndpointActivationStatusModel ToServiceModel(this EndpointActivationStatusApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new EndpointActivationStatusModel {
@@ -423,7 +423,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <param name="model"></param>
         public static EndpointApiModel ToApiModel(this EndpointModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new EndpointApiModel {
@@ -439,7 +439,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// Create service model from api model
         /// </summary>
         public static EndpointModel ToServiceModel(this EndpointApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new EndpointModel {
@@ -456,7 +456,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <param name="model"></param>
         public static HistoryReadNextRequestApiModel ToApiModel(this HistoryReadNextRequestModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new HistoryReadNextRequestApiModel {
@@ -471,7 +471,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <returns></returns>
         public static HistoryReadNextRequestModel ToServiceModel(this HistoryReadNextRequestApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new HistoryReadNextRequestModel {
@@ -486,7 +486,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <param name="model"></param>
         public static HistoryReadNextResponseApiModel<VariantValue> ToApiModel(this HistoryReadNextResultModel<VariantValue> model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new HistoryReadNextResponseApiModel<VariantValue> {
@@ -501,7 +501,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <param name="model"></param>
         public static HistoryReadRequestApiModel<VariantValue> ToApiModel(this HistoryReadRequestModel<VariantValue> model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new HistoryReadRequestApiModel<VariantValue> {
@@ -518,7 +518,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <returns></returns>
         public static HistoryReadRequestModel<VariantValue> ToServiceModel(this HistoryReadRequestApiModel<VariantValue> model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new HistoryReadRequestModel<VariantValue> {
@@ -535,7 +535,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <param name="model"></param>
         public static HistoryReadResponseApiModel<VariantValue> ToApiModel(this HistoryReadResultModel<VariantValue> model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new HistoryReadResponseApiModel<VariantValue> {
@@ -550,7 +550,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <param name="model"></param>
         public static HistoryUpdateRequestApiModel<VariantValue> ToApiModel(this HistoryUpdateRequestModel<VariantValue> model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new HistoryUpdateRequestApiModel<VariantValue> {
@@ -566,7 +566,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <returns></returns>
         public static HistoryUpdateRequestModel<VariantValue> ToServiceModel(this HistoryUpdateRequestApiModel<VariantValue> model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new HistoryUpdateRequestModel<VariantValue> {
@@ -582,7 +582,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <param name="model"></param>
         public static HistoryUpdateResponseApiModel ToApiModel(this HistoryUpdateResultModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new HistoryUpdateResponseApiModel {
@@ -599,7 +599,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <param name="model"></param>
         public static MethodCallArgumentApiModel ToApiModel(this MethodCallArgumentModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new MethodCallArgumentApiModel {
@@ -613,7 +613,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <returns></returns>
         public static MethodCallArgumentModel ToServiceModel(this MethodCallArgumentApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new MethodCallArgumentModel {
@@ -627,7 +627,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <param name="model"></param>
         public static MethodCallRequestApiModel ToApiModel(this MethodCallRequestModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new MethodCallRequestApiModel {
@@ -646,7 +646,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <returns></returns>
         public static MethodCallRequestModel ToServiceModel(this MethodCallRequestApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new MethodCallRequestModel {
@@ -666,7 +666,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <param name="model"></param>
         public static MethodCallResponseApiModel ToApiModel(this MethodCallResultModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new MethodCallResponseApiModel {
@@ -682,7 +682,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <param name="model"></param>
         public static MethodMetadataArgumentApiModel ToApiModel(this MethodMetadataArgumentModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new MethodMetadataArgumentApiModel {
@@ -700,7 +700,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <returns></returns>
         public static MethodMetadataArgumentModel ToServiceModel(this MethodMetadataArgumentApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new MethodMetadataArgumentModel {
@@ -718,7 +718,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <param name="model"></param>
         public static MethodMetadataRequestApiModel ToApiModel(this MethodMetadataRequestModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new MethodMetadataRequestApiModel {
@@ -733,7 +733,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <returns></returns>
         public static MethodMetadataRequestModel ToServiceModel(this MethodMetadataRequestApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new MethodMetadataRequestModel {
@@ -748,7 +748,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <param name="model"></param>
         public static MethodMetadataResponseApiModel ToApiModel(this MethodMetadataResultModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new MethodMetadataResponseApiModel {
@@ -768,7 +768,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <param name="model"></param>
         public static ModelUploadStartRequestApiModel ToApiModel(this ModelUploadStartRequestModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new ModelUploadStartRequestApiModel {
@@ -781,7 +781,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// Create service model from api model
         /// </summary>
         public static ModelUploadStartRequestModel ToServiceModel(this ModelUploadStartRequestApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new ModelUploadStartRequestModel {
@@ -795,7 +795,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <param name="model"></param>
         public static ModelUploadStartResponseApiModel ToApiModel(this ModelUploadStartResultModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new ModelUploadStartResponseApiModel {
@@ -809,7 +809,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// Create service model from api model
         /// </summary>
         public static ModelUploadStartResultModel ToServiceModel(this ModelUploadStartResponseApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new ModelUploadStartResultModel {
@@ -824,7 +824,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <param name="model"></param>
         public static NodeApiModel ToApiModel(this NodeModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new NodeApiModel {
@@ -868,7 +868,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <returns></returns>
         public static NodeModel ToServiceModel(this NodeApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new NodeModel {
@@ -912,7 +912,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <param name="model"></param>
         public static NodePathTargetApiModel ToApiModel(this NodePathTargetModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new NodePathTargetApiModel {
@@ -927,7 +927,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <param name="model"></param>
         public static NodeReferenceApiModel ToApiModel(this NodeReferenceModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new NodeReferenceApiModel {
@@ -942,7 +942,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <param name="model"></param>
         public static ReadRequestApiModel ToApiModel(this ReadRequestModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new ReadRequestApiModel {
@@ -958,7 +958,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <returns></returns>
         public static ReadRequestModel ToServiceModel(this ReadRequestApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new ReadRequestModel {
@@ -974,7 +974,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <param name="model"></param>
         public static ReadResponseApiModel ToApiModel(this ReadResultModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new ReadResponseApiModel {
@@ -989,7 +989,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <param name="model"></param>
         public static RequestHeaderApiModel ToApiModel(this RequestHeaderModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new RequestHeaderApiModel {
@@ -1004,7 +1004,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <returns></returns>
         public static RequestHeaderModel ToServiceModel(this RequestHeaderApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new RequestHeaderModel {
@@ -1019,7 +1019,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <param name="model"></param>
         public static RolePermissionApiModel ToApiModel(this RolePermissionModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new RolePermissionApiModel {
@@ -1033,7 +1033,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <returns></returns>
         public static RolePermissionModel ToServiceModel(this RolePermissionApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new RolePermissionModel {
@@ -1047,7 +1047,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <param name="model"></param>
         public static ServiceResultApiModel ToApiModel(this ServiceResultModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new ServiceResultApiModel {
@@ -1062,7 +1062,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <returns></returns>
         public static ServiceResultModel ToServiceModel(this ServiceResultApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new ServiceResultModel {
@@ -1077,7 +1077,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <param name="model"></param>
         public static SupervisorStatusApiModel ToApiModel(this SupervisorStatusModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new SupervisorStatusApiModel {
@@ -1095,7 +1095,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <param name="model"></param>
         public static ValueReadRequestApiModel ToApiModel(this ValueReadRequestModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new ValueReadRequestApiModel {
@@ -1111,7 +1111,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <returns></returns>
         public static ValueReadRequestModel ToServiceModel(this ValueReadRequestApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new ValueReadRequestModel {
@@ -1128,7 +1128,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <param name="model"></param>
         public static ValueReadResponseApiModel ToApiModel(this ValueReadResultModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new ValueReadResponseApiModel {
@@ -1148,7 +1148,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <param name="model"></param>
         public static ValueWriteRequestApiModel ToApiModel(this ValueWriteRequestModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new ValueWriteRequestApiModel {
@@ -1166,7 +1166,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <returns></returns>
         public static ValueWriteRequestModel ToServiceModel(this ValueWriteRequestApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new ValueWriteRequestModel {
@@ -1184,7 +1184,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <param name="model"></param>
         public static ValueWriteResponseApiModel ToApiModel(this ValueWriteResultModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new ValueWriteResponseApiModel {
@@ -1197,7 +1197,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <param name="model"></param>
         public static WriteRequestApiModel ToApiModel(this WriteRequestModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new WriteRequestApiModel {
@@ -1213,7 +1213,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <returns></returns>
         public static WriteRequestModel ToServiceModel(this WriteRequestApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 throw null;
             }
             return new WriteRequestModel {
@@ -1227,7 +1227,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
         /// </summary>
         /// <param name="model"></param>
         public static WriteResponseApiModel ToApiModel(this WriteResultModel model) {
-            if (model == null) {
+            if (model is null) {
                 throw null;
             }
             return new WriteResponseApiModel {

@@ -21,7 +21,7 @@ namespace Microsoft.Azure.IIoT.App.Data {
         /// <param name="ev"></param>
         public static void Update(this IList<EndpointInfo> results, EndpointEventApiModel ev) {
             var endpoint = results.FirstOrDefault(e => e.EndpointModel.Registration.Id == ev.Id);
-            if (endpoint == null &&
+            if (endpoint is null &&
                 ev.EventType != EndpointEventType.New &&
                 ev.EventType != EndpointEventType.Enabled) {
                 return;
@@ -29,7 +29,7 @@ namespace Microsoft.Azure.IIoT.App.Data {
             switch (ev.EventType) {
                 case EndpointEventType.New:
                 case EndpointEventType.Enabled:
-                    if (endpoint == null) {
+                    if (endpoint is null) {
                         // Add if not already in list
                         results.Add(new EndpointInfo {
                             EndpointModel = ev.Endpoint

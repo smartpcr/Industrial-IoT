@@ -17,7 +17,7 @@ namespace Microsoft.Azure.IIoT.Crypto.Models {
         /// <param name="parameters"></param>
         /// <returns></returns>
         public static KeyParams Clone(this KeyParams parameters) {
-            if (parameters == null) {
+            if (parameters is null) {
                 return null;
             }
             switch (parameters) {
@@ -39,10 +39,10 @@ namespace Microsoft.Azure.IIoT.Crypto.Models {
         /// <param name="other"></param>
         /// <returns></returns>
         public static bool SameAs(this KeyParams parameters, KeyParams other) {
-            if (parameters == null) {
-                return other == null;
+            if (parameters is null) {
+                return other is null;
             }
-            if (other == null) {
+            if (other is null) {
                 return false;
             }
             switch (parameters) {

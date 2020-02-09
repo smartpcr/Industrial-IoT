@@ -15,7 +15,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Core.Models {
         /// <param name="model"></param>
         /// <returns></returns>
         public static StructureDescriptionModel Clone(this StructureDescriptionModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new StructureDescriptionModel {

@@ -35,16 +35,16 @@ namespace Microsoft.Azure.IIoT.Crypto.Default {
             IEnumerable<Certificate> revokedCertificates, DateTime? nextUpdate,
             CancellationToken ct) {
             try {
-                if (issuer == null) {
+                if (issuer is null) {
                     throw new ArgumentNullException(nameof(issuer));
                 }
-                if (issuer.RawData == null) {
+                if (issuer.RawData is null) {
                     throw new ArgumentNullException(nameof(issuer.RawData));
                 }
-                if (issuer.IssuerPolicies == null) {
+                if (issuer.IssuerPolicies is null) {
                     throw new ArgumentNullException(nameof(issuer.IssuerPolicies));
                 }
-                if (issuer.KeyHandle == null) {
+                if (issuer.KeyHandle is null) {
                     throw new ArgumentNullException(nameof(issuer.KeyHandle));
                 }
 
@@ -56,7 +56,7 @@ namespace Microsoft.Azure.IIoT.Crypto.Default {
                 crlGen.SetThisUpdate(DateTime.UtcNow);
                 crlGen.SetNextUpdate(nextUpdate ?? issuer.NotAfterUtc);
 
-                if (revokedCertificates == null || !revokedCertificates.Any()) {
+                if (revokedCertificates is null || !revokedCertificates.Any()) {
                     // add a dummy entry
                     crlGen.AddCrlEntry(BigInteger.One, thisUpdate, CrlReason.Unspecified);
                 }

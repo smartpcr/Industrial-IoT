@@ -20,7 +20,7 @@ namespace Microsoft.Azure.IIoT.Services.Common.Jobs.Models {
         /// <returns></returns>
         public static DemandApiModel ToApiModel(
             this DemandModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new DemandApiModel {
@@ -37,7 +37,7 @@ namespace Microsoft.Azure.IIoT.Services.Common.Jobs.Models {
         /// <returns></returns>
         public static JobInfoApiModel ToApiModel(
             this JobInfoModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new JobInfoApiModel {
@@ -59,7 +59,7 @@ namespace Microsoft.Azure.IIoT.Services.Common.Jobs.Models {
         /// <param name="model"></param>
         public static JobLifetimeDataApiModel ToApiModel(
             this JobLifetimeDataModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new JobLifetimeDataApiModel {
@@ -77,7 +77,7 @@ namespace Microsoft.Azure.IIoT.Services.Common.Jobs.Models {
         /// <param name="model"></param>
         public static ProcessingStatusApiModel ToApiModel(
             this ProcessingStatusModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new ProcessingStatusApiModel {
@@ -93,7 +93,7 @@ namespace Microsoft.Azure.IIoT.Services.Common.Jobs.Models {
         /// <param name="model"></param>
         public static RedundancyConfigApiModel ToApiModel(
             this RedundancyConfigModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new RedundancyConfigApiModel {
@@ -108,7 +108,7 @@ namespace Microsoft.Azure.IIoT.Services.Common.Jobs.Models {
         /// <param name="model"></param>
         public static JobInfoListApiModel ToApiModel(
             this JobInfoListModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new JobInfoListApiModel {
@@ -125,7 +125,7 @@ namespace Microsoft.Azure.IIoT.Services.Common.Jobs.Models {
         /// <returns></returns>
         public static JobInfoQueryModel ToServiceModel(
             this JobInfoQueryApiModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new JobInfoQueryModel {
@@ -141,7 +141,7 @@ namespace Microsoft.Azure.IIoT.Services.Common.Jobs.Models {
         /// <param name="model"></param>
         public static WorkerInfoApiModel ToApiModel(
             this WorkerInfoModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new WorkerInfoApiModel {
@@ -158,7 +158,7 @@ namespace Microsoft.Azure.IIoT.Services.Common.Jobs.Models {
         /// <param name="model"></param>
         public static WorkerInfoListApiModel ToApiModel(
             this WorkerInfoListModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new WorkerInfoListApiModel {

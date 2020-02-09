@@ -48,7 +48,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin.Controllers {
         [HttpPost("{endpointId}/metadata")]
         public async Task<MethodMetadataResponseApiModel> GetCallMetadataAsync(
             string endpointId, [FromBody] [Required] MethodMetadataRequestApiModel request) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             var metadataresult = await _nodes.NodeMethodGetMetadataAsync(
@@ -70,7 +70,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin.Controllers {
         [HttpPost("{endpointId}")]
         public async Task<MethodCallResponseApiModel> CallMethodAsync(
             string endpointId, [FromBody] [Required] MethodCallRequestApiModel request) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
 

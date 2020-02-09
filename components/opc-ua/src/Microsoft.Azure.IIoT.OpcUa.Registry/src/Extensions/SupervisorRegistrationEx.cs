@@ -61,7 +61,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
 
             if (update?.LogLevel != existing?.LogLevel) {
                 twin.Properties.Desired.Add(nameof(SupervisorRegistration.LogLevel),
-                    update?.LogLevel == null ?
+                    update?.LogLevel is null ?
                     null : serializer.FromObject(update.LogLevel.ToString()));
             }
 
@@ -83,7 +83,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
         /// <returns></returns>
         public static SupervisorRegistration ToSupervisorRegistration(this DeviceTwinModel twin,
             Dictionary<string, VariantValue> properties) {
-            if (twin == null) {
+            if (twin is null) {
                 return null;
             }
 
@@ -145,27 +145,27 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
         public static SupervisorRegistration ToSupervisorRegistration(this DeviceTwinModel twin,
             bool onlyServerState, out bool connected) {
 
-            if (twin == null) {
+            if (twin is null) {
                 connected = false;
                 return null;
             }
-            if (twin.Tags == null) {
+            if (twin.Tags is null) {
                 twin.Tags = new Dictionary<string, VariantValue>();
             }
 
             var consolidated =
                 ToSupervisorRegistration(twin, twin.GetConsolidatedProperties());
-            var desired = (twin.Properties?.Desired == null) ? null :
+            var desired = (twin.Properties?.Desired is null) ? null :
                 ToSupervisorRegistration(twin, twin.Properties.Desired);
 
             connected = consolidated.Connected;
             if (desired != null) {
                 desired.Connected = connected;
-                if (desired.SiteId == null && consolidated.SiteId != null) {
+                if (desired.SiteId is null && consolidated.SiteId != null) {
                     // Not set by user, but by config, so fake user desiring it.
                     desired.SiteId = consolidated.SiteId;
                 }
-                if (desired.LogLevel == null && consolidated.LogLevel != null) {
+                if (desired.LogLevel is null && consolidated.LogLevel != null) {
                     // Not set by user, but reported, so set as desired
                     desired.LogLevel = consolidated.LogLevel;
                 }
@@ -188,7 +188,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
         /// <param name="disabled"></param>
         public static SupervisorRegistration ToSupervisorRegistration(
             this SupervisorModel model, bool? disabled = null) {
-            if (model == null) {
+            if (model is null) {
                 throw new ArgumentNullException(nameof(model));
             }
             var deviceId = SupervisorModelEx.ParseDeviceId(model.Id,
@@ -209,7 +209,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
         /// <param name="registration"></param>
         /// <returns></returns>
         public static SupervisorModel ToServiceModel(this SupervisorRegistration registration) {
-            if (registration == null) {
+            if (registration is null) {
                 return null;
             }
             return new SupervisorModel {
@@ -228,8 +228,8 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
         /// <param name="other"></param>
         internal static bool IsInSyncWith(this SupervisorRegistration registration,
             SupervisorRegistration other) {
-            if (registration == null) {
-                return other == null;
+            if (registration is null) {
+                return other is null;
             }
             return
                    other != null &&

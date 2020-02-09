@@ -39,7 +39,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Vault.Services {
         public async Task<StartSigningRequestResultModel> StartSigningRequestAsync(
             StartSigningRequestModel request, VaultOperationContextModel context,
             CancellationToken ct) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             if (string.IsNullOrEmpty(request.EntityId)) {
@@ -50,7 +50,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Vault.Services {
             }
 
             var entity = await _entities.FindEntityAsync(request.EntityId);
-            if (entity == null) {
+            if (entity is null) {
                 throw new ResourceNotFoundException("Entity not found");
             }
 
@@ -116,7 +116,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Vault.Services {
                 throw new ArgumentNullException(nameof(requestId));
             }
             var request = await _repo.FindAsync(requestId, ct);
-            if (request == null) {
+            if (request is null) {
                 throw new ResourceNotFoundException("Request not found");
             }
             try {

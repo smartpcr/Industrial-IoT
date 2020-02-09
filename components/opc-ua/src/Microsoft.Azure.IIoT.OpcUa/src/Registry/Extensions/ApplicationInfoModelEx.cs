@@ -32,11 +32,11 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
         /// <param name="model"></param>
         /// <returns></returns>
         public static string CreateApplicationId(ApplicationInfoModel model) {
-            if (model == null) {
+            if (model is null) {
                 throw new ArgumentNullException(nameof(model));
             }
             var siteOrGatewayId = model.SiteId;
-            if (siteOrGatewayId == null && model.DiscovererId != null) {
+            if (siteOrGatewayId is null && model.DiscovererId != null) {
                 siteOrGatewayId = DiscovererModelEx.ParseDeviceId(model.DiscovererId, out _);
             }
             return CreateApplicationId(siteOrGatewayId, model.ApplicationUri,
@@ -73,7 +73,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
             if (model == that) {
                 return true;
             }
-            if (model == null || that == null) {
+            if (model is null || that is null) {
                 return false;
             }
             if (model.Count() != that.Count()) {
@@ -93,7 +93,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
             if (model == that) {
                 return true;
             }
-            if (model == null || that == null) {
+            if (model is null || that is null) {
                 return false;
             }
             return
@@ -107,7 +107,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
         /// <param name="model"></param>
         /// <returns></returns>
         public static ApplicationInfoModel Clone(this ApplicationInfoModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new ApplicationInfoModel {

@@ -34,7 +34,7 @@ namespace Microsoft.Azure.IIoT.Modules.Discovery.Controllers {
         /// <param name="request"></param>
         /// <returns></returns>
         public async Task<bool> DiscoverAsync(DiscoveryRequestInternalApiModel request) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             await _discover.DiscoverAsync(request.ToServiceModel());
@@ -47,7 +47,7 @@ namespace Microsoft.Azure.IIoT.Modules.Discovery.Controllers {
         /// <param name="request"></param>
         /// <returns></returns>
         public async Task<bool> CancelAsync(DiscoveryCancelInternalApiModel request) {
-            if (request == null) {
+            if (request is null) {
                 throw new ArgumentNullException(nameof(request));
             }
             await _discover.CancelAsync(request.ToServiceModel());

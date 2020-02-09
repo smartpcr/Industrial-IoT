@@ -341,7 +341,10 @@ namespace Microsoft.Azure.IIoT.Crypto.Default {
                 results = results.Where(o => o.Value["DisabledSince"] == null);
             }
             else if (q.Contains("AND IS_DEFINED(c.DisabledSince)")) {
-                results = results.Where(o => o.Value["DisabledSince"] != null);
+                results = results.Where(o => {
+                    var d = o.Value["DisabledSince"];
+                    return d != null;
+                });
             }
             return results.OrderByDescending(o => o.Value["Version"]);
         }

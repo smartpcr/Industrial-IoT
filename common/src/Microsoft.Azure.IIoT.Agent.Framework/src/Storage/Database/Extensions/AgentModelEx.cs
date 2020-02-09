@@ -17,7 +17,7 @@ namespace Microsoft.Azure.IIoT.Agent.Framework.Storage.Database {
         /// <param name="model"></param>
         /// <returns></returns>
         public static WorkerDocument ToDocumentModel(this WorkerInfoModel model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new WorkerDocument {
@@ -33,7 +33,7 @@ namespace Microsoft.Azure.IIoT.Agent.Framework.Storage.Database {
         /// <param name="model"></param>
         /// <returns></returns>
         public static WorkerInfoModel ToFrameworkModel(this WorkerDocument model) {
-            if (model == null) {
+            if (model is null) {
                 return null;
             }
             return new WorkerInfoModel {

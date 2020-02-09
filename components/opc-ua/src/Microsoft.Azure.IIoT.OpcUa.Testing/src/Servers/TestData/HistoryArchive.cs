@@ -62,7 +62,7 @@ namespace TestData {
         /// </summary>
         public HistoryFile GetHistoryFile(NodeId nodeId) {
             lock (_lock) {
-                if (_records == null) {
+                if (_records is null) {
                     return null;
                 }
 
@@ -107,13 +107,13 @@ namespace TestData {
                     record.RawData.Add(entry);
                 }
 
-                if (_records == null) {
+                if (_records is null) {
                     _records = new Dictionary<NodeId, HistoryRecord>();
                 }
 
                 _records[nodeId] = record;
 
-                if (_updateTimer == null) {
+                if (_updateTimer is null) {
                     _updateTimer = new Timer(OnUpdate, null, 10000, 10000);
                 }
             }

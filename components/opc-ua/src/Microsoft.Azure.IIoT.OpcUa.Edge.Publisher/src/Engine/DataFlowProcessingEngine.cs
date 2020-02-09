@@ -69,7 +69,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Publisher.Engine {
 
         /// <inheritdoc/>
         public async Task RunAsync(ProcessMode processMode, CancellationToken cancellationToken) {
-            if (_messageEncoder == null) {
+            if (_messageEncoder is null) {
                 throw new NotInitializedException();
             }
 

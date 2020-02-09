@@ -56,7 +56,7 @@ namespace SimpleEvents {
             _configuration = configuration.ParseExtension<SimpleEventsServerConfiguration>();
 
             // use suitable defaults if no configuration exists.
-            if (_configuration == null) {
+            if (_configuration is null) {
                 _configuration = new SimpleEventsServerConfiguration();
             }
         }
@@ -154,7 +154,7 @@ namespace SimpleEvents {
             NodeHandle handle,
             IDictionary<NodeId, NodeState> cache) {
             // not valid if no root.
-            if (handle == null) {
+            if (handle is null) {
                 return null;
             }
 

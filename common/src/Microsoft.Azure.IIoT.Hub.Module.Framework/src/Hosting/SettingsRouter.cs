@@ -6,7 +6,6 @@
 namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
     using Microsoft.Azure.IIoT.Module.Framework.Services;
     using Microsoft.Azure.IIoT.Serializers;
-    using Microsoft.Azure.Devices.Shared;
     using Serilog;
     using System;
     using System.Collections.Generic;
@@ -51,11 +50,12 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
         }
 
         /// <inheritdoc/>
-        public async Task<TwinCollection> ProcessSettingsAsync(TwinCollection settings) {
+        public async Task<IDictionary<string, VariantValue>> ProcessSettingsAsync(
+            IDictionary<string, VariantValue> settings) {
             var controllers = new List<Controller>();
 
             // Set all properties
-            foreach (KeyValuePair<string, dynamic> setting in settings) {
+            foreach (var setting in settings) {
                 if (!TryGetInvoker(setting.Key, out var invoker)) {
                     _logger.Error("Setting {key}/{value} unsupported",
                         setting.Key, setting.Value);
@@ -83,15 +83,15 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
             await _lock.WaitAsync();
             try {
                 // Gather current values from controller
-                var reported = new TwinCollection();
-                foreach (KeyValuePair<string, dynamic> setting in settings) {
+                var reported = new Dictionary<string, VariantValue>();
+                foreach (var setting in settings) {
                     if (TryGetInvoker(setting.Key, out var invoker)) {
                         try {
                             if (!invoker.Get(setting.Key, out var value)) {
                                 value = setting.Value; // No getter, echo back desired value.
                             }
-                            _cache[setting.Key] = _serializer.FromObject(value);
-                            reported[setting.Key] = value;
+                            _cache.AddOrUpdate(setting.Key, value);
+                            reported.AddOrUpdate(setting.Key, value);
                             continue;
                         }
                         catch (Exception ex) {
@@ -101,11 +101,11 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
                         }
                     }
                     // Clear value
-                    reported[setting.Key] = null;
-                    _cache[setting.Key] = null;
+                    reported.AddOrUpdate(setting.Key, null);
+                    _cache.Remove(setting.Key);
                 }
                 // Collect current values of all other settings
-                var remaining = _calltable.Where(v => !settings.Contains(v.Key));
+                var remaining = _calltable.Where(v => !settings.ContainsKey(v.Key));
                 CollectSettingsFromControllers(reported, remaining);
                 return reported;
             }
@@ -115,10 +115,10 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
         }
 
         /// <inheritdoc/>
-        public async Task<TwinCollection> GetSettingsChangesAsync() {
+        public async Task<IDictionary<string, VariantValue>> GetSettingsChangesAsync() {
             await _lock.WaitAsync();
             try {
-                var reported = new TwinCollection();
+                var reported = new Dictionary<string, VariantValue>();
                 CollectSettingsFromControllers(reported, _calltable);
                 return reported;
             }
@@ -143,7 +143,7 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
         /// </summary>
         /// <param name="reported"></param>
         /// <param name="invokers"></param>
-        private void CollectSettingsFromControllers(TwinCollection reported,
+        private void CollectSettingsFromControllers(Dictionary<string, VariantValue> reported,
             IEnumerable<KeyValuePair<string, CascadingInvoker>> invokers) {
             foreach (var handler in invokers) {
                 try {
@@ -156,7 +156,7 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
                     }
                     var obj = _serializer.FromObject(value);
                     _cache.TryGetValue(key.ToLowerInvariant(), out var cached);
-                    if (cached == null && value == null) {
+                    if (cached is null && value is null) {
                         // Do not report - both are null and thus equal
                         continue;
                     }
@@ -166,7 +166,7 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
                         continue;
                     }
                     _cache[key.ToLowerInvariant()] = obj;
-                    reported[key] = value;
+                    reported.AddOrUpdate(key, value);
                 }
                 catch (Exception ex) {
                     _logger.Debug(ex, "Error retrieving controller setting {setting}",
@@ -275,7 +275,7 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
             /// <returns></returns>
             public Task ApplyInternalAsync() {
                 try {
-                    if (_applyMethod == null) {
+                    if (_applyMethod is null) {
                         return Task.CompletedTask;
                     }
                     return (Task)_applyMethod.Invoke(Target, new object[] { });
@@ -329,7 +329,7 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
             /// <param name="property"></param>
             /// <param name="value"></param>
             /// <returns></returns>
-            public Controller Set(string property, dynamic value) {
+            public Controller Set(string property, VariantValue value) {
                 Exception e = null;
                 foreach (var invoker in _invokers) {
                     try {
@@ -352,7 +352,7 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
             /// <param name="property"></param>
             /// <param name="value"></param>
             /// <returns></returns>
-            public bool Get(string property, out dynamic value) {
+            public bool Get(string property, out VariantValue value) {
                 Exception e = null;
                 foreach (var invoker in _invokers) {
                     try {
@@ -407,9 +407,9 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
             /// <param name="property"></param>
             /// <param name="value"></param>
             /// <returns></returns>
-            public Controller Set(string property, dynamic value) {
+            public Controller Set(string property, VariantValue value) {
                 try {
-                    var cast = Cast(value, _property.PropertyType);
+                    var cast = value.ToObject(_property.PropertyType);
                     if (_indexed) {
                         _property.SetValue(_controller.Target, cast,
                             new object[] { property });
@@ -433,19 +433,21 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
             /// <param name="property"></param>
             /// <param name="value"></param>
             /// <returns></returns>
-            public bool Get(string property, out dynamic value) {
+            public bool Get(string property, out VariantValue value) {
                 try {
                     if (!_property.CanRead) {
-                        value = null;
+                        value = _serializer.FromObject(null);
                         return false;
                     }
+                    object gotten;
                     if (_indexed) {
-                        value = _property.GetValue(_controller.Target,
+                        gotten = _property.GetValue(_controller.Target,
                             new object[] { property });
                     }
                     else {
-                        value = _property.GetValue(_controller.Target);
+                        gotten = _property.GetValue(_controller.Target);
                     }
+                    value = _serializer.FromObject(gotten);
                     return true;
                 }
                 catch (Exception e) {
@@ -454,29 +456,6 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
                         _controller.Target.GetType().Name, _property.Name);
                     throw e;
                 }
-            }
-
-            /// <summary>
-            /// Cast to object of type
-            /// </summary>
-            /// <param name="value"></param>
-            /// <param name="type"></param>
-            /// <returns></returns>
-            public object Cast(dynamic value, Type type) {
-                if (value == null) {
-                    return null;
-                }
-                VariantValue val;
-                try {
-                    val = (VariantValue)value;
-                }
-                catch {
-                    val = _serializer.FromObject(value);
-                }
-                if (type == typeof(VariantValue)) {
-                    return val;
-                }
-                return val.ToObject(type);
             }
 
             private readonly ILogger _logger;

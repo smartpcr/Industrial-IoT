@@ -27,7 +27,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin.Filters {
 
         /// <inheritdoc />
         public override void OnException(ExceptionContext context) {
-            if (context.Exception == null) {
+            if (context.Exception is null) {
                 base.OnException(context);
                 return;
             }

@@ -120,7 +120,7 @@ namespace Microsoft.Azure.IIoT.Auth.Clients.Default {
             };
             var ctx = new AuthenticationContext(uri.ToString(),
                 store.GetCache(authorityUrl));
-            if (tenantId == null && ctx.TokenCache.Count > 0) {
+            if (tenantId is null && ctx.TokenCache.Count > 0) {
                 uri.Path = ctx.TokenCache.ReadItems().First().TenantId;
                 ctx = new AuthenticationContext(uri.ToString());
             }
