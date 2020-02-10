@@ -78,13 +78,10 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Publisher.Models {
                         Url = item.EndpointUrl.OriginalString,
                         SecurityMode = item.UseSecurity == false ?
                             SecurityMode.None : SecurityMode.Best
+                        },
+                        User = item.OpcAuthenticationMode != OpcAuthenticationMode.UsernamePassword ? null :
+                            ToUserNamePasswordCredentialAsync(item).Result
                     },
-                    User = item.OpcAuthenticationMode != OpcAuthenticationMode.UsernamePassword ? null :
-                        // if encrypted user is set and cryptoProvider is available, we use the encrypted credentials.
-                        (_cryptoProvider != null && !string.IsNullOrWhiteSpace(item.EncryptedAuthUsername)) ? ToUserNamePasswordCredentialAsync(item.EncryptedAuthUsername, item.EncryptedAuthPassword).Result :
-                        // if clear text credentials are set, we use them for authentication.
-                        !(string.IsNullOrWhiteSpace(item.OpcAuthenticationUsername)) ? new CredentialModel { Type = CredentialType.UserName, Value = JToken.FromObject(new { user = item.OpcAuthenticationUsername, password = item.OpcAuthenticationPassword }) } : null
-                },
                     // Select and batch nodes into published data set sources
                     item => GetNodeModels(item),
                     // Comparer for connection information
@@ -180,8 +177,8 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Publisher.Models {
         /// <returns></returns>
         private async Task<CredentialModel> ToUserNamePasswordCredentialAsync(
             PublishedNodesEntryModel entry) {
-            var user = entry.Username;
-            var password = entry.Password;
+            var user = entry.OpcAuthenticationUsername;
+            var password = entry.OpcAuthenticationPassword;
             if (string.IsNullOrEmpty(user)) {
                 if (_cryptoProvider is null || string.IsNullOrEmpty(entry.EncryptedAuthUsername)) {
                     return null;

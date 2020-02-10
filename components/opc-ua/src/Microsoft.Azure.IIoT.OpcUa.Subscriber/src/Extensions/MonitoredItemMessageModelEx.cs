@@ -4,9 +4,6 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Subscriber.Models {
-    using Microsoft.Azure.IIoT.Serializers;
-    using System;
-    using System.Linq;
 
     /// <summary>
     /// Publisher sample model extensions
@@ -33,7 +30,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Subscriber.Models {
                 SourceTimestamp = model.SourceTimestamp,
                 Timestamp = model.Timestamp,
                 TypeId = model.TypeId,
-                Value = model.Value.Clone(),
+                Value = model.Value?.Copy(),
                 Status = model.Status
             };
         }
