@@ -56,6 +56,13 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Models {
         public string TypeId { get; set; }
 
         /// <summary>
+        /// Status of the value (Quality)
+        /// </summary>
+        [JsonProperty(PropertyName = "status",
+            NullValueHandling = NullValueHandling.Ignore)]
+        public string Status { get; set; }
+
+        /// <summary>
         /// Sent time stamp
         /// </summary>
         [DataMember(Name = "timestamp",

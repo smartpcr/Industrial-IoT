@@ -62,7 +62,10 @@ namespace Microsoft.Azure.IIoT.OpcUa.Subscriber.Handlers {
                 var sample = new MonitoredItemSampleModel() {
                     Value = codec.Encode(message.Value),
                     Status = StatusCode.LookupSymbolicId(message.Value.StatusCode.Code),
-                    TypeId = message.TypeId.ToString(),
+                    TypeId = (message?.Value?.WrappedValue.TypeInfo != null) ?
+                        TypeInfo.GetSystemType(
+                            message.Value.WrappedValue.TypeInfo.BuiltInType,
+                            message.Value.WrappedValue.TypeInfo.ValueRank) : null,
                     DataSetId = message.DisplayName,
                     Timestamp = DateTime.UtcNow,
                     SubscriptionId = message.SubscriptionId,

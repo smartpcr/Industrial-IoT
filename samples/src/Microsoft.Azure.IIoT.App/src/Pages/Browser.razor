@@ -276,19 +276,23 @@
         this.StateHasChanged();
     }
 
-    private Task PublishEvent(MonitoredItemMessageApiModel samples) {
-        foreach (var node in PagedNodeList.Results) {
-            if (node.Id == samples.NodeId) {
-                node.Value = samples.Value?.ToString();
+    private Task PublishEvent(MonitoredItemMessageApiModel samples)
+    {
+        foreach (var node in PagedNodeList.Results)
+        {
+            if (node.Id == samples.NodeId)
+            {
+                node.Value = $"{samples.Value?.ToString()} ({samples.Status})";
                 this.StateHasChanged();
             }
         }
         return Task.CompletedTask;
     }
 
-
-    public async void Dispose() {
-        if (_publishEvent != null) {
+    public async void Dispose()
+    {
+        if (_publishEvent != null)
+        {
             await _publishEvent.DisposeAsync();
         }
     }

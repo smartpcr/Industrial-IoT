@@ -7,7 +7,6 @@ namespace Microsoft.Azure.IIoT.OpcUa.Subscriber.Handlers {
     using Microsoft.Azure.IIoT.Hub;
     using Microsoft.Azure.IIoT.OpcUa.Subscriber;
     using Microsoft.Azure.IIoT.OpcUa.Subscriber.Models;
-    using Newtonsoft.Json.Linq;
     using Opc.Ua;
     using Opc.Ua.Extensions;
     using Opc.Ua.PubSub;
@@ -20,7 +19,6 @@ namespace Microsoft.Azure.IIoT.OpcUa.Subscriber.Handlers {
     using System.Linq;
     using Microsoft.Azure.IIoT.Serializers;
     using Microsoft.Azure.IIoT.OpcUa.Protocol;
-
 
     /// <summary>
     /// Publisher message handling
@@ -67,7 +65,10 @@ namespace Microsoft.Azure.IIoT.OpcUa.Subscriber.Handlers {
                 var sample = new MonitoredItemSampleModel() {
                     Value = codec.Encode(message.Value),
                     Status = StatusCode.LookupSymbolicId(message.Value.StatusCode.Code),
-                    TypeId = message.TypeId.ToString(),
+                    TypeId = (message?.Value?.WrappedValue.TypeInfo != null) ?
+                        TypeInfo.GetSystemType(
+                            message.Value.WrappedValue.TypeInfo.BuiltInType,
+                            message.Value.WrappedValue.TypeInfo.ValueRank) : null,
                     DataSetId = message.DisplayName,
                     Timestamp = DateTime.UtcNow,
                     SubscriptionId = message.SubscriptionId,

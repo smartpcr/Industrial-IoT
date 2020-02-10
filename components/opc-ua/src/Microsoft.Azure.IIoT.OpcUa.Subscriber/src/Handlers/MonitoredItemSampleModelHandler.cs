@@ -39,34 +39,16 @@ namespace Microsoft.Azure.IIoT.OpcUa.Subscriber.Handlers {
         /// <inheritdoc/>
         public async Task HandleAsync(string deviceId, string moduleId,
             byte[] payload, IDictionary<string, string> properties, Func<Task> checkpoint) {
+
             var json = Encoding.UTF8.GetString(payload);
-            IEnumerable<VariantValue> messages;
+            var message = _serializer.Deserialize<MonitoredItemSampleModel>(json);
             try {
-                var parsed = _serializer.Parse(json);
-                if (parsed.Type == VariantValueType.Array) {
-                    messages = parsed.Values;
-                }
-                else {
-                    messages = parsed.YieldReturn();
-                }
+                await Task.WhenAll(_handlers.Select(h => h.HandleSampleAsync(message)));
             }
             catch (Exception ex) {
-                _logger.Error(ex, "Failed to parse json {json}", json);
-                return;
-            }
-            foreach (var message in messages) {
-                try {
-                    var sample = message.ToServiceModel();
-                    if (sample is null) {
-                        continue;
-                    }
-                    await Task.WhenAll(_handlers.Select(h => h.HandleSampleAsync(sample)));
-                }
-                catch (Exception ex) {
-                    _logger.Error(ex,
-                        "Publishing message {message} failed with exception - skip",
-                            message);
-                }
+                _logger.Error(ex,
+                    "Publishing message {message} failed with exception - skip",
+                        message);
             }
         }
 
