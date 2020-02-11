@@ -25,7 +25,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Clients {
         /// <param name="client"></param>
         /// <param name="serializer"></param>
         /// <param name="logger"></param>
-        public TwinModuleActivationClient(IMethodClient client, IJsonSerializer serializer,
+        public TwinModuleActivationClient(IMethodClient client, ISerializer serializer,
             ILogger logger) {
             _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
             _client = client ?? throw new ArgumentNullException(nameof(client));
@@ -92,7 +92,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Clients {
                 moduleId, sw.ElapsedMilliseconds);
         }
 
-        private readonly IJsonSerializer _serializer;
+        private readonly ISerializer _serializer;
         private readonly IMethodClient _client;
         private readonly ILogger _logger;
     }

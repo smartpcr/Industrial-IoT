@@ -20,7 +20,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Clients {
         /// Cerate job serializer
         /// </summary>
         /// <param name="serializer"></param>
-        public PublisherJobSerializer(IJsonSerializer serializer) {
+        public PublisherJobSerializer(ISerializer serializer) {
             _serializer = serializer;
         }
 
@@ -46,6 +46,6 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Clients {
         }
 
         private const string kDataSetWriterJobV2 = "DataSetWriterV2";
-        private readonly IJsonSerializer _serializer;
+        private readonly ISerializer _serializer;
     }
 }

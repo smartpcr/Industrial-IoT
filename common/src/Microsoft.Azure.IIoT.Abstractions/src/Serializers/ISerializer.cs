@@ -5,12 +5,12 @@
 
 namespace Microsoft.Azure.IIoT.Serializers {
     using System;
-    using System.IO;
+    using System.Buffers;
 
     /// <summary>
-    /// Pluggable json serializer
+    /// Pluggable serializer
     /// </summary>
-    public interface IJsonSerializer {
+    public interface ISerializer : IVariantFactory {
 
         /// <summary>
         /// Serialize to writer
@@ -19,7 +19,7 @@ namespace Microsoft.Azure.IIoT.Serializers {
         /// <param name="o"></param>
         /// <param name="format"></param>
         /// <returns></returns>
-        void Serialize(TextWriter writer, object o,
+        void Serialize(IBufferWriter<byte> writer, object o,
             Formatting format = Formatting.None);
 
         /// <summary>
@@ -28,20 +28,13 @@ namespace Microsoft.Azure.IIoT.Serializers {
         /// <param name="type"></param>
         /// <param name="reader"></param>
         /// <returns></returns>
-        object Deserialize(TextReader reader, Type type);
+        object Deserialize(ReadOnlySpan<byte> reader, Type type);
 
         /// <summary>
         /// Deserialize to variant value
         /// </summary>
         /// <param name="reader"></param>
         /// <returns></returns>
-        VariantValue Parse(TextReader reader);
-
-        /// <summary>
-        /// Convert to token.
-        /// </summary>
-        /// <param name="o"></param>
-        /// <returns></returns>
-        VariantValue FromObject(object o);
+        VariantValue Parse(ReadOnlySpan<byte> reader);
     }
 }

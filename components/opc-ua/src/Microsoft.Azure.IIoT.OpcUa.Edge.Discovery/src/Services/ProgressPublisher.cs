@@ -27,7 +27,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Discovery.Services {
         /// <param name="serializer"></param>
         /// <param name="logger"></param>
         public ProgressPublisher(IEventEmitter events, ITaskProcessor processor,
-            IJsonSerializer serializer, ILogger logger) : base (logger) {
+            ISerializer serializer, ILogger logger) : base (logger) {
             _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
             _events = events ?? throw new ArgumentNullException(nameof(events));
             _processor = processor ?? throw new ArgumentNullException(nameof(processor));
@@ -55,7 +55,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Discovery.Services {
                 Registry.Models.MessageSchemaTypes.DiscoveryMessage));
         }
 
-        private readonly IJsonSerializer _serializer;
+        private readonly ISerializer _serializer;
         private readonly IEventEmitter _events;
         private readonly ITaskProcessor _processor;
     }

@@ -146,6 +146,6 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
             return r1;
         }
 
-        private readonly IJsonSerializer _serializer = new NewtonSoftJsonSerializer();
+        private readonly ISerializer _serializer = new NewtonSoftJsonSerializer();
     }
 }

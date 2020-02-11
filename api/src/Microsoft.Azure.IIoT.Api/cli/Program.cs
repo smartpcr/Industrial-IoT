@@ -124,7 +124,7 @@ namespace Microsoft.Azure.IIoT.Api.Cli {
             _publisher = _scope.Resolve<IPublisherServiceApi>();
             _vault = _scope.Resolve<IVaultServiceApi>();
             _jobs = _scope.Resolve<IJobsServiceApi>();
-            _serializer = _scope.Resolve<IJsonSerializer>();
+            _serializer = _scope.Resolve<ISerializer>();
         }
 
         /// <inheritdoc/>
@@ -3616,6 +3616,6 @@ Commands and Options
         private readonly IPublisherServiceApi _publisher;
         private readonly IRegistryServiceApi _registry;
         private readonly IVaultServiceApi _vault;
-        private readonly IJsonSerializer _serializer;
+        private readonly ISerializer _serializer;
     }
 }

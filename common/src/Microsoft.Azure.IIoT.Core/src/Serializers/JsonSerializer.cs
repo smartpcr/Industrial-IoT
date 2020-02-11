@@ -16,11 +16,9 @@ namespace Microsoft.Azure.IIoT {
         protected override void Load(ContainerBuilder builder) {
 
             builder.RegisterType<NewtonSoftJsonSerializer>()
-                .AsImplementedInterfaces().SingleInstance()
-                .IfNotRegistered(typeof(IJsonSerializer));
+                .AsImplementedInterfaces().SingleInstance();
             builder.RegisterType<NewtonSoftJsonConverters>()
-                .AsImplementedInterfaces().SingleInstance()
-                .IfNotRegistered(typeof(IJsonSerializerConverterProvider));
+                .AsImplementedInterfaces().SingleInstance();
 
             base.Load(builder);
         }

@@ -101,7 +101,7 @@ namespace Microsoft.Azure.IIoT.Hub.Models {
         /// <param name="twin"></param>
         /// <param name="serializer"></param>
         /// <returns></returns>
-        public static DeviceTwinModel DeserializeTwin(this IJsonSerializer serializer, Twin twin) {
+        public static DeviceTwinModel DeserializeTwin(this ISerializer serializer, Twin twin) {
             if (twin is null) {
                 return null;
             }
@@ -132,7 +132,7 @@ namespace Microsoft.Azure.IIoT.Hub.Models {
         /// <param name="serializer"></param>
         /// <returns></returns>
         public static Dictionary<string, VariantValue> DeserializeTwinProperties(
-            this IJsonSerializer serializer, TwinCollection props) {
+            this ISerializer serializer, TwinCollection props) {
             if (props is null) {
                 return null;
             }

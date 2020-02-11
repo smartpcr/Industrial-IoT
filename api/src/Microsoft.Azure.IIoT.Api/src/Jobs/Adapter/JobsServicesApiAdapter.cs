@@ -22,7 +22,7 @@ namespace Microsoft.Azure.IIoT.Api.Jobs {
         /// </summary>
         /// <param name="client"></param>
         /// <param name="serializer"></param>
-        public JobsServicesApiAdapter(IJobsServiceApi client, IJsonSerializer serializer) {
+        public JobsServicesApiAdapter(IJobsServiceApi client, ISerializer serializer) {
             _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
             _client = client ?? throw new ArgumentNullException(nameof(client));
         }
@@ -81,7 +81,7 @@ namespace Microsoft.Azure.IIoT.Api.Jobs {
             await _client.DeleteWorkerAsync(workerId, ct);
         }
 
-        private readonly IJsonSerializer _serializer;
+        private readonly ISerializer _serializer;
         private readonly IJobsServiceApi _client;
     }
 }

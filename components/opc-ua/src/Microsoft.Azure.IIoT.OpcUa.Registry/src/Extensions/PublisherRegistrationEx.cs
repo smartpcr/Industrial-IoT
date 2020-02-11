@@ -24,7 +24,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
         /// <param name="serializer"></param>
         /// <returns></returns>
         public static DeviceTwinModel ToDeviceTwin(
-            this PublisherRegistration registration, IJsonSerializer serializer) {
+            this PublisherRegistration registration, ISerializer serializer) {
             return Patch(null, registration, serializer);
         }
 
@@ -35,7 +35,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
         /// <param name="update"></param>
         /// <param name="serializer"></param>
         public static DeviceTwinModel Patch(this PublisherRegistration existing,
-            PublisherRegistration update, IJsonSerializer serializer) {
+            PublisherRegistration update, ISerializer serializer) {
 
             var twin = new DeviceTwinModel {
                 Etag = existing?.Etag,

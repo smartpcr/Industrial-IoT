@@ -27,7 +27,7 @@ namespace Microsoft.Azure.IIoT.Modules.Diagnostic.Services.Default {
         /// <param name="events"></param>
         /// <param name="serializer"></param>
         /// <param name="logger"></param>
-        public TestTelemetry(IEventClient events, IJsonSerializer serializer,
+        public TestTelemetry(IEventClient events, ISerializer serializer,
             ILogger logger) {
             _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
             _events = events ?? throw new ArgumentNullException(nameof(events));
@@ -97,7 +97,7 @@ namespace Microsoft.Azure.IIoT.Modules.Diagnostic.Services.Default {
 
         private readonly IEventClient _events;
         private readonly ILogger _logger;
-        private readonly IJsonSerializer _serializer;
+        private readonly ISerializer _serializer;
         private readonly SemaphoreSlim _lock = new SemaphoreSlim(1, 1);
         private CancellationTokenSource _cts;
         private Task _task;

@@ -29,7 +29,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Handlers {
         /// <param name="serializer"></param>
         /// <param name="logger"></param>
         public DiscoveryMessageHandler(IEnumerable<IDiscoveryProgressProcessor> handlers,
-            IJsonSerializer serializer, ILogger logger) {
+            ISerializer serializer, ILogger logger) {
             _serializer = serializer ??
                 throw new ArgumentNullException(nameof(serializer));
             _logger = logger ??
@@ -64,7 +64,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Handlers {
             return Task.CompletedTask;
         }
 
-        private readonly IJsonSerializer _serializer;
+        private readonly ISerializer _serializer;
         private readonly ILogger _logger;
         private readonly List<IDiscoveryProgressProcessor> _handlers;
     }

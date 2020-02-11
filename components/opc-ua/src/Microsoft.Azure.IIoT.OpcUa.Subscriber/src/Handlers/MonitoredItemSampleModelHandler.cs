@@ -30,7 +30,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Subscriber.Handlers {
         /// <param name="serializer"></param>
         /// <param name="logger"></param>
         public MonitoredItemSampleModelHandler(IEnumerable<IMonitoredItemSampleProcessor> handlers,
-            IJsonSerializer serializer, ILogger logger) {
+            ISerializer serializer, ILogger logger) {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
             _handlers = handlers?.ToList() ?? throw new ArgumentNullException(nameof(handlers));
@@ -58,7 +58,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Subscriber.Handlers {
         }
 
         private readonly ILogger _logger;
-        private readonly IJsonSerializer _serializer;
+        private readonly ISerializer _serializer;
         private readonly List<IMonitoredItemSampleProcessor> _handlers;
     }
 }

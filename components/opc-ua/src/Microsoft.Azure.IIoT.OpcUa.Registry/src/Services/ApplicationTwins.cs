@@ -28,7 +28,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
         /// <param name="iothub"></param>
         /// <param name="logger"></param>
         /// <param name="serializer"></param>
-        public ApplicationTwins(IIoTHubTwinServices iothub, IJsonSerializer serializer,
+        public ApplicationTwins(IIoTHubTwinServices iothub, ISerializer serializer,
             ILogger logger) {
             _iothub = iothub ?? throw new ArgumentNullException(nameof(iothub));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -278,7 +278,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
         }
 
         private readonly IIoTHubTwinServices _iothub;
-        private readonly IJsonSerializer _serializer;
+        private readonly ISerializer _serializer;
         private readonly ILogger _logger;
     }
 }

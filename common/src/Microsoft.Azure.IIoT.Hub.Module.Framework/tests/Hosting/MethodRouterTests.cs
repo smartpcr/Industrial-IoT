@@ -22,7 +22,7 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
     using System.Threading;
 
     public class MethodRouterTests {
-        private readonly IJsonSerializer _serializer = new NewtonSoftJsonSerializer();
+        private readonly ISerializer _serializer = new NewtonSoftJsonSerializer();
 
         [Fact]
         public async Task TestTest1Invocation() {

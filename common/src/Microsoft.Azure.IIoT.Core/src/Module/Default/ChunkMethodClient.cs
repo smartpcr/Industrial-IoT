@@ -26,7 +26,7 @@ namespace Microsoft.Azure.IIoT.Module.Default {
         /// <param name="client"></param>
         /// <param name="serializer"></param>
         /// <param name="logger"></param>
-        public ChunkMethodClient(IJsonMethodClient client, IJsonSerializer serializer,
+        public ChunkMethodClient(IJsonMethodClient client, ISerializer serializer,
             ILogger logger) {
             _client = client ?? throw new ArgumentNullException(nameof(client));
             _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
@@ -130,7 +130,7 @@ namespace Microsoft.Azure.IIoT.Module.Default {
         }
 
         private readonly IJsonMethodClient _client;
-        private readonly IJsonSerializer _serializer;
+        private readonly ISerializer _serializer;
         private readonly ILogger _logger;
         private readonly int _maxSize;
     }

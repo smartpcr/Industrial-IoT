@@ -261,6 +261,6 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.v2.Supervisor {
             }
         }
 
-        private readonly IJsonSerializer _serializer = new NewtonSoftJsonSerializer();
+        private readonly ISerializer _serializer = new NewtonSoftJsonSerializer();
     }
 }

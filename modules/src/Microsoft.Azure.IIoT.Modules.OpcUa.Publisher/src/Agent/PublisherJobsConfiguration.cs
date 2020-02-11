@@ -27,7 +27,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.Agent {
             /// Cerate job serializer
             /// </summary>
             /// <param name="serializer"></param>
-            public PublisherJobSerializer(IJsonSerializer serializer) {
+            public PublisherJobSerializer(ISerializer serializer) {
                 _serializer = serializer;
             }
 
@@ -52,7 +52,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.Agent {
                 throw new UnknownJobTypeException(typeof(T).Name);
             }
 
-            private readonly IJsonSerializer _serializer;
+            private readonly ISerializer _serializer;
         }
 
         /// <inheritdoc/>

@@ -37,7 +37,7 @@ namespace Microsoft.Azure.IIoT.Crypto.KeyVault.Clients {
         /// <param name="factory"></param>
         /// <param name="provider"></param>
         public KeyVaultServiceClient(ICertificateRepository certificates,
-            ICertificateFactory factory, IKeyVaultConfig config, IJsonSerializer serializer,
+            ICertificateFactory factory, IKeyVaultConfig config, ISerializer serializer,
             Auth.ITokenProvider provider) : this (certificates, factory, config, serializer,
                 new KeyVaultClient(async (_, resource, scope) => {
                     var token = await provider.GetTokenForAsync(
@@ -55,7 +55,7 @@ namespace Microsoft.Azure.IIoT.Crypto.KeyVault.Clients {
         /// <param name="factory"></param>
         /// <param name="client"></param>
         public KeyVaultServiceClient(ICertificateRepository certificates,
-            ICertificateFactory factory, IKeyVaultConfig config, IJsonSerializer serializer,
+            ICertificateFactory factory, IKeyVaultConfig config, ISerializer serializer,
             IKeyVaultClient client) {
 
             if (config is null) {
@@ -846,7 +846,7 @@ namespace Microsoft.Azure.IIoT.Crypto.KeyVault.Clients {
 
         private readonly string _vaultBaseUrl;
         private readonly bool _keyStoreIsHsm;
-        private readonly IJsonSerializer _serializer;
+        private readonly ISerializer _serializer;
         private readonly ICertificateFactory _factory;
         private readonly ICertificateRepository _certificates;
         private readonly IKeyVaultClient _keyVaultClient;

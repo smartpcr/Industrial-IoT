@@ -18,7 +18,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Testing.Tests {
         /// <summary>
         /// Create node services tests
         /// </summary>
-        public ReadScalarValueTests(IJsonSerializer serializer,
+        public ReadScalarValueTests(ISerializer serializer,
             Func<INodeServices<T>> services, T endpoint,
             Func<T, string, Task<VariantValue>> readExpected) {
             _services = services;
@@ -985,6 +985,6 @@ namespace Microsoft.Azure.IIoT.OpcUa.Testing.Tests {
         private readonly T _endpoint;
         private readonly Func<T, string, Task<VariantValue>> _readExpected;
         private readonly Func<INodeServices<T>> _services;
-        private readonly IJsonSerializer _serializer;
+        private readonly ISerializer _serializer;
     }
 }

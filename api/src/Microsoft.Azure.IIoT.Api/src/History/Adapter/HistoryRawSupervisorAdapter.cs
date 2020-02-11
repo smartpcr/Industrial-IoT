@@ -22,7 +22,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.History {
         /// </summary>
         /// <param name="client"></param>
         /// <param name="serializer"></param>
-        public HistoryRawSupervisorAdapter(IHistoryModuleApi client, IJsonSerializer serializer) {
+        public HistoryRawSupervisorAdapter(IHistoryModuleApi client, ISerializer serializer) {
             _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
             _client = client ?? throw new ArgumentNullException(nameof(client));
         }
@@ -51,7 +51,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.History {
             return _serializer.Map<HistoryUpdateResultModel>(result);
         }
 
-        private readonly IJsonSerializer _serializer;
+        private readonly ISerializer _serializer;
         private readonly IHistoryModuleApi _client;
     }
 }

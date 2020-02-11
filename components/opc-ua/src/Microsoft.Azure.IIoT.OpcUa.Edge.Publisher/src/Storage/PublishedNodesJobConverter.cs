@@ -31,7 +31,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Publisher.Models {
         /// <param name="serializer"></param>
         /// <param name="config"></param>
         /// <param name="cryptoProvider"></param>
-        public PublishedNodesJobConverter(ILogger logger, IJsonSerializer serializer,
+        public PublishedNodesJobConverter(ILogger logger, ISerializer serializer,
             IEngineConfiguration config = null, ISecureElement cryptoProvider = null) {
             _config = config;
             _cryptoProvider = cryptoProvider;
@@ -336,7 +336,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Publisher.Models {
 
         private readonly IEngineConfiguration _config;
         private readonly ISecureElement _cryptoProvider;
-        private readonly IJsonSerializer _serializer;
+        private readonly ISerializer _serializer;
         private readonly ILogger _logger;
     }
 }

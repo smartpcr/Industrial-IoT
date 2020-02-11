@@ -22,7 +22,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher {
         /// <param name="client"></param>
         /// <param name="serializer"></param>
         public PublisherServicesApiAdapter(IPublisherServiceApi client, 
-            IJsonSerializer serializer) {
+            ISerializer serializer) {
             _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
             _client = client ?? throw new ArgumentNullException(nameof(client));
         }
@@ -51,7 +51,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher {
             return _serializer.Map<PublishedItemListResultModel>(result);
         }
 
-        private readonly IJsonSerializer _serializer;
+        private readonly ISerializer _serializer;
         private readonly IPublisherServiceApi _client;
     }
 }

@@ -25,7 +25,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Clients {
         /// <param name="deviceId"></param>
         /// <param name="moduleId"></param>
         public HistoryModuleClient(IMethodClient methodClient,
-            string deviceId, string moduleId, IJsonSerializer serializer = null) {
+            string deviceId, string moduleId, ISerializer serializer = null) {
             _serializer = serializer ?? new NewtonSoftJsonSerializer();
             _methodClient = methodClient ?? throw new ArgumentNullException(nameof(methodClient));
             _moduleId = moduleId ?? throw new ArgumentNullException(nameof(moduleId));
@@ -39,7 +39,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Clients {
         /// <param name="config"></param>
         /// <param name="serializer"></param>
         public HistoryModuleClient(IMethodClient methodClient, IHistoryModuleConfig config,
-            IJsonSerializer serializer) :
+            ISerializer serializer) :
             this(methodClient, config?.DeviceId, config?.ModuleId, serializer) {
         }
 
@@ -115,7 +115,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Clients {
             return _serializer.Deserialize<HistoryUpdateResponseApiModel>(response);
         }
 
-        private readonly IJsonSerializer _serializer;
+        private readonly ISerializer _serializer;
         private readonly IMethodClient _methodClient;
         private readonly string _moduleId;
         private readonly string _deviceId;

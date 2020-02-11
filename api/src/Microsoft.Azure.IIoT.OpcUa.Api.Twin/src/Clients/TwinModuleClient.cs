@@ -26,7 +26,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Clients {
         /// <param name="moduleId"></param>
         /// <param name="serializer"></param>
         public TwinModuleClient(IMethodClient methodClient, string deviceId, string moduleId,
-            IJsonSerializer serializer = null) {
+            ISerializer serializer = null) {
             _serializer = serializer ?? new NewtonSoftJsonSerializer();
             _methodClient = methodClient ?? throw new ArgumentNullException(nameof(methodClient));
             _moduleId = moduleId ?? throw new ArgumentNullException(nameof(moduleId));
@@ -40,7 +40,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Clients {
         /// <param name="config"></param>
         /// <param name="serializer"></param>
         public TwinModuleClient(IMethodClient methodClient, ITwinModuleConfig config,
-            IJsonSerializer serializer) :
+            ISerializer serializer) :
             this(methodClient, config?.DeviceId, config?.ModuleId, serializer) {
         }
 
@@ -240,7 +240,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Clients {
             return _serializer.Deserialize<MethodCallResponseApiModel>(response);
         }
 
-        private readonly IJsonSerializer _serializer;
+        private readonly ISerializer _serializer;
         private readonly IMethodClient _methodClient;
         private readonly string _moduleId;
         private readonly string _deviceId;

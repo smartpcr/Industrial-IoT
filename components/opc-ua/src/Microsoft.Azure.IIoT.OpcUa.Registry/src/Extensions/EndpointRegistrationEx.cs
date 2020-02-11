@@ -31,7 +31,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
         /// <param name="serializer"></param>
         /// <returns></returns>
         public static DeviceTwinModel ToDeviceTwin(this EndpointRegistration registration,
-            IJsonSerializer serializer) {
+            ISerializer serializer) {
             return Patch(null, registration, serializer);
         }
 
@@ -42,7 +42,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
         /// <param name="update"></param>
         /// <param name="serializer"></param>
         public static DeviceTwinModel Patch(this EndpointRegistration existing,
-            EndpointRegistration update, IJsonSerializer serializer) {
+            EndpointRegistration update, ISerializer serializer) {
 
             var twin = new DeviceTwinModel {
                 Etag = existing?.Etag,
@@ -338,7 +338,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
         /// <param name="supervisorId"></param>
         /// <returns></returns>
         public static EndpointRegistration ToEndpointRegistration(this EndpointInfoModel model,
-            IJsonSerializer serializer, bool? disabled = null, string discoverId = null,
+            ISerializer serializer, bool? disabled = null, string discoverId = null,
             string supervisorId = null) {
             if (model is null) {
                 throw new ArgumentNullException(nameof(model));

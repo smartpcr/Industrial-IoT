@@ -325,6 +325,6 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Tests {
         private bool _running;
         private readonly ModuleProcess _module;
         private readonly Task<int> _process;
-        private readonly IJsonSerializer _serializer = new NewtonSoftJsonSerializer();
+        private readonly ISerializer _serializer = new NewtonSoftJsonSerializer();
     }
 }

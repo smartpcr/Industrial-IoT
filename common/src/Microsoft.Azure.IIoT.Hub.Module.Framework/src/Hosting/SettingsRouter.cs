@@ -36,7 +36,7 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
         /// </summary>
         /// <param name="logger"></param>
         /// <param name="serializer"></param>
-        public SettingsRouter(IJsonSerializer serializer, ILogger logger) {
+        public SettingsRouter(ISerializer serializer, ILogger logger) {
             _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _calltable = new Dictionary<string, CascadingInvoker>();
@@ -318,7 +318,7 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
             /// <param name="serializer"></param>
             /// <param name="indexed"></param>
             public void Add(Controller controller, PropertyInfo controllerProp,
-                IJsonSerializer serializer, bool indexed) {
+                ISerializer serializer, bool indexed) {
                 _invokers.Add(controller.Version, new PropertyInvoker(controller,
                     controllerProp, indexed, serializer, _logger));
             }
@@ -393,7 +393,7 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
             /// <param name="serializer"></param>
             /// <param name="logger"></param>
             public PropertyInvoker(Controller controller, PropertyInfo property,
-                bool indexed, IJsonSerializer serializer, ILogger logger) {
+                bool indexed, ISerializer serializer, ILogger logger) {
                 _serializer = serializer;
                 _logger = logger;
                 _controller = controller;
@@ -459,14 +459,14 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
             }
 
             private readonly ILogger _logger;
-            private readonly IJsonSerializer _serializer;
+            private readonly ISerializer _serializer;
             private readonly Controller _controller;
             private readonly PropertyInfo _property;
             private readonly bool _indexed;
         }
 
         private const string kDefaultProp = "@default";
-        private readonly IJsonSerializer _serializer;
+        private readonly ISerializer _serializer;
         private readonly ILogger _logger;
         private readonly Dictionary<string, VariantValue> _cache;
         private readonly Dictionary<string, CascadingInvoker> _calltable;

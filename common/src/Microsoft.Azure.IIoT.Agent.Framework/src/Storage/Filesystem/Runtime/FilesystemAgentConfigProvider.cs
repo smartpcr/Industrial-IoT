@@ -18,7 +18,7 @@ namespace Microsoft.Azure.IIoT.Agent.Framework.Storage.Filesystem {
         /// </summary>
         /// <param name="serializer"></param>
         /// <param name="config"></param>
-        public FilesystemAgentConfigProvider(IJsonSerializer serializer,
+        public FilesystemAgentConfigProvider(ISerializer serializer,
             FilesystemAgentConfigProviderConfig config) {
             _configFilename = config.ConfigFilename;
             var json = File.ReadAllText(_configFilename);

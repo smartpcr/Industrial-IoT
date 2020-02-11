@@ -29,7 +29,7 @@ namespace Microsoft.Azure.IIoT.Auth.IoTHub {
         /// <param name="logger"></param>
         public TwinIdentityTokenUpdater(IPasswordGenerator passwordGenerator,
             IIoTHubTwinServices ioTHubTwinServices, IIdentityTokenUpdaterConfig config,
-            IJsonSerializer serializer, ILogger logger) {
+            ISerializer serializer, ILogger logger) {
             _passwordGenerator = passwordGenerator;
             _ioTHubTwinServices = ioTHubTwinServices;
             _serializer = serializer;
@@ -151,7 +151,7 @@ namespace Microsoft.Azure.IIoT.Auth.IoTHub {
 
         private readonly IIdentityTokenUpdaterConfig _config;
         private readonly IIoTHubTwinServices _ioTHubTwinServices;
-        private readonly IJsonSerializer _serializer;
+        private readonly ISerializer _serializer;
         private readonly ILogger _logger;
         private readonly IPasswordGenerator _passwordGenerator;
         private readonly Timer _updateTimer;

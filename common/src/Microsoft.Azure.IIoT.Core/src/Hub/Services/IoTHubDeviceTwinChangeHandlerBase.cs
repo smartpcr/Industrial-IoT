@@ -29,7 +29,7 @@ namespace Microsoft.Azure.IIoT.Hub.Services {
         /// <param name="serializer"></param>
         /// <param name="handlers"></param>
         /// <param name="logger"></param>
-        public IoTHubDeviceTwinChangeHandlerBase(IJsonSerializer serializer,
+        public IoTHubDeviceTwinChangeHandlerBase(ISerializer serializer,
             IEnumerable<IIoTHubDeviceTwinEventHandler> handlers, ILogger logger) {
             _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -89,7 +89,7 @@ namespace Microsoft.Azure.IIoT.Hub.Services {
         /// <returns></returns>
         protected abstract DeviceTwinEventType? GetOperation(string opType);
 
-        private readonly IJsonSerializer _serializer;
+        private readonly ISerializer _serializer;
         private readonly ILogger _logger;
         private readonly List<IIoTHubDeviceTwinEventHandler> _handlers;
     }

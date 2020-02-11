@@ -7,17 +7,17 @@ namespace Microsoft.Azure.IIoT.Serializers {
     using Microsoft.Azure.IIoT.Exceptions;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
-    using Newtonsoft.Json.Serialization;
     using System;
+    using System.Buffers;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Text;
 
     /// <summary>
     /// Newtonsoft json serializer
     /// </summary>
-    public class NewtonSoftJsonSerializer : IJsonSerializerSettingsProvider,
-        IJsonSerializer {
+    public class NewtonSoftJsonSerializer : IJsonSerializerSettingsProvider, ISerializer {
 
         /// <summary>
         /// Json serializer settings
@@ -51,10 +51,14 @@ namespace Microsoft.Azure.IIoT.Serializers {
         }
 
         /// <inheritdoc/>
-        public object Deserialize(TextReader reader, Type type) {
+        public object Deserialize(ReadOnlySpan<byte> buffer, Type type) {
             try {
+                // TODO move to .net 3 to use readonly span as stream source
                 var jsonSerializer = JsonSerializer.CreateDefault(Settings);
-                return jsonSerializer.Deserialize(reader, type);
+                using (var stream = new MemoryStream(buffer.ToArray()))
+                using (var reader = new StreamReader(stream, Encoding.UTF8)) {
+                    return jsonSerializer.Deserialize(reader, type);
+                }
             }
             catch (JsonReaderException ex) {
                 throw new SerializerException(ex.Message, ex);
@@ -62,13 +66,46 @@ namespace Microsoft.Azure.IIoT.Serializers {
         }
 
         /// <inheritdoc/>
-        public void Serialize(TextWriter writer, object o, Formatting format) {
+        public void Serialize(IBufferWriter<byte> buffer, object o, Formatting format) {
             try {
                 var jsonSerializer = JsonSerializer.CreateDefault(Settings);
                 jsonSerializer.Formatting = format == Formatting.Indented ?
                     Newtonsoft.Json.Formatting.Indented :
                     Newtonsoft.Json.Formatting.None;
-                jsonSerializer.Serialize(writer, o);
+                // TODO move to .net 3 to use buffer writer as stream sink
+                using (var stream = new MemoryStream()) {
+                    using (var writer = new StreamWriter(stream)) {
+                        jsonSerializer.Serialize(writer, o);
+                    }
+                    var written = stream.ToArray();
+                    buffer.Write(written);
+                }
+            }
+            catch (JsonReaderException ex) {
+                throw new SerializerException(ex.Message, ex);
+            }
+        }
+
+        /// <inheritdoc/>
+        public VariantValue Parse(ReadOnlySpan<byte> buffer) {
+            try {
+                // TODO move to .net 3 to use readonly span as stream source
+                using (var stream = new MemoryStream(buffer.ToArray()))
+                using (var reader = new StreamReader(stream, Encoding.UTF8))
+                using (var jsonReader = new JsonTextReader(reader)) {
+
+                    jsonReader.FloatParseHandling = Settings.FloatParseHandling;
+                    jsonReader.DateParseHandling = Settings.DateParseHandling;
+                    jsonReader.DateTimeZoneHandling = Settings.DateTimeZoneHandling;
+                    jsonReader.MaxDepth = Settings.MaxDepth;
+
+                    var token = JToken.Load(jsonReader);
+
+                    while (jsonReader.Read()) {
+                        // Read to end or throw
+                    }
+                    return new JsonVariantValue(token, this);
+                }
             }
             catch (JsonReaderException ex) {
                 throw new SerializerException(ex.Message, ex);
@@ -79,29 +116,6 @@ namespace Microsoft.Azure.IIoT.Serializers {
         public VariantValue FromObject(object o) {
             try {
                 return new JsonVariantValue(this, o);
-            }
-            catch (JsonReaderException ex) {
-                throw new SerializerException(ex.Message, ex);
-            }
-        }
-
-        /// <inheritdoc/>
-        public VariantValue Parse(TextReader reader) {
-            try {
-                using (var jsonReader = new JsonTextReader(reader)) {
-
-                    jsonReader.FloatParseHandling = Settings.FloatParseHandling;
-                    jsonReader.DateParseHandling = Settings.DateParseHandling;
-                    jsonReader.DateTimeZoneHandling = Settings.DateTimeZoneHandling;
-                    jsonReader.MaxDepth = Settings.MaxDepth;
-
-                    var token = JToken.Load(jsonReader);
-
-                    while(jsonReader.Read()) {
-                        // Read to end or throw
-                    }
-                    return new JsonVariantValue(token, this);
-                }
             }
             catch (JsonReaderException ex) {
                 throw new SerializerException(ex.Message, ex);

@@ -24,7 +24,7 @@ namespace Microsoft.Azure.IIoT.Agent.Framework.Storage.Filesystem {
         /// </summary>
         /// <param name="serializer"></param>
         /// <param name="filesystemJobRepositoryConfig"></param>
-        public FilesystemJobRepository(IJsonSerializer serializer,
+        public FilesystemJobRepository(ISerializer serializer,
             FilesystemJobRepositoryConfig filesystemJobRepositoryConfig) {
             _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
             _filesystemJobRepositoryConfig = filesystemJobRepositoryConfig;
@@ -217,7 +217,7 @@ namespace Microsoft.Azure.IIoT.Agent.Framework.Storage.Filesystem {
             _disposed = true;
         }
 
-        private readonly IJsonSerializer _serializer;
+        private readonly ISerializer _serializer;
         private readonly FilesystemJobRepositoryConfig _filesystemJobRepositoryConfig;
         private readonly List<JobInfoModel> _jobs;
         private readonly string _jobsDirectory;

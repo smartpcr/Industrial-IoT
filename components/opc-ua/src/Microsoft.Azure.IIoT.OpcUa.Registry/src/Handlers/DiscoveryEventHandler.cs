@@ -30,7 +30,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Handlers {
         /// <param name="serializer"></param>
         /// <param name="logger"></param>
         public DiscoveryEventHandler(IEnumerable<IDiscoveryResultProcessor> processors,
-            IJsonSerializer serializer, ILogger logger) {
+            ISerializer serializer, ILogger logger) {
             _serializer = serializer ?? 
                 throw new ArgumentNullException(nameof(serializer));
             _logger = logger ?? 
@@ -223,7 +223,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Handlers {
             new Dictionary<string,
                 Dictionary<DateTime, DiscovererDiscoveryResult>>();
         private readonly SemaphoreSlim _queueLock = new SemaphoreSlim(1, 1);
-        private readonly IJsonSerializer _serializer;
+        private readonly ISerializer _serializer;
         private readonly ILogger _logger;
         private readonly List<IDiscoveryResultProcessor> _processors;
     }

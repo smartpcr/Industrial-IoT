@@ -24,7 +24,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Services {
         /// Create encoder
         /// </summary>
         /// <param name="serializer"></param>
-        public VariantEncoderFactory(IJsonSerializer serializer = null) {
+        public VariantEncoderFactory(ISerializer serializer = null) {
             _serializer = serializer ?? new NewtonSoftJsonSerializer();
         }
 
@@ -46,14 +46,14 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Services {
             public ServiceMessageContext Context { get; }
 
             /// <inheritdoc/>
-            public IJsonSerializer Serializer { get; }
+            public ISerializer Serializer { get; }
 
             /// <summary>
             /// Create encoder
             /// </summary>
             /// <param name="context"></param>
             /// <param name="serializer"></param>
-            internal JsonVariantEncoder(ServiceMessageContext context, IJsonSerializer serializer) {
+            internal JsonVariantEncoder(ServiceMessageContext context, ISerializer serializer) {
                 Context = context ?? throw new ArgumentNullException(nameof(context));
                 Serializer = serializer ?? new NewtonSoftJsonSerializer();
             }
@@ -224,6 +224,6 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Services {
             }
         }
 
-        private readonly IJsonSerializer _serializer;
+        private readonly ISerializer _serializer;
     }
 }

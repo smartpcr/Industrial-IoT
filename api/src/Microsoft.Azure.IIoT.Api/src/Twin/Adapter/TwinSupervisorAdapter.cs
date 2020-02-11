@@ -23,7 +23,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin {
         /// </summary>
         /// <param name="client"></param>
         /// <param name="serializer"></param>
-        public TwinSupervisorAdapter(ITwinModuleApi client, IJsonSerializer serializer) {
+        public TwinSupervisorAdapter(ITwinModuleApi client, ISerializer serializer) {
             _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
             _client = client ?? throw new ArgumentNullException(nameof(client));
         }
@@ -100,7 +100,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin {
             return _serializer.Map<WriteResultModel>(result);
         }
 
-        private readonly IJsonSerializer _serializer;
+        private readonly ISerializer _serializer;
         private readonly ITwinModuleApi _client;
     }
 }

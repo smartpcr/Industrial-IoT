@@ -36,7 +36,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
         /// <param name="certificates"></param>
         /// <param name="serializer"></param>
         /// <param name="events"></param>
-        public EndpointRegistry(IIoTHubTwinServices iothub, IJsonSerializer serializer,
+        public EndpointRegistry(IIoTHubTwinServices iothub, ISerializer serializer,
             IRegistryEventBroker<IEndpointRegistryListener> broker,
             IActivationServices<EndpointRegistrationModel> activator,
             ICertificateServices<EndpointRegistrationModel> certificates,
@@ -756,7 +756,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
         private readonly IActivationServices<EndpointRegistrationModel> _activator;
         private readonly ICertificateServices<EndpointRegistrationModel> _certificates;
         private readonly IRegistryEventBroker<IEndpointRegistryListener> _broker;
-        private readonly IJsonSerializer _serializer;
+        private readonly ISerializer _serializer;
         private readonly Action _unregister;
         private readonly IIoTHubTwinServices _iothub;
         private readonly ILogger _logger;

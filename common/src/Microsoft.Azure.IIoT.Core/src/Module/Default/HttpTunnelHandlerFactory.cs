@@ -41,7 +41,7 @@ namespace Microsoft.Azure.IIoT.Module.Default {
         /// <param name="serializer"></param>
         /// <param name="handlers"></param>
         /// <param name="logger"></param>
-        public HttpTunnelHandlerFactory(IEventClient client, IJsonSerializer serializer,
+        public HttpTunnelHandlerFactory(IEventClient client, ISerializer serializer,
             IEnumerable<IHttpHandler> handlers, ILogger logger) {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
@@ -272,7 +272,7 @@ namespace Microsoft.Azure.IIoT.Module.Default {
         private readonly List<IHttpHandler> _handlers;
         private readonly IEventClient _client;
         private readonly ILogger _logger;
-        private readonly IJsonSerializer _serializer;
+        private readonly ISerializer _serializer;
         private readonly ConcurrentDictionary<string, RequestTask> _outstanding;
     }
 }

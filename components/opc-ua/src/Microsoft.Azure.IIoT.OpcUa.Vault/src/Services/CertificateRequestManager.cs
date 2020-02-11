@@ -24,7 +24,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Vault.Services {
         /// <param name="broker"></param>
         /// <param name="serializer"></param>
         public CertificateRequestManager(IRequestRepository repo,
-            ICertificateRequestEventBroker broker, IJsonSerializer serializer) {
+            ICertificateRequestEventBroker broker, ISerializer serializer) {
             _repo = repo ?? throw new ArgumentNullException(nameof(repo));
 			_serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
             _broker = broker ?? throw new ArgumentNullException(nameof(broker));
@@ -200,7 +200,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Vault.Services {
         }
 
         private readonly IRequestRepository _repo;
-		private readonly IJsonSerializer _serializer;
+		private readonly ISerializer _serializer;
         private readonly ICertificateRequestEventBroker _broker;
     }
 }

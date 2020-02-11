@@ -15,7 +15,7 @@ namespace Microsoft.Azure.IIoT.Module {
 
     public class TestChunkServer : IJsonMethodClient, IMethodHandler {
 
-        public TestChunkServer(IJsonSerializer serializer,
+        public TestChunkServer(ISerializer serializer,
             int size, Func<string, byte[], string, byte[]> handler) {
             MaxMethodPayloadCharacterCount = size;
             _handler = handler;
@@ -43,7 +43,7 @@ namespace Microsoft.Azure.IIoT.Module {
         }
 
         private readonly ChunkMethodServer _server;
-        private readonly IJsonSerializer _serializer;
+        private readonly ISerializer _serializer;
         private readonly Func<string, byte[], string, byte[]> _handler;
     }
 }

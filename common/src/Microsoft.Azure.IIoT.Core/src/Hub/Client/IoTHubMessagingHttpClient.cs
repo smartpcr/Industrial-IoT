@@ -28,7 +28,7 @@ namespace Microsoft.Azure.IIoT.Hub.Client {
         /// <param name="serializer"></param>
         /// <param name="logger"></param>
         public IoTHubMessagingHttpClient(IHttpClient httpClient,
-            IIoTHubConfig config, IJsonSerializer serializer, ILogger logger) :
+            IIoTHubConfig config, ISerializer serializer, ILogger logger) :
             base(httpClient, config, serializer, logger) {
         }
 

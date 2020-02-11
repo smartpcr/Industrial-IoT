@@ -29,7 +29,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
         /// <param name="broker"></param>
         /// <param name="serializer"></param>
         /// <param name="logger"></param>
-        public PublisherRegistry(IIoTHubTwinServices iothub, IJsonSerializer serializer,
+        public PublisherRegistry(IIoTHubTwinServices iothub, ISerializer serializer,
             IRegistryEventBroker<IPublisherRegistryListener> broker, ILogger logger) {
             _iothub = iothub ?? throw new ArgumentNullException(nameof(iothub));
             _broker = broker ?? throw new ArgumentNullException(nameof(broker));
@@ -229,7 +229,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
         }
 
         private readonly IIoTHubTwinServices _iothub;
-        private readonly IJsonSerializer _serializer;
+        private readonly ISerializer _serializer;
         private readonly IRegistryEventBroker<IPublisherRegistryListener> _broker;
         private readonly ILogger _logger;
     }

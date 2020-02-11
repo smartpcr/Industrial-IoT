@@ -54,7 +54,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Discovery.Services {
         /// <param name="serializer"></param>
         /// <param name="progress"></param>
         public DiscoveryServices(IEndpointDiscovery client, IEventEmitter events,
-            IJsonSerializer serializer, ILogger logger, IDiscoveryProgress progress = null) {
+            ISerializer serializer, ILogger logger, IDiscoveryProgress progress = null) {
 
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
@@ -570,7 +570,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Discovery.Services {
         private static readonly TimeSpan kProgressInterval = TimeSpan.FromSeconds(3);
 
         private readonly ILogger _logger;
-        private readonly IJsonSerializer _serializer;
+        private readonly ISerializer _serializer;
         private readonly IEventEmitter _events;
         private readonly IDiscoveryProgress _progress;
         private readonly IEndpointDiscovery _client;

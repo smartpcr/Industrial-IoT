@@ -50,7 +50,7 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
         /// </summary>
         /// <param name="serializer"></param>
         /// <param name="logger"></param>
-        public MethodRouter(IJsonSerializer serializer, ILogger logger) {
+        public MethodRouter(ISerializer serializer, ILogger logger) {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
 
@@ -167,7 +167,7 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
             /// <param name="controller"></param>
             /// <param name="controllerMethod"></param>
             /// <param name="serializer"></param>
-            public void Add(object controller, MethodInfo controllerMethod, IJsonSerializer serializer) {
+            public void Add(object controller, MethodInfo controllerMethod, ISerializer serializer) {
                 _logger.Verbose("Adding {controller}.{method} method to invoker...",
                     controller.GetType().Name, controllerMethod.Name);
                 _invokers.Add(new JsonMethodInvoker(controller, controllerMethod, serializer, _logger));
@@ -228,7 +228,7 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
             /// <param name="serializer"></param>
             /// <param name="logger"></param>
             public JsonMethodInvoker(object controller, MethodInfo controllerMethod,
-                IJsonSerializer serializer, ILogger logger) {
+                ISerializer serializer, ILogger logger) {
                 _logger = logger;
                 _serializer = serializer;
                 _controller = controller;
@@ -334,7 +334,7 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
             private static readonly MethodInfo _methodResponseAsContinuation =
                 typeof(JsonMethodInvoker).GetMethod(nameof(MethodResultConverterContinuation),
                     BindingFlags.Public | BindingFlags.Instance);
-            private readonly IJsonSerializer _serializer;
+            private readonly ISerializer _serializer;
             private readonly ILogger _logger;
             private readonly object _controller;
             private readonly ParameterInfo[] _methodParams;
@@ -344,7 +344,7 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
         }
 
         private readonly ILogger _logger;
-        private readonly IJsonSerializer _serializer;
+        private readonly ISerializer _serializer;
         private readonly Dictionary<string, IMethodInvoker> _calltable;
     }
 }

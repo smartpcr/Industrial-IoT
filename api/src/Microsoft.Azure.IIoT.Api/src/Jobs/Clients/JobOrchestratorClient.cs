@@ -30,7 +30,7 @@ namespace Microsoft.Azure.IIoT.Api.Jobs.Clients {
         /// <param name="tokenProvider"></param>
         /// <param name="serializer"></param>
         public JobOrchestratorClient(IHttpClient httpClient, IAgentConfigProvider config,
-            IIdentityTokenProvider tokenProvider, IJsonSerializer serializer) {
+            IIdentityTokenProvider tokenProvider, ISerializer serializer) {
             _tokenProvider = tokenProvider ?? throw new ArgumentNullException(nameof(tokenProvider));
             _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
             _config = config ?? throw new ArgumentNullException(nameof(config));
@@ -97,7 +97,7 @@ namespace Microsoft.Azure.IIoT.Api.Jobs.Clients {
         }
 
         private readonly IIdentityTokenProvider _tokenProvider;
-        private readonly IJsonSerializer _serializer;
+        private readonly ISerializer _serializer;
         private readonly IAgentConfigProvider _config;
         private readonly IHttpClient _httpClient;
     }

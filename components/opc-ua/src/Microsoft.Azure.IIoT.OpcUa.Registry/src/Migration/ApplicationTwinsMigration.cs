@@ -27,7 +27,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Migration {
         /// <param name="serializer"></param>
         /// <param name="logger"></param>
         public ApplicationTwinsMigration(IIoTHubTwinServices source, IApplicationRepository repo,
-            IJsonSerializer serializer, ILogger logger) {
+            ISerializer serializer, ILogger logger) {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _repo = repo ?? throw new ArgumentNullException(nameof(repo));
             _source = new ApplicationTwins(source, serializer, logger);

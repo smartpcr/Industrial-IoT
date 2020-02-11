@@ -27,7 +27,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Twin.Services {
         /// <param name="events"></param>
         /// <param name="serializer"></param>
         public TwinServices(IEndpointServices client, IEventEmitter events,
-            IJsonSerializer serializer) {
+            ISerializer serializer) {
             _client = client ?? throw new ArgumentNullException(nameof(client));
             _events = events ?? throw new ArgumentNullException(nameof(events));
             _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
@@ -71,7 +71,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Twin.Services {
 
         private ISessionHandle _session;
         private IDisposable _callback;
-        private readonly IJsonSerializer _serializer;
+        private readonly ISerializer _serializer;
         private readonly IEndpointServices _client;
         private readonly IEventEmitter _events;
     }

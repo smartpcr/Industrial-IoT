@@ -24,7 +24,7 @@ namespace Microsoft.Azure.IIoT.Hub.Services {
         /// <param name="serializer"></param>
         /// <param name="handlers"></param>
         /// <param name="logger"></param>
-        public IoTHubModuleLifecycleEventHandler(IJsonSerializer serializer,
+        public IoTHubModuleLifecycleEventHandler(ISerializer serializer,
             IEnumerable<IIoTHubDeviceTwinEventHandler> handlers, ILogger logger) :
             base (serializer, handlers, logger) {
         }

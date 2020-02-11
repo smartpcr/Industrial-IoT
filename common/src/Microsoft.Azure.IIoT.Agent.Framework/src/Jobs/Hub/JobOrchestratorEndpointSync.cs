@@ -25,7 +25,7 @@ namespace Microsoft.Azure.IIoT.Agent.Framework.Jobs {
         /// <param name="serializer"></param>
         /// <param name="logger"></param>
         public JobOrchestratorEndpointSync(IIoTHubTwinServices twins,
-            IJobOrchestratorEndpoint endpoint, IJsonSerializer serializer, ILogger logger) {
+            IJobOrchestratorEndpoint endpoint, ISerializer serializer, ILogger logger) {
             _endpoint = endpoint ?? throw new ArgumentNullException(nameof(endpoint));
             _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
             _twins = twins ?? throw new ArgumentNullException(nameof(twins));
@@ -116,7 +116,7 @@ namespace Microsoft.Azure.IIoT.Agent.Framework.Jobs {
         }
 
         private readonly IJobOrchestratorEndpoint _endpoint;
-        private readonly IJsonSerializer _serializer;
+        private readonly ISerializer _serializer;
         private readonly IIoTHubTwinServices _twins;
         private readonly ILogger _logger;
         private readonly Timer _updateTimer;

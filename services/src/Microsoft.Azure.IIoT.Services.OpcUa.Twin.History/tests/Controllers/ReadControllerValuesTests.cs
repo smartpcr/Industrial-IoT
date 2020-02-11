@@ -31,7 +31,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin.History.Controllers {
             var module = _factory.Resolve<ITestModule>();
             module.Endpoint = Endpoint;
             var log = _factory.Resolve<ILogger>();
-            var serializer = _factory.Resolve<IJsonSerializer>();
+            var serializer = _factory.Resolve<ISerializer>();
             return new HistoryReadValuesTests<string>(() => // Create an adapter over the api
                 new HistoricAccessAdapter<string>(
                     new HistoryRawAdapter(

@@ -44,7 +44,7 @@ namespace Microsoft.Azure.IIoT.Hub.Client {
         /// <param name="serializer"></param>
         /// <param name="logger"></param>
         protected IoTHubHttpClientBase(IHttpClient httpClient,
-            IIoTHubConfig config, IJsonSerializer serializer, ILogger logger) {
+            IIoTHubConfig config, ISerializer serializer, ILogger logger) {
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
             _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -115,7 +115,7 @@ namespace Microsoft.Azure.IIoT.Hub.Client {
         /// <summary>Http client to use in derived class</summary>
         protected readonly IHttpClient _httpClient;
         /// <summary>Serializer in derived class</summary>
-        protected readonly IJsonSerializer _serializer;
+        protected readonly ISerializer _serializer;
         /// <summary>Logger to use in derived class</summary>
         protected readonly ILogger _logger;
 

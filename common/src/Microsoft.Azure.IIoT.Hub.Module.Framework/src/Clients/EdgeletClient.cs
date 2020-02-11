@@ -26,7 +26,7 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
         /// <param name="client"></param>
         /// <param name="serializer"></param>
         /// <param name="logger"></param>
-        public EdgeletClient(IHttpClient client, IJsonSerializer serializer,
+        public EdgeletClient(IHttpClient client, ISerializer serializer,
             ILogger logger) : this(client, serializer,
             Environment.GetEnvironmentVariable("IOTEDGE_WORKLOADURI")?.TrimEnd('/'),
             Environment.GetEnvironmentVariable("IOTEDGE_MODULEGENERATIONID"),
@@ -45,7 +45,7 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
         /// <param name="moduleId"></param>
         /// <param name="apiVersion"></param>
         /// <param name="logger"></param>
-        public EdgeletClient(IHttpClient client, IJsonSerializer serializer,
+        public EdgeletClient(IHttpClient client, ISerializer serializer,
             string workloaduri, string genId, string moduleId, string apiVersion,
             ILogger logger) {
             _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
@@ -158,7 +158,7 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
         }
 
         private readonly IHttpClient _client;
-        private readonly IJsonSerializer _serializer;
+        private readonly ISerializer _serializer;
         private readonly ILogger _logger;
         private readonly string _workloaduri;
         private readonly string _moduleGenerationId;

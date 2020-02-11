@@ -23,7 +23,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Onboarding {
         /// <param name="client"></param>
         /// <param name="serializer"></param>
         public OnboardingServicesApiAdapter(IOnboardingServiceApi client,
-            IJsonSerializer serializer) {
+            ISerializer serializer) {
             _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
             _client = client ?? throw new ArgumentNullException(nameof(client));
         }
@@ -38,7 +38,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Onboarding {
                 });
         }
 
-        private readonly IJsonSerializer _serializer;
+        private readonly ISerializer _serializer;
         private readonly IOnboardingServiceApi _client;
     }
 }

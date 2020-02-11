@@ -292,7 +292,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol {
         /// <param name="serializer"></param>
         /// <returns></returns>
         public static List<AuthenticationMethodModel> ToServiceModel(
-            this UserTokenPolicyCollection policies, IJsonSerializer serializer) {
+            this UserTokenPolicyCollection policies, ISerializer serializer) {
             if (policies is null || policies.Count == 0) {
                 return new List<AuthenticationMethodModel>{
                      new AuthenticationMethodModel {
@@ -336,7 +336,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol {
         /// <param name="serializer"></param>
         /// <returns></returns>
         public static AuthenticationMethodModel ToServiceModel(this UserTokenPolicy policy,
-            IJsonSerializer serializer) {
+            ISerializer serializer) {
             if (policy is null) {
                 return null;
             }
@@ -489,7 +489,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol {
         /// <param name="identity"></param>
         /// <param name="serializer"></param>
         /// <returns></returns>
-        public static CredentialModel ToServiceModel(this IUserIdentity identity, IJsonSerializer serializer) {
+        public static CredentialModel ToServiceModel(this IUserIdentity identity, ISerializer serializer) {
             return ToServiceModel(identity?.GetIdentityToken(), serializer);
         }
 
@@ -500,7 +500,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol {
         /// <param name="serializer"></param>
         /// <returns></returns>
         public static CredentialModel ToServiceModel(this UserIdentityToken token,
-            IJsonSerializer serializer) {
+            ISerializer serializer) {
             if (token is null) {
                 return null;  // Treat as anonymous
             }

@@ -30,7 +30,7 @@ namespace Microsoft.Azure.IIoT.Services.OpcUa.Twin.Api {
             var module = _factory.Resolve<ITestModule>();
             module.Endpoint = Endpoint;
             var log = _factory.Resolve<ILogger>();
-            var serializer = _factory.Resolve<IJsonSerializer>();
+            var serializer = _factory.Resolve<ISerializer>();
             return new WriteScalarValueTests<string>(serializer, () => // Create an adapter over the api
                 new TwinServicesApiAdapter(
                     new TwinServiceClient(new HttpClient(_factory, log),

@@ -26,7 +26,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Models {
         /// <returns></returns>
         public static ApplicationRegistrationModel ToServiceModel(this DiscoveredEndpointModel result,
             string hostAddress, string siteId, string gatewayId, string moduleId,
-            IJsonSerializer serializer) {
+            ISerializer serializer) {
             var type = result.Description.Server.ApplicationType.ToServiceType() ??
                 ApplicationType.Server;
             var discovererId = DiscovererModelEx.CreateDiscovererId(gatewayId, moduleId);

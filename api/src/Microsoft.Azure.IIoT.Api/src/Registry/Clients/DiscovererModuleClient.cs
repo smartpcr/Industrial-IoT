@@ -25,7 +25,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Clients {
         /// <param name="client"></param>
         /// <param name="serializer"></param>
         /// <param name="logger"></param>
-        public DiscovererModuleClient(IMethodClient client, IJsonSerializer serializer,
+        public DiscovererModuleClient(IMethodClient client, ISerializer serializer,
             ILogger logger) {
             _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
             _client = client ?? throw new ArgumentNullException(nameof(client));
@@ -74,7 +74,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Registry.Clients {
                 deviceId, moduleId, sw.ElapsedMilliseconds);
         }
 
-        private readonly IJsonSerializer _serializer;
+        private readonly ISerializer _serializer;
         private readonly IMethodClient _client;
         private readonly ILogger _logger;
     }

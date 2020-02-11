@@ -14,7 +14,7 @@ namespace Microsoft.Azure.IIoT.Serializers {
 
     public class SerializerTests {
 
-        public virtual IJsonSerializer Serializer => new NewtonSoftJsonSerializer();
+        public virtual ISerializer Serializer => new NewtonSoftJsonSerializer();
 
         public static IEnumerable<(VariantValue, object)> GetStrings() {
             yield return ("", "");

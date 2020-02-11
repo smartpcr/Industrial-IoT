@@ -54,7 +54,7 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
         /// <param name="serializer"></param>
         /// <param name="logger"></param>
         public ModuleHost(IMethodRouter router, ISettingsRouter settings,
-            IClientFactory factory, IJsonSerializer serializer, ILogger logger) {
+            IClientFactory factory, ISerializer serializer, ILogger logger) {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _factory = factory ?? throw new ArgumentNullException(nameof(factory));
             _router = router ?? throw new ArgumentNullException(nameof(router));
@@ -503,7 +503,7 @@ namespace Microsoft.Azure.IIoT.Module.Framework.Hosting {
 
         private readonly IMethodRouter _router;
         private readonly ISettingsRouter _settings;
-        private readonly IJsonSerializer _serializer;
+        private readonly ISerializer _serializer;
         private readonly ILogger _logger;
         private readonly IClientFactory _factory;
         private readonly SemaphoreSlim _lock = new SemaphoreSlim(1, 1);
