@@ -453,7 +453,8 @@ Operations (Mutually exclusive):
                 }
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
-                IDatabaseServer database = new MemoryDatabase(logger.Logger);
+                var serializer = new NewtonSoftJsonSerializer();
+                IDatabaseServer database = new MemoryDatabase(logger.Logger, serializer);
                 for (var i = 0; ; i++) {
                     Console.WriteLine($"{i}: Writing from {filename}...");
                     var sw = Stopwatch.StartNew();

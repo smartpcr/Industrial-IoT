@@ -37,9 +37,6 @@ namespace Microsoft.Azure.IIoT.Hub {
             builder.RegisterType<IoTHubTwinChangeEventHandler>()
                 .AsImplementedInterfaces().SingleInstance();
 
-            // Register default serializers...
-            builder.RegisterModule<JsonSerializer>();
-
             base.Load(builder);
         }
     }

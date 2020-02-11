@@ -267,6 +267,8 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Tests {
         /// <returns></returns>
         private IContainer CreateHubContainer() {
             var builder = new ContainerBuilder();
+
+            builder.RegisterModule<NewtonSoftJsonModule>();
             builder.RegisterInstance(this).AsImplementedInterfaces();
             builder.RegisterLogger(TraceLogger.Create());
             builder.RegisterModule<IoTHubMockService>();

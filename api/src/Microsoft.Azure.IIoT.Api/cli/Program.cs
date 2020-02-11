@@ -59,6 +59,7 @@ namespace Microsoft.Azure.IIoT.Api.Cli {
 
             // Register logger
             builder.AddDiagnostics(config, addConsole: false);
+            builder.RegisterModule<NewtonSoftJsonModule>();
 
             // Register http client module ...
             builder.RegisterModule<HttpClientModule>();

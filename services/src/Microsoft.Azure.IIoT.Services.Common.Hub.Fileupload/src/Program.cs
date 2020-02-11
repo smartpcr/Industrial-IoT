@@ -11,6 +11,7 @@ namespace Microsoft.Azure.IIoT.Services.Common.Hub.Fileupload {
     using Microsoft.Azure.IIoT.Hub.Models;
     using Microsoft.Azure.IIoT.Http.Default;
     using Microsoft.Azure.IIoT.Utils;
+    using Microsoft.Azure.IIoT.Serializers;
     using Microsoft.Extensions.Configuration;
     using Autofac;
     using System;
@@ -96,6 +97,7 @@ namespace Microsoft.Azure.IIoT.Services.Common.Hub.Fileupload {
 
             // register diagnostics
             builder.AddDiagnostics(config);
+            builder.RegisterModule<NewtonSoftJsonModule>();
 
             builder.RegisterModule<HttpClientModule>();
             builder.RegisterType<IoTHubMessagingHttpClient>()

@@ -26,11 +26,11 @@ namespace Microsoft.Azure.IIoT.Storage.Default {
         /// <param name="logger"></param>
         /// <param name="serializer"></param>
         /// <param name="queryEngine"></param>
-        public MemoryDatabase(ILogger logger, IQueryEngine queryEngine = null,
-            ISerializer serializer = null) {
-            _serializer = serializer ?? new NewtonSoftJsonSerializer();
+        public MemoryDatabase(ILogger logger, ISerializer serializer,
+            IQueryEngine queryEngine = null) {
+            _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _queryEngine = queryEngine;
-            _logger = logger;
         }
 
         /// <inheritdoc/>

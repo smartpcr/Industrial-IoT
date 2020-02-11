@@ -3,14 +3,13 @@
 //  Licensed under the MIT License (MIT). See License.txt in the repo root for license information.
 // ------------------------------------------------------------
 
-namespace Microsoft.Azure.IIoT {
-    using Microsoft.Azure.IIoT.Serializers;
+namespace Microsoft.Azure.IIoT.Serializers {
     using Autofac;
 
     /// <summary>
     /// All pluggable serializers
     /// </summary>
-    public class JsonSerializer : Autofac.Module {
+    public class NewtonSoftJsonModule : Module {
 
         /// <inheritdoc/>
         protected override void Load(ContainerBuilder builder) {

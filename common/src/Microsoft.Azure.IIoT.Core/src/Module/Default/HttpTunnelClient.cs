@@ -24,9 +24,6 @@ namespace Microsoft.Azure.IIoT.Module.Default {
                 .AsImplementedInterfaces();
             builder.RegisterType<HttpClientFactory>().SingleInstance()
                 .AsImplementedInterfaces();
-
-            // Register default serializers...
-            builder.RegisterModule<JsonSerializer>();
         }
     }
 }

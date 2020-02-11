@@ -17,6 +17,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher {
     using Microsoft.Azure.IIoT.Agent.Framework;
     using Microsoft.Azure.IIoT.Api.Jobs.Clients;
     using Microsoft.Azure.IIoT.Hub;
+    using Microsoft.Azure.IIoT.Serializers;
     using System;
     using System.Diagnostics;
     using System.Runtime.Loader;
@@ -131,6 +132,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher {
             // Register module and agent framework ...
             builder.RegisterModule<AgentFramework>();
             builder.RegisterModule<ModuleFramework>();
+            builder.RegisterModule<NewtonSoftJsonModule>();
 
             if (legacyCliOptions.RunInLegacyMode) {
                 builder.AddDiagnostics(config,

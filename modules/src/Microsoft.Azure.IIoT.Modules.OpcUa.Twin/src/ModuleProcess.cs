@@ -18,6 +18,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin {
     using Microsoft.Azure.IIoT.Module.Framework.Client;
     using Microsoft.Azure.IIoT.Tasks.Default;
     using Microsoft.Azure.IIoT.Hub;
+    using Microsoft.Azure.IIoT.Serializers;
     using Microsoft.Extensions.Configuration;
     using Autofac;
     using System;
@@ -130,6 +131,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin {
 
             // Register module framework
             builder.RegisterModule<ModuleFramework>();
+            builder.RegisterModule<NewtonSoftJsonModule>();
 
             // Register opc ua services
             builder.RegisterType<ClientServices>()
@@ -211,6 +213,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin {
 
                 // Register module framework
                 builder.RegisterModule<ModuleFramework>();
+                builder.RegisterModule<NewtonSoftJsonModule>();
 
                 // Register twin controllers
                 builder.RegisterType<EndpointMethodsController>()

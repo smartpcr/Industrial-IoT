@@ -13,6 +13,7 @@ namespace Microsoft.Azure.IIoT.Services.Processor.Tunnel {
     using Microsoft.Azure.IIoT.Hub.Services;
     using Microsoft.Azure.IIoT.Http.Default;
     using Microsoft.Azure.IIoT.Utils;
+    using Microsoft.Azure.IIoT.Serializers;
     using Microsoft.Azure.IIoT.Auth.Clients.Default;
     using Microsoft.Extensions.Configuration;
     using Autofac;
@@ -100,6 +101,7 @@ namespace Microsoft.Azure.IIoT.Services.Processor.Tunnel {
 
             // register diagnostics
             builder.AddDiagnostics(config);
+            builder.RegisterModule<NewtonSoftJsonModule>();
 
             // Event processor services for onboarding consumer
             builder.RegisterType<EventProcessorHost>()

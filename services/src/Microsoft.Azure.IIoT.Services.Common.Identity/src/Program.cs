@@ -12,6 +12,7 @@ namespace Microsoft.Azure.IIoT.Services.Common.Identity {
     using Microsoft.Azure.IIoT.Http.Ssl;
     using Microsoft.Azure.IIoT.Hub.Client;
     using Microsoft.Azure.IIoT.Utils;
+    using Microsoft.Azure.IIoT.Serializers;
     using Microsoft.Extensions.Configuration;
     using Autofac;
     using Serilog;
@@ -89,6 +90,7 @@ namespace Microsoft.Azure.IIoT.Services.Common.Identity {
             builder.RegisterInstance(serviceConfig)
                 .AsImplementedInterfaces().SingleInstance();
             builder.AddDiagnostics(serviceConfig);
+            builder.RegisterModule<NewtonSoftJsonModule>();
 
             // Register http client module
             builder.RegisterModule<HttpClientModule>();

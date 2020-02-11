@@ -14,6 +14,7 @@ namespace Microsoft.Azure.IIoT.Services.Common.Jobs.Edge {
     using Microsoft.Azure.IIoT.AspNetCore.Correlation;
     using Microsoft.Azure.IIoT.Http.Default;
     using Microsoft.Azure.IIoT.Http.Auth;
+    using Microsoft.Azure.IIoT.Serializers;
     using Microsoft.Azure.IIoT.Utils;
     using Microsoft.Azure.IIoT.Storage.CosmosDb.Services;
     using Microsoft.AspNetCore.Authentication;
@@ -135,7 +136,7 @@ namespace Microsoft.Azure.IIoT.Services.Common.Jobs.Edge {
             appLifetime.ApplicationStopped.Register(applicationContainer.Dispose);
 
             // Print some useful information at bootstrap time
-            log.Information("{service} web service started with id {id}", 
+            log.Information("{service} web service started with id {id}",
                 ServiceInfo.Name, ServiceInfo.Id);
         }
 
@@ -152,6 +153,7 @@ namespace Microsoft.Azure.IIoT.Services.Common.Jobs.Edge {
 
             // Add diagnostics based on configuration
             builder.AddDiagnostics(Config);
+            builder.RegisterModule<NewtonSoftJsonModule>();
 
             // CORS setup
             builder.RegisterType<CorsSetup>()
