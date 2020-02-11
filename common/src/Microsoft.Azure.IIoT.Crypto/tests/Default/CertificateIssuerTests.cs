@@ -1046,7 +1046,7 @@ namespace Microsoft.Azure.IIoT.Crypto.Default {
         /// <param name="provider"></param>
         private static void Setup(AutoMock mock, Func<IEnumerable<IDocumentInfo<VariantValue>>,
             string, IEnumerable<IDocumentInfo<VariantValue>>> provider) {
-            mock.Provide<IJsonSerializerSettingsProvider, NewtonSoftJsonConverters>();
+            mock.Provide<IJsonSerializerConverterProvider, NewtonSoftJsonConverters>();
             mock.Provide<IJsonSerializer, NewtonSoftJsonSerializer>();
             mock.Provide<IQueryEngine>(new QueryEngineAdapter(provider));
             mock.Provide<IDatabaseServer, MemoryDatabase>();

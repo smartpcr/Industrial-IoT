@@ -36,21 +36,6 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Services {
         }
 
         [Fact]
-        public void DecodeEncodeFloatFromJValueTypeNullIsDouble() {
-            var codec = new VariantEncoderFactory().Default;
-            var str = _serializer.FromObject(-123.123f);
-            var variant = codec.Decode(str, BuiltInType.Null);
-            //
-            // TODO: See if we can preserve float precision even though we are passing null!
-            //
-            var expected = new Variant(Convert.ToDouble(str));
-            var encoded = codec.Encode(variant);
-            Assert.Equal(expected, variant);
-            Assert.Equal(_serializer.FromObject(Convert.ToDouble(str)).ToString(Formatting.Indented),
-                encoded.ToString(Formatting.Indented));
-        }
-
-        [Fact]
         public void DecodeEncodeFloatArrayFromJArrayTypeNullIsDouble() {
             var codec = new VariantEncoderFactory().Default;
             var str = _serializer.FromArray(-123.123f, 124.124f, 0.0f);

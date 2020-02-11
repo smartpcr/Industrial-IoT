@@ -1346,8 +1346,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Testing.Tests {
                     Assert.Equal(9999, (int)arg.Value);
                 },
                 arg => {
-                    Assert.Equal(input[2].Value.ToString(Serializers.Formatting.None),
-                        arg.Value.ToString(Serializers.Formatting.None));
+                    Assert.Equal(input[2].Value, arg.Value);
                 });
         }
 

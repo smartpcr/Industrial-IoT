@@ -37,7 +37,7 @@ namespace Microsoft.Azure.IIoT.Agent.Framework.Models {
                 Id = model.Id,
                 Name = model.Name,
                 Demands = model.Demands?.Select(d => d.Clone()).ToList(),
-                JobConfiguration = model.JobConfiguration?.DeepClone(),
+                JobConfiguration = model.JobConfiguration?.Copy(),
                 JobConfigurationType = model.JobConfigurationType,
                 LifetimeData = model.LifetimeData?.Clone(),
                 RedundancyConfig = model.RedundancyConfig?.Clone(),

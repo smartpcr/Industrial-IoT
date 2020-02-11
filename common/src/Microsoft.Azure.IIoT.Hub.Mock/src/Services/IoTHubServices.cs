@@ -228,7 +228,7 @@ namespace Microsoft.Azure.IIoT.Hub.Mock {
         public Task<QueryResultModel> QueryAsync(string query, string continuation,
             int? pageSize, CancellationToken ct) {
             lock (_lock) {
-                var result = _query.Query(query).Select(r => r.DeepClone()).ToList();
+                var result = _query.Query(query).Select(r => r.Copy()).ToList();
                 if (pageSize is null) {
                     pageSize = int.MaxValue;
                 }

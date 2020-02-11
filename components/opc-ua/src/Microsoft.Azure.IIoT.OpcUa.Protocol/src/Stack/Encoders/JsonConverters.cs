@@ -7,33 +7,34 @@ namespace Opc.Ua.Encoders {
     using Opc.Ua;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
-    using Newtonsoft.Json.Serialization;
     using System.Runtime.Serialization;
+    using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// Adds Ua converters to default json converters
     /// </summary>
     public class JsonConverters : Microsoft.Azure.IIoT.Serializers.NewtonSoftJsonConverters {
 
+        /// <inheritdoc/>
+        public override StreamingContext Context => _context != null ?
+            new StreamingContext(StreamingContextStates.File, _context) : default;
+
         /// <summary>
         /// Create configuration
         /// </summary>
         /// <param name="context"></param>
         /// <param name="permissive"></param>
-        public JsonConverters(ServiceMessageContext context = null, 
+        public JsonConverters(ServiceMessageContext context = null,
             bool permissive = false) : base(permissive) {
             _context = context;
         }
 
         /// <inheritdoc/>
-        public override JsonSerializerSettings GetSettings() {
-            var settings = base.GetSettings();
-            settings.Converters.AddUaConverters();
-            settings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-            if (_context != null) {
-                settings.Context = new StreamingContext(StreamingContextStates.File, _context);
-            }
-            return settings;
+        public override IEnumerable<JsonConverter> GetConverters() {
+            var converters = base.GetConverters().ToList();
+            converters.AddUaConverters();
+            return converters;
         }
 
         private readonly ServiceMessageContext _context;

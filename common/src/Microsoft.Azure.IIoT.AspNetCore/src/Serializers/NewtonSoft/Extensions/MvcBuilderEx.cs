@@ -5,10 +5,13 @@
 
 namespace Microsoft.Azure.IIoT.AspNetCore.Cors {
     using Microsoft.Azure.IIoT.Serializers;
+    using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.DependencyInjection;
-    using Newtonsoft.Json;
+    using Microsoft.Extensions.Options;
     using System.Collections.Generic;
     using System;
+    using System.Linq;
+    using Newtonsoft.Json;
 
     /// <summary>
     /// Cors setup extensions
@@ -20,48 +23,37 @@ namespace Microsoft.Azure.IIoT.AspNetCore.Cors {
         /// </summary>
         /// <param name="builder"></param>
         /// <returns></returns>
-        public static IMvcBuilder AddFormatters(this IMvcBuilder builder) {
+        public static IMvcBuilder AddNewtonsoftJsonSerializer(this IMvcBuilder builder) {
             if (builder is null) {
                 throw new ArgumentNullException(nameof(builder));
             }
-            var services = builder.Services.BuildServiceProvider();
-            var provider = services.GetService<IJsonSerializerSettingsProvider>();
-            var serializer = services.GetService<IJsonSerializer>();
-            // Add newton soft json if the serializer is such - otherwise use default;
-            if (serializer is null || serializer is NewtonSoftJsonSerializer) {
-                builder = builder.AddNewtonsoftJson(options => {
-                    options.SerializerSettings.Update(provider?.GetSettings());
-                });
-            }
-            return builder;
-        }
 
-        /// <summary>
-        /// Update settings
-        /// </summary>
-        /// <param name="setting"></param>
-        /// <param name="update"></param>
-        private static void Update(this JsonSerializerSettings setting,
-            JsonSerializerSettings update) {
-            if (update is null) {
-                return;
-            }
-            setting.Formatting = update.Formatting;
-            setting.NullValueHandling = update.NullValueHandling;
-            setting.DefaultValueHandling = update.DefaultValueHandling;
-            setting.ContractResolver = update.ContractResolver;
-            setting.DateFormatHandling = update.DateFormatHandling;
-            setting.MaxDepth = update.MaxDepth;
-            setting.ConstructorHandling = update.ConstructorHandling;
-            setting.CheckAdditionalContent = update.CheckAdditionalContent;
-            setting.DateTimeZoneHandling = update.DateTimeZoneHandling;
-            setting.Context = update.Context;
-            setting.SerializationBinder = update.SerializationBinder;
-            setting.TraceWriter = update.TraceWriter;
-            setting.EqualityComparer = update.EqualityComparer;
-            setting.Error = update.Error;
-            // ...
-            setting.Converters.AddRange(update.Converters);
+            builder = builder.AddNewtonsoftJson();
+
+            // Configure json serializer settings transiently to pick up all converters
+            builder.Services.AddTransient<IConfigureOptions<MvcNewtonsoftJsonOptions>>(services =>
+                new ConfigureNamedOptions<MvcNewtonsoftJsonOptions>(Options.DefaultName, options => {
+                    var provider = services.GetService<IJsonSerializerSettingsProvider>();
+                    var settings = provider?.Settings;
+                    if (settings is null) {
+                        return;
+                    }
+
+                    options.SerializerSettings.Formatting = settings.Formatting;
+                    options.SerializerSettings.NullValueHandling = settings.NullValueHandling;
+                    options.SerializerSettings.DefaultValueHandling = settings.DefaultValueHandling;
+                    options.SerializerSettings.ContractResolver = settings.ContractResolver;
+                    options.SerializerSettings.DateFormatHandling = settings.DateFormatHandling;
+                    options.SerializerSettings.MaxDepth = settings.MaxDepth;
+                    options.SerializerSettings.Context = settings.Context;
+
+                    var set = new HashSet<JsonConverter>(options.SerializerSettings.Converters);
+                    if (!set.IsProperSupersetOf(settings.Converters)) {
+                        options.SerializerSettings.Converters =
+                            set.MergeWith(settings.Converters).ToList();
+                    }
+                }));
+            return builder;
         }
     }
 }

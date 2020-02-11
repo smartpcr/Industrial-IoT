@@ -58,6 +58,11 @@ namespace Microsoft.Azure.IIoT.Serializers {
         /// <summary>
         /// Date
         /// </summary>
-        Date
+        Date,
+
+        /// <summary>
+        /// Duration
+        /// </summary>
+        TimeSpan
     }
 }

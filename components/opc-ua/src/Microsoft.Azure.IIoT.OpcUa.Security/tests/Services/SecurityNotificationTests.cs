@@ -28,6 +28,8 @@ namespace Microsoft.Azure.IIoT.OpcUa.Security.Services {
             CreateEndpointFixtures(mode, "http://opcfoundation.org/UA/SecurityPolicy#Basic256Sha256", certEncoded, out var endpoints);
 
             using (var mock = AutoMock.GetLoose()) {
+                mock.Provide<IJsonSerializerConverterProvider, NewtonSoftJsonConverters>();
+                mock.Provide<IJsonSerializer, NewtonSoftJsonSerializer>();
                 var mockIotTelemetryService = new IoTHubServices();
                 mock.Provide<IIoTHubTelemetryServices>(mockIotTelemetryService);
                 var service = mock.Create<EndpointSecurityAlerter>();
@@ -52,6 +54,8 @@ namespace Microsoft.Azure.IIoT.OpcUa.Security.Services {
             CreateEndpointFixtures(mode, "http://opcfoundation.org/UA/SecurityPolicy#None", certEncoded, out var endpoints);
 
             using (var mock = AutoMock.GetLoose()) {
+                mock.Provide<IJsonSerializerConverterProvider, NewtonSoftJsonConverters>();
+                mock.Provide<IJsonSerializer, NewtonSoftJsonSerializer>();
                 var mockIotTelemetryService = new IoTHubServices();
                 mock.Provide<IIoTHubTelemetryServices>(mockIotTelemetryService);
                 var service = mock.Create<EndpointSecurityAlerter>();
@@ -76,6 +80,8 @@ namespace Microsoft.Azure.IIoT.OpcUa.Security.Services {
             CreateEndpointFixtures(mode, "http://opcfoundation.org/UA/SecurityPolicy#Basic256Sha256", certEncoded, out var endpoints);
 
             using (var mock = AutoMock.GetLoose()) {
+                mock.Provide<IJsonSerializerConverterProvider, NewtonSoftJsonConverters>();
+                mock.Provide<IJsonSerializer, NewtonSoftJsonSerializer>();
                 var mockIotTelemetryService = new IoTHubServices();
                 mock.Provide<IIoTHubTelemetryServices>(mockIotTelemetryService);
                 var service = mock.Create<EndpointSecurityAlerter>();
@@ -101,6 +107,8 @@ namespace Microsoft.Azure.IIoT.OpcUa.Security.Services {
 
             using (var mock = AutoMock.GetLoose()) {
                 var mockIotTelemetryService = new IoTHubServices();
+                mock.Provide<IJsonSerializerConverterProvider, NewtonSoftJsonConverters>();
+                mock.Provide<IJsonSerializer, NewtonSoftJsonSerializer>();
                 mock.Provide<IIoTHubTelemetryServices>(mockIotTelemetryService);
                 var service = mock.Create<EndpointSecurityAlerter>();
 
@@ -126,6 +134,8 @@ namespace Microsoft.Azure.IIoT.OpcUa.Security.Services {
 
             using (var mock = AutoMock.GetLoose()) {
                 var mockIotTelemetryService = new IoTHubServices();
+                mock.Provide<IJsonSerializerConverterProvider, NewtonSoftJsonConverters>();
+                mock.Provide<IJsonSerializer, NewtonSoftJsonSerializer>();
                 mock.Provide<IIoTHubTelemetryServices>(mockIotTelemetryService);
                 var service = mock.Create<EndpointSecurityAlerter>();
 
@@ -152,6 +162,8 @@ namespace Microsoft.Azure.IIoT.OpcUa.Security.Services {
 
             using (var mock = AutoMock.GetLoose()) {
                 var mockIotTelemetryService = new IoTHubServices();
+                mock.Provide<IJsonSerializerConverterProvider, NewtonSoftJsonConverters>();
+                mock.Provide<IJsonSerializer, NewtonSoftJsonSerializer>();
                 mock.Provide<IIoTHubTelemetryServices>(mockIotTelemetryService);
                 var service = mock.Create<EndpointSecurityAlerter>();
 
@@ -175,6 +187,9 @@ namespace Microsoft.Azure.IIoT.OpcUa.Security.Services {
         private static void CreateEndpointFixtures(SecurityMode mode, string policy, byte[] certificate, out List<EndpointInfoModel> endpoints) {
             var fix = new Fixture();
             fix.Customizations.Add(new TypeRelay(typeof(VariantValue), typeof(VariantValue)));
+            fix.Behaviors.OfType<ThrowingRecursionBehavior>().ToList()
+                .ForEach(b => fix.Behaviors.Remove(b));
+            fix.Behaviors.Add(new OmitOnRecursionBehavior());
             var superx = fix.Create<string>();
             endpoints = fix
                 .Build<EndpointInfoModel>()

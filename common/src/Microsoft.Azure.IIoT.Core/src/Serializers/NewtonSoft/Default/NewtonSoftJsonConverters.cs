@@ -5,14 +5,17 @@
 
 namespace Microsoft.Azure.IIoT.Serializers {
     using Newtonsoft.Json.Converters;
-    using Newtonsoft.Json.Serialization;
     using Newtonsoft.Json;
     using System.Collections.Generic;
+    using System.Runtime.Serialization;
 
     /// <summary>
     /// Json convert helpers
     /// </summary>
-    public class NewtonSoftJsonConverters : IJsonSerializerSettingsProvider {
+    public class NewtonSoftJsonConverters : IJsonSerializerConverterProvider {
+
+        /// <inheritdoc/>
+        public virtual StreamingContext Context => default;
 
         /// <summary>
         /// Create provider
@@ -23,23 +26,14 @@ namespace Microsoft.Azure.IIoT.Serializers {
         }
 
         /// <inheritdoc/>
-        public virtual JsonSerializerSettings GetSettings() {
-            var defaultSettings = new JsonSerializerSettings {
-                ContractResolver = new DefaultContractResolver(),
-                Converters = new List<JsonConverter>().AddDefault(),
-                TypeNameHandling = TypeNameHandling.None,
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-                FloatFormatHandling = FloatFormatHandling.String,
-                FloatParseHandling = FloatParseHandling.Double,
-                DateParseHandling = DateParseHandling.DateTime,
-                DateTimeZoneHandling = DateTimeZoneHandling.Utc,
-                MaxDepth = 20,
+        public virtual IEnumerable<JsonConverter> GetConverters() {
+            var converters = new List<JsonConverter> {
+                new ExceptionConverter(_permissive),
+                new PhysicalAddressConverter(),
+                new IPAddressConverter(),
+                new StringEnumConverter()
             };
-            defaultSettings.Converters.AddDefault(_permissive);
-            if (!_permissive) {
-                defaultSettings.ReferenceLoopHandling = ReferenceLoopHandling.Error;
-            }
-            return defaultSettings;
+            return converters;
         }
 
         private readonly bool _permissive;

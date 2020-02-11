@@ -169,7 +169,7 @@ namespace Microsoft.Azure.IIoT.Crypto.Default {
         /// </summary>
         /// <param name="mock"></param>
         private static void Setup(AutoMock mock) {
-            mock.Provide<IJsonSerializerSettingsProvider, NewtonSoftJsonConverters>();
+            mock.Provide<IJsonSerializerConverterProvider, NewtonSoftJsonConverters>();
             mock.Provide<IJsonSerializer, NewtonSoftJsonSerializer>();
             mock.Provide<IDatabaseServer, MemoryDatabase>();
             mock.Provide<IItemContainerFactory, ItemContainerFactory>();

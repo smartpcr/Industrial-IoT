@@ -149,7 +149,8 @@ namespace Microsoft.Azure.IIoT.Serializers {
         /// <param name="reader"></param>
         /// <returns></returns>
         public static T Deserialize<T>(this IJsonSerializer serializer, TextReader reader) {
-            return (T)serializer.Deserialize(reader, typeof(T));
+            var typed = serializer.Deserialize(reader, typeof(T));
+            return typed == null ? default : (T)typed;
         }
 
         /// <summary>
@@ -160,7 +161,8 @@ namespace Microsoft.Azure.IIoT.Serializers {
         /// <param name="json"></param>
         /// <returns></returns>
         public static T Deserialize<T>(this IJsonSerializer serializer, string json) {
-            return (T)serializer.Deserialize(json, typeof(T));
+            var typed = serializer.Deserialize(json, typeof(T));
+            return typed == null ? default : (T)typed;
         }
 
         /// <summary>
@@ -171,7 +173,8 @@ namespace Microsoft.Azure.IIoT.Serializers {
         /// <param name="response"></param>
         /// <returns></returns>
         public static T DeserializeResponse<T>(this IJsonSerializer serializer, IHttpResponse response) {
-            return (T)serializer.Deserialize(response.GetContentAsString(), typeof(T));
+            var typed = serializer.Deserialize(response.GetContentAsString(), typeof(T));
+            return typed == null ? default : (T)typed;
         }
 
         /// <summary>
@@ -187,8 +190,9 @@ namespace Microsoft.Azure.IIoT.Serializers {
         public static T Deserialize<T>(this IJsonSerializer serializer,
             Stream stream, Encoding encoding = null,
             int bufferSize = 512, bool detectEncoding = false) {
-            return (T)serializer.Deserialize(typeof(T), stream, encoding,
+            var typed = serializer.Deserialize(typeof(T), stream, encoding,
                 bufferSize, detectEncoding);
+            return typed == null ? default : (T)typed;
         }
 
         /// <summary>

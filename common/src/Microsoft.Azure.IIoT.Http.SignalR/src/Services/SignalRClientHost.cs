@@ -29,10 +29,11 @@ namespace Microsoft.Azure.IIoT.Http.SignalR.Services {
         /// <param name="config"></param>
         /// <param name="logger"></param>
         /// <param name="jsonSettings"></param>
-        public SignalRClientHost(ISignalRClientConfig config, ILogger logger, 
+        public SignalRClientHost(ISignalRClientConfig config, ILogger logger,
             IJsonSerializerSettingsProvider jsonSettings = null) :
-            this (config?.SignalREndpointUrl, config?.SignalRHubName, 
-                config?.SignalRUserId, config?.UseMessagePackProtocol, logger, jsonSettings) {
+            this (config?.SignalREndpointUrl, config?.SignalRHubName,
+                config?.SignalRUserId, config?.UseMessagePackProtocol, logger,
+                jsonSettings) {
         }
 
         /// <summary>
@@ -44,8 +45,8 @@ namespace Microsoft.Azure.IIoT.Http.SignalR.Services {
         /// <param name="useMessagePack"></param>
         /// <param name="jsonSettings"></param>
         /// <param name="logger"></param>
-        public SignalRClientHost(string endpointUrl, string hubName, string userId, 
-            bool? useMessagePack, ILogger logger, 
+        public SignalRClientHost(string endpointUrl, string hubName, string userId,
+            bool? useMessagePack, ILogger logger,
             IJsonSerializerSettingsProvider jsonSettings = null) {
             _jsonSettings = jsonSettings;
             _useMessagePack = useMessagePack ?? false;
@@ -154,7 +155,7 @@ namespace Microsoft.Azure.IIoT.Http.SignalR.Services {
                 builder = builder.AddMessagePackProtocol();
             }
             else {
-                var jsonSettings = _jsonSettings?.GetSettings();
+                var jsonSettings = _jsonSettings?.Settings;
                 if (jsonSettings != null) {
                     builder = builder.AddNewtonsoftJsonProtocol(options => {
                         options.PayloadSerializerSettings = jsonSettings;

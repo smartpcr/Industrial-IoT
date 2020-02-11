@@ -801,7 +801,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.Models {
                 QueueSize = model.QueueSize,
                 SamplingInterval = model.SamplingInterval,
                 TriggerId = model.TriggerId,
-                SubstituteValue = model.SubstituteValue?.DeepClone()
+                SubstituteValue = model.SubstituteValue?.Copy()
             };
         }
 
@@ -828,7 +828,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Publisher.Models {
                 QueueSize = model.QueueSize,
                 SamplingInterval = model.SamplingInterval,
                 TriggerId = model.TriggerId,
-                SubstituteValue = model.SubstituteValue?.DeepClone()
+                SubstituteValue = model.SubstituteValue?.Copy()
             };
         }
 

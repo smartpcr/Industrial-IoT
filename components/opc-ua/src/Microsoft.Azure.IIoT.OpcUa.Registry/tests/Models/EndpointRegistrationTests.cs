@@ -123,7 +123,11 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
         /// <returns></returns>
         private EndpointRegistration CreateRegistration() {
             var fix = new Fixture();
+
             fix.Customizations.Add(new TypeRelay(typeof(VariantValue), typeof(VariantValue)));
+            fix.Behaviors.OfType<ThrowingRecursionBehavior>().ToList()
+                .ForEach(b => fix.Behaviors.Remove(b));
+            fix.Behaviors.Add(new OmitOnRecursionBehavior());
 
             var cert = fix.CreateMany<byte>(1000).ToArray();
             var urls = fix.CreateMany<Uri>(4).ToList();

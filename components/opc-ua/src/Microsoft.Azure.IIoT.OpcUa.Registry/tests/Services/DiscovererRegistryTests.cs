@@ -25,6 +25,8 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
             CreateDiscovererFixtures(out var site, out var discoverers, out var modules);
 
             using (var mock = AutoMock.GetLoose()) {
+                mock.Provide<IJsonSerializerConverterProvider, NewtonSoftJsonConverters>();
+                mock.Provide<IJsonSerializer, NewtonSoftJsonSerializer>();
                 mock.Provide<IIoTHubTwinServices>(IoTHubServices.Create(modules));
                 IDiscovererRegistry service = mock.Create<DiscovererRegistry>();
 
@@ -43,6 +45,8 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
             CreateDiscovererFixtures(out var site, out var discoverers, out var modules);
 
             using (var mock = AutoMock.GetLoose()) {
+                mock.Provide<IJsonSerializerConverterProvider, NewtonSoftJsonConverters>();
+                mock.Provide<IJsonSerializer, NewtonSoftJsonSerializer>();
                 mock.Provide<IIoTHubTwinServices>(IoTHubServices.Create(modules));
                 IDiscovererRegistry service = mock.Create<DiscovererRegistry>();
 
@@ -59,6 +63,8 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
             CreateDiscovererFixtures(out var site, out var discoverers, out var modules);
 
             using (var mock = AutoMock.GetLoose()) {
+                mock.Provide<IJsonSerializerConverterProvider, NewtonSoftJsonConverters>();
+                mock.Provide<IJsonSerializer, NewtonSoftJsonSerializer>();
                 mock.Provide<IIoTHubTwinServices>(IoTHubServices.Create(modules));
                 IDiscovererRegistry service = mock.Create<DiscovererRegistry>();
 
@@ -75,6 +81,8 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
             CreateDiscovererFixtures(out var site, out var discoverers, out var modules);
 
             using (var mock = AutoMock.GetLoose()) {
+                mock.Provide<IJsonSerializerConverterProvider, NewtonSoftJsonConverters>();
+                mock.Provide<IJsonSerializer, NewtonSoftJsonSerializer>();
                 mock.Provide<IIoTHubTwinServices>(IoTHubServices.Create(modules));
                 IDiscovererRegistry service = mock.Create<DiscovererRegistry>();
 
@@ -91,6 +99,8 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
             CreateDiscovererFixtures(out var site, out var discoverers, out var modules);
 
             using (var mock = AutoMock.GetLoose()) {
+                mock.Provide<IJsonSerializerConverterProvider, NewtonSoftJsonConverters>();
+                mock.Provide<IJsonSerializer, NewtonSoftJsonSerializer>();
                 mock.Provide<IIoTHubTwinServices>(IoTHubServices.Create(modules));
                 IDiscovererRegistry service = mock.Create<DiscovererRegistry>();
 
@@ -109,6 +119,8 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
             CreateDiscovererFixtures(out var site, out var discoverers, out var modules);
 
             using (var mock = AutoMock.GetLoose()) {
+                mock.Provide<IJsonSerializerConverterProvider, NewtonSoftJsonConverters>();
+                mock.Provide<IJsonSerializer, NewtonSoftJsonSerializer>();
                 mock.Provide<IIoTHubTwinServices>(IoTHubServices.Create(modules));
                 IDiscovererRegistry service = mock.Create<DiscovererRegistry>();
 
@@ -127,6 +139,8 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
             CreateDiscovererFixtures(out var site, out var discoverers, out var modules, true);
 
             using (var mock = AutoMock.GetLoose()) {
+                mock.Provide<IJsonSerializerConverterProvider, NewtonSoftJsonConverters>();
+                mock.Provide<IJsonSerializer, NewtonSoftJsonSerializer>();
                 mock.Provide<IIoTHubTwinServices>(IoTHubServices.Create(modules));
                 IDiscovererRegistry service = mock.Create<DiscovererRegistry>();
 
@@ -152,6 +166,9 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
             bool noSite = false) {
             var fix = new Fixture();
             fix.Customizations.Add(new TypeRelay(typeof(VariantValue), typeof(VariantValue)));
+            fix.Behaviors.OfType<ThrowingRecursionBehavior>().ToList()
+                .ForEach(b => fix.Behaviors.Remove(b));
+            fix.Behaviors.Add(new OmitOnRecursionBehavior());
             var sitex = site = noSite ? null : fix.Create<string>();
             discoverers = fix
                 .Build<DiscovererModel>()

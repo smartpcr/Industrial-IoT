@@ -30,7 +30,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Publisher.Models {
                 MetaDataProperties = model.MetaDataProperties?.ToList(),
                 PublishedVariableNodeId = model.PublishedVariableNodeId,
                 SamplingInterval = model.SamplingInterval,
-                SubstituteValue = model.SubstituteValue?.DeepClone(),
+                SubstituteValue = model.SubstituteValue?.Copy(),
                 QueueSize = model.QueueSize
             };
         }

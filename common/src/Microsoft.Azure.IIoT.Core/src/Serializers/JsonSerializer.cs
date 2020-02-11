@@ -20,7 +20,7 @@ namespace Microsoft.Azure.IIoT {
                 .IfNotRegistered(typeof(IJsonSerializer));
             builder.RegisterType<NewtonSoftJsonConverters>()
                 .AsImplementedInterfaces().SingleInstance()
-                .IfNotRegistered(typeof(IJsonSerializerSettingsProvider));
+                .IfNotRegistered(typeof(IJsonSerializerConverterProvider));
 
             base.Load(builder);
         }

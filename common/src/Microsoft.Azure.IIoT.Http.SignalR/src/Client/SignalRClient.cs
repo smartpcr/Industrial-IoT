@@ -120,7 +120,7 @@ namespace Microsoft.Azure.IIoT.Http.SignalR {
             /// <param name="logger"></param>
             /// <returns></returns>
             internal static async Task<SignalRClientRegistrar> CreateAsync(
-                ISignalRClientConfig config, string userId, ILogger logger, 
+                ISignalRClientConfig config, string userId, ILogger logger,
                 IJsonSerializerSettingsProvider jsonSettings = null) {
 
                 if (string.IsNullOrEmpty(config?.SignalREndpointUrl)) {

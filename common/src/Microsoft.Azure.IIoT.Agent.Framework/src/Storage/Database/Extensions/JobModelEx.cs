@@ -30,7 +30,7 @@ namespace Microsoft.Azure.IIoT.Agent.Framework.Storage.Database {
                 Name = job.Name,
                 JobConfiguration = new JobConfigDocument {
                     JobId = job.Id,
-                    Job = job.JobConfiguration.DeepClone()
+                    Job = job.JobConfiguration.Copy()
                 },
                 Type = job.JobConfigurationType,
                 Demands = job.Demands?.Select(d => d.ToDocumentModel(job.Id)).ToList(),
@@ -56,7 +56,7 @@ namespace Microsoft.Azure.IIoT.Agent.Framework.Storage.Database {
             return new JobInfoModel {
                 Id = document.JobId,
                 Name = document.Name,
-                JobConfiguration = document.JobConfiguration?.Job?.DeepClone(),
+                JobConfiguration = document.JobConfiguration?.Job?.Copy(),
                 JobConfigurationType = document.Type,
                 Demands = document.Demands?.Select(d => d.ToServiceModel()).ToList(),
                 RedundancyConfig = new RedundancyConfigModel {

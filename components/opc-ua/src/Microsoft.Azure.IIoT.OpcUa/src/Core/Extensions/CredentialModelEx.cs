@@ -51,7 +51,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Core.Models {
                 return null;
             }
             return new CredentialModel {
-                Value = model.Value?.DeepClone(),
+                Value = model.Value?.Copy(),
                 Type = model.Type
             };
         }

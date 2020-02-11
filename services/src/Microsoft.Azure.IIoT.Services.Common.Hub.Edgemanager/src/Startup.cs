@@ -99,7 +99,7 @@ namespace Microsoft.Azure.IIoT.Services.Common.Hub.Edgemanager {
             });
 
             // Add controllers as services so they'll be resolved.
-            services.AddControllers().AddFormatters();
+            services.AddControllers().AddNewtonsoftJsonSerializer();
             services.AddSwagger(Config, ServiceInfo.Name, ServiceInfo.Description);
         }
 

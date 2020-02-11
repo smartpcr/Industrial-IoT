@@ -383,6 +383,8 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
         /// <param name="mock"></param>
         /// <param name="registry"></param>
         private static IDiscoveryResultProcessor Setup(AutoMock mock, IoTHubServices registry) {
+            mock.Provide<IJsonSerializerConverterProvider, NewtonSoftJsonConverters>();
+            mock.Provide<IJsonSerializer, NewtonSoftJsonSerializer>();
             mock.Provide<IIoTHubTwinServices>(registry);
             mock.Provide<IApplicationRepository, ApplicationTwins>();
             mock.Provide<IDiscovererRegistry, DiscovererRegistry>();
@@ -441,6 +443,9 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Services {
 
             // Create template applications and endpoints
             fix.Customizations.Add(new TypeRelay(typeof(VariantValue), typeof(VariantValue)));
+            fix.Behaviors.OfType<ThrowingRecursionBehavior>().ToList()
+                .ForEach(b => fix.Behaviors.Remove(b));
+            fix.Behaviors.Add(new OmitOnRecursionBehavior());
             var sitex = site = fix.Create<string>();
 
             gateway = fix.Create<string>();

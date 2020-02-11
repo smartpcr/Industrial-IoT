@@ -7,6 +7,7 @@ namespace Microsoft.Azure.IIoT.Serializers {
     using Microsoft.Azure.IIoT.Exceptions;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
+    using Newtonsoft.Json.Serialization;
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -15,7 +16,8 @@ namespace Microsoft.Azure.IIoT.Serializers {
     /// <summary>
     /// Newtonsoft json serializer
     /// </summary>
-    public class NewtonSoftJsonSerializer : IJsonSerializer {
+    public class NewtonSoftJsonSerializer : IJsonSerializerSettingsProvider,
+        IJsonSerializer {
 
         /// <summary>
         /// Json serializer settings
@@ -25,15 +27,23 @@ namespace Microsoft.Azure.IIoT.Serializers {
         /// <summary>
         /// Create serializer
         /// </summary>
-        /// <param name="config"></param>
-        public NewtonSoftJsonSerializer(IJsonSerializerSettingsProvider config = null) {
-            var settings = config?.GetSettings() ?? new JsonSerializerSettings();
+        /// <param name="providers"></param>
+        public NewtonSoftJsonSerializer(
+            IEnumerable<IJsonSerializerConverterProvider> providers = null) {
+            var settings = new JsonSerializerSettings();
+            if (providers != null) {
+                foreach (var provider in providers) {
+                    settings.Converters.AddRange(provider.GetConverters());
+                }
+            }
             settings.Converters.Add(new JsonVariantConverter(this));
+           // settings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             settings.FloatFormatHandling = FloatFormatHandling.String;
             settings.FloatParseHandling = FloatParseHandling.Double;
             settings.DateParseHandling = DateParseHandling.DateTime;
             settings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
             settings.DateFormatHandling = DateFormatHandling.IsoDateFormat;
+            settings.ReferenceLoopHandling = ReferenceLoopHandling.Error;
             if (settings.MaxDepth > 64) {
                 settings.MaxDepth = 64;
             }
@@ -68,8 +78,7 @@ namespace Microsoft.Azure.IIoT.Serializers {
         /// <inheritdoc/>
         public VariantValue FromObject(object o) {
             try {
-                return new JsonVariantValue(o is null ? JValue.CreateNull() :
-                    JToken.FromObject(o, JsonSerializer.CreateDefault(Settings)), this);
+                return new JsonVariantValue(this, o);
             }
             catch (JsonReaderException ex) {
                 throw new SerializerException(ex.Message, ex);
@@ -87,6 +96,10 @@ namespace Microsoft.Azure.IIoT.Serializers {
                     jsonReader.MaxDepth = Settings.MaxDepth;
 
                     var token = JToken.Load(jsonReader);
+
+                    while(jsonReader.Read()) {
+                        // Read to end or throw
+                    }
                     return new JsonVariantValue(token, this);
                 }
             }
@@ -98,7 +111,7 @@ namespace Microsoft.Azure.IIoT.Serializers {
         /// <summary>
         /// Token wrapper
         /// </summary>
-        private class JsonVariantValue : VariantValue {
+        internal class JsonVariantValue : VariantValue {
 
             /// <summary>
             /// The wrapped token
@@ -108,11 +121,21 @@ namespace Microsoft.Azure.IIoT.Serializers {
             /// <summary>
             /// Create value
             /// </summary>
+            /// <param name="o"></param>
+            /// <param name="serializer"></param>
+            internal JsonVariantValue(NewtonSoftJsonSerializer serializer, object o) {
+                _serializer = serializer;
+                Token = o is null ? JValue.CreateNull() : FromObject(o);
+            }
+
+            /// <summary>
+            /// Create value
+            /// </summary>
             /// <param name="token"></param>
             /// <param name="serializer"></param>
-            public JsonVariantValue(JToken token, NewtonSoftJsonSerializer serializer) {
-                Token = token ?? JValue.CreateNull();
+            internal JsonVariantValue(JToken token, NewtonSoftJsonSerializer serializer) {
                 _serializer = serializer;
+                Token = token ?? JValue.CreateNull();
             }
 
             /// <inheritdoc/>
@@ -123,18 +146,19 @@ namespace Microsoft.Azure.IIoT.Serializers {
                             return VariantValueType.Object;
                         case JTokenType.Array:
                             return VariantValueType.Array;
+                        case JTokenType.Bytes:
+                            return VariantValueType.Bytes;
                         case JTokenType.Integer:
                             return VariantValueType.Integer;
                         case JTokenType.Float:
                             return VariantValueType.Float;
                         case JTokenType.Date:
                             return VariantValueType.Date;
-                        case JTokenType.Bytes:
-                            return VariantValueType.Bytes;
+                        case JTokenType.TimeSpan:
+                            return VariantValueType.TimeSpan;
                         case JTokenType.Guid:
                         case JTokenType.Raw:
                         case JTokenType.Uri:
-                        case JTokenType.TimeSpan:
                         case JTokenType.String:
                             return VariantValueType.String;
                         case JTokenType.Boolean:
@@ -156,8 +180,7 @@ namespace Microsoft.Azure.IIoT.Serializers {
                     if (Token is JObject o) {
                         return o.Properties().Select(p => p.Name);
                     }
-                    throw new NotSupportedException(
-                        "Variant is not an object.");
+                    return Enumerable.Empty<string>();
                 }
             }
 
@@ -167,7 +190,7 @@ namespace Microsoft.Azure.IIoT.Serializers {
                     if (Token is JArray array) {
                         return array.Select(i => new JsonVariantValue(i, _serializer));
                     }
-                    throw new NotSupportedException("Variant is not an array.");
+                    return Enumerable.Empty<VariantValue>();
                 }
             }
 
@@ -177,8 +200,7 @@ namespace Microsoft.Azure.IIoT.Serializers {
                     if (Token is JArray array) {
                         return array.Count;
                     }
-                    throw new NotSupportedException(
-                        "Variant is not an array.");
+                    return 0;
                 }
             }
 
@@ -190,20 +212,29 @@ namespace Microsoft.Azure.IIoT.Serializers {
 
             /// <inheritdoc/>
             public override object ToType(Type type, IFormatProvider provider) {
-                return Token.ToObject(type,
-                    JsonSerializer.CreateDefault(_serializer.Settings));
+                try {
+                    return Token.ToObject(type,
+                        JsonSerializer.CreateDefault(_serializer.Settings));
+                }
+                catch (JsonReaderException ex) {
+                    throw new SerializerException(ex.Message, ex);
+                }
             }
 
             /// <inheritdoc/>
             public override VariantValue SelectToken(string path) {
-                var selected = Token.SelectToken(path);
-                return new JsonVariantValue(selected, _serializer);
+                try {
+                    var selected = Token.SelectToken(path);
+                    return new JsonVariantValue(selected, _serializer);
+                }
+                catch (JsonReaderException ex) {
+                    throw new SerializerException(ex.Message, ex);
+                }
             }
 
             /// <inheritdoc/>
             public override void Set(object value) {
-                Token = JToken.FromObject(value,
-                    JsonSerializer.CreateDefault(_serializer.Settings));
+                Token = FromObject(value);
             }
 
             /// <inheritdoc/>
@@ -255,8 +286,7 @@ namespace Microsoft.Azure.IIoT.Serializers {
                     if (FastEqual(o)) {
                         return true;
                     }
-                    t = JToken.FromObject(o,
-                        JsonSerializer.CreateDefault(_serializer.Settings));
+                    t = FromObject(o);
                 }
                 else {
                     if (ReferenceEquals(t, Token)) {
@@ -328,6 +358,21 @@ namespace Microsoft.Azure.IIoT.Serializers {
             }
 
             /// <summary>
+            /// Create token from object and rethrow serializer exception
+            /// </summary>
+            /// <param name="o"></param>
+            /// <returns></returns>
+            private JToken FromObject(object o) {
+                try {
+                    return JToken.FromObject(o,
+                        JsonSerializer.CreateDefault(_serializer.Settings));
+                }
+                catch (JsonReaderException ex) {
+                    throw new SerializerException(ex.Message, ex);
+                }
+            }
+
+            /// <summary>
             /// Quick compare to object
             /// </summary>
             /// <param name="o"></param>
@@ -347,7 +392,7 @@ namespace Microsoft.Azure.IIoT.Serializers {
         /// <summary>
         /// Json veriant converter
         /// </summary>
-        private sealed class JsonVariantConverter : JsonConverter {
+        internal sealed class JsonVariantConverter : JsonConverter {
 
             /// <summary>
             /// Converter

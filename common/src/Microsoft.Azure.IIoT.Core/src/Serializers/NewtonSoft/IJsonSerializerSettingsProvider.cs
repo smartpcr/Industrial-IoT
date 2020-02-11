@@ -14,6 +14,6 @@ namespace Microsoft.Azure.IIoT.Serializers {
         /// <summary>
         /// Serializer settings
         /// </summary>
-        JsonSerializerSettings GetSettings();
+        JsonSerializerSettings Settings { get; }
     }
 }

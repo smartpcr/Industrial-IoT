@@ -69,7 +69,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Core.Models {
                 return null;
             }
             return new AuthenticationMethodModel {
-                Configuration = model.Configuration.DeepClone(),
+                Configuration = model.Configuration?.Copy(),
                 Id = model.Id,
                 SecurityPolicy = model.SecurityPolicy,
                 CredentialType = model.CredentialType
