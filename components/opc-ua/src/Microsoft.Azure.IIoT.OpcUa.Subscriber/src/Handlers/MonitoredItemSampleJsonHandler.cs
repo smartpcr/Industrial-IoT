@@ -17,7 +17,6 @@ namespace Microsoft.Azure.IIoT.OpcUa.Subscriber.Handlers {
     using System.Threading.Tasks;
     using System.Collections.Generic;
     using System.Linq;
-    using Microsoft.Azure.IIoT.Serializers;
     using Microsoft.Azure.IIoT.OpcUa.Protocol;
 
     /// <summary>

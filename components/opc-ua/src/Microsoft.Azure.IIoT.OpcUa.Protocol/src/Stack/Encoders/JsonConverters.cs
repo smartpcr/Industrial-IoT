@@ -7,6 +7,7 @@ namespace Opc.Ua.Encoders {
     using Opc.Ua;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
+    using Microsoft.Azure.IIoT.Serializers.NewtonSoft;
     using System.Runtime.Serialization;
     using System.Collections.Generic;
     using System.Linq;
@@ -14,7 +15,7 @@ namespace Opc.Ua.Encoders {
     /// <summary>
     /// Adds Ua converters to default json converters
     /// </summary>
-    public class JsonConverters : Microsoft.Azure.IIoT.Serializers.NewtonSoftJsonConverters {
+    public class JsonConverters : NewtonSoftJsonConverters {
 
         /// <inheritdoc/>
         public override StreamingContext Context => _context != null ?

@@ -3,7 +3,8 @@
 //  Licensed under the MIT License (MIT). See License.txt in the repo root for license information.
 // ------------------------------------------------------------
 
-namespace Microsoft.Azure.IIoT.Serializers {
+namespace Microsoft.Azure.IIoT.Serializers.NewtonSoft {
+    using Microsoft.Azure.IIoT.Serializers;
     using Microsoft.Azure.IIoT.Exceptions;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
@@ -51,7 +52,7 @@ namespace Microsoft.Azure.IIoT.Serializers {
         }
 
         /// <inheritdoc/>
-        public object Deserialize(ReadOnlySpan<byte> buffer, Type type) {
+        public object Deserialize(ReadOnlyMemory<byte> buffer, Type type) {
             try {
                 // TODO move to .net 3 to use readonly span as stream source
                 var jsonSerializer = JsonSerializer.CreateDefault(Settings);
@@ -66,10 +67,10 @@ namespace Microsoft.Azure.IIoT.Serializers {
         }
 
         /// <inheritdoc/>
-        public void Serialize(IBufferWriter<byte> buffer, object o, Formatting format) {
+        public void Serialize(IBufferWriter<byte> buffer, object o, SerializeOption format) {
             try {
                 var jsonSerializer = JsonSerializer.CreateDefault(Settings);
-                jsonSerializer.Formatting = format == Formatting.Indented ?
+                jsonSerializer.Formatting = format == SerializeOption.Indented ?
                     Newtonsoft.Json.Formatting.Indented :
                     Newtonsoft.Json.Formatting.None;
                 // TODO move to .net 3 to use buffer writer as stream sink
@@ -87,7 +88,7 @@ namespace Microsoft.Azure.IIoT.Serializers {
         }
 
         /// <inheritdoc/>
-        public VariantValue Parse(ReadOnlySpan<byte> buffer) {
+        public VariantValue Parse(ReadOnlyMemory<byte> buffer) {
             try {
                 // TODO move to .net 3 to use readonly span as stream source
                 using (var stream = new MemoryStream(buffer.ToArray()))
@@ -252,8 +253,8 @@ namespace Microsoft.Azure.IIoT.Serializers {
             }
 
             /// <inheritdoc/>
-            public override string ToString(Formatting format) {
-                return Token.ToString(format == Formatting.Indented ?
+            public override string ToString(SerializeOption format) {
+                return Token.ToString(format == SerializeOption.Indented ?
                     Newtonsoft.Json.Formatting.Indented :
                     Newtonsoft.Json.Formatting.None,
                     _serializer.Settings.Converters.ToArray());

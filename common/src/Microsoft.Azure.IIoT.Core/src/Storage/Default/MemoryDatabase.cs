@@ -6,7 +6,6 @@
 namespace Microsoft.Azure.IIoT.Storage.Default {
     using Microsoft.Azure.IIoT.Exceptions;
     using Microsoft.Azure.IIoT.Serializers;
-    using Newtonsoft.Json.Linq;
     using Serilog;
     using System;
     using System.Collections.Concurrent;
@@ -331,7 +330,7 @@ namespace Microsoft.Azure.IIoT.Storage.Default {
                 /// Returns the size of the document
                 /// </summary>
                 public int Size => System.Text.Encoding.UTF8.GetByteCount(
-                    Value.ToString(Formatting.None));
+                    Value.ToString(SerializeOption.None));
 
                 /// <summary>
                 /// Create memory document
@@ -373,7 +372,7 @@ namespace Microsoft.Azure.IIoT.Storage.Default {
 
                 /// <inheritdoc/>
                 public override string ToString() {
-                    return Value.ToString(Formatting.Indented);
+                    return Value.ToString(SerializeOption.Indented);
                 }
 
                 /// <inheritdoc/>

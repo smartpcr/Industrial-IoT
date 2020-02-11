@@ -12,7 +12,6 @@ namespace Microsoft.Azure.IIoT.App.Services {
     using System.Linq;
     using System.Diagnostics;
     using System.Threading.Tasks;
-    using Microsoft.AspNetCore.Mvc.RazorPages;
 
     public class Registry {
 

@@ -645,8 +645,8 @@ namespace Microsoft.Azure.IIoT.OpcUa.Testing.Tests {
                 "Boolean", "SByte", "ByteString", "Int16", "UInt16",
                 "Int32", "UInt32", "Int64", "UInt64", "Float", "Double"
             }, result.Results.Select(arg => arg.DataType));
-            Assert.Equal(input.Select(arg => arg.Value.ToString(Serializers.Formatting.None)),
-                result.Results.Select(arg => arg.Value.ToString(Serializers.Formatting.None)),
+            Assert.Equal(input.Select(arg => arg.Value.ToString(Serializers.SerializeOption.None)),
+                result.Results.Select(arg => arg.Value.ToString(Serializers.SerializeOption.None)),
                 StringComparer.InvariantCulture);
             Assert.All(result.Results.Where(arg => arg.DataType != "ByteString"),
                 arg => Assert.Equal(VariantValueType.Array, arg.Value.Type));
@@ -692,16 +692,16 @@ namespace Microsoft.Azure.IIoT.OpcUa.Testing.Tests {
             }, result.Results.Select(arg => arg.DataType));
             Assert.Collection(result.Results,
                 arg => {
-                    Assert.Equal(input[0].Value.ToString(Serializers.Formatting.None),
-                        arg.Value.ToString(Serializers.Formatting.None));
+                    Assert.Equal(input[0].Value.ToString(Serializers.SerializeOption.None),
+                        arg.Value.ToString(Serializers.SerializeOption.None));
                 },
                 arg => {
-                    Assert.Equal(input[1].Value.ToString(Serializers.Formatting.None),
-                        arg.Value.ToString(Serializers.Formatting.None));
+                    Assert.Equal(input[1].Value.ToString(Serializers.SerializeOption.None),
+                        arg.Value.ToString(Serializers.SerializeOption.None));
                 },
                 arg => {
-                    Assert.Equal(input[2].Value.ToString(Serializers.Formatting.None),
-                        arg.Value.ToString(Serializers.Formatting.None));
+                    Assert.Equal(input[2].Value.ToString(Serializers.SerializeOption.None),
+                        arg.Value.ToString(Serializers.SerializeOption.None));
                 },
                 arg => {
                     Assert.Empty(arg.Value.Values);
@@ -808,12 +808,12 @@ namespace Microsoft.Azure.IIoT.OpcUa.Testing.Tests {
             }, result.Results.Select(arg => arg.DataType));
             Assert.Collection(result.Results,
                 arg => {
-                    Assert.Equal(input[0].Value.ToString(Serializers.Formatting.None),
-                        arg.Value.ToString(Serializers.Formatting.None), true);
+                    Assert.Equal(input[0].Value.ToString(Serializers.SerializeOption.None),
+                        arg.Value.ToString(Serializers.SerializeOption.None), true);
                 },
                 arg => {
-                    Assert.Equal(input[1].Value.ToString(Serializers.Formatting.None),
-                        arg.Value.ToString(Serializers.Formatting.None), true);
+                    Assert.Equal(input[1].Value.ToString(Serializers.SerializeOption.None),
+                        arg.Value.ToString(Serializers.SerializeOption.None), true);
                 },
                 arg => {
                     Assert.Equal(_serializer.FromObject(
@@ -842,8 +842,8 @@ namespace Microsoft.Azure.IIoT.OpcUa.Testing.Tests {
                     Assert.Empty(arg.Value.Values);
                 },
                 arg => {
-                    Assert.Equal(input[10].Value.ToString(Serializers.Formatting.None),
-                        arg.Value.ToString(Serializers.Formatting.None), true);
+                    Assert.Equal(input[10].Value.ToString(Serializers.SerializeOption.None),
+                        arg.Value.ToString(Serializers.SerializeOption.None), true);
                 });
             Assert.All(result.Results.Where(arg => arg.DataType != "ByteString"),
                 arg => Assert.Equal(VariantValueType.Array, arg.Value.Type));
@@ -949,8 +949,8 @@ namespace Microsoft.Azure.IIoT.OpcUa.Testing.Tests {
                     Assert.Empty(arg.Value.Values);
                 },
                 arg => {
-                    Assert.Equal(input[10].Value.ToString(Serializers.Formatting.None),
-                        arg.Value.ToString(Serializers.Formatting.None), true);
+                    Assert.Equal(input[10].Value.ToString(Serializers.SerializeOption.None),
+                        arg.Value.ToString(Serializers.SerializeOption.None), true);
                 });
         }
 
@@ -1087,44 +1087,44 @@ namespace Microsoft.Azure.IIoT.OpcUa.Testing.Tests {
                 result.Results.Select(arg => arg.DataType));
             Assert.Collection(result.Results,
                 arg => {
-                    Assert.Equal(input[0].Value.ToString(Serializers.Formatting.None),
-                        arg.Value.ToString(Serializers.Formatting.None), true);
+                    Assert.Equal(input[0].Value.ToString(Serializers.SerializeOption.None),
+                        arg.Value.ToString(Serializers.SerializeOption.None), true);
                 },
                 arg => {
-                    Assert.Equal(input[1].Value.ToString(Serializers.Formatting.None),
-                        arg.Value.ToString(Serializers.Formatting.None), true);
+                    Assert.Equal(input[1].Value.ToString(Serializers.SerializeOption.None),
+                        arg.Value.ToString(Serializers.SerializeOption.None), true);
                 },
                 arg => {
-                    Assert.Equal(input[2].Value.ToString(Serializers.Formatting.None),
-                        arg.Value.ToString(Serializers.Formatting.None), true);
+                    Assert.Equal(input[2].Value.ToString(Serializers.SerializeOption.None),
+                        arg.Value.ToString(Serializers.SerializeOption.None), true);
                 },
                 arg => {
-                    Assert.Equal(input[3].Value.ToString(Serializers.Formatting.None),
-                        arg.Value.ToString(Serializers.Formatting.None), true);
+                    Assert.Equal(input[3].Value.ToString(Serializers.SerializeOption.None),
+                        arg.Value.ToString(Serializers.SerializeOption.None), true);
                 },
                 arg => {
-                    Assert.Equal(input[4].Value.ToString(Serializers.Formatting.None),
-                        arg.Value.ToString(Serializers.Formatting.None), true);
+                    Assert.Equal(input[4].Value.ToString(Serializers.SerializeOption.None),
+                        arg.Value.ToString(Serializers.SerializeOption.None), true);
                 },
                 arg => {
-                    Assert.Equal(input[5].Value.ToString(Serializers.Formatting.None),
-                        arg.Value.ToString(Serializers.Formatting.None), true);
+                    Assert.Equal(input[5].Value.ToString(Serializers.SerializeOption.None),
+                        arg.Value.ToString(Serializers.SerializeOption.None), true);
                 },
                 arg => {
-                    Assert.Equal(input[6].Value.ToString(Serializers.Formatting.None),
-                        arg.Value.ToString(Serializers.Formatting.None), true);
+                    Assert.Equal(input[6].Value.ToString(Serializers.SerializeOption.None),
+                        arg.Value.ToString(Serializers.SerializeOption.None), true);
                 },
                 arg => {
-                    Assert.Equal(input[7].Value.ToString(Serializers.Formatting.None),
-                        arg.Value.ToString(Serializers.Formatting.None), true);
+                    Assert.Equal(input[7].Value.ToString(Serializers.SerializeOption.None),
+                        arg.Value.ToString(Serializers.SerializeOption.None), true);
                 },
                 arg => {
-                    Assert.Equal(input[8].Value.ToString(Serializers.Formatting.None),
-                        arg.Value.ToString(Serializers.Formatting.None), true);
+                    Assert.Equal(input[8].Value.ToString(Serializers.SerializeOption.None),
+                        arg.Value.ToString(Serializers.SerializeOption.None), true);
                 },
                 arg => {
-                    Assert.Equal(input[9].Value.ToString(Serializers.Formatting.None),
-                        arg.Value.ToString(Serializers.Formatting.None), true);
+                    Assert.Equal(input[9].Value.ToString(Serializers.SerializeOption.None),
+                        arg.Value.ToString(Serializers.SerializeOption.None), true);
                 });
             Assert.All(result.Results, arg => Assert.Equal(VariantValueType.Array, arg.Value.Type));
         }
@@ -1261,8 +1261,8 @@ namespace Microsoft.Azure.IIoT.OpcUa.Testing.Tests {
                 "XmlElement", "NodeId", "ExpandedNodeId",
                 "QualifiedName", "LocalizedText", "StatusCode" },
                 result.Results.Select(arg => arg.DataType));
-            Assert.Equal(input.Select(arg => arg.Value.ToString(Serializers.Formatting.None)),
-                result.Results.Select(arg => arg.Value.ToString(Serializers.Formatting.None)),
+            Assert.Equal(input.Select(arg => arg.Value.ToString(Serializers.SerializeOption.None)),
+                result.Results.Select(arg => arg.Value.ToString(Serializers.SerializeOption.None)),
                 StringComparer.InvariantCulture);
             Assert.All(result.Results, arg => Assert.Equal(VariantValueType.Array, arg.Value.Type));
             Assert.All(result.Results, arg => Assert.Empty(arg.Value.Values));
@@ -1302,8 +1302,8 @@ namespace Microsoft.Azure.IIoT.OpcUa.Testing.Tests {
             Assert.Equal(new List<string> {
                 "Variant", "Int32", "ExtensionObject"
             }, result.Results.Select(arg => arg.DataType));
-            Assert.Equal(input.Select(arg => arg.Value.ToString(Serializers.Formatting.None)),
-                result.Results.Select(arg => arg.Value.ToString(Serializers.Formatting.None)),
+            Assert.Equal(input.Select(arg => arg.Value.ToString(Serializers.SerializeOption.None)),
+                result.Results.Select(arg => arg.Value.ToString(Serializers.SerializeOption.None)),
                 StringComparer.InvariantCulture);
             Assert.All(result.Results, arg => Assert.Equal(VariantValueType.Array, arg.Value.Type));
         }
@@ -1370,8 +1370,8 @@ namespace Microsoft.Azure.IIoT.OpcUa.Testing.Tests {
             Assert.Equal(new List<string> {
                 "Variant", "Int32", "ExtensionObject"
             }, result.Results.Select(arg => arg.DataType));
-            Assert.Equal(input.Select(arg => arg.Value.ToString(Serializers.Formatting.None)),
-                result.Results.Select(arg => arg.Value.ToString(Serializers.Formatting.None)),
+            Assert.Equal(input.Select(arg => arg.Value.ToString(Serializers.SerializeOption.None)),
+                result.Results.Select(arg => arg.Value.ToString(Serializers.SerializeOption.None)),
                 StringComparer.InvariantCultureIgnoreCase);
             Assert.All(result.Results, arg => Assert.Equal(VariantValueType.Array, arg.Value.Type));
         }

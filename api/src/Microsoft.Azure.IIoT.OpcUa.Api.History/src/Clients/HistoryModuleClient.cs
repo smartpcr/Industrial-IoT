@@ -8,6 +8,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.History.Clients {
     using Microsoft.Azure.IIoT.OpcUa.Api.Core.Models;
     using Microsoft.Azure.IIoT.Module;
     using Microsoft.Azure.IIoT.Serializers;
+    using Microsoft.Azure.IIoT.Serializers.NewtonSoft;
     using System;
     using System.Threading.Tasks;
     using System.Threading;

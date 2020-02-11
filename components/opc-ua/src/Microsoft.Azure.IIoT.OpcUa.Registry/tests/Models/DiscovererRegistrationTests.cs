@@ -5,11 +5,12 @@
 
 namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
     using Microsoft.Azure.IIoT.Hub;
+    using Microsoft.Azure.IIoT.Serializers;
+    using Microsoft.Azure.IIoT.Serializers.NewtonSoft;
     using AutoFixture;
     using System;
     using System.Linq;
     using Xunit;
-    using Microsoft.Azure.IIoT.Serializers;
 
     public class DiscovererRegistrationTests {
 

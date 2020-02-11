@@ -6,8 +6,9 @@
 namespace Microsoft.Azure.IIoT.OpcUa.Api.Twin.Clients {
     using Microsoft.Azure.IIoT.OpcUa.Api.Twin.Models;
     using Microsoft.Azure.IIoT.OpcUa.Api.Core.Models;
-    using Microsoft.Azure.IIoT.Module;
+    using Microsoft.Azure.IIoT.Serializers.NewtonSoft;
     using Microsoft.Azure.IIoT.Serializers;
+    using Microsoft.Azure.IIoT.Module;
     using System;
     using System.Threading.Tasks;
     using System.Linq;

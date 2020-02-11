@@ -6,6 +6,7 @@
 namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Services {
     using Microsoft.Azure.IIoT.Exceptions;
     using Microsoft.Azure.IIoT.Serializers;
+    using Microsoft.Azure.IIoT.Serializers.NewtonSoft;
     using Microsoft.Azure.IIoT.Utils;
     using Opc.Ua;
     using Opc.Ua.Encoders;
@@ -140,7 +141,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Services {
                 }
 
                 var asString = value.Type == VariantValueType.String ?
-                    (string)value : value.ToString(Formatting.None);
+                    (string)value : value.ToString(SerializeOption.None);
 
                 if (value.Type != VariantValueType.Object &&
                     value.Type != VariantValueType.Array &&

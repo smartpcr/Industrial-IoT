@@ -15,26 +15,26 @@ namespace Microsoft.Azure.IIoT.Serializers {
         /// <summary>
         /// Serialize to writer
         /// </summary>
-        /// <param name="writer"></param>
+        /// <param name="buffer"></param>
         /// <param name="o"></param>
         /// <param name="format"></param>
         /// <returns></returns>
-        void Serialize(IBufferWriter<byte> writer, object o,
-            Formatting format = Formatting.None);
+        void Serialize(IBufferWriter<byte> buffer, object o,
+            SerializeOption format = SerializeOption.None);
 
         /// <summary>
         /// Serialize to string
         /// </summary>
         /// <param name="type"></param>
-        /// <param name="reader"></param>
+        /// <param name="buffer"></param>
         /// <returns></returns>
-        object Deserialize(ReadOnlySpan<byte> reader, Type type);
+        object Deserialize(ReadOnlyMemory<byte> buffer, Type type);
 
         /// <summary>
         /// Deserialize to variant value
         /// </summary>
-        /// <param name="reader"></param>
+        /// <param name="buffer"></param>
         /// <returns></returns>
-        VariantValue Parse(ReadOnlySpan<byte> reader);
+        VariantValue Parse(ReadOnlyMemory<byte> buffer);
     }
 }

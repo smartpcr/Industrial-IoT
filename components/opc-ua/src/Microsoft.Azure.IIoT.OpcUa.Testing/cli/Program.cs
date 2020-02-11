@@ -19,6 +19,8 @@ namespace Microsoft.Azure.IIoT.OpcUa.Cli {
     using Microsoft.Azure.IIoT.Storage.Default;
     using Microsoft.Azure.IIoT.Diagnostics;
     using Microsoft.Azure.IIoT.Module;
+    using Microsoft.Azure.IIoT.Serializers;
+    using Microsoft.Azure.IIoT.Serializers.NewtonSoft;
     using Newtonsoft.Json;
     using Opc.Ua;
     using Opc.Ua.Design;
@@ -35,7 +37,6 @@ namespace Microsoft.Azure.IIoT.OpcUa.Cli {
     using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
-    using Microsoft.Azure.IIoT.Serializers;
 
     /// <summary>
     /// Test client for opc ua services

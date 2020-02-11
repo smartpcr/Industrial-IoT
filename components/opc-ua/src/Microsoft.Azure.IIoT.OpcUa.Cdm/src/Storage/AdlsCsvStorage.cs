@@ -6,12 +6,10 @@
 namespace Microsoft.Azure.IIoT.OpcUa.Cdm.Storage {
     using Microsoft.Azure.IIoT.Cdm;
     using Microsoft.Azure.IIoT.Http;
-    using Microsoft.Azure.IIoT.OpcUa.Subscriber.Models;
     using Serilog;
     using System;
     using System.Collections.Generic;
     using System.Text;
-    using System.Threading;
     using System.Threading.Tasks;
 
     /// <inheritdoc/>

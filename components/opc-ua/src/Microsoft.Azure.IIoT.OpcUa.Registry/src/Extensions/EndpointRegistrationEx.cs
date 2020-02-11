@@ -7,7 +7,6 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
     using Microsoft.Azure.IIoT.OpcUa.Core.Models;
     using Microsoft.Azure.IIoT.Hub;
     using Microsoft.Azure.IIoT.Hub.Models;
-    using Newtonsoft.Json;
     using Microsoft.Azure.IIoT.Serializers;
     using System;
     using System.Collections.Generic;

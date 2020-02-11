@@ -22,7 +22,7 @@ namespace Microsoft.Azure.IIoT.Serializers {
         /// <param name="o"></param>
         /// <param name="format"></param>
         public static string Serialize(this ISerializer serializer,
-            object o, Formatting format = Formatting.None) {
+            object o, SerializeOption format = SerializeOption.None) {
             var writer = new ArrayBufferWriter<byte>();
             serializer.Serialize(writer, o, format);
             return Encoding.UTF8.GetString(writer.WrittenSpan);
@@ -73,7 +73,7 @@ namespace Microsoft.Azure.IIoT.Serializers {
         /// <returns></returns>
         public static string SerializePretty(
             this ISerializer serializer, object o) {
-            return serializer.Serialize(o, Formatting.Indented);
+            return serializer.Serialize(o, SerializeOption.Indented);
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace Microsoft.Azure.IIoT.Serializers {
         /// <returns></returns>
         public static string SerializeArrayPretty(
             this ISerializer serializer, params object[] a) {
-            return serializer.Serialize(a, Formatting.Indented);
+            return serializer.Serialize(a, SerializeOption.Indented);
         }
 
         /// <summary>

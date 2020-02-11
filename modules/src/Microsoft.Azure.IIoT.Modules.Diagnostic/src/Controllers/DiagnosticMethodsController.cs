@@ -46,7 +46,7 @@ namespace Microsoft.Azure.IIoT.Modules.Diagnostic.v2.Supervisor {
         /// <returns></returns>
         public Task<VariantValue> EchoAsync(VariantValue token) {
             _logger.Verbose("Processed ECHO: {token}", 
-                token.ToString(Formatting.None));
+                token.ToString(SerializeOption.None));
             return Task.FromResult(token);
         }
 

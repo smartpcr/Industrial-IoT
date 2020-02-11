@@ -26,6 +26,8 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Tests {
     using Microsoft.Azure.IIoT.Hub.Mock;
     using Microsoft.Azure.IIoT.Hub.Models;
     using Microsoft.Azure.IIoT.Utils;
+    using Microsoft.Azure.IIoT.Serializers;
+    using Microsoft.Azure.IIoT.Serializers.NewtonSoft;
     using Autofac;
     using AutofacSerilogIntegration;
     using System;
@@ -33,7 +35,6 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Tests {
     using System.Text;
     using System.Threading.Tasks;
     using Xunit;
-    using Microsoft.Azure.IIoT.Serializers;
 
     /// <summary>
     /// Harness for opc twin module

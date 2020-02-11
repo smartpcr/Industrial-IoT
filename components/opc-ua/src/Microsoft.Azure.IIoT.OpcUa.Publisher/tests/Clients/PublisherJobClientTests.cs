@@ -14,6 +14,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Publisher.Clients {
     using Microsoft.Azure.IIoT.Agent.Framework.Storage.Database;
     using Microsoft.Azure.IIoT.Storage;
     using Microsoft.Azure.IIoT.Storage.Default;
+    using Microsoft.Azure.IIoT.Serializers.NewtonSoft;
     using Microsoft.Azure.IIoT.Serializers;
     using Moq;
     using Autofac.Extras.Moq;

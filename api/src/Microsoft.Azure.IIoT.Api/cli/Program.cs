@@ -2549,7 +2549,7 @@ namespace Microsoft.Azure.IIoT.Api.Cli {
         private void PrintResult<T>(CliOptions options, T status) {
             Console.WriteLine("==================");
             Console.WriteLine(_serializer.Serialize(status,
-                options.GetValueOrDefault("-F", "--format", Formatting.Indented)));
+                options.GetValueOrDefault("-F", "--format", SerializeOption.Indented)));
             Console.WriteLine("==================");
         }
 

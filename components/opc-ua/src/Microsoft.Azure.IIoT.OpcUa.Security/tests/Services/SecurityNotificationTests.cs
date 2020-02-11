@@ -8,10 +8,11 @@ namespace Microsoft.Azure.IIoT.OpcUa.Security.Services {
     using Microsoft.Azure.IIoT.OpcUa.Core.Models;
     using Microsoft.Azure.IIoT.Hub;
     using Microsoft.Azure.IIoT.Hub.Mock;
+    using Microsoft.Azure.IIoT.Serializers;
+    using Microsoft.Azure.IIoT.Serializers.NewtonSoft;
     using Autofac.Extras.Moq;
     using AutoFixture;
     using AutoFixture.Kernel;
-    using Microsoft.Azure.IIoT.Serializers;
     using System;
     using System.Collections.Generic;
     using System.Linq;

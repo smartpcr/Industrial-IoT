@@ -476,7 +476,7 @@ namespace Microsoft.Azure.IIoT.Serializers {
 
         /// <inheritdoc/>
         public override string ToString() {
-            return ToString(Formatting.None);
+            return ToString(SerializeOption.None);
         }
 
         /// <inheritdoc/>
@@ -538,7 +538,7 @@ namespace Microsoft.Azure.IIoT.Serializers {
         /// </summary>
         /// <param name="format"></param>
         /// <returns></returns>
-        public abstract string ToString(Formatting format);
+        public abstract string ToString(SerializeOption format);
 
         /// <summary>
         /// Convert typed object to value
@@ -819,7 +819,7 @@ namespace Microsoft.Azure.IIoT.Serializers {
             }
 
             /// <inheritdoc/>
-            public override string ToString(Formatting format) {
+            public override string ToString(SerializeOption format) {
                 switch (Value) {
                     case null:
                         return "null";

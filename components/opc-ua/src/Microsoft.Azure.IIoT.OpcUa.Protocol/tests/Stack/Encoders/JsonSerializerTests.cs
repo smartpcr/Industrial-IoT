@@ -5,12 +5,13 @@
 
 namespace Opc.Ua.Encoders {
     using Opc.Ua.Models;
-    using System;
     using Xunit;
+    using Microsoft.Azure.IIoT.Serializers;
+    using Microsoft.Azure.IIoT.Serializers.NewtonSoft;
     using System.Globalization;
     using System.Collections.Generic;
-    using Microsoft.Azure.IIoT.Serializers;
     using System.Linq;
+    using System;
 
     public class JsonSerializerTests {
 

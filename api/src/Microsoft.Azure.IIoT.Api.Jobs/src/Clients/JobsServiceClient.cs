@@ -7,6 +7,7 @@ namespace Microsoft.Azure.IIoT.Api.Jobs.Clients {
     using Microsoft.Azure.IIoT.Api.Jobs.Models;
     using Microsoft.Azure.IIoT.Http;
     using Microsoft.Azure.IIoT.Serializers;
+    using Microsoft.Azure.IIoT.Serializers.NewtonSoft;
     using System;
     using System.Threading;
     using System.Threading.Tasks;

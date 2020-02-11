@@ -4,14 +4,8 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Models {
-    using Microsoft.Azure.IIoT.OpcUa.Core.Models;
-    using Microsoft.Azure.IIoT.Serializers;
     using Opc.Ua;
-    using Opc.Ua.Extensions;
-    using Opc.Ua.Encoders;
     using Opc.Ua.Client;
-    using System.IO;
-    using System.Text;
     using System.Collections.Generic;
     using System.Linq;
 

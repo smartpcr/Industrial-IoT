@@ -4,6 +4,7 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.Serializers {
+    using Microsoft.Azure.IIoT.Serializers.NewtonSoft;
     using Autofac;
 
     /// <summary>

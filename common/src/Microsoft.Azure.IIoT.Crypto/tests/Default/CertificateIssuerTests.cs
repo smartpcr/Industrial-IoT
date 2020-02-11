@@ -9,6 +9,7 @@ namespace Microsoft.Azure.IIoT.Crypto.Default {
     using Microsoft.Azure.IIoT.Storage;
     using Microsoft.Azure.IIoT.Storage.Default;
     using Microsoft.Azure.IIoT.Serializers;
+    using Microsoft.Azure.IIoT.Serializers.NewtonSoft;
     using Autofac.Extras.Moq;
     using System;
     using System.Collections.Generic;
