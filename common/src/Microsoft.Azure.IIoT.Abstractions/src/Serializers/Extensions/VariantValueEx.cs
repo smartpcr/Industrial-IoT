@@ -19,8 +19,7 @@ namespace Microsoft.Azure.IIoT.Serializers {
         /// <returns></returns>
         public static bool IsNull(this VariantValue value) {
             return value is null ||
-                value.Type == VariantValueType.Null ||
-                value.Type == VariantValueType.Undefined;
+                value.Type == VariantValueType.Null;
         }
 
         /// <summary>

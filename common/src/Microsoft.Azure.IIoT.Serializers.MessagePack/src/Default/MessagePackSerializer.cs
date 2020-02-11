@@ -27,7 +27,7 @@ namespace Microsoft.Azure.IIoT.Serializers.MessagePack {
         /// </summary>
         /// <param name="providers"></param>
         public MessagePackSerializer(
-            IEnumerable<IMessagePackConverterProvider> providers = null) {
+            IEnumerable<IMessagePackFormatterResolverProvider> providers = null) {
             var settings = MessagePackSerializerOptions.Standard
                 .WithSecurity(MessagePackSecurity.UntrustedData);
             // ...
@@ -58,8 +58,8 @@ namespace Microsoft.Azure.IIoT.Serializers.MessagePack {
         /// <inheritdoc/>
         public VariantValue Parse(ReadOnlyMemory<byte> buffer) {
             try {
-                var v = MsgPack.Deserialize<dynamic>(buffer, Settings);
-                return new MessagePackVariantValue(v, this);
+                var v = MsgPack.Deserialize<object>(buffer, Settings);
+                return new MessagePackVariantValue(v, this, false);
             }
             catch (MessagePackSerializationException ex) {
                 throw new SerializerException(ex.Message, ex);
@@ -69,7 +69,7 @@ namespace Microsoft.Azure.IIoT.Serializers.MessagePack {
         /// <inheritdoc/>
         public VariantValue FromObject(object o) {
             try {
-                return new MessagePackVariantValue(o, this);
+                return new MessagePackVariantValue(o, this, true);
             }
             catch (MessagePackSerializationException ex) {
                 throw new SerializerException(ex.Message, ex);
@@ -86,50 +86,69 @@ namespace Microsoft.Azure.IIoT.Serializers.MessagePack {
             /// </summary>
             /// <param name="value"></param>
             /// <param name="serializer"></param>
-            internal MessagePackVariantValue(object value, MessagePackSerializer serializer) {
+            /// <param name="parse"></param>
+            internal MessagePackVariantValue(object value,
+                MessagePackSerializer serializer, bool parse = false) {
                 _serializer = serializer;
-                _value = value;
+                _value = parse ? ToTypeLess(value) : value;
             }
 
             /// <inheritdoc/>
             public override VariantValueType Type {
                 get {
-                    switch (Value) {
-                        case null:
-                            return VariantValueType.Null;
-                        case IDictionary<object, object> _:
-                            return VariantValueType.Object;
-                        case IList<object> _:
-                            return VariantValueType.Array;
-                        case byte[] _:
-                            return VariantValueType.Bytes;
-                        case uint _:
-                        case int _:
-                        case ulong _:
-                        case long _:
-                        case sbyte _:
-                        case byte _:
-                        case ushort _:
-                        case short _:
-                        case char _:
-                            return VariantValueType.Integer;
-                        case float _:
-                        case double _:
-                        case decimal _:
-                            return VariantValueType.Float;
-                        case string st:
-                            if (DateTimeOffset.TryParse(st, out _)) {
-                                return VariantValueType.Date;
-                            }
-                            if (TimeSpan.TryParse(st, out _)) {
-                                return VariantValueType.TimeSpan;
-                            }
-                            return VariantValueType.String;
-                        case bool _:
-                            return VariantValueType.Boolean;
-                        default:
-                            return VariantValueType.Undefined;
+                    if (Value == null) {
+                        return VariantValueType.Null;
                     }
+                    if (Value is string st) {
+                        if (DateTimeOffset.TryParse(st, out _)) {
+                            return VariantValueType.Date;
+                        }
+                        if (TimeSpan.TryParse(st, out _)) {
+                            return VariantValueType.TimeSpan;
+                        }
+                        return VariantValueType.String;
+                    }
+
+                    var type = Value.GetType();
+                    if (type.IsArray) {
+                        return VariantValueType.Array;
+                    }
+                    if (typeof(IEnumerable<>).IsAssignableFrom(type)) {
+                        return VariantValueType.Array;
+                    }
+                    if (type.GetProperties().Length > 0) {
+                        return VariantValueType.Object;
+                    }
+                    if (typeof(IDictionary<,>).IsAssignableFrom(type)) {
+                        return VariantValueType.Object;
+                    }
+
+                    if (typeof(Nullable<>).IsAssignableFrom(type)) {
+                        type = type.GetGenericArguments()[0];
+                    }
+                    if (typeof(bool) == type) {
+                        return VariantValueType.Boolean;
+                    }
+                    if (typeof(byte[]) == type) {
+                        return VariantValueType.Bytes;
+                    }
+                    if (typeof(uint[]) == type ||
+                        typeof(int) == type ||
+                        typeof(ulong) == type ||
+                        typeof(long) == type ||
+                        typeof(sbyte) == type ||
+                        typeof(byte) == type ||
+                        typeof(ushort) == type ||
+                        typeof(short) == type ||
+                        typeof(char) == type) {
+                        return VariantValueType.Integer;
+                    }
+                    if (typeof(float) == type ||
+                        typeof(double) == type ||
+                        typeof(decimal) == type) {
+                        return VariantValueType.Float;
+                    }
+                    return VariantValueType.Undefined;
                 }
             }
 
@@ -172,8 +191,7 @@ namespace Microsoft.Azure.IIoT.Serializers.MessagePack {
                     return new MessagePackVariantValue(null, _serializer);
                 }
                 try {
-                    return new MessagePackVariantValue(
-                        ToType(Value.GetType(), null), _serializer);
+                    return new MessagePackVariantValue(Value, _serializer, true);
                 }
                 catch (MessagePackSerializationException ex) {
                     throw new SerializerException(ex.Message, ex);
@@ -269,6 +287,26 @@ namespace Microsoft.Azure.IIoT.Serializers.MessagePack {
             /// <inheritdoc/>
             protected override bool DeepEquals(VariantValue v) {
                 return ValueEquals(v.Value);
+            }
+
+            /// <summary>
+            /// Convert to typeless object
+            /// </summary>
+            /// <param name="value"></param>
+            /// <returns></returns>
+            internal object ToTypeLess(object value) {
+                if (value is null) {
+                    return null;
+                }
+                try {
+                    var buffer = new ArrayBufferWriter<byte>();
+                    MsgPack.Serialize(buffer, value, _serializer.Settings);
+                    return MsgPack.Deserialize<object>(buffer.WrittenMemory,
+                        _serializer.Settings);
+                }
+                catch (MessagePackSerializationException ex) {
+                    throw new SerializerException(ex.Message, ex);
+                }
             }
 
             /// <summary>

@@ -4,24 +4,18 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.Serializers {
-    using Newtonsoft.Json;
     using System.Collections.Generic;
-    using System.Runtime.Serialization;
+    using global::MessagePack;
 
     /// <summary>
-    /// Converter provider
+    /// Formtter provider
     /// </summary>
-    public interface IMessagePackConverterProvider {
+    public interface IMessagePackFormatterResolverProvider {
 
         /// <summary>
-        /// Gets a streaming context to use
-        /// </summary>
-        StreamingContext Context { get; }
-
-        /// <summary>
-        /// Get converters
+        /// Get formatters
         /// </summary>
         /// <returns></returns>
-        IEnumerable<JsonConverter> GetConverters();
+        IEnumerable<IFormatterResolver> GetFormatters();
     }
 }

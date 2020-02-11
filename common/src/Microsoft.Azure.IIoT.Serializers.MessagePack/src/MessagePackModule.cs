@@ -17,7 +17,7 @@ namespace Microsoft.Azure.IIoT.Serializers {
 
             builder.RegisterType<MessagePackSerializer>()
                 .AsImplementedInterfaces().SingleInstance();
-            builder.RegisterType<MessagePackConverters>()
+            builder.RegisterType<MessagePackFormatters>()
                 .AsImplementedInterfaces().SingleInstance();
 
             base.Load(builder);
