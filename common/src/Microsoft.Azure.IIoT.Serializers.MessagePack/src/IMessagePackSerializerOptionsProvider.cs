@@ -15,6 +15,6 @@ namespace Microsoft.Azure.IIoT.Serializers {
         /// <summary>
         /// Serializer options
         /// </summary>
-        MessagePackSerializerOptions Settings { get; }
+        MessagePackSerializerOptions Options { get; }
     }
 }

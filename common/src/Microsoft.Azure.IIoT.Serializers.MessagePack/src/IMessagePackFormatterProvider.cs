@@ -6,6 +6,7 @@
 namespace Microsoft.Azure.IIoT.Serializers {
     using System.Collections.Generic;
     using global::MessagePack;
+    using global::MessagePack.Formatters;
 
     /// <summary>
     /// Formtter provider
@@ -13,9 +14,9 @@ namespace Microsoft.Azure.IIoT.Serializers {
     public interface IMessagePackFormatterResolverProvider {
 
         /// <summary>
-        /// Get formatters
+        /// Get Resolvers
         /// </summary>
         /// <returns></returns>
-        IEnumerable<IFormatterResolver> GetFormatters();
+        IEnumerable<IFormatterResolver> GetResolvers();
     }
 }

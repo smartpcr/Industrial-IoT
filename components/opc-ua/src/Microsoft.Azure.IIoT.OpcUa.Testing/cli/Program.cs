@@ -303,7 +303,7 @@ Operations (Mutually exclusive):
                     using (var writer = File.CreateText($"iop_{id}.json"))
                     using (var json = new JsonTextWriter(writer) {
                         AutoCompleteOnClose = true,
-                        Formatting = Newtonsoft.Json.Formatting.Indented,
+                        Formatting = Formatting.Indented,
                         DateFormatHandling = DateFormatHandling.IsoDateFormat
                     })
                     using (var encoder = new JsonEncoderEx(json, null,
@@ -354,7 +354,7 @@ Operations (Mutually exclusive):
             using (var writer = new StreamWriter(stream))
             using (var json = new JsonTextWriter(writer) {
                 AutoCompleteOnClose = true,
-                Formatting = Newtonsoft.Json.Formatting.Indented,
+                Formatting = Formatting.Indented,
                 DateFormatHandling = DateFormatHandling.IsoDateFormat
             })
             using (var encoder = new JsonEncoderEx(json, null,
@@ -558,7 +558,7 @@ Operations (Mutually exclusive):
                                 visited.Add(request.NodeId);
                                 if (!silent) {
                                     Console.WriteLine(JsonConvert.SerializeObject(result,
-                                        Newtonsoft.Json.Formatting.Indented));
+                                        Formatting.Indented));
                                 }
 
                                 // Do recursive browse
@@ -588,7 +588,7 @@ Operations (Mutually exclusive):
                                             });
                                         if (!silent) {
                                             Console.WriteLine(JsonConvert.SerializeObject(result,
-                                                Newtonsoft.Json.Formatting.Indented));
+                                                Formatting.Indented));
                                         }
                                     }
                                     catch (Exception ex) {

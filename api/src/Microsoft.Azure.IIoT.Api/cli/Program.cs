@@ -1845,7 +1845,7 @@ namespace Microsoft.Azure.IIoT.Api.Cli {
                     Id = id,
                     DiscoveryUrl = options.GetValue<string>("-u", "--url"),
                     ActivationFilter = !activate ? null : new EndpointActivationFilterApiModel {
-                        SecurityMode = OpcUa.Api.Core.Models.SecurityMode.None
+                        SecurityMode = SecurityMode.None
                     }
                 });
         }
@@ -2697,7 +2697,7 @@ namespace Microsoft.Azure.IIoT.Api.Cli {
 
             if (options.IsSet("-a", "--activate")) {
                 config.ActivationFilter = new EndpointActivationFilterApiModel {
-                    SecurityMode = OpcUa.Api.Core.Models.SecurityMode.None
+                    SecurityMode = SecurityMode.None
                 };
                 empty = false;
             }

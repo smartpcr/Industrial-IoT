@@ -6,11 +6,22 @@
 namespace Microsoft.Azure.IIoT.Serializers {
     using System;
     using System.Buffers;
+    using System.Text;
 
     /// <summary>
     /// Pluggable serializer
     /// </summary>
-    public interface ISerializer : IVariantFactory {
+    public interface ISerializer {
+
+        /// <summary>
+        /// Mime type
+        /// </summary>
+        string MimeType { get; }
+
+        /// <summary>
+        /// Encoding used
+        /// </summary>
+        Encoding ContentEncoding { get; }
 
         /// <summary>
         /// Serialize to writer
@@ -36,5 +47,12 @@ namespace Microsoft.Azure.IIoT.Serializers {
         /// <param name="buffer"></param>
         /// <returns></returns>
         VariantValue Parse(ReadOnlyMemory<byte> buffer);
+
+        /// <summary>
+        /// Convert to token.
+        /// </summary>
+        /// <param name="o"></param>
+        /// <returns></returns>
+        VariantValue FromObject(object o);
     }
 }

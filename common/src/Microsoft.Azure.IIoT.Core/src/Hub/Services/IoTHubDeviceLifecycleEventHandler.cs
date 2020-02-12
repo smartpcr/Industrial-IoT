@@ -16,7 +16,7 @@ namespace Microsoft.Azure.IIoT.Hub.Services {
     public sealed class IoTHubDeviceLifecycleEventHandler : IoTHubDeviceTwinChangeHandlerBase {
 
         /// <inheritdoc/>
-        public override string MessageSchema => Hub.MessageSchemaTypes.DeviceLifecycleNotification;
+        public override string MessageSchema => MessageSchemaTypes.DeviceLifecycleNotification;
 
         /// <summary>
         /// Create handler

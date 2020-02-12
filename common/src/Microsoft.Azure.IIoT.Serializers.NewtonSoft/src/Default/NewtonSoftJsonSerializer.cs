@@ -20,6 +20,12 @@ namespace Microsoft.Azure.IIoT.Serializers.NewtonSoft {
     /// </summary>
     public class NewtonSoftJsonSerializer : IJsonSerializerSettingsProvider, ISerializer {
 
+        /// <inheritdoc/>
+        public string MimeType => ContentMimeType.Json;
+
+        /// <inheritdoc/>
+        public Encoding ContentEncoding => Encoding.UTF8;
+
         /// <summary>
         /// Json serializer settings
         /// </summary>
@@ -38,7 +44,6 @@ namespace Microsoft.Azure.IIoT.Serializers.NewtonSoft {
                 }
             }
             settings.Converters.Add(new JsonVariantConverter(this));
-           // settings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             settings.FloatFormatHandling = FloatFormatHandling.String;
             settings.FloatParseHandling = FloatParseHandling.Double;
             settings.DateParseHandling = DateParseHandling.DateTime;
@@ -57,7 +62,7 @@ namespace Microsoft.Azure.IIoT.Serializers.NewtonSoft {
                 // TODO move to .net 3 to use readonly span as stream source
                 var jsonSerializer = JsonSerializer.CreateDefault(Settings);
                 using (var stream = new MemoryStream(buffer.ToArray()))
-                using (var reader = new StreamReader(stream, Encoding.UTF8)) {
+                using (var reader = new StreamReader(stream, ContentEncoding)) {
                     return jsonSerializer.Deserialize(reader, type);
                 }
             }
@@ -71,8 +76,8 @@ namespace Microsoft.Azure.IIoT.Serializers.NewtonSoft {
             try {
                 var jsonSerializer = JsonSerializer.CreateDefault(Settings);
                 jsonSerializer.Formatting = format == SerializeOption.Indented ?
-                    Newtonsoft.Json.Formatting.Indented :
-                    Newtonsoft.Json.Formatting.None;
+                    Formatting.Indented :
+                    Formatting.None;
                 // TODO move to .net 3 to use buffer writer as stream sink
                 using (var stream = new MemoryStream()) {
                     using (var writer = new StreamWriter(stream)) {
@@ -92,7 +97,7 @@ namespace Microsoft.Azure.IIoT.Serializers.NewtonSoft {
             try {
                 // TODO move to .net 3 to use readonly span as stream source
                 using (var stream = new MemoryStream(buffer.ToArray()))
-                using (var reader = new StreamReader(stream, Encoding.UTF8))
+                using (var reader = new StreamReader(stream, ContentEncoding))
                 using (var jsonReader = new JsonTextReader(reader)) {
 
                     jsonReader.FloatParseHandling = Settings.FloatParseHandling;
@@ -255,8 +260,8 @@ namespace Microsoft.Azure.IIoT.Serializers.NewtonSoft {
             /// <inheritdoc/>
             public override string ToString(SerializeOption format) {
                 return Token.ToString(format == SerializeOption.Indented ?
-                    Newtonsoft.Json.Formatting.Indented :
-                    Newtonsoft.Json.Formatting.None,
+                    Formatting.Indented :
+                    Formatting.None,
                     _serializer.Settings.Converters.ToArray());
             }
 
@@ -350,9 +355,9 @@ namespace Microsoft.Azure.IIoT.Serializers.NewtonSoft {
                     if (t1.Equals(t2)) {
                         return true;
                     }
-                    var s1 = t1.ToString(Newtonsoft.Json.Formatting.None,
+                    var s1 = t1.ToString(Formatting.None,
                         _serializer.Settings.Converters.ToArray());
-                    var s2 = t2.ToString(Newtonsoft.Json.Formatting.None,
+                    var s2 = t2.ToString(Formatting.None,
                         _serializer.Settings.Converters.ToArray());
                     if (s1 == s2) {
                         return true;

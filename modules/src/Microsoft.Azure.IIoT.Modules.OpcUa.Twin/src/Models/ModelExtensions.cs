@@ -135,7 +135,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Models {
                 SecurityPolicy = model.SecurityPolicy,
                 Configuration = model.Configuration,
                 CredentialType = (Microsoft.Azure.IIoT.OpcUa.Core.Models.CredentialType?)model.CredentialType ??
-                    Microsoft.Azure.IIoT.OpcUa.Core.Models.CredentialType.None
+                    IIoT.OpcUa.Core.Models.CredentialType.None
             };
         }
 

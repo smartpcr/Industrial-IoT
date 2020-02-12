@@ -4,23 +4,36 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.Serializers.MessagePack {
+    using Microsoft.Azure.IIoT.Serializers;
     using Microsoft.Azure.IIoT.Exceptions;
+    using System.Collections.Concurrent;
+    using global::MessagePack.Formatters;
+    using global::MessagePack.Resolvers;
+    using global::MessagePack;
     using System;
     using System.Buffers;
     using System.Collections.Generic;
     using System.Linq;
-    using global::MessagePack;
+    using System.Numerics;
+    using System.Text;
     using MsgPack = global::MessagePack.MessagePackSerializer;
 
     /// <summary>
-    /// Newtonsoft json serializer
+    /// Message pack serializer
     /// </summary>
-    public class MessagePackSerializer : IMessagePackSerializerOptionsProvider, ISerializer {
+    public class MessagePackSerializer : IMessagePackSerializerOptionsProvider,
+        ISerializer {
+
+        /// <inheritdoc/>
+        public string MimeType => ContentMimeType.MsgPack;
+
+        /// <inheritdoc/>
+        public Encoding ContentEncoding => null;
 
         /// <summary>
-        /// Json serializer settings
+        /// Message pack options
         /// </summary>
-        public MessagePackSerializerOptions Settings { get; }
+        public MessagePackSerializerOptions Options { get; }
 
         /// <summary>
         /// Create serializer
@@ -28,17 +41,29 @@ namespace Microsoft.Azure.IIoT.Serializers.MessagePack {
         /// <param name="providers"></param>
         public MessagePackSerializer(
             IEnumerable<IMessagePackFormatterResolverProvider> providers = null) {
-            var settings = MessagePackSerializerOptions.Standard
-                .WithSecurity(MessagePackSecurity.UntrustedData);
-            // ...
-
-            Settings = settings;
+            // Create options
+            var resolvers = new List<IFormatterResolver> {
+                MessagePackVariantFormatterResolver.Instance
+            };
+            if (providers != null) {
+                foreach (var provider in providers) {
+                    var providedResolvers = provider.GetResolvers();
+                    if (providedResolvers != null) {
+                        resolvers.AddRange(providedResolvers);
+                    }
+                }
+            }
+            resolvers.Add(StandardResolver.Instance);
+            Options = MessagePackSerializerOptions.Standard
+                .WithSecurity(MessagePackSecurity.UntrustedData)
+                .WithResolver(CompositeResolver.Create(resolvers.ToArray()))
+                ;
         }
 
         /// <inheritdoc/>
         public object Deserialize(ReadOnlyMemory<byte> buffer, Type type) {
             try {
-                return MsgPack.Deserialize(type, buffer, Settings);
+                return MsgPack.Deserialize(type, buffer, Options);
             }
             catch (MessagePackSerializationException ex) {
                 throw new SerializerException(ex.Message, ex);
@@ -48,7 +73,7 @@ namespace Microsoft.Azure.IIoT.Serializers.MessagePack {
         /// <inheritdoc/>
         public void Serialize(IBufferWriter<byte> buffer, object o, SerializeOption format) {
             try {
-                MsgPack.Serialize(buffer, o, Settings);
+                MsgPack.Serialize(buffer, o, Options);
             }
             catch (MessagePackSerializationException ex) {
                 throw new SerializerException(ex.Message, ex);
@@ -58,8 +83,11 @@ namespace Microsoft.Azure.IIoT.Serializers.MessagePack {
         /// <inheritdoc/>
         public VariantValue Parse(ReadOnlyMemory<byte> buffer) {
             try {
-                var v = MsgPack.Deserialize<object>(buffer, Settings);
-                return new MessagePackVariantValue(v, this, false);
+                var o = MsgPack.Deserialize<object>(buffer, Options);
+                if (o is VariantValue v) {
+                    return v;
+                }
+                return new MessagePackVariantValue(o, Options, false);
             }
             catch (MessagePackSerializationException ex) {
                 throw new SerializerException(ex.Message, ex);
@@ -69,7 +97,7 @@ namespace Microsoft.Azure.IIoT.Serializers.MessagePack {
         /// <inheritdoc/>
         public VariantValue FromObject(object o) {
             try {
-                return new MessagePackVariantValue(o, this, true);
+                return new MessagePackVariantValue(o, Options, true);
             }
             catch (MessagePackSerializationException ex) {
                 throw new SerializerException(ex.Message, ex);
@@ -86,11 +114,12 @@ namespace Microsoft.Azure.IIoT.Serializers.MessagePack {
             /// </summary>
             /// <param name="value"></param>
             /// <param name="serializer"></param>
-            /// <param name="parse"></param>
+            /// <param name="typed">Whether the object is the
+            /// original type or the generated one</param>
             internal MessagePackVariantValue(object value,
-                MessagePackSerializer serializer, bool parse = false) {
-                _serializer = serializer;
-                _value = parse ? ToTypeLess(value) : value;
+                MessagePackSerializerOptions serializer, bool typed) {
+                _options = serializer;
+                _value = typed ? ToTypeLess(value) : value;
             }
 
             /// <inheritdoc/>
@@ -110,29 +139,29 @@ namespace Microsoft.Azure.IIoT.Serializers.MessagePack {
                     }
 
                     var type = Value.GetType();
-                    if (type.IsArray) {
+                    if (typeof(byte[]) == type) {
+                        return VariantValueType.Bytes;
+                    }
+                    if (typeof(Guid) == type ||
+                        typeof(Uri) == type) {
+                        return VariantValueType.String;
+                    }
+                    if (type.IsArray ||
+                        typeof(IList<object>).IsAssignableFrom(type) ||
+                        typeof(IEnumerable<object>).IsAssignableFrom(type)) {
                         return VariantValueType.Array;
                     }
-                    if (typeof(IEnumerable<>).IsAssignableFrom(type)) {
-                        return VariantValueType.Array;
-                    }
-                    if (type.GetProperties().Length > 0) {
+                    if (typeof(IDictionary<object, object>).IsAssignableFrom(type)) {
                         return VariantValueType.Object;
                     }
-                    if (typeof(IDictionary<,>).IsAssignableFrom(type)) {
-                        return VariantValueType.Object;
-                    }
-
-                    if (typeof(Nullable<>).IsAssignableFrom(type)) {
+                    if (type.IsGenericType &&
+                        type.GetGenericTypeDefinition() == typeof(Nullable<>)) {
                         type = type.GetGenericArguments()[0];
                     }
                     if (typeof(bool) == type) {
                         return VariantValueType.Boolean;
                     }
-                    if (typeof(byte[]) == type) {
-                        return VariantValueType.Bytes;
-                    }
-                    if (typeof(uint[]) == type ||
+                    if (typeof(uint) == type ||
                         typeof(int) == type ||
                         typeof(ulong) == type ||
                         typeof(long) == type ||
@@ -145,8 +174,12 @@ namespace Microsoft.Azure.IIoT.Serializers.MessagePack {
                     }
                     if (typeof(float) == type ||
                         typeof(double) == type ||
+                        typeof(BigInteger) == type ||
                         typeof(decimal) == type) {
                         return VariantValueType.Float;
+                    }
+                    if (type.GetProperties().Length > 0) {
+                        return VariantValueType.Object;
                     }
                     return VariantValueType.Undefined;
                 }
@@ -169,7 +202,8 @@ namespace Microsoft.Azure.IIoT.Serializers.MessagePack {
             public override IEnumerable<VariantValue> Values {
                 get {
                     if (Value is IList<object> array) {
-                        return array.Select(i => new MessagePackVariantValue(i, _serializer));
+                        return array.Select(i =>
+                            new MessagePackVariantValue(i, _options, false));
                     }
                     return Enumerable.Empty<VariantValue>();
                 }
@@ -188,10 +222,10 @@ namespace Microsoft.Azure.IIoT.Serializers.MessagePack {
             /// <inheritdoc/>
             public override VariantValue Copy(bool shallow) {
                 if (Value is null) {
-                    return new MessagePackVariantValue(null, _serializer);
+                    return Null();
                 }
                 try {
-                    return new MessagePackVariantValue(Value, _serializer, true);
+                    return new MessagePackVariantValue(Value, _options, true);
                 }
                 catch (MessagePackSerializationException ex) {
                     throw new SerializerException(ex.Message, ex);
@@ -203,11 +237,18 @@ namespace Microsoft.Azure.IIoT.Serializers.MessagePack {
                 if (Value is null) {
                     return null;
                 }
+                if (type.IsAssignableFrom(Value.GetType())) {
+                    return Value;
+                }
                 try {
                     var buffer = new ArrayBufferWriter<byte>();
-                    MsgPack.Serialize(buffer, Value, _serializer.Settings);
-                    return MsgPack.Deserialize(type, buffer.WrittenMemory,
-                        _serializer.Settings);
+                    MsgPack.Serialize(buffer, Value, _options);
+                    // Special case - convert byte array to buffer if not bin to begin.
+                    if (type == typeof(byte[]) && Value.GetType().IsArray) {
+                        return ((IList<byte>)MsgPack.Deserialize(typeof(IList<byte>),
+                            buffer.WrittenMemory, _options)).ToArray();
+                    }
+                    return MsgPack.Deserialize(type, buffer.WrittenMemory, _options);
                 }
                 catch (MessagePackSerializationException ex) {
                     throw new SerializerException(ex.Message, ex);
@@ -227,8 +268,8 @@ namespace Microsoft.Azure.IIoT.Serializers.MessagePack {
             /// <inheritdoc/>
             public override string ToString(SerializeOption format) {
                 try {
-                    var buffer = MsgPack.Serialize(Value, _serializer.Settings);
-                    return MsgPack.ConvertToJson(buffer, _serializer.Settings);
+                    var buffer = MsgPack.Serialize(Value, _options);
+                    return MsgPack.ConvertToJson(buffer, _options);
                 }
                 catch (MessagePackSerializationException ex) {
                     throw new SerializerException(ex.Message, ex);
@@ -241,24 +282,25 @@ namespace Microsoft.Azure.IIoT.Serializers.MessagePack {
                 if (Value is IDictionary<string, object> o) {
                     var success = o.FirstOrDefault(kv => key.Equals(kv.Key, compare));
                     if (success.Value != null) {
-                        value = new MessagePackVariantValue(success.Value, _serializer);
+                        value = new MessagePackVariantValue(
+                            success.Value, _options, false);
                         return true;
                     }
                 }
 
                 // TODO: use reflection
 
-                value = new MessagePackVariantValue(null, _serializer);
+                value = Null();
                 return false;
             }
 
             /// <inheritdoc/>
             public override bool TryGetValue(int index, out VariantValue value) {
                 if (index >= 0 && Value is IList<object> o && index < o.Count) {
-                    value = new MessagePackVariantValue(o[index], _serializer);
+                    value = new MessagePackVariantValue(o[index], _options, false);
                     return true;
                 }
-                value = new MessagePackVariantValue(null, _serializer);
+                value = Null();
                 return false;
             }
 
@@ -269,8 +311,25 @@ namespace Microsoft.Azure.IIoT.Serializers.MessagePack {
 
             /// <inheritdoc/>
             protected override VariantValue Null() {
-                return new MessagePackVariantValue(null, _serializer);
+                return new MessagePackVariantValue(null, _options, false);
             }
+
+            /// <inheritdoc/>
+            protected override bool TryCompareInnerValueTo(object o, out int result) {
+                // Compare value token
+                if (Value is IComparable v1 && o is IComparable v2) {
+                    result = v1.CompareTo(v2);
+                    return true;
+                }
+                if (Value is object[] a1 && a1.Length > 0 && a1[0] is IComparable c1 &&
+                    Value is object[] a2 && a2.Length > 0 && a2[0] is IComparable c2) {
+                    result = c1.CompareTo(c2);
+                    return true;
+                }
+                result = 0;
+                return false;
+            }
+
 
             /// <inheritdoc/>
             protected override bool ValueEquals(object o) {
@@ -290,26 +349,6 @@ namespace Microsoft.Azure.IIoT.Serializers.MessagePack {
             }
 
             /// <summary>
-            /// Convert to typeless object
-            /// </summary>
-            /// <param name="value"></param>
-            /// <returns></returns>
-            internal object ToTypeLess(object value) {
-                if (value is null) {
-                    return null;
-                }
-                try {
-                    var buffer = new ArrayBufferWriter<byte>();
-                    MsgPack.Serialize(buffer, value, _serializer.Settings);
-                    return MsgPack.Deserialize<object>(buffer.WrittenMemory,
-                        _serializer.Settings);
-                }
-                catch (MessagePackSerializationException ex) {
-                    throw new SerializerException(ex.Message, ex);
-                }
-            }
-
-            /// <summary>
             /// Compare tokens in more consistent fashion
             /// </summary>
             /// <param name="t1"></param>
@@ -320,6 +359,26 @@ namespace Microsoft.Azure.IIoT.Serializers.MessagePack {
                     return t1 == t2;
                 }
 
+                if (TypeLessEquals(t1, t2)) {
+                    return true;
+                }
+
+                t1 = ToTypeLess(t1);
+                t2 = ToTypeLess(t2);
+                if (TypeLessEquals(t1, t2)) {
+                    return true;
+                }
+                return false;
+            }
+
+            /// <summary>
+            /// Compare tokens in more consistent fashion
+            /// </summary>
+            /// <param name="t1"></param>
+            /// <param name="t2"></param>
+            /// <returns></returns>
+            internal bool TypeLessEquals(object t1, object t2) {
+                // Test object equals
                 if (t1 is IDictionary<object, object> o1 &&
                     t2 is IDictionary<object, object> o2) {
                     // Compare properties in order of key
@@ -329,38 +388,118 @@ namespace Microsoft.Azure.IIoT.Serializers.MessagePack {
                         Compare.Using<object>((x, y) => DeepEquals(x, y)));
                 }
 
-                if (t1 is IList<object> c1 && t2 is IList<object> c2) {
-                    // For all other containers - order is important
+                // Test array
+                if (t1 is object[] c1 && t2 is object[] c2) {
                     return c1.SequenceEqual(c2,
                         Compare.Using<object>((x, y) => DeepEquals(x, y)));
                 }
 
-                // TODO: use reflection
-
+                // Test value equals
                 if (t1.Equals(t2)) {
                     return true;
                 }
-                var s1 = t1.ToString();
-                var s2 = t2.ToString();
-                if (s1 == s2) {
-                    return true;
-                }
                 return false;
             }
+
+            /// <summary>
+            /// Convert to typeless object
+            /// </summary>
+            /// <param name="value"></param>
+            /// <returns></returns>
+            internal object ToTypeLess(object value) {
+                if (value is null) {
+                    return null;
+                }
+                try {
+                    var buffer = new ArrayBufferWriter<byte>();
+                    MsgPack.Serialize(buffer, value, _options);
+                    return MsgPack.Deserialize<object>(buffer.WrittenMemory, _options);
+                }
+                catch (MessagePackSerializationException ex) {
+                    throw new SerializerException(ex.Message, ex);
+                }
+            }
+
+            private readonly MessagePackSerializerOptions _options;
+            private object _value;
+        }
+
+        /// <summary>
+        /// Message pack resolver
+        /// </summary>
+        private class MessagePackVariantFormatterResolver : IFormatterResolver {
+
+            public static readonly MessagePackVariantFormatterResolver Instance =
+                new MessagePackVariantFormatterResolver();
 
             /// <inheritdoc/>
-            protected override bool TryCompareInnerValueTo(object o, out int result) {
-                // Compare value token
-                if (Value is IComparable v1 && o is IComparable v2) {
-                    result = v1.CompareTo(v2);
-                    return true;
+            public IMessagePackFormatter<T> GetFormatter<T>() {
+                if (typeof(VariantValue).IsAssignableFrom(typeof(T))) {
+                    return (IMessagePackFormatter<T>)GetVariantFormatter(typeof(T));
                 }
-                result = 0;
-                return false;
+                return null;
             }
 
-            private readonly MessagePackSerializer _serializer;
-            private object _value;
+            /// <summary>
+            /// Create Message pack variant formater of specifed type
+            /// </summary>
+            /// <param name="type"></param>
+            /// <returns></returns>
+            internal IMessagePackFormatter GetVariantFormatter(Type type) {
+                return _cache.GetOrAdd(type,
+                    (IMessagePackFormatter)Activator.CreateInstance(
+                        typeof(MessagePackVariantFormatter<>).MakeGenericType(type)));
+            }
+
+            /// <summary>
+            /// Variant formatter
+            /// </summary>
+            private sealed class MessagePackVariantFormatter<T> : IMessagePackFormatter<T>
+                where T : VariantValue {
+
+                /// <inheritdoc/>
+                public void Serialize(ref MessagePackWriter writer, T value,
+                    MessagePackSerializerOptions options) {
+                    if (value is MessagePackVariantValue packed) {
+                        MsgPack.Serialize(ref writer, packed.Value, options);
+                    }
+                    else if (value is VariantValue variant) {
+                        switch (variant.Type) {
+                            case VariantValueType.Null:
+                                writer.WriteNil();
+                                break;
+                            case VariantValueType.Array:
+                                writer.WriteArrayHeader(variant.Count);
+                                foreach (var item in variant.Values) {
+                                    MsgPack.Serialize(ref writer, item, options);
+                                }
+                                break;
+                            case VariantValueType.Object:
+                                // Serialize objects as key value pairs
+                                var dict = variant.Keys
+                                    .ToDictionary(k => k, k => variant[k]);
+                                MsgPack.Serialize(ref writer, dict, options);
+                                break;
+                            default:
+                                // Serialize value using primitive serializer
+                                MsgPack.Serialize(ref writer, variant.Value, options);
+                                break;
+                        }
+                    }
+                }
+
+                /// <inheritdoc/>
+                public T Deserialize(ref MessagePackReader reader,
+                    MessagePackSerializerOptions options) {
+
+                    // Read variant from reader
+                    var o = MsgPack.Deserialize<object>(ref reader, options);
+                    return new MessagePackVariantValue(o, options, false) as T;
+                }
+            }
+
+            private readonly ConcurrentDictionary<Type, IMessagePackFormatter> _cache =
+                new ConcurrentDictionary<Type, IMessagePackFormatter>();
         }
     }
 }

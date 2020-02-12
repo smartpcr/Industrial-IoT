@@ -25,7 +25,8 @@ namespace Microsoft.Azure.IIoT.Serializers {
             object o, SerializeOption format = SerializeOption.None) {
             var writer = new ArrayBufferWriter<byte>();
             serializer.Serialize(writer, o, format);
-            return Encoding.UTF8.GetString(writer.WrittenSpan);
+            return serializer.ContentEncoding?.GetString(writer.WrittenSpan)
+                ?? Convert.ToBase64String(writer.WrittenSpan);
         }
 
         /// <summary>
@@ -91,12 +92,14 @@ namespace Microsoft.Azure.IIoT.Serializers {
         /// Deserialize from string
         /// </summary>
         /// <param name="serializer"></param>
-        /// <param name="json"></param>
+        /// <param name="str"></param>
         /// <param name="type"></param>
         /// <returns></returns>
         public static object Deserialize(this ISerializer serializer,
-            string json, Type type) {
-            return serializer.Deserialize(Encoding.UTF8.GetBytes(json), type);
+            string str, Type type) {
+            var buffer = serializer.ContentEncoding?.GetBytes(str)
+                ?? Convert.FromBase64String(str);
+            return serializer.Deserialize(buffer, type);
         }
 
         /// <summary>
@@ -152,11 +155,13 @@ namespace Microsoft.Azure.IIoT.Serializers {
         /// Parse string
         /// </summary>
         /// <param name="serializer"></param>
-        /// <param name="json"></param>
+        /// <param name="str"></param>
         /// <returns></returns>
         public static VariantValue Parse(this ISerializer serializer,
-            string json) {
-            return serializer.Parse(Encoding.UTF8.GetBytes(json));
+            string str) {
+            var buffer = serializer.ContentEncoding?.GetBytes(str)
+                ?? Convert.FromBase64String(str);
+            return serializer.Parse(buffer);
         }
 
         /// <summary>

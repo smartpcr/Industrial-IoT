@@ -1417,9 +1417,9 @@ namespace Microsoft.Azure.IIoT.OpcUa.Testing.Tests {
             var value = await _readExpected(_endpoint, node);
             Assert.NotNull(value);
             Assert.Null(result.ErrorInfo);
-            var asString = value.ToString(Serializers.SerializeOption.None);
+            var asString = value.ToString(SerializeOption.None);
             System.Diagnostics.Trace.WriteLine(asString);
-            Assert.Equal(expected.ToString(Serializers.SerializeOption.None), asString);
+            Assert.Equal(expected.ToString(SerializeOption.None), asString);
         }
 
         private readonly T _endpoint;

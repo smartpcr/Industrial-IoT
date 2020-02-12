@@ -187,8 +187,8 @@ namespace Microsoft.Azure.IIoT.Serializers.MessagePack {
         [MemberData(nameof(GetVariantValues))]
         public void SerializerStringParse(VariantValue v) {
             var expected = v;
-            var json = Serializer.Serialize(v);
-            var actual = Serializer.Parse(json);
+            var encstr = Serializer.Serialize(v);
+            var actual = Serializer.Parse(encstr);
 
             Assert.Equal(expected, actual);
         }

@@ -10,14 +10,14 @@ namespace Microsoft.Azure.IIoT.Serializers.MessagePack {
     /// <summary>
     /// Default formatters
     /// </summary>
-    public class MessagePackFormatters : IMessagePackFormatterResolverProvider {
+    public class MessagePackResolvers : IMessagePackFormatterResolverProvider {
 
         /// <inheritdoc/>
-        public virtual IEnumerable<IFormatterResolver> GetFormatters() {
-            var converters = new List<IFormatterResolver> {
+        public IEnumerable<IFormatterResolver> GetResolvers() {
+            var resolvers = new List<IFormatterResolver> {
                 // TODO
             };
-            return converters;
+            return resolvers;
         }
     }
 }
