@@ -300,18 +300,10 @@ namespace Microsoft.Azure.IIoT.Serializers.NewtonSoft {
             }
 
             /// <inheritdoc/>
-            protected override bool ValueEquals(object o) {
+            protected override bool EqualsValue(object o) {
                 // Compare tokens
                 if (!(o is JToken t)) {
-                    if (FastEqual(o)) {
-                        return true;
-                    }
                     t = FromObject(o);
-                }
-                else {
-                    if (ReferenceEquals(t, Token)) {
-                        return true;
-                    }
                 }
                 if (!DeepEquals(Token, t)) {
                     return false;
@@ -320,8 +312,18 @@ namespace Microsoft.Azure.IIoT.Serializers.NewtonSoft {
             }
 
             /// <inheritdoc/>
-            protected override bool DeepEquals(VariantValue v) {
-                return ValueEquals(v.Value);
+            protected override bool EqualsVariant(VariantValue v) {
+                if (v is JsonVariantValue json) {
+                    return DeepEquals(Token, json.Token);
+                }
+
+                // Try compare using base
+                if (base.EqualsVariant(v)) {
+                    return true;
+                }
+
+                // Try serialization of value and comparison
+                return EqualsValue(v.Value);
             }
 
             /// <summary>
@@ -334,7 +336,9 @@ namespace Microsoft.Azure.IIoT.Serializers.NewtonSoft {
                 if (t1 is null || t2 is null) {
                     return t1 == t2;
                 }
-
+                if (ReferenceEquals(t1, t2)) {
+                    return true;
+                }
                 if (t1 is JObject o1 && t2 is JObject o2) {
                     // Compare properties in order of key
                     var props1 = o1.Properties().OrderBy(k => k.Name)
@@ -367,11 +371,20 @@ namespace Microsoft.Azure.IIoT.Serializers.NewtonSoft {
             }
 
             /// <inheritdoc/>
-            protected override bool TryCompareInnerValueTo(object o, out int result) {
+            protected override bool TryCompareToValue(object o, out int result) {
                 // Compare value token
                 if (Token is JValue v1 && o is JValue v2) {
                     result = v1.CompareTo(v2);
                     return true;
+                }
+                result = 0;
+                return false;
+            }
+
+            /// <inheritdoc/>
+            protected override bool TryCompareToVariantValue(VariantValue v, out int result) {
+                if (v is JsonVariantValue json) {
+                    return TryCompareToValue(json.Token, out result);
                 }
                 result = 0;
                 return false;
@@ -390,20 +403,6 @@ namespace Microsoft.Azure.IIoT.Serializers.NewtonSoft {
                 catch (JsonReaderException ex) {
                     throw new SerializerException(ex.Message, ex);
                 }
-            }
-
-            /// <summary>
-            /// Quick compare to object
-            /// </summary>
-            /// <param name="o"></param>
-            /// <returns></returns>
-            private bool FastEqual(object o) {
-                // Handle special cases
-                switch (o) {
-                    case byte[] b:
-                        return Convert.ToBase64String(b) == Token.ToString();
-                }
-                return false;
             }
 
             private readonly NewtonSoftJsonSerializer _serializer;

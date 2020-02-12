@@ -315,7 +315,7 @@ namespace Microsoft.Azure.IIoT.Serializers.MessagePack {
             }
 
             /// <inheritdoc/>
-            protected override bool TryCompareInnerValueTo(object o, out int result) {
+            protected override bool TryCompareToValue(object o, out int result) {
                 // Compare value token
                 if (Value is IComparable v1 && o is IComparable v2) {
                     result = v1.CompareTo(v2);
@@ -332,11 +332,13 @@ namespace Microsoft.Azure.IIoT.Serializers.MessagePack {
 
 
             /// <inheritdoc/>
-            protected override bool ValueEquals(object o) {
+            protected override bool EqualsValue(object o) {
                 // Compare tokens
                 if (ReferenceEquals(o, Value)) {
                     return true;
                 }
+
+                o = ToTypeLess(o);
                 if (!DeepEquals(Value, o)) {
                     return false;
                 }
@@ -344,8 +346,11 @@ namespace Microsoft.Azure.IIoT.Serializers.MessagePack {
             }
 
             /// <inheritdoc/>
-            protected override bool DeepEquals(VariantValue v) {
-                return ValueEquals(v.Value);
+            protected override bool EqualsVariant(VariantValue v) {
+                if (v is MessagePackVariantValue packed) {
+                    return DeepEquals(packed.Value, Value);
+                }
+                return base.EqualsVariant(v);
             }
 
             /// <summary>
@@ -358,26 +363,6 @@ namespace Microsoft.Azure.IIoT.Serializers.MessagePack {
                 if (t1 is null || t2 is null) {
                     return t1 == t2;
                 }
-
-                if (TypeLessEquals(t1, t2)) {
-                    return true;
-                }
-
-                t1 = ToTypeLess(t1);
-                t2 = ToTypeLess(t2);
-                if (TypeLessEquals(t1, t2)) {
-                    return true;
-                }
-                return false;
-            }
-
-            /// <summary>
-            /// Compare tokens in more consistent fashion
-            /// </summary>
-            /// <param name="t1"></param>
-            /// <param name="t2"></param>
-            /// <returns></returns>
-            internal bool TypeLessEquals(object t1, object t2) {
                 // Test object equals
                 if (t1 is IDictionary<object, object> o1 &&
                     t2 is IDictionary<object, object> o2) {

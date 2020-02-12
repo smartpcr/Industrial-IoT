@@ -9,6 +9,7 @@ namespace Microsoft.Azure.IIoT.Serializers {
     using System.Linq;
     using System;
     using System.ComponentModel;
+    using System.Numerics;
 
     /// <summary>
     /// Represents primitive or structurally complex value
@@ -469,9 +470,13 @@ namespace Microsoft.Azure.IIoT.Serializers {
                 if (this.IsNull() && v.IsNull()) {
                     return true;
                 }
-                return v.DeepEquals(this);
+
+                // Variant compare
+                return v.EqualsVariant(this);
             }
-            return ValueEquals(o);
+
+            // Non variant compare
+            return EqualsValue(o);
         }
 
         /// <inheritdoc/>
@@ -499,13 +504,15 @@ namespace Microsoft.Azure.IIoT.Serializers {
                 if (this.IsNull() && v.IsNull()) {
                     return 0;
                 }
-                // Get inner value to compare
-                o = v.IsNull() ? null : v.Value;
+                if (TryCompareToVariantValue(v, out var r)) {
+                    return r;
+                }
             }
-
-            // Compare values
-            if (TryCompareInnerValueTo(o, out var result)) {
-                return result;
+            else {
+                // Compare to non variant value
+                if (TryCompareToValue(o, out var result)) {
+                    return result;
+                }
             }
 
             // Compare stringified version
@@ -594,14 +601,54 @@ namespace Microsoft.Azure.IIoT.Serializers {
         /// </summary>
         /// <param name="o"></param>
         /// <returns></returns>
-        protected abstract bool ValueEquals(object o);
+        protected abstract bool EqualsValue(object o);
 
         /// <summary>
         /// Compare to variant
         /// </summary>
-        /// <param name="o"></param>
+        /// <param name="that"></param>
         /// <returns></returns>
-        protected abstract bool DeepEquals(VariantValue o);
+        protected virtual bool EqualsVariant(VariantValue that) {
+            if (ReferenceEquals(this, that)) {
+                return true;
+            }
+            if (that.Type != Type) {
+                return false;
+            }
+            switch (Type) {
+                case VariantValueType.Null:
+                case VariantValueType.Undefined:
+                    return true;
+                case VariantValueType.String:
+                    return that.Value.ToString() == Value.ToString();
+                case VariantValueType.Array:
+                    return that.Values.SequenceEqual(Values, EqualityComparer);
+                case VariantValueType.Object:
+                    var p1 = that.Keys.OrderBy(k => k).Select(k => that[k]);
+                    var p2 =      Keys.OrderBy(k => k).Select(k => this[k]);
+                    return p1.SequenceEqual(p2, EqualityComparer);
+                case VariantValueType.Boolean:
+                    return (bool)that.Value == (bool)Value;
+                case VariantValueType.Bytes:
+                    return ((byte[])that.Value).SequenceEqual((byte[])Value);
+                case VariantValueType.Integer:
+                    return that.Value.ToString() == Value.ToString();
+                case VariantValueType.Float:
+                    var dbl1 = (decimal)that.Value;
+                    var dbl2 = (decimal)Value;
+                    return dbl1 == dbl2;
+                case VariantValueType.Date:
+                    var dto1 = (DateTimeOffset)that.Value;
+                    var dto2 = (DateTimeOffset)Value;
+                    return dto1 == dto2;
+                case VariantValueType.TimeSpan:
+                    var ts1 = (TimeSpan)that.Value;
+                    var ts2 = (TimeSpan)Value;
+                    return ts1 == ts2;
+                default:
+                    return false;
+            }
+        }
 
         /// <summary>
         /// Compare value
@@ -609,7 +656,41 @@ namespace Microsoft.Azure.IIoT.Serializers {
         /// <param name="obj"></param>
         /// <param name="result"></param>
         /// <returns></returns>
-        protected abstract bool TryCompareInnerValueTo(object obj, out int result);
+        protected abstract bool TryCompareToValue(object obj, out int result);
+
+        /// <summary>
+        /// Compare variant value
+        /// </summary>
+        /// <param name="v"></param>
+        /// <param name="result"></param>
+        /// <returns></returns>
+        protected virtual bool TryCompareToVariantValue(VariantValue v,
+            out int result) {
+            // Failed - now try with inner value and compare
+            var o = v.IsNull() ? null : v.Value;
+            // Compare to non variant value
+            return TryCompareToValue(o, out result);
+        }
+
+        /// <summary>
+        /// Internal equality comparer
+        /// </summary>
+        internal static VariantValueEqualityComparer EqualityComparer =>
+            new VariantValueEqualityComparer();
+
+        /// <inheritdoc/>
+        internal class VariantValueEqualityComparer : IEqualityComparer<VariantValue> {
+
+            /// <inheritdoc/>
+            public bool Equals(VariantValue x, VariantValue y) {
+                return x.EqualsVariant(y);
+            }
+
+            /// <inheritdoc/>
+            public int GetHashCode(VariantValue obj) {
+                return obj.GetDeepHashCode();
+            }
+        }
 
         /// <summary>
         /// Represents a primitive value for assignment purposes
@@ -831,7 +912,7 @@ namespace Microsoft.Azure.IIoT.Serializers {
             }
 
             /// <inheritdoc/>
-            protected override bool ValueEquals(object o) {
+            protected override bool EqualsValue(object o) {
                 if (ReferenceEquals(Value, o)) {
                     return true;
                 }
@@ -866,13 +947,13 @@ namespace Microsoft.Azure.IIoT.Serializers {
             }
 
             /// <inheritdoc/>
-            protected override bool DeepEquals(VariantValue v) {
+            protected override bool EqualsVariant(VariantValue v) {
                 if (ReferenceEquals(this, v)) {
                     return true;
                 }
 
                 // Compare to our primitive value
-                return v.ValueEquals(Value);
+                return v.EqualsValue(Value);
             }
 
             /// <inheritdoc/>
@@ -881,7 +962,7 @@ namespace Microsoft.Azure.IIoT.Serializers {
             }
 
             /// <inheritdoc/>
-            protected override bool TryCompareInnerValueTo(object obj, out int result) {
+            protected override bool TryCompareToValue(object obj, out int result) {
                 result = 0;
                 if (Value is IComparable cv1 && obj is IConvertible co1) {
                     try {

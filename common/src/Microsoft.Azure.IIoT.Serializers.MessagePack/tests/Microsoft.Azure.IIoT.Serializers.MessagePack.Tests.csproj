@@ -16,6 +16,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\src\Microsoft.Azure.IIoT.Serializers.MessagePack.csproj" />
+    <ProjectReference Include="..\..\Microsoft.Azure.IIoT.Serializers.NewtonSoft\src\Microsoft.Azure.IIoT.Serializers.NewtonSoft.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
