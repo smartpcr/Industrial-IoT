@@ -628,24 +628,42 @@ namespace Microsoft.Azure.IIoT.Serializers {
                     var p2 =      Keys.OrderBy(k => k).Select(k => this[k]);
                     return p1.SequenceEqual(p2, EqualityComparer);
                 case VariantValueType.Boolean:
+                    if (Value.Equals(that.Value)) {
+                        return true;
+                    }
                     return (bool)that.Value == (bool)Value;
                 case VariantValueType.Bytes:
                     return ((byte[])that.Value).SequenceEqual((byte[])Value);
                 case VariantValueType.Integer:
+                    if (Value.Equals(that.Value)) {
+                        return true;
+                    }
                     return that.Value.ToString() == Value.ToString();
                 case VariantValueType.Float:
+                    if (Value.Equals(that.Value)) {
+                        return true;
+                    }
                     var dbl1 = (decimal)that.Value;
                     var dbl2 = (decimal)Value;
                     return dbl1 == dbl2;
                 case VariantValueType.Date:
+                    if (Value.Equals(that.Value)) {
+                        return true;
+                    }
                     var dto1 = (DateTimeOffset)that.Value;
                     var dto2 = (DateTimeOffset)Value;
                     return dto1 == dto2;
                 case VariantValueType.TimeSpan:
+                    if (Value.Equals(that.Value)) {
+                        return true;
+                    }
                     var ts1 = (TimeSpan)that.Value;
                     var ts2 = (TimeSpan)Value;
                     return ts1 == ts2;
                 default:
+                    if (Value.Equals(that.Value)) {
+                        return true;
+                    }
                     return false;
             }
         }
@@ -666,9 +684,7 @@ namespace Microsoft.Azure.IIoT.Serializers {
         /// <returns></returns>
         protected virtual bool TryCompareToVariantValue(VariantValue v,
             out int result) {
-            // Failed - now try with inner value and compare
             var o = v.IsNull() ? null : v.Value;
-            // Compare to non variant value
             return TryCompareToValue(o, out result);
         }
 

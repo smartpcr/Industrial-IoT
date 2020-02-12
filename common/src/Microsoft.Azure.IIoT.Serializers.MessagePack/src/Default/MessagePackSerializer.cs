@@ -161,6 +161,14 @@ namespace Microsoft.Azure.IIoT.Serializers.MessagePack {
                     if (typeof(bool) == type) {
                         return VariantValueType.Boolean;
                     }
+                    if (typeof(DateTime) == type ||
+                        typeof(DateTimeOffset) == type) {
+                        return VariantValueType.Date;
+                    }
+                    if (typeof(TimeSpan) == type ||
+                        typeof(TimeSpan) == type) {
+                        return VariantValueType.TimeSpan;
+                    }
                     if (typeof(uint) == type ||
                         typeof(int) == type ||
                         typeof(ulong) == type ||
@@ -350,6 +358,11 @@ namespace Microsoft.Azure.IIoT.Serializers.MessagePack {
                 if (v is MessagePackVariantValue packed) {
                     return DeepEquals(packed.Value, Value);
                 }
+                switch (v.Type) {
+                    case VariantValueType.Date:
+                    case VariantValueType.TimeSpan:
+                        return EqualsValue(v.Value);
+                }
                 return base.EqualsVariant(v);
             }
 
@@ -363,6 +376,7 @@ namespace Microsoft.Azure.IIoT.Serializers.MessagePack {
                 if (t1 is null || t2 is null) {
                     return t1 == t2;
                 }
+
                 // Test object equals
                 if (t1 is IDictionary<object, object> o1 &&
                     t2 is IDictionary<object, object> o2) {
