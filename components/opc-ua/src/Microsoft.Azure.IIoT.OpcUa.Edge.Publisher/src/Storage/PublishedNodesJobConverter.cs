@@ -74,13 +74,14 @@ namespace Microsoft.Azure.IIoT.OpcUa.Edge.Publisher.Models {
             return items
                 // Group by connection
                 .GroupBy(item => new ConnectionModel {
-                    Endpoint = new EndpointModel {
-                        Url = item.EndpointUrl.OriginalString,
-                        SecurityMode = item.UseSecurity == false ?
-                            SecurityMode.None : SecurityMode.Best
+                        OperationTimeout = legacyCliModel.OperationTimeout,
+                        Endpoint = new EndpointModel {
+                            Url = item.EndpointUrl.OriginalString,
+                            SecurityMode = item.UseSecurity == false ?
+                                SecurityMode.None : SecurityMode.Best
                         },
-                        User = item.OpcAuthenticationMode != OpcAuthenticationMode.UsernamePassword ? null :
-                            ToUserNamePasswordCredentialAsync(item).Result
+                        User = item.OpcAuthenticationMode != OpcAuthenticationMode.UsernamePassword ?
+                            null :ToUserNamePasswordCredentialAsync(item).Result
                     },
                     // Select and batch nodes into published data set sources
                     item => GetNodeModels(item),
