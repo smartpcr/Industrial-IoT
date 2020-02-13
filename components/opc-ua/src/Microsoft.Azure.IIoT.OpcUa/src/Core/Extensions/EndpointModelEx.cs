@@ -76,6 +76,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Core.Models {
             hashCode = (hashCode * -1521134295) +
                 EqualityComparer<SecurityMode?>.Default.GetHashCode(
                     endpoint.SecurityMode ?? SecurityMode.Best);
+
             return hashCode;
         }
 
