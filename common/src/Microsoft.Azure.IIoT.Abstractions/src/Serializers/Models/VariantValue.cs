@@ -4,12 +4,12 @@
 // ------------------------------------------------------------
 
 namespace Microsoft.Azure.IIoT.Serializers {
+    using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Diagnostics;
     using System.Globalization;
     using System.Linq;
-    using System;
-    using System.ComponentModel;
-    using System.Numerics;
 
     /// <summary>
     /// Represents primitive or structurally complex value
@@ -38,14 +38,10 @@ namespace Microsoft.Azure.IIoT.Serializers {
         public abstract object Value { get; }
 
         /// <inheritdoc/>
-        public VariantValue this[string key] {
-            get => TryGetValue(key, out var result) ? result : Null();
-        }
+        public VariantValue this[string key] => TryGetValue(key, out var result) ? result : Null();
 
         /// <inheritdoc/>
-        public VariantValue this[int index] {
-            get => TryGetValue(index, out var result) ? result : null;
-        }
+        public VariantValue this[int index] => TryGetValue(index, out var result) ? result : null;
 
         /// <summary>
         /// Length of array
@@ -77,367 +73,295 @@ namespace Microsoft.Azure.IIoT.Serializers {
             return ToObject<bool>(provider);
         }
         /// <inheritdoc/>
-        public static explicit operator bool(VariantValue value) {
-            return value.ToObject<bool>();
-        }
+        public static explicit operator bool(VariantValue value) =>
+            value.ToObject<bool>();
         /// <inheritdoc/>
-        public static explicit operator bool?(VariantValue value) {
-            return value.IsNull() ? (bool?)null : value.ToObject<bool>();
-        }
+        public static explicit operator bool?(VariantValue value) =>
+            value.IsNull() ? (bool?)null : value.ToObject<bool>();
         /// <inheritdoc/>
-        public static implicit operator VariantValue(bool value) {
-            return new PrimitiveValue(value);
-        }
+        public static implicit operator VariantValue(bool value) =>
+            new PrimitiveValue(value);
         /// <inheritdoc/>
-        public static implicit operator VariantValue(bool? value) {
-            return new PrimitiveValue(value);
-        }
+        public static implicit operator VariantValue(bool? value) =>
+            new PrimitiveValue(value);
 
         /// <inheritdoc/>
         public byte ToByte(IFormatProvider provider) {
             return ToObject<byte>(provider);
         }
         /// <inheritdoc/>
-        public static explicit operator byte(VariantValue value) {
-            return value.ToObject<byte>();
-        }
+        public static explicit operator byte(VariantValue value) =>
+            value.ToObject<byte>();
         /// <inheritdoc/>
-        public static explicit operator byte?(VariantValue value) {
-            return value.IsNull() ? (byte?)null : value.ToObject<byte>();
-        }
+        public static explicit operator byte?(VariantValue value) =>
+            value.IsNull() ? (byte?)null : value.ToObject<byte>();
         /// <inheritdoc/>
-        public static implicit operator VariantValue(byte value) {
-            return new PrimitiveValue(value);
-        }
+        public static implicit operator VariantValue(byte value) =>
+            new PrimitiveValue(value);
         /// <inheritdoc/>
-        public static implicit operator VariantValue(byte? value) {
-            return new PrimitiveValue(value);
-        }
+        public static implicit operator VariantValue(byte? value) =>
+            new PrimitiveValue(value);
 
         /// <inheritdoc/>
         public char ToChar(IFormatProvider provider) {
             return ToObject<char>(provider);
         }
         /// <inheritdoc/>
-        public static explicit operator char(VariantValue value) {
-            return value.ToObject<char>();
-        }
+        public static explicit operator char(VariantValue value) =>
+            value.ToObject<char>();
         /// <inheritdoc/>
-        public static explicit operator char?(VariantValue value) {
-            return value.IsNull() ? (char?)null : value.ToObject<char>();
-        }
+        public static explicit operator char?(VariantValue value) =>
+            value.IsNull() ? (char?)null : value.ToObject<char>();
         /// <inheritdoc/>
-        public static implicit operator VariantValue(char value) {
-            return new PrimitiveValue(value);
-        }
+        public static implicit operator VariantValue(char value) =>
+            new PrimitiveValue(value);
         /// <inheritdoc/>
-        public static implicit operator VariantValue(char? value) {
-            return new PrimitiveValue(value);
-        }
+        public static implicit operator VariantValue(char? value) =>
+            new PrimitiveValue(value);
 
         /// <inheritdoc/>
         public DateTime ToDateTime(IFormatProvider provider) {
             return ToObject<DateTime>(provider);
         }
         /// <inheritdoc/>
-        public static explicit operator DateTime(VariantValue value) {
-            return value.ToObject<DateTime>();
-        }
+        public static explicit operator DateTime(VariantValue value) =>
+            value.ToObject<DateTime>();
         /// <inheritdoc/>
-        public static explicit operator DateTime?(VariantValue value) {
-            return value.IsNull() ? (DateTime?)null : value.ToObject<DateTime>();
-        }
+        public static explicit operator DateTime?(VariantValue value) =>
+            value.IsNull() ? (DateTime?)null : value.ToObject<DateTime>();
         /// <inheritdoc/>
-        public static implicit operator VariantValue(DateTime value) {
-            return new PrimitiveValue(value);
-        }
+        public static implicit operator VariantValue(DateTime value) =>
+            new PrimitiveValue(value);
         /// <inheritdoc/>
-        public static implicit operator VariantValue(DateTime? value) {
-            return new PrimitiveValue(value);
-        }
+        public static implicit operator VariantValue(DateTime? value) =>
+            new PrimitiveValue(value);
 
         /// <inheritdoc/>
-        public static explicit operator DateTimeOffset(VariantValue value) {
-            return value.ToObject<DateTimeOffset>();
-        }
+        public static explicit operator DateTimeOffset(VariantValue value) =>
+            value.ToObject<DateTimeOffset>();
         /// <inheritdoc/>
-        public static explicit operator DateTimeOffset?(VariantValue value) {
-            return value.IsNull() ? (DateTimeOffset?)null : value.ToObject<DateTimeOffset>();
-        }
+        public static explicit operator DateTimeOffset?(VariantValue value) =>
+            value.IsNull() ? (DateTimeOffset?)null : value.ToObject<DateTimeOffset>();
         /// <inheritdoc/>
-        public static implicit operator VariantValue(DateTimeOffset value) {
-            return new PrimitiveValue(value);
-        }
+        public static implicit operator VariantValue(DateTimeOffset value) =>
+            new PrimitiveValue(value);
         /// <inheritdoc/>
-        public static implicit operator VariantValue(DateTimeOffset? value) {
-            return new PrimitiveValue(value);
-        }
+        public static implicit operator VariantValue(DateTimeOffset? value) =>
+            new PrimitiveValue(value);
 
         /// <inheritdoc/>
         public decimal ToDecimal(IFormatProvider provider) {
             return ToObject<decimal>(provider);
         }
         /// <inheritdoc/>
-        public static explicit operator decimal(VariantValue value) {
-            return value.ToObject<decimal>();
-        }
+        public static explicit operator decimal(VariantValue value) =>
+            value.ToObject<decimal>();
         /// <inheritdoc/>
-        public static explicit operator decimal?(VariantValue value) {
-            return value.IsNull() ? (decimal?)null : value.ToObject<decimal>();
-        }
+        public static explicit operator decimal?(VariantValue value) =>
+            value.IsNull() ? (decimal?)null : value.ToObject<decimal>();
         /// <inheritdoc/>
-        public static implicit operator VariantValue(decimal value) {
-            return new PrimitiveValue(value);
-        }
+        public static implicit operator VariantValue(decimal value) =>
+            new PrimitiveValue(value);
         /// <inheritdoc/>
-        public static implicit operator VariantValue(decimal? value) {
-            return new PrimitiveValue(value);
-        }
+        public static implicit operator VariantValue(decimal? value) =>
+            new PrimitiveValue(value);
 
         /// <inheritdoc/>
         public double ToDouble(IFormatProvider provider) {
             return ToObject<double>(provider);
         }
         /// <inheritdoc/>
-        public static explicit operator double(VariantValue value) {
-            return value.ToObject<double>();
-        }
+        public static explicit operator double(VariantValue value) =>
+            value.ToObject<double>();
         /// <inheritdoc/>
-        public static explicit operator double?(VariantValue value) {
-            return value.IsNull() ? (double?)null : value.ToObject<double>();
-        }
+        public static explicit operator double?(VariantValue value) =>
+            value.IsNull() ? (double?)null : value.ToObject<double>();
         /// <inheritdoc/>
-        public static implicit operator VariantValue(double value) {
-            return new PrimitiveValue(value);
-        }
+        public static implicit operator VariantValue(double value) =>
+            new PrimitiveValue(value);
         /// <inheritdoc/>
-        public static implicit operator VariantValue(double? value) {
-            return new PrimitiveValue(value);
-        }
+        public static implicit operator VariantValue(double? value) =>
+            new PrimitiveValue(value);
 
         /// <inheritdoc/>
         public short ToInt16(IFormatProvider provider) {
             return ToObject<short>(provider);
         }
         /// <inheritdoc/>
-        public static explicit operator short(VariantValue value) {
-            return value.ToObject<short>();
-        }
+        public static explicit operator short(VariantValue value) =>
+            value.ToObject<short>();
         /// <inheritdoc/>
-        public static explicit operator short?(VariantValue value) {
-            return value.IsNull() ? (short?)null : value.ToObject<short>();
-        }
+        public static explicit operator short?(VariantValue value) =>
+            value.IsNull() ? (short?)null : value.ToObject<short>();
         /// <inheritdoc/>
-        public static implicit operator VariantValue(short value) {
-            return new PrimitiveValue(value);
-        }
+        public static implicit operator VariantValue(short value) =>
+            new PrimitiveValue(value);
         /// <inheritdoc/>
-        public static implicit operator VariantValue(short? value) {
-            return new PrimitiveValue(value);
-        }
+        public static implicit operator VariantValue(short? value) =>
+            new PrimitiveValue(value);
 
         /// <inheritdoc/>
         public int ToInt32(IFormatProvider provider) {
             return ToObject<int>(provider);
         }
         /// <inheritdoc/>
-        public static explicit operator int(VariantValue value) {
-            return value.ToObject<int>();
-        }
+        public static explicit operator int(VariantValue value) =>
+            value.ToObject<int>();
         /// <inheritdoc/>
-        public static explicit operator int?(VariantValue value) {
-            return value.IsNull() ? (int?)null : value.ToObject<int>();
-        }
+        public static explicit operator int?(VariantValue value) =>
+            value.IsNull() ? (int?)null : value.ToObject<int>();
         /// <inheritdoc/>
-        public static implicit operator VariantValue(int value) {
-            return new PrimitiveValue(value);
-        }
+        public static implicit operator VariantValue(int value) =>
+            new PrimitiveValue(value);
         /// <inheritdoc/>
-        public static implicit operator VariantValue(int? value) {
-            return new PrimitiveValue(value);
-        }
+        public static implicit operator VariantValue(int? value) =>
+            new PrimitiveValue(value);
 
         /// <inheritdoc/>
         public long ToInt64(IFormatProvider provider) {
             return ToObject<long>(provider);
         }
         /// <inheritdoc/>
-        public static explicit operator long(VariantValue value) {
-            return value.ToObject<long>();
-        }
+        public static explicit operator long(VariantValue value) =>
+            value.ToObject<long>();
         /// <inheritdoc/>
-        public static explicit operator long?(VariantValue value) {
-            return value.IsNull() ? (long?)null : value.ToObject<long>();
-        }
+        public static explicit operator long?(VariantValue value) =>
+            value.IsNull() ? (long?)null : value.ToObject<long>();
         /// <inheritdoc/>
-        public static implicit operator VariantValue(long value) {
-            return new PrimitiveValue(value);
-        }
+        public static implicit operator VariantValue(long value) =>
+            new PrimitiveValue(value);
         /// <inheritdoc/>
-        public static implicit operator VariantValue(long? value) {
-            return new PrimitiveValue(value);
-        }
+        public static implicit operator VariantValue(long? value) =>
+            new PrimitiveValue(value);
 
         /// <inheritdoc/>
         public ushort ToUInt16(IFormatProvider provider) {
             return ToObject<ushort>(provider);
         }
         /// <inheritdoc/>
-        public static explicit operator ushort(VariantValue value) {
-            return value.ToObject<ushort>();
-        }
+        public static explicit operator ushort(VariantValue value) =>
+            value.ToObject<ushort>();
         /// <inheritdoc/>
-        public static explicit operator ushort?(VariantValue value) {
-            return value.IsNull() ? (ushort?)null : value.ToObject<ushort>();
-        }
+        public static explicit operator ushort?(VariantValue value) =>
+            value.IsNull() ? (ushort?)null : value.ToObject<ushort>();
         /// <inheritdoc/>
-        public static implicit operator VariantValue(ushort value) {
-            return new PrimitiveValue(value);
-        }
+        public static implicit operator VariantValue(ushort value) =>
+            new PrimitiveValue(value);
         /// <inheritdoc/>
-        public static implicit operator VariantValue(ushort? value) {
-            return new PrimitiveValue(value);
-        }
+        public static implicit operator VariantValue(ushort? value) =>
+            new PrimitiveValue(value);
 
         /// <inheritdoc/>
         public uint ToUInt32(IFormatProvider provider) {
             return ToObject<uint>(provider);
         }
         /// <inheritdoc/>
-        public static explicit operator uint(VariantValue value) {
-            return value.ToObject<uint>();
-        }
+        public static explicit operator uint(VariantValue value) =>
+            value.ToObject<uint>();
         /// <inheritdoc/>
-        public static explicit operator uint?(VariantValue value) {
-            return value.IsNull() ? (uint?)null : value.ToObject<uint>();
-        }
+        public static explicit operator uint?(VariantValue value) =>
+            value.IsNull() ? (uint?)null : value.ToObject<uint>();
         /// <inheritdoc/>
-        public static implicit operator VariantValue(uint value) {
-            return new PrimitiveValue(value);
-        }
+        public static implicit operator VariantValue(uint value) =>
+            new PrimitiveValue(value);
         /// <inheritdoc/>
-        public static implicit operator VariantValue(uint? value) {
-            return new PrimitiveValue(value);
-        }
+        public static implicit operator VariantValue(uint? value) =>
+            new PrimitiveValue(value);
 
         /// <inheritdoc/>
         public ulong ToUInt64(IFormatProvider provider) {
             return ToObject<ulong>(provider);
         }
         /// <inheritdoc/>
-        public static explicit operator ulong(VariantValue value) {
-            return value.ToObject<ulong>();
-        }
+        public static explicit operator ulong(VariantValue value) =>
+            value.ToObject<ulong>();
         /// <inheritdoc/>
-        public static explicit operator ulong?(VariantValue value) {
-            return value.IsNull() ? (ulong?)null : value.ToObject<ulong>();
-        }
+        public static explicit operator ulong?(VariantValue value) =>
+            value.IsNull() ? (ulong?)null : value.ToObject<ulong>();
         /// <inheritdoc/>
-        public static implicit operator VariantValue(ulong value) {
-            return new PrimitiveValue(value);
-        }
+        public static implicit operator VariantValue(ulong value) =>
+            new PrimitiveValue(value);
         /// <inheritdoc/>
-        public static implicit operator VariantValue(ulong? value) {
-            return new PrimitiveValue(value);
-        }
+        public static implicit operator VariantValue(ulong? value) =>
+            new PrimitiveValue(value);
 
         /// <inheritdoc/>
         public sbyte ToSByte(IFormatProvider provider) {
             return ToObject<sbyte>(provider);
         }
         /// <inheritdoc/>
-        public static explicit operator sbyte(VariantValue value) {
-            return value.ToObject<sbyte>();
-        }
+        public static explicit operator sbyte(VariantValue value) =>
+            value.ToObject<sbyte>();
         /// <inheritdoc/>
-        public static explicit operator sbyte?(VariantValue value) {
-            return value.IsNull() ? (sbyte?)null : value.ToObject<sbyte>();
-        }
+        public static explicit operator sbyte?(VariantValue value) =>
+            value.IsNull() ? (sbyte?)null : value.ToObject<sbyte>();
         /// <inheritdoc/>
-        public static implicit operator VariantValue(sbyte value) {
-            return new PrimitiveValue(value);
-        }
+        public static implicit operator VariantValue(sbyte value) =>
+            new PrimitiveValue(value);
         /// <inheritdoc/>
-        public static implicit operator VariantValue(sbyte? value) {
-            return new PrimitiveValue(value);
-        }
+        public static implicit operator VariantValue(sbyte? value) =>
+            new PrimitiveValue(value);
 
         /// <inheritdoc/>
         public float ToSingle(IFormatProvider provider) {
             return ToObject<float>(provider);
         }
         /// <inheritdoc/>
-        public static explicit operator float(VariantValue value) {
-            return value.ToObject<float>();
-        }
+        public static explicit operator float(VariantValue value) =>
+            value.ToObject<float>();
         /// <inheritdoc/>
-        public static explicit operator float?(VariantValue value) {
-            return value.IsNull() ? (float?)null : value.ToObject<float>();
-        }
+        public static explicit operator float?(VariantValue value) =>
+            value.IsNull() ? (float?)null : value.ToObject<float>();
         /// <inheritdoc/>
-        public static implicit operator VariantValue(float value) {
-            return new PrimitiveValue(value);
-        }
+        public static implicit operator VariantValue(float value) =>
+            new PrimitiveValue(value);
         /// <inheritdoc/>
-        public static implicit operator VariantValue(float? value) {
-            return new PrimitiveValue(value);
-        }
+        public static implicit operator VariantValue(float? value) =>
+            new PrimitiveValue(value);
 
         /// <inheritdoc/>
         public string ToString(IFormatProvider provider) {
             return ToObject<string>(provider);
         }
         /// <inheritdoc/>
-        public static explicit operator string(VariantValue value) {
-            return value.ToObject<string>();
-        }
+        public static explicit operator string(VariantValue value) =>
+            value.ToObject<string>();
         /// <inheritdoc/>
-        public static implicit operator VariantValue(string value) {
-            return new PrimitiveValue(value);
-        }
+        public static implicit operator VariantValue(string value) =>
+            new PrimitiveValue(value);
 
         /// <inheritdoc/>
-        public static explicit operator byte[](VariantValue value) {
-            return value.ToObject<byte[]>();
-        }
+        public static explicit operator byte[](VariantValue value) =>
+            value.ToObject<byte[]>();
         /// <inheritdoc/>
-        public static implicit operator VariantValue(byte[] value) {
-            return new PrimitiveValue(value);
-        }
+        public static implicit operator VariantValue(byte[] value) =>
+            new PrimitiveValue(value);
 
         /// <inheritdoc/>
-        public static explicit operator Guid(VariantValue value) {
-            return value.ToObject<Guid>();
-        }
+        public static explicit operator Guid(VariantValue value) =>
+            value.ToObject<Guid>();
         /// <inheritdoc/>
-        public static explicit operator Guid?(VariantValue value) {
-            return value.IsNull() ? (Guid?)null : value.ToObject<Guid>();
-        }
+        public static explicit operator Guid?(VariantValue value) =>
+            value.IsNull() ? (Guid?)null : value.ToObject<Guid>();
         /// <inheritdoc/>
-        public static implicit operator VariantValue(Guid value) {
-            return new PrimitiveValue(value);
-        }
+        public static implicit operator VariantValue(Guid value) =>
+            new PrimitiveValue(value);
         /// <inheritdoc/>
-        public static implicit operator VariantValue(Guid? value) {
-            return new PrimitiveValue(value);
-        }
+        public static implicit operator VariantValue(Guid? value) =>
+            new PrimitiveValue(value);
 
         /// <inheritdoc/>
-        public static explicit operator TimeSpan(VariantValue value) {
-            return value.ToObject<TimeSpan>();
-        }
+        public static explicit operator TimeSpan(VariantValue value) =>
+            value.ToObject<TimeSpan>();
         /// <inheritdoc/>
-        public static explicit operator TimeSpan?(VariantValue value) {
-            return value.IsNull() ? (TimeSpan?)null : value.ToObject<TimeSpan>();
-        }
+        public static explicit operator TimeSpan?(VariantValue value) =>
+            value.IsNull() ? (TimeSpan?)null : value.ToObject<TimeSpan>();
         /// <inheritdoc/>
-        public static implicit operator VariantValue(TimeSpan value) {
-            return new PrimitiveValue(value);
-        }
+        public static implicit operator VariantValue(TimeSpan value) =>
+            new PrimitiveValue(value);
         /// <inheritdoc/>
-        public static implicit operator VariantValue(TimeSpan? value) {
-            return new PrimitiveValue(value);
-        }
+        public static implicit operator VariantValue(TimeSpan? value) =>
+            new PrimitiveValue(value);
 
         /// <inheritdoc/>
         public abstract object ToType(Type conversionType, IFormatProvider provider);
@@ -463,20 +387,31 @@ namespace Microsoft.Azure.IIoT.Serializers {
 
         /// <inheritdoc/>
         public override bool Equals(object o) {
+            if (o is VariantValue v) {
+                return Comparer.Equals(this, v);
+            }
             if (o is null) {
                 return this.IsNull();
             }
-            if (o is VariantValue v) {
-                if (this.IsNull() && v.IsNull()) {
-                    return true;
-                }
-
-                // Variant compare
-                return v.EqualsVariant(this);
+            // Compare to non variant value
+            if (TryEqualsValue(o, out var result)) {
+                return result;
             }
+            // Fallback to generic
+            return VariantValueComparer.EqualValues(Value, o);
+        }
 
-            // Non variant compare
-            return EqualsValue(o);
+        /// <inheritdoc/>
+        public int CompareTo(object o) {
+            if (o is VariantValue v) {
+                return Comparer.Compare(this, v);
+            }
+            // Compare to non variant value
+            if (TryCompareToValue(o, out var result)) {
+                return result;
+            }
+            // Try non variant compare
+            return VariantValueComparer.CompareValues(Value, o);
         }
 
         /// <inheritdoc/>
@@ -492,33 +427,6 @@ namespace Microsoft.Azure.IIoT.Serializers {
         /// <inheritdoc/>
         public object Clone() {
             return Copy();
-        }
-
-        /// <inheritdoc/>
-        public int CompareTo(object o) {
-            if (Equals(o)) {
-                return 0;
-            }
-
-            if (o is VariantValue v) {
-                if (this.IsNull() && v.IsNull()) {
-                    return 0;
-                }
-                if (TryCompareToVariantValue(v, out var r)) {
-                    return r;
-                }
-            }
-            else {
-                // Compare to non variant value
-                if (TryCompareToValue(o, out var result)) {
-                    return result;
-                }
-            }
-
-            // Compare stringified version
-            var s1 = this.IsNull() ? "null" : Value.ToString();
-            var s2 = o is null ? "null" : o.ToString();
-            return s1.CompareTo(s2);
         }
 
         /// <summary>
@@ -548,13 +456,13 @@ namespace Microsoft.Azure.IIoT.Serializers {
         public abstract string ToString(SerializeOption format);
 
         /// <summary>
-        /// Convert typed object to value
+        /// Update the value to the new value.
         /// </summary>
         /// <param name="value"></param>
         public abstract void Set(object value);
 
         /// <summary>
-        /// Create new value which is set to null.
+        /// Create value which is set to null.
         /// </summary>
         /// <returns></returns>
         protected abstract VariantValue Null();
@@ -591,81 +499,29 @@ namespace Microsoft.Azure.IIoT.Serializers {
         public abstract VariantValue SelectToken(string path);
 
         /// <summary>
-        /// Create hash code for this or entire tree.
-        /// </summary>
-        /// <returns></returns>
-        protected abstract int GetDeepHashCode();
-
-        /// <summary>
-        /// Compare to object
+        /// Compare to a non variant value object, e.g. the value of
+        /// another variant.  This can be overridden.
         /// </summary>
         /// <param name="o"></param>
+        /// <param name="equality"></param>
         /// <returns></returns>
-        protected abstract bool EqualsValue(object o);
+        protected virtual bool TryEqualsValue(object o, out bool equality) {
+            equality = false;
+            return false;
+        }
 
         /// <summary>
-        /// Compare to variant
+        /// Try to compare equality with another variant.
+        /// The implementation should return false if comparison
+        /// is not possible and must not call equality test
+        /// with value itself.
         /// </summary>
-        /// <param name="that"></param>
+        /// <param name="v"></param>
+        /// <param name="equality"></param>
         /// <returns></returns>
-        protected virtual bool EqualsVariant(VariantValue that) {
-            if (ReferenceEquals(this, that)) {
-                return true;
-            }
-            if (that.Type != Type) {
-                return false;
-            }
-            switch (Type) {
-                case VariantValueType.Null:
-                case VariantValueType.Undefined:
-                    return true;
-                case VariantValueType.String:
-                    return that.Value.ToString() == Value.ToString();
-                case VariantValueType.Array:
-                    return that.Values.SequenceEqual(Values, EqualityComparer);
-                case VariantValueType.Object:
-                    var p1 = that.Keys.OrderBy(k => k).Select(k => that[k]);
-                    var p2 =      Keys.OrderBy(k => k).Select(k => this[k]);
-                    return p1.SequenceEqual(p2, EqualityComparer);
-                case VariantValueType.Boolean:
-                    if (Value.Equals(that.Value)) {
-                        return true;
-                    }
-                    return (bool)that.Value == (bool)Value;
-                case VariantValueType.Bytes:
-                    return ((byte[])that.Value).SequenceEqual((byte[])Value);
-                case VariantValueType.Integer:
-                    if (Value.Equals(that.Value)) {
-                        return true;
-                    }
-                    return that.Value.ToString() == Value.ToString();
-                case VariantValueType.Float:
-                    if (Value.Equals(that.Value)) {
-                        return true;
-                    }
-                    var dbl1 = (decimal)that.Value;
-                    var dbl2 = (decimal)Value;
-                    return dbl1 == dbl2;
-                case VariantValueType.Date:
-                    if (Value.Equals(that.Value)) {
-                        return true;
-                    }
-                    var dto1 = (DateTimeOffset)that.Value;
-                    var dto2 = (DateTimeOffset)Value;
-                    return dto1 == dto2;
-                case VariantValueType.TimeSpan:
-                    if (Value.Equals(that.Value)) {
-                        return true;
-                    }
-                    var ts1 = (TimeSpan)that.Value;
-                    var ts2 = (TimeSpan)Value;
-                    return ts1 == ts2;
-                default:
-                    if (Value.Equals(that.Value)) {
-                        return true;
-                    }
-                    return false;
-            }
+        protected virtual bool TryEqualsVariant(VariantValue v, out bool equality) {
+            equality = false;
+            return false;
         }
 
         /// <summary>
@@ -674,7 +530,10 @@ namespace Microsoft.Azure.IIoT.Serializers {
         /// <param name="obj"></param>
         /// <param name="result"></param>
         /// <returns></returns>
-        protected abstract bool TryCompareToValue(object obj, out int result);
+        protected virtual bool TryCompareToValue(object obj, out int result) {
+            result = 0;
+            return false;
+        }
 
         /// <summary>
         /// Compare variant value
@@ -684,28 +543,310 @@ namespace Microsoft.Azure.IIoT.Serializers {
         /// <returns></returns>
         protected virtual bool TryCompareToVariantValue(VariantValue v,
             out int result) {
-            var o = v.IsNull() ? null : v.Value;
-            return TryCompareToValue(o, out result);
+            result = 0;
+            return false;
         }
 
         /// <summary>
-        /// Internal equality comparer
+        /// Equality comparer
         /// </summary>
-        internal static VariantValueEqualityComparer EqualityComparer =>
-            new VariantValueEqualityComparer();
+        public static VariantValueComparer Comparer => new VariantValueComparer();
 
         /// <inheritdoc/>
-        internal class VariantValueEqualityComparer : IEqualityComparer<VariantValue> {
+        public class VariantValueComparer : IEqualityComparer<VariantValue>,
+            IComparer<VariantValue> {
 
             /// <inheritdoc/>
             public bool Equals(VariantValue x, VariantValue y) {
-                return x.EqualsVariant(y);
+                if (ReferenceEquals(x, y)) {
+                    return true;
+                }
+
+                var yt = y?.Type ?? VariantValueType.Null;
+                var xt = x?.Type ?? VariantValueType.Null;
+
+                if (xt == VariantValueType.Null ||
+                    xt == VariantValueType.Undefined) {
+                    // If both undefined or null then they are the same
+                    return true;
+                }
+
+                //
+                // Try from both sides as one implementation might not be
+                // able to understand how to handle the other.
+                //
+                if (x.TryEqualsVariant(y, out var xe)) {
+                    if (!xe) {
+                        return false;
+                    }
+                    return true;
+                }
+                if (y.TryEqualsVariant(x, out var ye)) {
+                    if (!ye) {
+                        return false;
+                    }
+                    return true;
+                }
+
+                if (xt == yt) {
+                    // Perform structural comparison
+                    switch (xt) {
+                        case VariantValueType.Array:
+                            if (y.Values.SequenceEqual(x.Values, Comparer)) {
+                                return true;
+                            }
+                            return false;
+                        case VariantValueType.Object:
+                            var p1 = x.Keys.OrderBy(k => k).Select(k => x[k]);
+                            var p2 = y.Keys.OrderBy(k => k).Select(k => y[k]);
+                            if (p1.SequenceEqual(p2, Comparer)) {
+                                return true;
+                            }
+                            return false;
+                    }
+                }
+
+                // Try variant comparison
+                if ((x.TryCompareToVariantValue(y, out var xr) && xr == 0) ||
+                    (y.TryCompareToVariantValue(x, out var yr) && yr == 0)) {
+                    return true;
+                }
+
+                // If one side is a string try a string compare
+                if (yt == VariantValueType.String ||
+                    xt == VariantValueType.String) {
+                    if (y.ToString(SerializeOption.None) ==
+                        x.ToString(SerializeOption.None)) {
+                        return true;
+                    }
+                }
+
+                // Compare values themselves using converter and comparison
+                if (EqualValues(x.Value, y.Value)) {
+                    return true;
+                }
+                return false;
             }
 
             /// <inheritdoc/>
-            public int GetHashCode(VariantValue obj) {
-                return obj.GetDeepHashCode();
+            public int Compare(VariantValue x, VariantValue y) {
+                if (Equals(x, y)) {
+                    return 0;
+                }
+                if (x.TryCompareToVariantValue(y, out var rx)) {
+                    return rx;
+                }
+                if (y.TryCompareToVariantValue(x, out var ry)) {
+                    return ry > 0 ? -1 : ry < 0 ? 1 : 0;
+                }
+                var yo = y.IsNull() ? null : y.Value;
+                if (x.TryCompareToValue(yo, out var rxv)) {
+                    return rxv;
+                }
+                var xo = x.IsNull() ? null : x.Value;
+                if (y.TryCompareToValue(xo, out var ryv)) {
+                    return ryv > 0 ? -1 : ryv < 0 ? 1 : 0;
+                }
+                return CompareValues(xo, yo);
             }
+
+            /// <inheritdoc/>
+            public int GetHashCode(VariantValue v) {
+                return v?.GetDeepHashCode() ?? 0;
+            }
+
+            /// <summary>
+            /// Tries to compare equality of 2 values using convertible
+            /// and comparable interfaces.
+            /// </summary>
+            /// <param name="x"></param>
+            /// <param name="y"></param>
+            /// <returns></returns>
+            internal static bool EqualValues(object x, object y) {
+                if (ReferenceEquals(x, y)) {
+                    return true;
+                }
+
+                if (x is null || y is null) {
+                    return false;
+                }
+
+                if (y.Equals(x)) {
+                    return true;
+                }
+
+                TryCast(x, out var sx, x.ToString());
+                TryCast(y, out var sy, y.ToString());
+
+                // Compare bytes
+                TryCast<byte[]>(x, out var bx);
+                TryCast<byte[]>(y, out var by);
+                if (by == null && bx != null && sy != null) {
+                    try { by = Convert.FromBase64String(sy); }
+                    catch { }
+                }
+                if (bx == null && by != null && sx != null) {
+                    try { bx = Convert.FromBase64String(sx); }
+                    catch { }
+                }
+                if (bx != null && by != null) {
+                    return bx.AsSpan().SequenceEqual(by);
+                }
+
+                // Compare guids
+                if (TryCast<Guid>(x, out _) || TryCast<Guid>(y, out _)) {
+                    return sx == sy;
+                }
+                // Compare Uris
+                if (TryCast<Uri>(x, out _) || TryCast<Uri>(y, out _)) {
+                    return sx == sy;
+                }
+
+                if (x is IConvertible co1) {
+                    try {
+                        var compare = co1.ToType(y.GetType(),
+                            CultureInfo.InvariantCulture);
+                        return compare.Equals(y);
+                    }
+                    catch {
+                    }
+                }
+                if (y is IConvertible co2) {
+                    try {
+                        var compare = co2.ToType(x.GetType(),
+                            CultureInfo.InvariantCulture);
+                        return compare.Equals(x);
+                    }
+                    catch {
+                    }
+                }
+
+                // Compare values through comparison operation
+                return CompareValues(x, y, true) == 0;
+            }
+
+            /// <summary>
+            /// Compare value
+            /// </summary>
+            /// <param name="x"></param>
+            /// <param name="y"></param>
+            /// <returns></returns>
+            internal static int CompareValues(object x, object y) {
+                return CompareValues(x, y, false);
+            }
+
+            /// <summary>
+            /// Compare
+            /// </summary>
+            /// <param name="x"></param>
+            /// <param name="y"></param>
+            /// <param name="noStringCompare"></param>
+            /// <returns></returns>
+            private static int CompareValues(object x, object y,
+                bool noStringCompare) {
+
+                TryCast(x, out var sx, x?.ToString());
+                TryCast(y, out var sy, y?.ToString());
+
+                // Compare timespans
+                if (TryCast<TimeSpan>(y, out var tsy1) && sx != null &&
+                    TimeSpan.TryParse(sx, out var tsx1)) {
+                    return tsx1.CompareTo(tsy1);
+                }
+                if (TryCast<TimeSpan>(x, out var tsx2) && sx != null &&
+                    TimeSpan.TryParse(sy, out var tsy2)) {
+                    return tsx2.CompareTo(tsy2);
+                }
+
+                // Compare dates
+                if (TryCast<DateTime>(y, out var dty1) && sx != null &&
+                    DateTime.TryParse(sx, out var dtx1)) {
+                    return dtx1.CompareTo(dty1);
+                }
+                if (TryCast<DateTime>(x, out var dtx2) && sx != null &&
+                    DateTime.TryParse(sy, out var dty2)) {
+                    return dtx2.CompareTo(dty2);
+                }
+
+                if (TryCast<DateTimeOffset>(y, out var dtoy1) && sx != null &&
+                    DateTimeOffset.TryParse(sx, out var dtox1)) {
+                    return dtox1.CompareTo(dtoy1);
+                }
+                if (TryCast<DateTimeOffset>(x, out var dtox2) && sx != null &&
+                    DateTimeOffset.TryParse(sy, out var dtoy2)) {
+                    return dtox2.CompareTo(dtoy2);
+                }
+
+                if (x is IComparable cv1 && y is IConvertible co1) {
+                    try {
+                        var compared = cv1.CompareTo(co1.ToType(x.GetType(),
+                            CultureInfo.InvariantCulture));
+                        return compared < 0 ? -1 : compared > 0 ? 1 : 0;
+                    }
+                    catch {
+                    }
+                }
+                // Compare the other way around
+                if (y is IComparable cv2 && x is IConvertible co2) {
+                    try {
+                        var compared = cv2.CompareTo(co2.ToType(x.GetType(),
+                            CultureInfo.InvariantCulture));
+                        return compared > 0 ? -1 : compared < 0 ? 1 : 0;
+                    }
+                    catch {
+                    }
+                }
+
+                if (noStringCompare) {
+                    return -1;
+                }
+
+                // Compare stringified version
+                var s1 = sx ?? "null";
+                var s2 = sy ?? "null";
+                return s1.CompareTo(s2);
+            }
+        }
+
+        /// <summary>
+        /// Create hash code for this or entire tree.
+        /// </summary>
+        /// <returns></returns>
+        private int GetDeepHashCode() {
+            var hc = new HashCode();
+            switch (Type) {
+                case VariantValueType.Null:
+                case VariantValueType.Undefined:
+                    hc.Add(Type);
+                    break;
+                case VariantValueType.Bytes:
+                    if (TryCast<byte[]>(Value, out var b)) {
+                        hc.Add(Convert.ToBase64String(b));
+                        break;
+                    }
+                    hc.Add(Value.ToString());
+                    break;
+                case VariantValueType.String:
+                    TryCast(Value, out var s, Value.ToString());
+                    hc.Add(s);
+                    break;
+                case VariantValueType.Array:
+                    foreach (var value in Values) {
+                        hc.Add(value.GetDeepHashCode());
+                    }
+                    break;
+                case VariantValueType.Object:
+                    var p2 = Keys.OrderBy(k => k);
+                    foreach (var k in p2) {
+                        hc.Add(k);
+                        hc.Add(this[k].GetDeepHashCode());
+                    }
+                    break;
+                default:
+                    hc.Add(Value);
+                    break;
+            }
+            return hc.ToHashCode();
         }
 
         /// <summary>
@@ -742,7 +883,7 @@ namespace Microsoft.Azure.IIoT.Serializers {
 
             /// <inheritdoc/>
             public PrimitiveValue(string value) :
-                this (value, VariantValueType.String) {
+                this(value, VariantValueType.String) {
             }
 
             /// <inheritdoc/>
@@ -797,12 +938,14 @@ namespace Microsoft.Azure.IIoT.Serializers {
 
             /// <inheritdoc/>
             public PrimitiveValue(float value) :
-                this(value, VariantValueType.Float) {
+                this(value, float.IsInfinity(value) ?
+                    VariantValueType.String : VariantValueType.Float) {
             }
 
             /// <inheritdoc/>
             public PrimitiveValue(double value) :
-                this(value, VariantValueType.Float) {
+                this(value, double.IsInfinity(value) ?
+                    VariantValueType.String : VariantValueType.Float) {
             }
 
             /// <inheritdoc/>
@@ -877,12 +1020,14 @@ namespace Microsoft.Azure.IIoT.Serializers {
 
             /// <inheritdoc/>
             public PrimitiveValue(float? value) :
-                this(value, VariantValueType.Float) {
+                this(value, value.HasValue && float.IsInfinity(value.Value) ?
+                    VariantValueType.String : VariantValueType.Float) {
             }
 
             /// <inheritdoc/>
             public PrimitiveValue(double? value) :
-                this(value, VariantValueType.Float) {
+                this(value, value.HasValue && double.IsInfinity(value.Value) ?
+                    VariantValueType.String : VariantValueType.Float) {
             }
 
             /// <inheritdoc/>
@@ -922,87 +1067,11 @@ namespace Microsoft.Azure.IIoT.Serializers {
                         return "null";
                     case byte[] b:
                         return Convert.ToBase64String(b);
+                    case string s:
+                        return s;
                     default:
                         return Value.ToString();
                 }
-            }
-
-            /// <inheritdoc/>
-            protected override bool EqualsValue(object o) {
-                if (ReferenceEquals(Value, o)) {
-                    return true;
-                }
-
-                if (o is byte[] b1 && Value is byte[] b2) {
-                    return b1.AsSpan().SequenceEqual(b2);
-                }
-
-                if (o.Equals(Value)) {
-                    return true;
-                }
-
-                if (Value is IConvertible co1) {
-                    try {
-                        var compare = co1.ToType(o.GetType(),
-                            CultureInfo.InvariantCulture);
-                        return compare.Equals(o);
-                    }
-                    catch {
-                    }
-                }
-                if (o is IConvertible co2) {
-                    try {
-                        var compare = co2.ToType(Value.GetType(),
-                            CultureInfo.InvariantCulture);
-                        return compare.Equals(Value);
-                    }
-                    catch {
-                    }
-                }
-                return false;
-            }
-
-            /// <inheritdoc/>
-            protected override bool EqualsVariant(VariantValue v) {
-                if (ReferenceEquals(this, v)) {
-                    return true;
-                }
-
-                // Compare to our primitive value
-                return v.EqualsValue(Value);
-            }
-
-            /// <inheritdoc/>
-            protected override int GetDeepHashCode() {
-                return Value?.GetHashCode() ?? 0;
-            }
-
-            /// <inheritdoc/>
-            protected override bool TryCompareToValue(object obj, out int result) {
-                result = 0;
-                if (Value is IComparable cv1 && obj is IConvertible co1) {
-                    try {
-                        result = cv1.CompareTo(co1.ToType(Value.GetType(),
-                            CultureInfo.InvariantCulture));
-                        return true;
-                    }
-                    catch {
-                        result = -1;
-                    }
-                }
-                // Compare the other way around
-                if (obj is IComparable cv2 && Value is IConvertible co2) {
-                    try {
-                        var compared = cv2.CompareTo(co2.ToType(Value.GetType(),
-                            CultureInfo.InvariantCulture));
-                        result = compared > 0 ? -1 : compared < 0 ? 1 : 0;
-                        return true;
-                    }
-                    catch {
-                        result = 1;
-                    }
-                }
-                return false;
             }
 
             /// <inheritdoc/>
@@ -1055,16 +1124,49 @@ namespace Microsoft.Azure.IIoT.Serializers {
         }
 
         /// <summary>
-        /// Helper methods
+        /// Helper to cast instead of pattern match
         /// </summary>
-        /// <param name="value1"></param>
-        /// <param name="value2"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="o"></param>
+        /// <param name="result"></param>
+        /// <param name="defval"></param>
         /// <returns></returns>
-        public static bool DeepEquals(VariantValue value1, VariantValue value2) {
-            if (value1.IsNull() && value2.IsNull()) {
+        [DebuggerHidden]
+        private static bool TryCast<T>(object o, out T result, T defval = default) {
+            // Try pattern matching first
+            if (o is T t) {
+                result = t;
                 return true;
             }
-            return value1?.Equals(value2) ?? false;
+            try {
+                try {
+                    result = (T)Convert.ChangeType(o, typeof(T));
+                }
+                catch {
+                    try {
+                        var converter = TypeDescriptor.GetConverter(typeof(T));
+                        result = (T)converter.ConvertFrom(o);
+                    }
+                    catch {
+                        result = (T)o;
+                    }
+                }
+                return true;
+            }
+            catch {
+                result = defval;
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Helper methods
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
+        public static bool DeepEquals(VariantValue x, VariantValue y) {
+            return Comparer.Equals(x, y);
         }
     }
 }

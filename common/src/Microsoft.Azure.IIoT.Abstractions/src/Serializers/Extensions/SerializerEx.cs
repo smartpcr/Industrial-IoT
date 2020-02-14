@@ -8,7 +8,7 @@ namespace Microsoft.Azure.IIoT.Serializers {
     using System;
     using System.Buffers;
     using System.IO;
-    using System.Text;
+    using System.Linq;
 
     /// <summary>
     /// Serializer extensions

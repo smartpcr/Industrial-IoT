@@ -179,7 +179,22 @@ namespace Microsoft.Azure.IIoT.Serializers.NewtonSoft {
                         case JTokenType.Guid:
                         case JTokenType.Raw:
                         case JTokenType.Uri:
+                            return VariantValueType.String;
                         case JTokenType.String:
+                            var s = (string)Token;
+                            if (TimeSpan.TryParse(s, out _)) {
+                                return VariantValueType.TimeSpan;
+                            }
+                            if (DateTimeOffset.TryParse(s, out _) ||
+                                DateTime.TryParse(s, out _)) {
+                                return VariantValueType.Date;
+                            }
+                            if (decimal.TryParse(s, out _)) {
+                                return VariantValueType.Float;
+                            }
+                            if (((string)Token).IsBase64()) {
+                                return VariantValueType.Bytes;
+                            }
                             return VariantValueType.String;
                         case JTokenType.Boolean:
                             return VariantValueType.Boolean;
@@ -290,40 +305,32 @@ namespace Microsoft.Azure.IIoT.Serializers.NewtonSoft {
             }
 
             /// <inheritdoc/>
-            protected override int GetDeepHashCode() {
-                return JToken.EqualityComparer.GetHashCode(Token);
-            }
-
-            /// <inheritdoc/>
             protected override VariantValue Null() {
                 return new JsonVariantValue(null, _serializer);
             }
 
             /// <inheritdoc/>
-            protected override bool EqualsValue(object o) {
+            protected override bool TryEqualsValue(object o, out bool equality) {
                 // Compare tokens
                 if (!(o is JToken t)) {
-                    t = FromObject(o);
+                    try {
+                        t = FromObject(o);
+                    }
+                    catch {
+                        return base.TryEqualsValue(o, out equality);
+                    }
                 }
-                if (!DeepEquals(Token, t)) {
-                    return false;
-                }
+                equality = DeepEquals(Token, t);
                 return true;
             }
 
             /// <inheritdoc/>
-            protected override bool EqualsVariant(VariantValue v) {
+            protected override bool TryEqualsVariant(VariantValue v, out bool equality) {
                 if (v is JsonVariantValue json) {
-                    return DeepEquals(Token, json.Token);
-                }
-
-                // Try compare using base
-                if (base.EqualsVariant(v)) {
+                    equality = DeepEquals(Token, json.Token);
                     return true;
                 }
-
-                // Try serialization of value and comparison
-                return EqualsValue(v.Value);
+                return base.TryEqualsVariant(v, out equality);
             }
 
             /// <summary>

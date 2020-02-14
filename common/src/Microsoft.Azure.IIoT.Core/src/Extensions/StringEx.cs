@@ -73,6 +73,7 @@ namespace System {
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
+        [System.Diagnostics.DebuggerHidden]
         public static bool IsBase64(this string str) {
             try {
                 Convert.FromBase64String(str);

@@ -183,6 +183,7 @@ namespace Microsoft.Azure.IIoT.Serializers.NewtonSoft {
                 Test = "Text",
                 Locale = "de"
             });
+            Assert.True(expected.Equals(actual));
             Assert.Equal(expected, actual);
         }
 

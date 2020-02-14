@@ -213,6 +213,7 @@ namespace Microsoft.Azure.IIoT.Serializers.NewtonSoft {
             var json = Serializer.Serialize(v);
             var actual = Serializer.Parse(json);
 
+            Assert.True(expected.Equals(actual));
             Assert.Equal(expected, actual);
         }
 

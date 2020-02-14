@@ -65,6 +65,7 @@ namespace System {
         /// <typeparam name="T"></typeparam>
         /// <param name="value"></param>
         /// <returns></returns>
+        [System.Diagnostics.DebuggerHidden]
         public static T As<T>(this object value) {
             return (T)As(value, typeof(T));
         }
@@ -75,6 +76,7 @@ namespace System {
         /// <param name="value"></param>
         /// <param name="type"></param>
         /// <returns></returns>
+        [System.Diagnostics.DebuggerHidden]
         public static object As(this object value, Type type) {
             if (value is null || value.GetType() == type) {
                 return value;
