@@ -162,9 +162,6 @@ namespace Microsoft.Azure.IIoT.Serializers.NewtonSoft {
             var o1 = expected.ToObject(type.MakeArrayType());
             var json = Json.Serialize(o1);
             var result = Json.Parse(json);
-            if (!expected.Equals(result)) {
-                Console.WriteLine();
-            }
 
             Assert.True(result.Type == VariantValueType.Array);
             Assert.True(result.Count == 3);

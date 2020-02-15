@@ -1131,8 +1131,8 @@ namespace Microsoft.Azure.IIoT.Serializers {
         /// <param name="result"></param>
         /// <param name="defval"></param>
         /// <returns></returns>
-        [DebuggerHidden]
-        private static bool TryCast<T>(object o, out T result, T defval = default) {
+        [DebuggerNonUserCode]
+        protected static bool TryCast<T>(object o, out T result, T defval = default) {
             // Try pattern matching first
             if (o is T t) {
                 result = t;

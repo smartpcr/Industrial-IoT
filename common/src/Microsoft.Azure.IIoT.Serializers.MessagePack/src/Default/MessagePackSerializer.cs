@@ -468,26 +468,57 @@ namespace Microsoft.Azure.IIoT.Serializers.MessagePack {
                         MsgPack.Serialize(ref writer, packed.Value, options);
                     }
                     else if (value is VariantValue variant) {
-                        switch (variant.Type) {
+                        var type = variant.Type;
+                        switch (type) {
                             case VariantValueType.Null:
                                 writer.WriteNil();
-                                break;
+                                return;
+                            case VariantValueType.Undefined:
+                                writer.WriteNil();
+                                return;
                             case VariantValueType.Array:
                                 writer.WriteArrayHeader(variant.Count);
                                 foreach (var item in variant.Values) {
                                     MsgPack.Serialize(ref writer, item, options);
                                 }
-                                break;
+                                return;
                             case VariantValueType.Object:
                                 // Serialize objects as key value pairs
                                 var dict = variant.Keys
                                     .ToDictionary(k => k, k => variant[k]);
                                 MsgPack.Serialize(ref writer, dict, options);
-                                break;
-                            default:
-                                // Serialize value using primitive serializer
-                                MsgPack.Serialize(ref writer, variant.Value, options);
-                                break;
+                                return;
+                            case VariantValueType.Date:
+                                writer.Write(variant.ToObject<DateTime>());
+                                return;
+                            case VariantValueType.TimeSpan:
+                                writer.Write(variant.ToObject<TimeSpan>().Ticks);
+                                return;
+                            case VariantValueType.String:
+                                writer.Write(variant.ToObject<string>());
+                                return;
+                            case VariantValueType.Boolean:
+                                writer.Write(variant.ToObject<bool>());
+                                return;
+                            case VariantValueType.Bytes:
+                                writer.Write(variant.ToObject<byte[]>());
+                                return;
+                            case VariantValueType.Integer:
+                                try {
+                                    writer.Write(variant.ToObject<long>());
+                                }
+                                catch (OverflowException) {
+                                    writer.Write(variant.ToObject<ulong>());
+                                }
+                                return;
+                            case VariantValueType.Float:
+                                try {
+                                    writer.Write(variant.ToObject<float>());
+                                }
+                                catch {
+                                    writer.Write(variant.ToObject<double>());
+                                }
+                                return;
                         }
                     }
                 }

@@ -171,6 +171,9 @@ namespace Microsoft.Azure.IIoT.Serializers.NewtonSoft {
                         case JTokenType.Integer:
                             return VariantValueType.Integer;
                         case JTokenType.Float:
+                           // if (double.IsInfinity((double)Token) ||
+                           //     float.IsInfinity((float)Token) ||
+                           //     float.IsNaN()
                             return VariantValueType.Float;
                         case JTokenType.Date:
                             return VariantValueType.Date;
@@ -189,7 +192,8 @@ namespace Microsoft.Azure.IIoT.Serializers.NewtonSoft {
                                 DateTime.TryParse(s, out _)) {
                                 return VariantValueType.Date;
                             }
-                            if (decimal.TryParse(s, out _)) {
+                            if (double.TryParse(s, out _) ||
+                                float.TryParse(s, out _)) {
                                 return VariantValueType.Float;
                             }
                             if (((string)Token).IsBase64()) {

@@ -169,6 +169,11 @@ namespace Microsoft.Azure.IIoT.Serializers.NewtonSoft {
         public void SerializerFromObject(VariantValue v) {
             var expected = Json.FromObject(v);
             var result = MsgPack.FromObject(v);
+
+            if (!expected.Type.Equals(result.Type)) {
+                Console.WriteLine();
+            }
+
             Assert.Equal(expected.Type, result.Type);
             Assert.Equal(expected, result);
         }
