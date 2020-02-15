@@ -114,13 +114,13 @@ namespace Microsoft.Azure.IIoT.Hub.Mock.SqlParser {
 
             if (context.STARTS_WITH() != null) {
                 return s => _serializer.FromObject(
-                    ((string)(VariantValue)s).StartsWith(ParseStringValue(context.STRING_LITERAL()),
+                    ((string)s).StartsWith(ParseStringValue(context.STRING_LITERAL()),
                         StringComparison.Ordinal));
             }
 
             if (context.ENDS_WITH() != null) {
                 return s => _serializer.FromObject(
-                    ((string)(VariantValue)s).EndsWith(ParseStringValue(context.STRING_LITERAL()),
+                    ((string)s).EndsWith(ParseStringValue(context.STRING_LITERAL()),
                         StringComparison.Ordinal));
             }
             throw new ArgumentException("Bad function");
@@ -139,24 +139,24 @@ namespace Microsoft.Azure.IIoT.Hub.Mock.SqlParser {
             }
             if (context.IS_NULL() != null) {
                 return s => _serializer.FromObject(s != null &&
-                    (((VariantValue)s).Type == VariantValueType.Null));
+                    (s.Type == VariantValueType.Null));
             }
             if (context.IS_BOOL() != null) {
                 return s => _serializer.FromObject(s != null &&
-                    (((VariantValue)s).Type == VariantValueType.Boolean));
+                    (s.Type == VariantValueType.Boolean));
             }
             if (context.IS_NUMBER() != null) {
                 return s => _serializer.FromObject(s != null &&
-                    (((VariantValue)s).Type == VariantValueType.Float ||
-                     ((VariantValue)s).Type == VariantValueType.Integer));
+                    (s.Type == VariantValueType.Float ||
+                     s.Type == VariantValueType.Integer));
             }
             if (context.IS_STRING() != null) {
                 return s => _serializer.FromObject(s != null &&
-                    (((VariantValue)s).Type == VariantValueType.String));
+                    (s.Type == VariantValueType.String));
             }
             if (context.IS_OBJECT() != null) {
                 return s => _serializer.FromObject(s != null &&
-                    (((VariantValue)s).Type == VariantValueType.Object));
+                    (s.Type == VariantValueType.Object));
             }
             return s => _serializer.FromObject(true);
         }

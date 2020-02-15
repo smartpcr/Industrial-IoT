@@ -239,13 +239,13 @@ namespace Microsoft.Azure.IIoT.OpcUa.Cdm.Services {
                     return CdmDataFormat.DateTime;
                 case TypeCode.Byte:
                 case TypeCode.SByte:
-                    //  TODO: CDM SDK bug - does not accept Byte for now ...  
+                    //  TODO: CDM SDK bug - does not accept Byte for now ...
                     //return CdmDataFormat.Byte;
                     return CdmDataFormat.Int16;
                 case TypeCode.Boolean:
                     return CdmDataFormat.Boolean;
                 default:
-                    // treat anything else as cdm string string 
+                    // treat anything else as cdm string string
                     return CdmDataFormat.String;
             }
         }
@@ -319,7 +319,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Cdm.Services {
 
             var info = typeof(MonitoredItemSampleModel).GetProperties();
             foreach (var property in info) {
-                
+
                 // add the attributes required
                 var attribute = _cdmCorpus.MakeObject<CdmTypeAttributeDefinition>(
                     CdmObjectType.TypeAttributeDef, property.Name, false);
@@ -328,14 +328,14 @@ namespace Microsoft.Azure.IIoT.OpcUa.Cdm.Services {
                 //  if we handle a value, lookup it's type property
                 if (property.Name == "Value" &&
                     typeof(MonitoredItemSampleModel).
-                        GetProperty("TypeId")?.GetValue(sample) is Type typeId){ 
+                        GetProperty("TypeId")?.GetValue(sample) is Type typeId){
                     attribute.DataFormat = DataTypeToCdmDataFormat(typeId);
                 }
                 else {
                     attribute.DataFormat = DataTypeToCdmDataFormat(property.PropertyType);
                 }
                 attribute.DataType = _cdmCorpus.MakeRef<CdmDataTypeReference>(
-                    CdmObjectType.DataTypeRef, 
+                    CdmObjectType.DataTypeRef,
                     DataTypeToCdmDataString(attribute.DataFormat), true);
                 newSampleEntity.Attributes.Add(attribute);
             }
@@ -348,7 +348,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Cdm.Services {
             var newSampleEntityDoc = _cdmCorpus.MakeObject<CdmDocumentDefinition>(
                 CdmObjectType.DocumentDef, $"{newSampleEntity.EntityName}.cdm.json", false);
             newSampleEntityDoc.Imports.Add($"{newSampleEntity.EntityName}.cdm.json");
-            // TODO: remove - apparently not necessary 
+            // TODO: remove - apparently not necessary
             //  newSampleEntityDoc.Imports.Add("cdm:/foundations.cdm.json");
             newSampleEntityDoc.Definitions.Add(newSampleEntity);
             _cdmCorpus.Storage.FetchRootFolder("adls").Documents.Add(
@@ -373,7 +373,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Cdm.Services {
         }
 
         /// <summary>
-        /// Cache Timer Elapesed handler 
+        /// Cache Timer Elapesed handler
         /// </summary>
         /// <param name="sender"></param>
         private async void CacheTimer_ElapesedAsync(object sender) {

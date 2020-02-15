@@ -541,7 +541,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Testing.Tests {
                 return;
             }
 
-            Assert.Equal(VariantValueType.Date, result.Value[0].Type);
+            Assert.Equal(VariantValueType.UtcDateTime, result.Value[0].Type);
             Assert.Equal("DateTime", result.DataType);
         }
 
@@ -570,8 +570,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Testing.Tests {
                 return;
             }
 
-            Assert.Equal(VariantValueType.String, result.Value[0].Type);
-            // TODO: Assert.Equal(VariantValueType.Guid, (result.Value)[0].Type);
+            Assert.Equal(VariantValueType.Guid, result.Value[0].Type);
             Assert.Equal("Guid", result.DataType);
         }
 

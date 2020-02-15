@@ -38,10 +38,12 @@ namespace Microsoft.Azure.IIoT.Serializers {
         public abstract object Value { get; }
 
         /// <inheritdoc/>
-        public VariantValue this[string key] => TryGetValue(key, out var result) ? result : Null();
+        public VariantValue this[string key] =>
+            TryGetValue(key, out var result) ? result : Null();
 
         /// <inheritdoc/>
-        public VariantValue this[int index] => TryGetValue(index, out var result) ? result : null;
+        public VariantValue this[int index] =>
+            TryGetValue(index, out var result) ? result : null;
 
         /// <summary>
         /// Length of array
@@ -61,7 +63,7 @@ namespace Microsoft.Azure.IIoT.Serializers {
                     return TypeCode.Boolean;
                 case VariantValueType.Float:
                     return TypeCode.Decimal;
-                case VariantValueType.Date:
+                case VariantValueType.UtcDateTime:
                     return TypeCode.DateTime;
                 default:
                     return TypeCode.Object;
@@ -955,17 +957,21 @@ namespace Microsoft.Azure.IIoT.Serializers {
 
             /// <inheritdoc/>
             public PrimitiveValue(Guid value) :
-                this(value, VariantValueType.String) {
+                this(value, VariantValueType.Guid) {
             }
 
             /// <inheritdoc/>
             public PrimitiveValue(DateTime value) :
-                this(value, VariantValueType.Date) {
+                this(value.Kind == DateTimeKind.Local ?
+                    value.ToUniversalTime() : value,
+                    VariantValueType.UtcDateTime) {
             }
 
             /// <inheritdoc/>
             public PrimitiveValue(DateTimeOffset value) :
-                this(value, VariantValueType.Date) {
+                this(value.Offset != TimeSpan.Zero ?
+                    value.ToUniversalTime() : value,
+                    VariantValueType.UtcDateTime) {
             }
 
             /// <inheritdoc/>
@@ -1037,17 +1043,23 @@ namespace Microsoft.Azure.IIoT.Serializers {
 
             /// <inheritdoc/>
             public PrimitiveValue(Guid? value) :
-                this(value, VariantValueType.String) {
+                this(value, VariantValueType.Guid) {
             }
 
             /// <inheritdoc/>
             public PrimitiveValue(DateTime? value) :
-                this(value, VariantValueType.Date) {
+                this(!value.HasValue ? value :
+                    value.Value.Kind == DateTimeKind.Local ?
+                    value.Value.ToUniversalTime() : value.Value,
+                    VariantValueType.UtcDateTime) {
             }
 
             /// <inheritdoc/>
             public PrimitiveValue(DateTimeOffset? value) :
-                this(value, VariantValueType.Date) {
+                this(!value.HasValue ? value :
+                    value.Value.Offset != TimeSpan.Zero ?
+                    value.Value.ToUniversalTime() : value.Value,
+                    VariantValueType.UtcDateTime) {
             }
 
             /// <inheritdoc/>

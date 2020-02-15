@@ -128,22 +128,38 @@ namespace Microsoft.Azure.IIoT.Serializers.MessagePack {
                     if (_value is null) {
                         return VariantValueType.Null;
                     }
-                    if (_value is string st) {
-                        if (DateTimeOffset.TryParse(st, out _)) {
-                            return VariantValueType.Date;
+                    if (_value is string s) {
+                        if (string.IsNullOrEmpty(s)) {
+                            return VariantValueType.String;
                         }
-                        if (TimeSpan.TryParse(st, out _)) {
+                        if (TimeSpan.TryParse(s, out _)) {
                             return VariantValueType.TimeSpan;
+                        }
+                        if (DateTime.TryParse(s, out _) ||
+                            DateTimeOffset.TryParse(s, out _)) {
+                            return VariantValueType.UtcDateTime;
+                        }
+                        if (double.TryParse(s, out _) ||
+                            float.TryParse(s, out _)) {
+                            return VariantValueType.Float;
+                        }
+                        if (decimal.TryParse(s, out _)) {
+                            return VariantValueType.Float;
+                        }
+                        if (Guid.TryParse(s, out _)) {
+                            return VariantValueType.Guid;
                         }
                         return VariantValueType.String;
                     }
 
-                    var type = _value.GetType();
+                    var type = Value.GetType();
                     if (typeof(byte[]) == type) {
                         return VariantValueType.Bytes;
                     }
-                    if (typeof(Guid) == type ||
-                        typeof(Uri) == type) {
+                    if (typeof(Guid) == type) {
+                        return VariantValueType.Guid;
+                    }
+                    if (typeof(Uri) == type) {
                         return VariantValueType.String;
                     }
                     if (type.IsArray ||
@@ -163,10 +179,9 @@ namespace Microsoft.Azure.IIoT.Serializers.MessagePack {
                     }
                     if (typeof(DateTime) == type ||
                         typeof(DateTimeOffset) == type) {
-                        return VariantValueType.Date;
+                        return VariantValueType.UtcDateTime;
                     }
-                    if (typeof(TimeSpan) == type ||
-                        typeof(TimeSpan) == type) {
+                    if (typeof(TimeSpan) == type) {
                         return VariantValueType.TimeSpan;
                     }
                     if (typeof(uint) == type ||
@@ -194,7 +209,18 @@ namespace Microsoft.Azure.IIoT.Serializers.MessagePack {
             }
 
             /// <inheritdoc/>
-            public override object Value => _value;
+            public override object Value {
+                get {
+                    if (_value is object[] o && o.Length == 2 && o[0] is DateTime dt) {
+                        var offset = Convert.ToInt64(o[1]);
+                        if (offset == 0) {
+                            return dt;
+                        }
+                        return new DateTimeOffset(dt, TimeSpan.FromTicks(offset));
+                    }
+                    return _value;
+                }
+            }
 
             /// <inheritdoc/>
             public override IEnumerable<string> Keys {
@@ -352,18 +378,11 @@ namespace Microsoft.Azure.IIoT.Serializers.MessagePack {
                 // Special comparison to timespan
                 var type = Type;
                 switch (v.Type) {
-                    case VariantValueType.Date:
-                        if (_value is object[] o && o.Length == 2 && o[0] is DateTime dt) {
-                            equality = v.Equals((VariantValue)new DateTimeOffset(dt,
-                                TimeSpan.FromTicks(Convert.ToInt64(o[1]))));
-                            return true;
-                        }
-                        break;
                     case VariantValueType.TimeSpan:
                         if (type == VariantValueType.Integer ||
                             type == VariantValueType.Float) {
-                            equality = v.Equals((VariantValue)(TimeSpan.FromTicks(
-                                Convert.ToInt64(_value))));
+                            equality = v.Equals((VariantValue)TimeSpan.FromTicks(
+                                Convert.ToInt64(_value)));
                             return true;
                         }
                         break;
@@ -488,8 +507,12 @@ namespace Microsoft.Azure.IIoT.Serializers.MessagePack {
                                     .ToDictionary(k => k, k => variant[k]);
                                 MsgPack.Serialize(ref writer, dict, options);
                                 return;
-                            case VariantValueType.Date:
-                                writer.Write(variant.ToObject<DateTime>());
+                            case VariantValueType.UtcDateTime:
+                                MsgPack.Serialize(ref writer, variant.Value, options);
+                                //writer.Write(variant.ToObject<DateTime>());
+                                return;
+                            case VariantValueType.Guid:
+                                writer.Write(variant.ToObject<Guid>().ToString());
                                 return;
                             case VariantValueType.TimeSpan:
                                 writer.Write(variant.ToObject<TimeSpan>().Ticks);

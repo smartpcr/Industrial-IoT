@@ -16,9 +16,9 @@ namespace Microsoft.Azure.IIoT.Serializers {
         Undefined,
 
         /// <summary>
-        /// String
+        /// Null
         /// </summary>
-        String,
+        Null,
 
         /// <summary>
         /// Array
@@ -26,14 +26,9 @@ namespace Microsoft.Azure.IIoT.Serializers {
         Array,
 
         /// <summary>
-        /// Null
+        /// Byte array
         /// </summary>
-        Null,
-
-        /// <summary>
-        /// Number
-        /// </summary>
-        Integer,
+        Bytes,
 
         /// <summary>
         /// Object
@@ -41,24 +36,34 @@ namespace Microsoft.Azure.IIoT.Serializers {
         Object,
 
         /// <summary>
+        /// String
+        /// </summary>
+        String,
+
+        /// <summary>
+        /// Number
+        /// </summary>
+        Integer,
+
+        /// <summary>
+        /// Floating point
+        /// </summary>
+        Float,
+
+        /// <summary>
         /// Bool
         /// </summary>
         Boolean,
 
         /// <summary>
-        /// bytes
+        /// Guid
         /// </summary>
-        Bytes,
+        Guid,
 
         /// <summary>
-        /// Bool
+        /// Absolute Date
         /// </summary>
-        Float,
-
-        /// <summary>
-        /// Date
-        /// </summary>
-        Date,
+        UtcDateTime,
 
         /// <summary>
         /// Duration

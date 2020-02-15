@@ -171,33 +171,43 @@ namespace Microsoft.Azure.IIoT.Serializers.NewtonSoft {
                         case JTokenType.Integer:
                             return VariantValueType.Integer;
                         case JTokenType.Float:
-                           // if (double.IsInfinity((double)Token) ||
-                           //     float.IsInfinity((float)Token) ||
-                           //     float.IsNaN()
+                            if (double.IsInfinity((double)Token) ||
+                                float.IsInfinity((float)Token) ||
+                                double.IsNaN((double)Token) ||
+                                float.IsNaN((float)Token)) {
+                                return VariantValueType.String;
+                            }
                             return VariantValueType.Float;
                         case JTokenType.Date:
-                            return VariantValueType.Date;
+                            return VariantValueType.UtcDateTime;
                         case JTokenType.TimeSpan:
                             return VariantValueType.TimeSpan;
                         case JTokenType.Guid:
+                            return VariantValueType.Guid;
                         case JTokenType.Raw:
                         case JTokenType.Uri:
                             return VariantValueType.String;
                         case JTokenType.String:
                             var s = (string)Token;
+                            if (string.IsNullOrEmpty(s)) {
+                                return VariantValueType.String;
+                            }
                             if (TimeSpan.TryParse(s, out _)) {
                                 return VariantValueType.TimeSpan;
                             }
-                            if (DateTimeOffset.TryParse(s, out _) ||
-                                DateTime.TryParse(s, out _)) {
-                                return VariantValueType.Date;
+                            if (DateTime.TryParse(s, out _) ||
+                                DateTimeOffset.TryParse(s, out _)) {
+                                return VariantValueType.UtcDateTime;
                             }
                             if (double.TryParse(s, out _) ||
                                 float.TryParse(s, out _)) {
                                 return VariantValueType.Float;
                             }
-                            if (((string)Token).IsBase64()) {
-                                return VariantValueType.Bytes;
+                            if (decimal.TryParse(s, out _)) {
+                                return VariantValueType.Float;
+                            }
+                            if (Guid.TryParse(s, out _)) {
+                                return VariantValueType.Guid;
                             }
                             return VariantValueType.String;
                         case JTokenType.Boolean:
