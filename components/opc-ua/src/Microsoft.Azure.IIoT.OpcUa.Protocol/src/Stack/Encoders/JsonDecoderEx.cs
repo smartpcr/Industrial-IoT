@@ -629,7 +629,7 @@ namespace Opc.Ua.Encoders {
 
             if (token is JObject o){
                 var dictionary = new Dictionary<string, DataValue>();
-                foreach (JProperty innerProperty in o.Properties()) {
+                foreach (var innerProperty in o.Properties()) {
                     _stack.Push(o);
                     var innerValue = ReadDataValue(innerProperty.Name);
                     _stack.Pop();

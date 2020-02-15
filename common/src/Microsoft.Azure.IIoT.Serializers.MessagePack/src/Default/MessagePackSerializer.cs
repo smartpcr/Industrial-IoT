@@ -132,20 +132,20 @@ namespace Microsoft.Azure.IIoT.Serializers.MessagePack {
                         if (string.IsNullOrEmpty(s)) {
                             return VariantValueType.String;
                         }
-                        if (TimeSpan.TryParse(s, out _)) {
-                            return VariantValueType.TimeSpan;
-                        }
+                      //  if (TimeSpan.TryParse(s, out _)) {
+                      //      return VariantValueType.TimeSpan;
+                      //  }
                         if (DateTime.TryParse(s, out _) ||
                             DateTimeOffset.TryParse(s, out _)) {
                             return VariantValueType.UtcDateTime;
                         }
-                        if (double.TryParse(s, out _) ||
-                            float.TryParse(s, out _)) {
-                            return VariantValueType.Float;
-                        }
-                        if (decimal.TryParse(s, out _)) {
-                            return VariantValueType.Float;
-                        }
+                     //  if (double.TryParse(s, out _) ||
+                     //      float.TryParse(s, out _)) {
+                     //      return VariantValueType.Float;
+                     //  }
+                     //  if (decimal.TryParse(s, out _)) {
+                     //      return VariantValueType.Float;
+                     //  }
                         if (Guid.TryParse(s, out _)) {
                             return VariantValueType.Guid;
                         }

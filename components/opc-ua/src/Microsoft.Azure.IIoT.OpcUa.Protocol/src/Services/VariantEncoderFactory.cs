@@ -197,10 +197,17 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Services {
                         //
                         if (elements.Length > 1) {
                             //
-                            // Parse all contained elements and return as array
+                            // Parse as array
                             //
-                            value = Serializer.FromObject(elements
-                                .Select(s => s.Trim()));
+                            var trimmed = elements.Select(e => e.TrimQuotes()).ToArray();
+                            try {
+                                value = Serializer.Parse(
+                                    "[" + trimmed.Aggregate((x, y) => x + "," + y) + "]");
+                            }
+                            catch {
+                                value = Serializer.Parse(
+                                    "[\"" + trimmed.Aggregate((x, y) => x + "\",\"" + y) + "\"]");
+                            }
                         }
                         else {
                             //
