@@ -10,6 +10,7 @@ namespace Microsoft.Azure.IIoT.Serializers {
     using System.Diagnostics;
     using System.Globalization;
     using System.Linq;
+    using System.Numerics;
 
     /// <summary>
     /// Represents primitive or structurally complex value
@@ -52,8 +53,14 @@ namespace Microsoft.Azure.IIoT.Serializers {
 
         /// <inheritdoc/>
         public virtual TypeCode GetTypeCode() {
+            if (IsFloat()) {
+                return TypeCode.Decimal;
+            }
+            if (IsBoolean())
+                return TypeCode.Boolean;
+            if (IsString())
             switch (Type) {
-                case VariantValueType.String:
+                case VariantValueType.Primitive:
                     return TypeCode.String;
                 case VariantValueType.Null:
                     return TypeCode.Empty;
@@ -72,14 +79,14 @@ namespace Microsoft.Azure.IIoT.Serializers {
 
         /// <inheritdoc/>
         public bool ToBoolean(IFormatProvider provider) {
-            return ToObject<bool>(provider);
+            return As<bool>(provider);
         }
         /// <inheritdoc/>
         public static explicit operator bool(VariantValue value) =>
-            value.ToObject<bool>();
+            value.As<bool>();
         /// <inheritdoc/>
         public static explicit operator bool?(VariantValue value) =>
-            value.IsNull() ? (bool?)null : value.ToObject<bool>();
+            value.IsNull() ? (bool?)null : value.As<bool>();
         /// <inheritdoc/>
         public static implicit operator VariantValue(bool value) =>
             new PrimitiveValue(value);
@@ -89,14 +96,14 @@ namespace Microsoft.Azure.IIoT.Serializers {
 
         /// <inheritdoc/>
         public byte ToByte(IFormatProvider provider) {
-            return ToObject<byte>(provider);
+            return As<byte>(provider);
         }
         /// <inheritdoc/>
         public static explicit operator byte(VariantValue value) =>
-            value.ToObject<byte>();
+            value.As<byte>();
         /// <inheritdoc/>
         public static explicit operator byte?(VariantValue value) =>
-            value.IsNull() ? (byte?)null : value.ToObject<byte>();
+            value.IsNull() ? (byte?)null : value.As<byte>();
         /// <inheritdoc/>
         public static implicit operator VariantValue(byte value) =>
             new PrimitiveValue(value);
@@ -106,14 +113,14 @@ namespace Microsoft.Azure.IIoT.Serializers {
 
         /// <inheritdoc/>
         public char ToChar(IFormatProvider provider) {
-            return ToObject<char>(provider);
+            return As<char>(provider);
         }
         /// <inheritdoc/>
         public static explicit operator char(VariantValue value) =>
-            value.ToObject<char>();
+            value.As<char>();
         /// <inheritdoc/>
         public static explicit operator char?(VariantValue value) =>
-            value.IsNull() ? (char?)null : value.ToObject<char>();
+            value.IsNull() ? (char?)null : value.As<char>();
         /// <inheritdoc/>
         public static implicit operator VariantValue(char value) =>
             new PrimitiveValue(value);
@@ -123,14 +130,14 @@ namespace Microsoft.Azure.IIoT.Serializers {
 
         /// <inheritdoc/>
         public DateTime ToDateTime(IFormatProvider provider) {
-            return ToObject<DateTime>(provider);
+            return As<DateTime>(provider);
         }
         /// <inheritdoc/>
         public static explicit operator DateTime(VariantValue value) =>
-            value.ToObject<DateTime>();
+            value.As<DateTime>();
         /// <inheritdoc/>
         public static explicit operator DateTime?(VariantValue value) =>
-            value.IsNull() ? (DateTime?)null : value.ToObject<DateTime>();
+            value.IsNull() ? (DateTime?)null : value.As<DateTime>();
         /// <inheritdoc/>
         public static implicit operator VariantValue(DateTime value) =>
             new PrimitiveValue(value);
@@ -140,10 +147,10 @@ namespace Microsoft.Azure.IIoT.Serializers {
 
         /// <inheritdoc/>
         public static explicit operator DateTimeOffset(VariantValue value) =>
-            value.ToObject<DateTimeOffset>();
+            value.As<DateTimeOffset>();
         /// <inheritdoc/>
         public static explicit operator DateTimeOffset?(VariantValue value) =>
-            value.IsNull() ? (DateTimeOffset?)null : value.ToObject<DateTimeOffset>();
+            value.IsNull() ? (DateTimeOffset?)null : value.As<DateTimeOffset>();
         /// <inheritdoc/>
         public static implicit operator VariantValue(DateTimeOffset value) =>
             new PrimitiveValue(value);
@@ -153,14 +160,14 @@ namespace Microsoft.Azure.IIoT.Serializers {
 
         /// <inheritdoc/>
         public decimal ToDecimal(IFormatProvider provider) {
-            return ToObject<decimal>(provider);
+            return As<decimal>(provider);
         }
         /// <inheritdoc/>
         public static explicit operator decimal(VariantValue value) =>
-            value.ToObject<decimal>();
+            value.As<decimal>();
         /// <inheritdoc/>
         public static explicit operator decimal?(VariantValue value) =>
-            value.IsNull() ? (decimal?)null : value.ToObject<decimal>();
+            value.IsNull() ? (decimal?)null : value.As<decimal>();
         /// <inheritdoc/>
         public static implicit operator VariantValue(decimal value) =>
             new PrimitiveValue(value);
@@ -170,14 +177,14 @@ namespace Microsoft.Azure.IIoT.Serializers {
 
         /// <inheritdoc/>
         public double ToDouble(IFormatProvider provider) {
-            return ToObject<double>(provider);
+            return As<double>(provider);
         }
         /// <inheritdoc/>
         public static explicit operator double(VariantValue value) =>
-            value.ToObject<double>();
+            value.As<double>();
         /// <inheritdoc/>
         public static explicit operator double?(VariantValue value) =>
-            value.IsNull() ? (double?)null : value.ToObject<double>();
+            value.IsNull() ? (double?)null : value.As<double>();
         /// <inheritdoc/>
         public static implicit operator VariantValue(double value) =>
             new PrimitiveValue(value);
@@ -187,14 +194,14 @@ namespace Microsoft.Azure.IIoT.Serializers {
 
         /// <inheritdoc/>
         public short ToInt16(IFormatProvider provider) {
-            return ToObject<short>(provider);
+            return As<short>(provider);
         }
         /// <inheritdoc/>
         public static explicit operator short(VariantValue value) =>
-            value.ToObject<short>();
+            value.As<short>();
         /// <inheritdoc/>
         public static explicit operator short?(VariantValue value) =>
-            value.IsNull() ? (short?)null : value.ToObject<short>();
+            value.IsNull() ? (short?)null : value.As<short>();
         /// <inheritdoc/>
         public static implicit operator VariantValue(short value) =>
             new PrimitiveValue(value);
@@ -204,14 +211,14 @@ namespace Microsoft.Azure.IIoT.Serializers {
 
         /// <inheritdoc/>
         public int ToInt32(IFormatProvider provider) {
-            return ToObject<int>(provider);
+            return As<int>(provider);
         }
         /// <inheritdoc/>
         public static explicit operator int(VariantValue value) =>
-            value.ToObject<int>();
+            value.As<int>();
         /// <inheritdoc/>
         public static explicit operator int?(VariantValue value) =>
-            value.IsNull() ? (int?)null : value.ToObject<int>();
+            value.IsNull() ? (int?)null : value.As<int>();
         /// <inheritdoc/>
         public static implicit operator VariantValue(int value) =>
             new PrimitiveValue(value);
@@ -221,14 +228,14 @@ namespace Microsoft.Azure.IIoT.Serializers {
 
         /// <inheritdoc/>
         public long ToInt64(IFormatProvider provider) {
-            return ToObject<long>(provider);
+            return As<long>(provider);
         }
         /// <inheritdoc/>
         public static explicit operator long(VariantValue value) =>
-            value.ToObject<long>();
+            value.As<long>();
         /// <inheritdoc/>
         public static explicit operator long?(VariantValue value) =>
-            value.IsNull() ? (long?)null : value.ToObject<long>();
+            value.IsNull() ? (long?)null : value.As<long>();
         /// <inheritdoc/>
         public static implicit operator VariantValue(long value) =>
             new PrimitiveValue(value);
@@ -238,14 +245,14 @@ namespace Microsoft.Azure.IIoT.Serializers {
 
         /// <inheritdoc/>
         public ushort ToUInt16(IFormatProvider provider) {
-            return ToObject<ushort>(provider);
+            return As<ushort>(provider);
         }
         /// <inheritdoc/>
         public static explicit operator ushort(VariantValue value) =>
-            value.ToObject<ushort>();
+            value.As<ushort>();
         /// <inheritdoc/>
         public static explicit operator ushort?(VariantValue value) =>
-            value.IsNull() ? (ushort?)null : value.ToObject<ushort>();
+            value.IsNull() ? (ushort?)null : value.As<ushort>();
         /// <inheritdoc/>
         public static implicit operator VariantValue(ushort value) =>
             new PrimitiveValue(value);
@@ -255,14 +262,14 @@ namespace Microsoft.Azure.IIoT.Serializers {
 
         /// <inheritdoc/>
         public uint ToUInt32(IFormatProvider provider) {
-            return ToObject<uint>(provider);
+            return As<uint>(provider);
         }
         /// <inheritdoc/>
         public static explicit operator uint(VariantValue value) =>
-            value.ToObject<uint>();
+            value.As<uint>();
         /// <inheritdoc/>
         public static explicit operator uint?(VariantValue value) =>
-            value.IsNull() ? (uint?)null : value.ToObject<uint>();
+            value.IsNull() ? (uint?)null : value.As<uint>();
         /// <inheritdoc/>
         public static implicit operator VariantValue(uint value) =>
             new PrimitiveValue(value);
@@ -272,14 +279,14 @@ namespace Microsoft.Azure.IIoT.Serializers {
 
         /// <inheritdoc/>
         public ulong ToUInt64(IFormatProvider provider) {
-            return ToObject<ulong>(provider);
+            return As<ulong>(provider);
         }
         /// <inheritdoc/>
         public static explicit operator ulong(VariantValue value) =>
-            value.ToObject<ulong>();
+            value.As<ulong>();
         /// <inheritdoc/>
         public static explicit operator ulong?(VariantValue value) =>
-            value.IsNull() ? (ulong?)null : value.ToObject<ulong>();
+            value.IsNull() ? (ulong?)null : value.As<ulong>();
         /// <inheritdoc/>
         public static implicit operator VariantValue(ulong value) =>
             new PrimitiveValue(value);
@@ -289,14 +296,14 @@ namespace Microsoft.Azure.IIoT.Serializers {
 
         /// <inheritdoc/>
         public sbyte ToSByte(IFormatProvider provider) {
-            return ToObject<sbyte>(provider);
+            return As<sbyte>(provider);
         }
         /// <inheritdoc/>
         public static explicit operator sbyte(VariantValue value) =>
-            value.ToObject<sbyte>();
+            value.As<sbyte>();
         /// <inheritdoc/>
         public static explicit operator sbyte?(VariantValue value) =>
-            value.IsNull() ? (sbyte?)null : value.ToObject<sbyte>();
+            value.IsNull() ? (sbyte?)null : value.As<sbyte>();
         /// <inheritdoc/>
         public static implicit operator VariantValue(sbyte value) =>
             new PrimitiveValue(value);
@@ -306,14 +313,14 @@ namespace Microsoft.Azure.IIoT.Serializers {
 
         /// <inheritdoc/>
         public float ToSingle(IFormatProvider provider) {
-            return ToObject<float>(provider);
+            return As<float>(provider);
         }
         /// <inheritdoc/>
         public static explicit operator float(VariantValue value) =>
-            value.ToObject<float>();
+            value.As<float>();
         /// <inheritdoc/>
         public static explicit operator float?(VariantValue value) =>
-            value.IsNull() ? (float?)null : value.ToObject<float>();
+            value.IsNull() ? (float?)null : value.As<float>();
         /// <inheritdoc/>
         public static implicit operator VariantValue(float value) =>
             new PrimitiveValue(value);
@@ -323,28 +330,28 @@ namespace Microsoft.Azure.IIoT.Serializers {
 
         /// <inheritdoc/>
         public string ToString(IFormatProvider provider) {
-            return ToObject<string>(provider);
+            return As<string>(provider);
         }
         /// <inheritdoc/>
         public static explicit operator string(VariantValue value) =>
-            value.ToObject<string>();
+            value.As<string>();
         /// <inheritdoc/>
         public static implicit operator VariantValue(string value) =>
             new PrimitiveValue(value);
 
         /// <inheritdoc/>
         public static explicit operator byte[](VariantValue value) =>
-            value.ToObject<byte[]>();
+            value.As<byte[]>();
         /// <inheritdoc/>
         public static implicit operator VariantValue(byte[] value) =>
             new PrimitiveValue(value);
 
         /// <inheritdoc/>
         public static explicit operator Guid(VariantValue value) =>
-            value.ToObject<Guid>();
+            value.As<Guid>();
         /// <inheritdoc/>
         public static explicit operator Guid?(VariantValue value) =>
-            value.IsNull() ? (Guid?)null : value.ToObject<Guid>();
+            value.IsNull() ? (Guid?)null : value.As<Guid>();
         /// <inheritdoc/>
         public static implicit operator VariantValue(Guid value) =>
             new PrimitiveValue(value);
@@ -354,10 +361,10 @@ namespace Microsoft.Azure.IIoT.Serializers {
 
         /// <inheritdoc/>
         public static explicit operator TimeSpan(VariantValue value) =>
-            value.ToObject<TimeSpan>();
+            value.As<TimeSpan>();
         /// <inheritdoc/>
         public static explicit operator TimeSpan?(VariantValue value) =>
-            value.IsNull() ? (TimeSpan?)null : value.ToObject<TimeSpan>();
+            value.IsNull() ? (TimeSpan?)null : value.As<TimeSpan>();
         /// <inheritdoc/>
         public static implicit operator VariantValue(TimeSpan value) =>
             new PrimitiveValue(value);
@@ -393,7 +400,7 @@ namespace Microsoft.Azure.IIoT.Serializers {
                 return Comparer.Equals(this, v);
             }
             if (o is null) {
-                return this.IsNull();
+                return value.IsNull();
             }
             // Compare to non variant value
             if (TryEqualsValue(o, out var result)) {
@@ -432,11 +439,241 @@ namespace Microsoft.Azure.IIoT.Serializers {
         }
 
         /// <summary>
+        /// Returns whether the token is a float type
+        /// </summary>
+        /// <returns></returns>
+        public bool IsFloat() {
+            if (Type != VariantValueType.Primitive) {
+                return false;
+            }
+            switch (Value) {
+                case int _:
+                case uint _:
+                case long _:
+                case ulong _:
+                case short _:
+                case ushort _:
+                case sbyte _:
+                case byte _:
+                case char _:
+                case BigInteger _:
+                    return true;
+                case float _:
+                case double _:
+                case decimal _:
+                    return true;
+                case string s:
+                    return decimal.TryParse(s, out _);
+                case IConvertible c:
+                    try {
+                        c.ToDecimal(CultureInfo.InvariantCulture);
+                        return true;
+                    }
+                    catch {
+                        return false;
+                    }
+                default:
+                    return decimal.TryParse(ToString(), out _);
+            }
+        }
+
+        /// <summary>
+        /// Returns whether the token is a float type
+        /// </summary>
+        /// <returns></returns>
+        public bool IsInteger() {
+            if (value.IsNull()) {
+                return false;
+            }
+            if (Type != VariantValueType.Primitive) {
+                return false;
+            }
+            switch (Value) {
+                case int _:
+                case uint _:
+                case long _:
+                case ulong _:
+                case short _:
+                case ushort _:
+                case sbyte _:
+                case byte _:
+                case char _:
+                case BigInteger _:
+                    return true;
+                case string s:
+                    return BigInteger.TryParse(s, out _);
+                case decimal dec:
+                    return decimal.Floor(dec).Equals(dec);
+                case float f:
+                    return Math.Floor(f).Equals(f);
+                case double d:
+                    return Math.Floor(d).Equals(d);
+                case IConvertible c:
+                    try {
+                        // Handles any float
+                        var dec = c.ToDecimal(CultureInfo.InvariantCulture);
+                        return decimal.Floor(dec) == dec;
+                    }
+                    catch {
+                        return false;
+                    }
+                default:
+                    return BigInteger.TryParse(ToString(), out _);
+            }
+        }
+
+        /// <summary>
+        /// Returns whether the token is a float type
+        /// </summary>
+        /// <returns></returns>
+        public bool IsTimeSpan() {
+            if (value.IsNull()) {
+                return false;
+            }
+            if (Type != VariantValueType.Primitive) {
+                return false;
+            }
+            switch (Value) {
+                case TimeSpan _:
+                    return true;
+                case string s:
+                    return TimeSpan.TryParse(s, out _);
+                default:
+                    return TimeSpan.TryParse(ToString(), out _);
+            }
+        }
+
+        /// <summary>
+        /// Returns whether the token is a float type
+        /// </summary>
+        /// <returns></returns>
+        public bool IsDateTime() {
+            if (Type != VariantValueType.Primitive) {
+                return false;
+            }
+            switch (Value) {
+                case DateTime _:
+                case DateTimeOffset _:
+                    return true;
+                case string s:
+                    return
+                        DateTime.TryParse(s, out _) ||
+                        DateTimeOffset.TryParse(s, out _);
+                case IConvertible c:
+                    try {
+                        var dt = c.ToDateTime(CultureInfo.InvariantCulture);
+                        return true;
+                    }
+                    catch {
+                        return false;
+                    }
+                default:
+                    return
+                       DateTime.TryParse(ToString(), out _) ||
+                       DateTimeOffset.TryParse(ToString(), out _);
+            }
+        }
+
+        /// <summary>
+        /// Returns whether the token is a float type
+        /// </summary>
+        /// <returns></returns>
+        public bool IsBoolean() {
+            if (Type != VariantValueType.Primitive) {
+                return false;
+            }
+            switch (Value) {
+                case bool _:
+                    return true;
+                case string s:
+                    return bool.TryParse(s, out _);
+                case IConvertible c:
+                    try {
+                        var dt = c.ToBoolean(CultureInfo.InvariantCulture);
+                        return true;
+                    }
+                    catch {
+                        return false;
+                    }
+                default:
+                    return bool.TryParse(ToString(), out _);
+            }
+        }
+
+        /// <summary>
+        /// Returns whether the token is a float type
+        /// </summary>
+        /// <returns></returns>
+        public bool IsGuid() {
+            if (Type != VariantValueType.Primitive) {
+                return false;
+            }
+            switch (Value) {
+                case Guid _:
+                    return true;
+                case string s:
+                    return Guid.TryParse(s, out _);
+                default:
+                    return Guid.TryParse(ToString(), out _);
+            }
+        }
+
+        /// <summary>
+        /// Returns whether the token is a float type
+        /// </summary>
+        /// <returns></returns>
+        public bool IsString() {
+            if (value.IsNull()) {
+                return false;
+            }
+            if (Type != VariantValueType.Primitive) {
+                return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Returns whether the token is a array
+        /// </summary>
+        /// <returns></returns>
+        public bool IsArray() {
+            if (Type == VariantValueType.Array ||
+                Type == VariantValueType.Bytes) {
+                return true;
+            }
+            if (Value.GetType().IsArray || Count > 0) {
+                return true;
+            }
+            if (IsObject()) {
+                return false;
+            }
+            var s = (string)this;
+            try {
+                Convert.FromBase64String(s);
+                return true;
+            }
+            catch {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Returns whether the token is a object type
+        /// </summary>
+        /// <returns></returns>
+        public bool IsObject() {
+            if (Type == VariantValueType.Object || Keys.Any()) {
+                return true;
+            }
+            return false;
+        }
+
+        /// <summary>
         /// Convert value to typed value
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public T ToObject<T>(IFormatProvider provider = null) {
+        public T As<T>(IFormatProvider provider = null) {
             var typed = ToType(typeof(T), provider);
             return typed == null ? default : (T)typed;
         }
@@ -446,7 +683,7 @@ namespace Microsoft.Azure.IIoT.Serializers {
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        public object ToObject(Type type) {
+        public object As(Type type) {
             return ToType(type, null);
         }
 
@@ -567,10 +804,51 @@ namespace Microsoft.Azure.IIoT.Serializers {
                 var yt = y?.Type ?? VariantValueType.Null;
                 var xt = x?.Type ?? VariantValueType.Null;
 
-                if (xt == VariantValueType.Null ||
-                    xt == VariantValueType.Undefined) {
+                if (yt != xt) {
+                    return false;
+                }
+
+                if (xt == VariantValueType.Null && yt == VariantValueType.Null) {
                     // If both undefined or null then they are the same
                     return true;
+                }
+
+                // Perform structural comparison
+                switch (xt) {
+                    case VariantValueType.Null:
+                        return true;
+                    case VariantValueType.Array:
+                        if (y.Values.SequenceEqual(x.Values, Comparer)) {
+                            return true;
+                        }
+                        return false;
+                    case VariantValueType.Object:
+                        var p1 = x.Keys.OrderBy(k => k).Select(k => x[k]);
+                        var p2 = y.Keys.OrderBy(k => k).Select(k => y[k]);
+                        if (p1.SequenceEqual(p2, Comparer)) {
+                            return true;
+                        }
+                        return false;
+                    case VariantValueType.Bytes:
+                    case VariantValueType.Primitive:
+                        if (y.ToString(SerializeOption.None) ==
+                            x.ToString(SerializeOption.None)) {
+                            return true;
+                        }
+                        if (x.IsFloat() && y.IsFloat()) {
+                            return x.As<double>() == y.As<double>()
+                        }
+                        // Compare values themselves using converter and comparison
+                        if (EqualValues(x.Value, y.Value)) {
+                            return true;
+                        }
+                        var converter = TypeDescriptor.GetConverter(typeof(T));
+                        result = (T)converter.ConvertFrom(o);
+                        if (y.ToString(SerializeOption.None) ==
+                            x.ToString(SerializeOption.None)) {
+                            return true;
+                        }
+                        break;
                 }
 
                 //
@@ -590,43 +868,6 @@ namespace Microsoft.Azure.IIoT.Serializers {
                     return true;
                 }
 
-                if (xt == yt) {
-                    // Perform structural comparison
-                    switch (xt) {
-                        case VariantValueType.Array:
-                            if (y.Values.SequenceEqual(x.Values, Comparer)) {
-                                return true;
-                            }
-                            return false;
-                        case VariantValueType.Object:
-                            var p1 = x.Keys.OrderBy(k => k).Select(k => x[k]);
-                            var p2 = y.Keys.OrderBy(k => k).Select(k => y[k]);
-                            if (p1.SequenceEqual(p2, Comparer)) {
-                                return true;
-                            }
-                            return false;
-                    }
-                }
-
-                // Try variant comparison
-                if ((x.TryCompareToVariantValue(y, out var xr) && xr == 0) ||
-                    (y.TryCompareToVariantValue(x, out var yr) && yr == 0)) {
-                    return true;
-                }
-
-                // If one side is a string try a string compare
-                if (yt == VariantValueType.String ||
-                    xt == VariantValueType.String) {
-                    if (y.ToString(SerializeOption.None) ==
-                        x.ToString(SerializeOption.None)) {
-                        return true;
-                    }
-                }
-
-                // Compare values themselves using converter and comparison
-                if (EqualValues(x.Value, y.Value)) {
-                    return true;
-                }
                 return false;
             }
 
@@ -828,7 +1069,7 @@ namespace Microsoft.Azure.IIoT.Serializers {
                     }
                     hc.Add(Value.ToString());
                     break;
-                case VariantValueType.String:
+                case VariantValueType.Primitive:
                     TryCast(Value, out var s, Value.ToString());
                     hc.Add(s);
                     break;
@@ -885,7 +1126,7 @@ namespace Microsoft.Azure.IIoT.Serializers {
 
             /// <inheritdoc/>
             public PrimitiveValue(string value) :
-                this(value, VariantValueType.String) {
+                this(value, VariantValueType.Primitive) {
             }
 
             /// <inheritdoc/>
@@ -941,13 +1182,13 @@ namespace Microsoft.Azure.IIoT.Serializers {
             /// <inheritdoc/>
             public PrimitiveValue(float value) :
                 this(value, float.IsInfinity(value) ?
-                    VariantValueType.String : VariantValueType.Float) {
+                    VariantValueType.Primitive : VariantValueType.Float) {
             }
 
             /// <inheritdoc/>
             public PrimitiveValue(double value) :
                 this(value, double.IsInfinity(value) ?
-                    VariantValueType.String : VariantValueType.Float) {
+                    VariantValueType.Primitive : VariantValueType.Float) {
             }
 
             /// <inheritdoc/>
@@ -1027,13 +1268,13 @@ namespace Microsoft.Azure.IIoT.Serializers {
             /// <inheritdoc/>
             public PrimitiveValue(float? value) :
                 this(value, value.HasValue && float.IsInfinity(value.Value) ?
-                    VariantValueType.String : VariantValueType.Float) {
+                    VariantValueType.Primitive : VariantValueType.Float) {
             }
 
             /// <inheritdoc/>
             public PrimitiveValue(double? value) :
                 this(value, value.HasValue && double.IsInfinity(value.Value) ?
-                    VariantValueType.String : VariantValueType.Float) {
+                    VariantValueType.Primitive : VariantValueType.Float) {
             }
 
             /// <inheritdoc/>

@@ -150,7 +150,7 @@ namespace Microsoft.Azure.IIoT.Serializers.MessagePack {
         [MemberData(nameof(GetFilledArrays))]
         public void SerializerArrayVariantToObject(object o, Type type) {
             var expected = type.MakeArrayType();
-            var array = Serializer.FromArray(o, o, o).ToObject(expected);
+            var array = Serializer.FromArray(o, o, o).As(expected);
 
             Assert.NotNull(array);
             Assert.Equal(expected, array.GetType());
@@ -161,7 +161,7 @@ namespace Microsoft.Azure.IIoT.Serializers.MessagePack {
         [MemberData(nameof(GetEmptyArrays))]
         [MemberData(nameof(GetFilledArrays))]
         public void SerializerVariant(object o, Type type) {
-            var result = Serializer.FromObject(o).ToObject(type);
+            var result = Serializer.FromObject(o).As(type);
             Assert.NotNull(result);
             Assert.Equal(o, result);
             Assert.Equal(o.GetType(), result.GetType());
@@ -170,7 +170,7 @@ namespace Microsoft.Azure.IIoT.Serializers.MessagePack {
         [Theory]
         [MemberData(nameof(GetNulls))]
         public void SerializerVariantNullable(Type type) {
-            var result = Serializer.FromObject(null).ToObject(type);
+            var result = Serializer.FromObject(null).As(type);
             Assert.Null(result);
         }
 

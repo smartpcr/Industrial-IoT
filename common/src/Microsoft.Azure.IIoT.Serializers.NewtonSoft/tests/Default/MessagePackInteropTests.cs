@@ -136,7 +136,7 @@ namespace Microsoft.Azure.IIoT.Serializers.NewtonSoft {
         [Fact]
         public void SerializerByteArrayVariantToObject() {
             var expected = MsgPack.FromArray((byte)1, (byte)2, (byte)3);
-            var o1 = expected.ToObject<byte[]>();
+            var o1 = expected.As<byte[]>();
             var json = Json.Serialize(o1);
             var result = Json.Parse(json);
 
@@ -159,7 +159,7 @@ namespace Microsoft.Azure.IIoT.Serializers.NewtonSoft {
                 return; // Special case
             }
             var expected = MsgPack.FromArray(o, o, o);
-            var o1 = expected.ToObject(type.MakeArrayType());
+            var o1 = expected.As(type.MakeArrayType());
             var json = Json.Serialize(o1);
             var result = Json.Parse(json);
 
@@ -175,8 +175,8 @@ namespace Microsoft.Azure.IIoT.Serializers.NewtonSoft {
         [MemberData(nameof(GetEmptyArrays))]
         [MemberData(nameof(GetFilledArrays))]
         public void SerializerVariant(object o, Type type) {
-            var expected = MsgPack.FromObject(o).ToObject(type);
-            var result = Json.FromObject(o).ToObject(type);
+            var expected = MsgPack.FromObject(o).As(type);
+            var result = Json.FromObject(o).As(type);
             Assert.NotNull(expected);
             Assert.NotNull(result);
             Assert.Equal(expected, result);

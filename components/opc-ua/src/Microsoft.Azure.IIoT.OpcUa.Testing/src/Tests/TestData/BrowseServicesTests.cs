@@ -1668,7 +1668,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Testing.Tests {
                     Assert.Equal("ByteValue", reference.Target.DisplayName);
                     Assert.NotNull(reference.Target.Value);
                     if (reference.Target.Value.Type != VariantValueType.Null) {
-                        Assert.Equal(VariantValueType.String, reference.Target.Value.Type);
+                        Assert.Equal(VariantValueType.Primitive, reference.Target.Value.Type);
                     }
                 },
                 reference => {
@@ -2168,7 +2168,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Testing.Tests {
             Assert.NotNull(results.ErrorInfo.Diagnostics);
             Assert.Equal(VariantValueType.Array, results.ErrorInfo.Diagnostics.Type);
             Assert.Collection(results.ErrorInfo.Diagnostics.Values, j => {
-                Assert.Equal(VariantValueType.String, j.Type);
+                Assert.Equal(VariantValueType.Primitive, j.Type);
                 Assert.Equal("BadNodeIdUnknown", (string)j);
             });
         }

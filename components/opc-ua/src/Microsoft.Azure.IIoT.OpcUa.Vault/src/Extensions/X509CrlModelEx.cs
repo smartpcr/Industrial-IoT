@@ -45,7 +45,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Vault.Models {
             switch (model.Crl.Type) {
                 case VariantValueType.Bytes:
                     return (byte[])model.Crl;
-                case VariantValueType.String:
+                case VariantValueType.Primitive:
                     var request = (string)model.Crl;
                     if (request.Contains(certPemHeader,
                         StringComparison.OrdinalIgnoreCase)) {

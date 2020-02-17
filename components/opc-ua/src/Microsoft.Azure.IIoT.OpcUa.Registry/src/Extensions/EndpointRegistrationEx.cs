@@ -301,7 +301,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Registry.Models {
                     DiscovererId = string.IsNullOrEmpty(registration.DiscovererId) ?
                         null : registration.DiscovererId,
                     AuthenticationMethods = registration.AuthenticationMethods?.DecodeAsList(j =>
-                        j.ToObject<AuthenticationMethodModel>()),
+                        j.As<AuthenticationMethodModel>()),
                     SecurityLevel = registration.SecurityLevel,
                     EndpointUrl = string.IsNullOrEmpty(registration.EndpointRegistrationUrl) ?
                         (string.IsNullOrEmpty(registration.EndpointUrl) ?

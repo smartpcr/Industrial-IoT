@@ -152,7 +152,7 @@ namespace Microsoft.Azure.IIoT.Hub.Mock.SqlParser {
             }
             if (context.IS_STRING() != null) {
                 return s => _serializer.FromObject(s != null &&
-                    (s.Type == VariantValueType.String));
+                    (s.Type == VariantValueType.Primitive));
             }
             if (context.IS_OBJECT() != null) {
                 return s => _serializer.FromObject(s != null &&

@@ -415,7 +415,7 @@ namespace Microsoft.Azure.IIoT.Hub.Mock {
                 if (Connection != null) {
                     var desired = new TwinCollection();
                     foreach (var item in Twin.Properties.Desired) {
-                        desired[item.Key] = item.Value?.ToObject<object>();
+                        desired[item.Key] = item.Value?.As<object>();
                     }
                     Connection.SetDesiredProperties(desired);
                 }

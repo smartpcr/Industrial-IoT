@@ -6,6 +6,8 @@
 namespace Microsoft.Azure.IIoT.Serializers {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
+    using System.Numerics;
 
     /// <summary>
     /// Variant extensions
@@ -34,7 +36,7 @@ namespace Microsoft.Azure.IIoT.Serializers {
             string key, T defaultValue) {
             if (dict != null && dict.TryGetValue(key, out var token)) {
                 try {
-                    return token.ToObject<T>();
+                    return token.As<T>();
                 }
                 catch {
                     return defaultValue;
@@ -57,11 +59,11 @@ namespace Microsoft.Azure.IIoT.Serializers {
                 try {
                     // Handle enumerations serialized as string
                     if (typeof(T).IsEnum &&
-                        token.Type == VariantValueType.String &&
+                        token.Type == VariantValueType.Primitive &&
                         Enum.TryParse<T>((string)token, out var result)) {
                         return result;
                     }
-                    return token.ToObject<T>();
+                    return token.As<T>();
                 }
                 catch {
                     return defaultValue;
@@ -113,7 +115,7 @@ namespace Microsoft.Azure.IIoT.Serializers {
                 t.TryGetValue(key, out var value, compare) &&
                 !(value is null)) {
                 try {
-                    return value.ToObject<T>();
+                    return value.As<T>();
                 }
                 catch {
                     return defaultValue();
@@ -155,11 +157,11 @@ namespace Microsoft.Azure.IIoT.Serializers {
                 try {
                     // Handle enumerations serialized as string
                     if (typeof(T).IsEnum &&
-                        value.Type == VariantValueType.String &&
+                        value.Type == VariantValueType.Primitive &&
                         Enum.TryParse<T>((string)value, out var result)) {
                         return result;
                     }
-                    return value.ToObject<T>();
+                    return value.As<T>();
                 }
                 catch {
                     return defaultValue();
@@ -206,17 +208,253 @@ namespace Microsoft.Azure.IIoT.Serializers {
         /// <summary>
         /// Returns whether the token is a float type
         /// </summary>
-        /// <param name="token"></param>
+        /// <param name="value"></param>
         /// <returns></returns>
-        public static bool IsFloatValue(this VariantValue token) {
-            if (token?.Type == VariantValueType.Float) {
+        public static bool IsFloat(this VariantValue value) {
+            if (value.IsNull()) {
+                return false;
+            }
+            if (value.Type != VariantValueType.Primitive) {
+                return false;
+            }
+            switch (value.Value) {
+                case int _:
+                case uint _:
+                case long _:
+                case ulong _:
+                case short _:
+                case ushort _:
+                case sbyte _:
+                case byte _:
+                case char _:
+                case BigInteger _:
+                    return true;
+                case float _:
+                case double _:
+                case decimal _:
+                    return true;
+                case string s:
+                    return decimal.TryParse(s, out _);
+                case IConvertible c:
+                    try {
+                        c.ToDecimal(CultureInfo.InvariantCulture);
+                        return true;
+                    }
+                    catch {
+                        return false;
+                    }
+                default:
+                    return decimal.TryParse(value.Value.ToString(), out _);
+            }
+        }
+
+        /// <summary>
+        /// Returns whether the token is a float type
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static bool IsInteger(this VariantValue value) {
+            if (value.IsNull()) {
+                return false;
+            }
+            if (value.Type != VariantValueType.Primitive) {
+                return false;
+            }
+            switch (value.Value) {
+                case int _:
+                case uint _:
+                case long _:
+                case ulong _:
+                case short _:
+                case ushort _:
+                case sbyte _:
+                case byte _:
+                case char _:
+                case BigInteger _:
+                    return true;
+                case string s:
+                    return BigInteger.TryParse(s, out _);
+                case decimal dec:
+                    return decimal.Floor(dec).Equals(dec);
+                case float f:
+                    return Math.Floor(f).Equals(f);
+                case double d:
+                    return Math.Floor(d).Equals(d);
+                case IConvertible c:
+                    try {
+                        // Handles any float
+                        var dec = c.ToDecimal(CultureInfo.InvariantCulture);
+                        return decimal.Floor(dec) == dec;
+                    }
+                    catch {
+                        return false;
+                    }
+                default:
+                    return BigInteger.TryParse(value.Value.ToString(), out _);
+            }
+        }
+
+        /// <summary>
+        /// Returns whether the token is a float type
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static bool IsTimeSpan(this VariantValue value) {
+            if (value.IsNull()) {
+                return false;
+            }
+            if (value.Type != VariantValueType.Primitive) {
+                return false;
+            }
+            switch (value.Value) {
+                case TimeSpan _:
+                    return true;
+                case string s:
+                    return TimeSpan.TryParse(s, out _);
+                default:
+                    return TimeSpan.TryParse(value.Value.ToString(), out _);
+            }
+        }
+
+        /// <summary>
+        /// Returns whether the token is a float type
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static bool IsDateTime(this VariantValue value) {
+            if (value.IsNull()) {
+                return false;
+            }
+            if (value.Type != VariantValueType.Primitive) {
+                return false;
+            }
+            switch (value.Value) {
+                case DateTime _:
+                case DateTimeOffset _:
+                    return true;
+                case string s:
+                    return
+                        DateTime.TryParse(s, out _) ||
+                        DateTimeOffset.TryParse(s, out _);
+                case IConvertible c:
+                    try {
+                        var dt = c.ToDateTime(CultureInfo.InvariantCulture);
+                        return true;
+                    }
+                    catch {
+                        return false;
+                    }
+                default:
+                    return
+                       DateTime.TryParse(value.Value.ToString(), out _) ||
+                       DateTimeOffset.TryParse(value.Value.ToString(), out _);
+            }
+        }
+
+        /// <summary>
+        /// Returns whether the token is a float type
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static bool IsBoolean(this VariantValue value) {
+            if (value.IsNull()) {
+                return false;
+            }
+            if (value.Type != VariantValueType.Primitive) {
+                return false;
+            }
+            switch (value.Value) {
+                case bool _:
+                    return true;
+                case string s:
+                    return bool.TryParse(s, out _);
+                case IConvertible c:
+                    try {
+                        var dt = c.ToBoolean(CultureInfo.InvariantCulture);
+                        return true;
+                    }
+                    catch {
+                        return false;
+                    }
+                default:
+                    return bool.TryParse(value.Value.ToString(), out _);
+            }
+        }
+
+        /// <summary>
+        /// Returns whether the token is a float type
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static bool IsGuid(this VariantValue value) {
+            if (value.IsNull()) {
+                return false;
+            }
+            if (value.Type != VariantValueType.Primitive) {
+                return false;
+            }
+            switch (value.Value) {
+                case Guid _:
+                    return true;
+                case string s:
+                    return Guid.TryParse(s, out _);
+                default:
+                    return Guid.TryParse(value.Value.ToString(), out _);
+            }
+        }
+
+        /// <summary>
+        /// Returns whether the token is a float type
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static bool IsString(this VariantValue value) {
+            if (value.IsNull()) {
+                return false;
+            }
+            if (value.Type != VariantValueType.Primitive) {
+                return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Returns whether the token is a array
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static bool IsArray(this VariantValue value) {
+            if (value.IsNull()) {
+                return false;
+            }
+            if (value.Type == VariantValueType.Array ||
+                value.Type == VariantValueType.Bytes) {
                 return true;
             }
-            if (token?.Type == VariantValueType.String) {
-                var val = (string)token;
-                if (val == "NaN" || val == "Infinity" || val == "-Infinity") {
-                    return true;
-                }
+            if (value.Value.GetType().IsArray) {
+                return true;
+            }
+            var s = (string)value;
+            try {
+                Convert.FromBase64String(s);
+                return true;
+            }
+            catch {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Returns whether the token is a object type
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static bool IsObject(this VariantValue value) {
+            if (value.IsNull()) {
+                return false;
+            }
+            if (value.Type == VariantValueType.Object) {
+                return true;
             }
             return false;
         }

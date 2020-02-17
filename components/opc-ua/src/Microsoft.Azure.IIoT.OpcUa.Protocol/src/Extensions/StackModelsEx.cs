@@ -424,19 +424,19 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol {
                 case CredentialType.UserName:
                     if (authentication.Value.Type == VariantValueType.Object &&
                         authentication.Value.TryGetValue("user", out var user) &&
-                            user.Type == VariantValueType.String &&
+                            user.Type == VariantValueType.Primitive &&
                         authentication.Value.TryGetValue("password", out var password) &&
-                            password.Type == VariantValueType.String) {
+                            password.Type == VariantValueType.Primitive) {
                         return new UserIdentity((string)user, (string)password);
                     }
                     throw new ServiceResultException(StatusCodes.BadNotSupported,
                         $"User/passord token format is not supported.");
                 case CredentialType.X509Certificate:
                     return new UserIdentity(new X509Certificate2(
-                        authentication.Value?.ToObject<byte[]>()));
+                        authentication.Value?.As<byte[]>()));
                 case CredentialType.JwtToken:
                     return new UserIdentity(new IssuedIdentityToken {
-                        DecryptedTokenData = authentication.Value?.ToObject<byte[]>()
+                        DecryptedTokenData = authentication.Value?.As<byte[]>()
                     });
                 case CredentialType.None:
                     return new UserIdentity(new AnonymousIdentityToken());
@@ -456,9 +456,9 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol {
                 case CredentialType.UserName:
                     if (authentication.Value.Type == VariantValueType.Object &&
                         authentication.Value.TryGetValue("user", out var user) &&
-                            user.Type == VariantValueType.String &&
+                            user.Type == VariantValueType.Primitive &&
                         authentication.Value.TryGetValue("password", out var password) &&
-                            password.Type == VariantValueType.String) {
+                            password.Type == VariantValueType.Primitive) {
                         return new UserNameIdentityToken {
                             DecryptedPassword = (string)password,
                             UserName = (string)user
@@ -469,11 +469,11 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol {
                 case CredentialType.X509Certificate:
                     return new X509IdentityToken {
                         Certificate = new X509Certificate2(
-                        authentication.Value?.ToObject<byte[]>())
+                        authentication.Value?.As<byte[]>())
                     };
                 case CredentialType.JwtToken:
                     return new IssuedIdentityToken {
-                        DecryptedTokenData = authentication.Value?.ToObject<byte[]>()
+                        DecryptedTokenData = authentication.Value?.As<byte[]>()
                     };
                 case CredentialType.None:
                     return new AnonymousIdentityToken();

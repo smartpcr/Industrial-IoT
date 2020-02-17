@@ -263,7 +263,7 @@ namespace Microsoft.Azure.IIoT.Storage.Default {
                     throw new NotSupportedException("Query not supported");
                 }
                 var results = documents
-                    .Select(d => d.Value.ToObject<T>());
+                    .Select(d => d.Value.As<T>());
                 var feed = (pageSize is null) ?
                     results.YieldReturn() : results.Batch(pageSize.Value);
                 return new MemoryFeed<T>(this, new Queue<IEnumerable<T>>(feed));
@@ -401,7 +401,7 @@ namespace Microsoft.Azure.IIoT.Storage.Default {
                 }
 
                 /// <inheritdoc/>
-                T IDocumentInfo<T>.Value => Value.ToObject<T>();
+                T IDocumentInfo<T>.Value => Value.As<T>();
             }
 
             /// <summary>

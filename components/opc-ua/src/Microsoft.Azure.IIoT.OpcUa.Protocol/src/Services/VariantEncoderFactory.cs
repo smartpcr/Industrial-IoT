@@ -140,12 +140,12 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Services {
                     return value;
                 }
 
-                var asString = value.Type == VariantValueType.String ?
+                var asString = value.Type == VariantValueType.Primitive ?
                     (string)value : value.ToString(SerializeOption.None);
 
                 if (value.Type != VariantValueType.Object &&
                     value.Type != VariantValueType.Array &&
-                    value.Type != VariantValueType.String) {
+                    value.Type != VariantValueType.Primitive) {
                     //
                     // If this should be a string - return as such
                     //
@@ -159,7 +159,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Services {
                 //
                 // Try to parse string as json
                 //
-                if (value.Type != VariantValueType.String) {
+                if (value.Type != VariantValueType.Primitive) {
                     asString = asString.Replace("\\\"", "\"");
                 }
                 var token = Try.Op(() => Serializer.Parse(asString));
@@ -167,7 +167,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Protocol.Services {
                     value = token;
                 }
 
-                if (value.Type == VariantValueType.String) {
+                if (value.Type == VariantValueType.Primitive) {
 
                     //
                     // try to split the string as comma seperated list

@@ -244,7 +244,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Testing.Tests {
                 return;
             }
 
-            Assert.Equal(VariantValueType.String, result.Value.Type);
+            Assert.Equal(VariantValueType.Primitive, result.Value.Type);
             // TODO: Returns a bytestring, not byte array.  Investigate.
             // Assert.Equal(VariantValueType.Bytes, result.Value.Type);
             // Assert.Equal(VariantValueType.Array, result.Value.Type);
@@ -454,7 +454,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Testing.Tests {
                 return;
             }
 
-            Assert.True(result.Value[0].IsFloatValue(), $"First is {result.Value}");
+            Assert.True(result.Value[0].IsFloat(), $"First is {result.Value}");
             Assert.Equal("Float", result.DataType);
         }
 
@@ -483,7 +483,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Testing.Tests {
                 return;
             }
 
-            Assert.True(result.Value[0].IsFloatValue());
+            Assert.True(result.Value[0].IsFloat());
             Assert.Equal("Double", result.DataType);
         }
 
@@ -512,7 +512,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Testing.Tests {
                 return;
             }
 
-            Assert.Equal(VariantValueType.String, result.Value[0].Type);
+            Assert.Equal(VariantValueType.Primitive, result.Value[0].Type);
             Assert.Equal("String", result.DataType);
         }
 
@@ -660,7 +660,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Testing.Tests {
                 return;
             }
 
-            Assert.Equal(VariantValueType.String, result.Value[0].Type);
+            Assert.Equal(VariantValueType.Primitive, result.Value[0].Type);
             Assert.Equal("NodeId", result.DataType);
         }
 
@@ -689,7 +689,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Testing.Tests {
                 return;
             }
 
-            Assert.Equal(VariantValueType.String, result.Value[0].Type);
+            Assert.Equal(VariantValueType.Primitive, result.Value[0].Type);
             Assert.Equal("ExpandedNodeId", result.DataType);
         }
 
@@ -718,7 +718,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Testing.Tests {
                 return;
             }
 
-            Assert.Equal(VariantValueType.String, result.Value[0].Type);
+            Assert.Equal(VariantValueType.Primitive, result.Value[0].Type);
             Assert.Equal("QualifiedName", result.DataType);
         }
 
@@ -886,7 +886,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Testing.Tests {
             Assert.NotNull(result.ServerTimestamp);
             AssertEqualValue(expected, result.Value);
 
-            if (result.Value.Type == VariantValueType.String) {
+            if (result.Value.Type == VariantValueType.Primitive) {
                 Assert.NotEmpty(((string)result.Value).DecodeAsBase64());
                 return;
             }
@@ -896,7 +896,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Testing.Tests {
             }
             var type = result.Value[0].Type;
             Assert.True(type == VariantValueType.Integer ||
-                result.Value[0].IsFloatValue(), $"Got bad type {type}");
+                result.Value[0].IsFloat(), $"Got bad type {type}");
         }
 
 
@@ -919,7 +919,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Testing.Tests {
             Assert.NotNull(result.ServerTimestamp);
             AssertEqualValue(expected, result.Value);
 
-            if (result.Value.Type == VariantValueType.String) {
+            if (result.Value.Type == VariantValueType.Primitive) {
                 Assert.NotEmpty(((string)result.Value).DecodeAsBase64());
                 return;
             }
@@ -951,7 +951,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Testing.Tests {
             Assert.NotNull(result.ServerTimestamp);
             AssertEqualValue(expected, result.Value);
 
-            if (result.Value.Type == VariantValueType.String) {
+            if (result.Value.Type == VariantValueType.Primitive) {
                 Assert.NotEmpty(((string)result.Value).DecodeAsBase64());
                 return;
             }

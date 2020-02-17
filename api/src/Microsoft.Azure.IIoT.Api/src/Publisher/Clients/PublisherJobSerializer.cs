@@ -28,7 +28,7 @@ namespace Microsoft.Azure.IIoT.OpcUa.Api.Publisher.Clients {
         public object DeserializeJobConfiguration(VariantValue model, string jobConfigurationType) {
             switch (jobConfigurationType) {
                 case kDataSetWriterJobV2:
-                    return model.ToObject<WriterGroupJobApiModel>().ToServiceModel();
+                    return model.As<WriterGroupJobApiModel>().ToServiceModel();
                     // ... Add more if needed
             }
             throw new UnknownJobTypeException(jobConfigurationType);

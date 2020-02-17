@@ -38,7 +38,7 @@ namespace Microsoft.Azure.IIoT.Agent.Framework.Serializer {
             if (type is null) {
                 throw new UnknownJobTypeException(jobConfigurationType);
             }
-            return model.ToObject(type);
+            return model.As(type);
         }
 
         private readonly ISerializer _serializer;

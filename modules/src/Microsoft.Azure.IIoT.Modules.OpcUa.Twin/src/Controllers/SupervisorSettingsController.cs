@@ -63,7 +63,7 @@ namespace Microsoft.Azure.IIoT.Modules.OpcUa.Twin.Controllers {
                     _endpoints.AddOrUpdate(endpointId, null);
                     return;
                 }
-                if (value.Type != VariantValueType.String ||
+                if (value.Type != VariantValueType.Primitive ||
                     !value.ToString().IsBase64()) {
                     return;
                 }

@@ -130,7 +130,7 @@ namespace Microsoft.Azure.IIoT.Serializers.MessagePack {
                     }
                     if (_value is string s) {
                         if (string.IsNullOrEmpty(s)) {
-                            return VariantValueType.String;
+                            return VariantValueType.Primitive;
                         }
                       //  if (TimeSpan.TryParse(s, out _)) {
                       //      return VariantValueType.TimeSpan;
@@ -149,7 +149,7 @@ namespace Microsoft.Azure.IIoT.Serializers.MessagePack {
                         if (Guid.TryParse(s, out _)) {
                             return VariantValueType.Guid;
                         }
-                        return VariantValueType.String;
+                        return VariantValueType.Primitive;
                     }
 
                     var type = Value.GetType();
@@ -160,7 +160,7 @@ namespace Microsoft.Azure.IIoT.Serializers.MessagePack {
                         return VariantValueType.Guid;
                     }
                     if (typeof(Uri) == type) {
-                        return VariantValueType.String;
+                        return VariantValueType.Primitive;
                     }
                     if (type.IsArray ||
                         typeof(IList<object>).IsAssignableFrom(type) ||
@@ -512,34 +512,34 @@ namespace Microsoft.Azure.IIoT.Serializers.MessagePack {
                                 //writer.Write(variant.ToObject<DateTime>());
                                 return;
                             case VariantValueType.Guid:
-                                writer.Write(variant.ToObject<Guid>().ToString());
+                                writer.Write(variant.As<Guid>().ToString());
                                 return;
                             case VariantValueType.TimeSpan:
-                                writer.Write(variant.ToObject<TimeSpan>().Ticks);
+                                writer.Write(variant.As<TimeSpan>().Ticks);
                                 return;
-                            case VariantValueType.String:
-                                writer.Write(variant.ToObject<string>());
+                            case VariantValueType.Primitive:
+                                writer.Write(variant.As<string>());
                                 return;
                             case VariantValueType.Boolean:
-                                writer.Write(variant.ToObject<bool>());
+                                writer.Write(variant.As<bool>());
                                 return;
                             case VariantValueType.Bytes:
-                                writer.Write(variant.ToObject<byte[]>());
+                                writer.Write(variant.As<byte[]>());
                                 return;
                             case VariantValueType.Integer:
                                 try {
-                                    writer.Write(variant.ToObject<long>());
+                                    writer.Write(variant.As<long>());
                                 }
                                 catch (OverflowException) {
-                                    writer.Write(variant.ToObject<ulong>());
+                                    writer.Write(variant.As<ulong>());
                                 }
                                 return;
                             case VariantValueType.Float:
                                 try {
-                                    writer.Write(variant.ToObject<float>());
+                                    writer.Write(variant.As<float>());
                                 }
                                 catch {
-                                    writer.Write(variant.ToObject<double>());
+                                    writer.Write(variant.As<double>());
                                 }
                                 return;
                         }

@@ -175,7 +175,7 @@ namespace Microsoft.Azure.IIoT.Serializers.NewtonSoft {
                                 float.IsInfinity((float)Token) ||
                                 double.IsNaN((double)Token) ||
                                 float.IsNaN((float)Token)) {
-                                return VariantValueType.String;
+                                return VariantValueType.Primitive;
                             }
                             return VariantValueType.Float;
                         case JTokenType.Date:
@@ -186,11 +186,11 @@ namespace Microsoft.Azure.IIoT.Serializers.NewtonSoft {
                             return VariantValueType.Guid;
                         case JTokenType.Raw:
                         case JTokenType.Uri:
-                            return VariantValueType.String;
+                            return VariantValueType.Primitive;
                         case JTokenType.String:
                             var s = (string)Token;
                             if (string.IsNullOrEmpty(s)) {
-                                return VariantValueType.String;
+                                return VariantValueType.Primitive;
                             }
                           // if (TimeSpan.TryParse(s, out _)) {
                           //     return VariantValueType.TimeSpan;
@@ -209,7 +209,7 @@ namespace Microsoft.Azure.IIoT.Serializers.NewtonSoft {
                             if (Guid.TryParse(s, out _)) {
                                 return VariantValueType.Guid;
                             }
-                            return VariantValueType.String;
+                            return VariantValueType.Primitive;
                         case JTokenType.Boolean:
                             return VariantValueType.Boolean;
                         case JTokenType.Null:
